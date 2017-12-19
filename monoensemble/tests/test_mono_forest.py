@@ -2,7 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import numpy as np
 import numpy.testing as npt
-import mono_forest
+from monoensemble import MonoRandomForestClassifier
 from sklearn.datasets import load_boston
 
 
@@ -54,7 +54,7 @@ def test_model_fit():
     for i_test in np.arange(len(coef_calc_types)):
         coef_calc_type = coef_calc_types[i_test]
         # Solve model
-        clf = mono_forest.MonoRandomForestClassifier(
+        clf = MonoRandomForestClassifier(
             n_estimators=n_estimators,
             max_features=mtry,
             oob_score=True,
