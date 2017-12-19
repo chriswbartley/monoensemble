@@ -1,89 +1,88 @@
-import os
-from os.path import join
-import warnings
+import numpy
+from numpy.distutils.misc_util import Configuration
 
-from sklearn._build_utils import maybe_cythonize_extensions
+# REMEMBER: when running manually, include run options
+# build_ext --inplace
+
+########################
+# START Monkey patch code to get cython to work #
+# https://stackoverflow.com/questions/37178055/attributeerror-list-object-has-no-attribute-rfind-using-petsc4py #
+########################
+
+from numpy.distutils.misc_util import appendpath
+from numpy.distutils import log
+from os.path import join as pjoin, dirname
+from distutils.dep_util import newer_group
+from distutils.errors import DistutilsError
 
 
-def configuration(parent_package='', top_path=None):
-    from numpy.distutils.misc_util import Configuration
-    from numpy.distutils.system_info import get_info, BlasNotFoundError
-    import numpy
+# $ python setup.py build_ext --inplace
 
-    libraries = []
-    if os.name == 'posix':
-        libraries.append('m')
+from numpy.distutils.command import build_src
 
-    config = Configuration('monoensemble', parent_package, top_path)
+# a bit of monkeypatching ...
+import Cython.Compiler.Main
+build_src.Pyrex = Cython
+build_src.have_pyrex = True
 
-    # submodules with build utilities
-#    config.add_subpackage('__check_build')
-#    config.add_subpackage('_build_utils')
 
-    # submodules which do not have their own setup.py
-    # we must manually add sub-submodules & tests
-#    config.add_subpackage('monoensemble')
-#    config.add_subpackage('covariance')
-#    config.add_subpackage('covariance/tests')
-#    config.add_subpackage('cross_decomposition')
-#    config.add_subpackage('cross_decomposition/tests')
-#    config.add_subpackage('feature_selection')
-#    config.add_subpackage('feature_selection/tests')
-#    config.add_subpackage('gaussian_process')
-#    config.add_subpackage('gaussian_process/tests')
-#    config.add_subpackage('mixture')
-#    config.add_subpackage('mixture/tests')
-#    config.add_subpackage('model_selection')
-#    config.add_subpackage('model_selection/tests')
-#    config.add_subpackage('neural_network')
-#    config.add_subpackage('neural_network/tests')
-#    config.add_subpackage('preprocessing')
-#    config.add_subpackage('preprocessing/tests')
-#    config.add_subpackage('semi_supervised')
-#    config.add_subpackage('semi_supervised/tests')
+def have_pyrex():
+    import sys
+    try:
+        import Cython.Compiler.Main
+        sys.modules['Pyrex'] = Cython
+        sys.modules['Pyrex.Compiler'] = Cython.Compiler
+        sys.modules['Pyrex.Compiler.Main'] = Cython.Compiler.Main
+        return True
+    except ImportError:
+        return False
+build_src.have_pyrex = have_pyrex
 
-    # submodules which have their own setup.py
-    # leave out "linear_model" and "utils" for now; add them after cblas below
-#    config.add_subpackage('cluster')
-#    config.add_subpackage('datasets')
-#    config.add_subpackage('decomposition')
-#    config.add_subpackage('ensemble')
-#    config.add_subpackage('externals')
-#    config.add_subpackage('feature_extraction')
-#    config.add_subpackage('manifold')
-#    config.add_subpackage('metrics')
-#    config.add_subpackage('metrics/cluster')
-#    config.add_subpackage('neighbors')
-#    config.add_subpackage('tree')
-#    config.add_subpackage('svm')
+def generate_a_pyrex_source(self, base, ext_name, source, extension):
+    ''' Monkey patch for numpy build_src.build_src method
+    Uses Cython instead of Pyrex.
+    Assumes Cython is present
+    '''
+    if self.inplace:
+        target_dir = dirname(base)
+    else:
+        target_dir = appendpath(self.build_src, dirname(base))
+    target_file = pjoin(target_dir, ext_name + '.c')
+    depends = [source] + extension.depends
+    if self.force or newer_group(depends, target_file, 'newer'):
+        import Cython.Compiler.Main
+        log.info("cythonc:> %s" % (target_file))
+        self.mkpath(target_dir)
+        options = Cython.Compiler.Main.CompilationOptions(
+            defaults=Cython.Compiler.Main.default_options,
+            include_path=extension.include_dirs,
+            output_file=target_file)
+        cython_result = Cython.Compiler.Main.compile(source, options=options)
+        if cython_result.num_errors != 0:
+            raise DistutilsError("%d errors while compiling %r with Cython" % (cython_result.num_errors, source))
+    return target_file
 
-#    # add cython extension module for isotonic regression
-#    config.add_extension('_isotonic',
-#                         sources=['_isotonic.pyx'],
-#                         include_dirs=[numpy.get_include()],
-#                         libraries=libraries,
-#                         )
+build_src.build_src.generate_a_pyrex_source = generate_a_pyrex_source
+########################
+# END additionnal code #
+########################
 
-#    # some libs needs cblas, fortran-compiled BLAS will not be sufficient
-#    blas_info = get_info('blas_opt', 0)
-#    if (not blas_info) or (
-#            ('NO_ATLAS_INFO', 1) in blas_info.get('define_macros', [])):
-#        config.add_library('cblas',
-#                           sources=[join('src', 'cblas', '*.c')])
-#        warnings.warn(BlasNotFoundError.__doc__)
-#
-#    # the following packages depend on cblas, so they have to be build
-#    # after the above.
-#    config.add_subpackage('linear_model')
-#    config.add_subpackage('utils')
-#
-#    # add the test directory
-#    config.add_subpackage('tests')
 
-    maybe_cythonize_extensions(top_path, config)
+def configuration(parent_package="", top_path=None):
+    config = Configuration("monoensemble", parent_package, top_path)
+    config.add_extension("_mono_gradient_boosting",
+                         sources=["./monoensemble/_mono_gradient_boosting.pyx"],
+                         include_dirs=[numpy.get_include()])
+
+    #config.add_subpackage("tests")
 
     return config
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     from numpy.distutils.core import setup
-    setup(**configuration(top_path='').todict())
+    setup(**configuration().todict())
+    
+    
+
+    
+    
