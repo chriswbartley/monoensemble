@@ -46,12 +46,12 @@ X, y, incr_feats, decr_feats = load_data_set()
 
 def test_model_fit():
     # Specify hyperparams for model solution
-    n_estimators = 50
+    n_estimators = 500
     subsample = 0.5
     learning_rate = 0.1
     max_depth = 3
     coef_calc_types = ['boost', 'bayes', 'logistic']
-    insample_correct = [0.964999999999, 0.9749999999999, 0.9849999999999]
+    insample_correct = [0.98999999999, 1.0000000, 1.0000000]
     for i_test in np.arange(len(coef_calc_types)):
         coef_calc_type = coef_calc_types[i_test]
         # Solve model
@@ -67,4 +67,4 @@ def test_model_fit():
         npt.assert_almost_equal(acc, insample_correct[i_test])
 
 
-test_model_fit()
+# test_model_fit()
