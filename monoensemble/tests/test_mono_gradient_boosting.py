@@ -2,7 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import numpy as np
 import numpy.testing as npt
-import mono_gradient_boosting
+from mono_ensemble import *
 from sklearn.datasets import load_boston
 
 
