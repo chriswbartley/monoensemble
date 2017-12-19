@@ -46,12 +46,12 @@ X, y, incr_feats, decr_feats = load_data_set()
 
 def test_model_fit():
     # Specify hyperparams for model solution
-    n_estimators = 500
-    subsample = 0.5
+    n_estimators = 1000
+    subsample = 1.0
     learning_rate = 0.1
     max_depth = 3
     coef_calc_types = ['boost', 'bayes', 'logistic']
-    insample_correct = [0.98999999999, 1.0000000, 1.0000000]
+    insample_correct = [0.93999999999, 0.974999999, 0.9849999999]
     for i_test in np.arange(len(coef_calc_types)):
         coef_calc_type = coef_calc_types[i_test]
         # Solve model
