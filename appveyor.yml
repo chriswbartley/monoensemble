@@ -29,8 +29,6 @@ test_script:
   - cd for_test
   - cd c:\projects\monoensemble
   - dir
-  - cd monoensemble
-  - dir
   - py.test --pyargs monoensemble
 
 # --cov-report term-missing --cov=monoensemble
