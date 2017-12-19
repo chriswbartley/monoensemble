@@ -64,7 +64,7 @@ def test_model_fit():
         # Assess fit
         y_pred = clf.predict(X)
         acc = np.sum(y == y_pred) / len(y)
-        npt.assert_almost_equal(acc, insample_correct[i_test])
+        npt.assert_almost_equal(np.round(acc,2), np.round(insample_correct[i_test],2))
 
 
 # test_model_fit()
