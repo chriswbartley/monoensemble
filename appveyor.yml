@@ -15,7 +15,7 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-  - "conda create -q -n test-environment python=%PYTHON_VERSION% numpy scipy pytest pytest-cov scikit-learn"
+  - "conda create -q -n test-environment python=%PYTHON_VERSION% numpy scipy pytest pytest-cov scikit-learn cython"
   - activate test-environment
   - pip install coverage
   # sklearn needs numpy with MKL hich amazingly needs a custom wheel
