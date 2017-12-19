@@ -13,7 +13,7 @@ as described in the Theory section of this documentation.
 """
 
 import numpy as np
-from mono_forest import MonoRandomForestClassifier
+from monoensemble import MonoRandomForestClassifier
 from sklearn.datasets import load_boston
 
 ###############################################################################

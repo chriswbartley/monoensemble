@@ -51,7 +51,7 @@ def test_model_fit():
     learning_rate = 0.1
     max_depth = 3
     coef_calc_types = ['boost', 'bayes', 'logistic']
-    insample_correct = [0.964999999999, 0.9849999999999, 0.9749999999999]
+    insample_correct = [0.964999999999, 0.9749999999999, 0.9849999999999]
     for i_test in np.arange(len(coef_calc_types)):
         coef_calc_type = coef_calc_types[i_test]
         # Solve model

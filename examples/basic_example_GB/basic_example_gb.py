@@ -13,7 +13,7 @@ recalculated, as described in the Theory section of this documentation.
 """
 
 import numpy as np
-from mono_gradient_boosting import MonoGradientBoostingClassifier
+from monoensemble import MonoGradientBoostingClassifier
 from sklearn.datasets import load_boston
 
 ###############################################################################
