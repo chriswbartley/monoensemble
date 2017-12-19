@@ -2,8 +2,8 @@
 
 This module contains methods for fitting gradient boosted trees for
 classification. Monotonicity in the requested features is achieved using the
-technique from Bartley C., Liu W., and Reynolds M. 2017, ``Fast & Perfect 
-Monotone Random Forest Classification``, prepub, PAKDD submission, available 
+technique from Bartley C., Liu W., and Reynolds M. 2017, ``Fast & Perfect
+Monotone Random Forest Classification``, prepub, PAKDD submission, available
 here_(http://staffhome.ecm.uwa.edu.au/~19514733/). Multi-class classification
 is implemented using the monotone ensembling procedure from Kotlowski W, and
 Slowinski R., 2013 ``On nonparametric ordinal classification with monotonicity
@@ -14,7 +14,7 @@ The module structure is the following:
 
 - The ``BaseGradientBoosting`` base class implements a common ``fit`` method
   for all the estimators in the module. Regression and classification
-  only differ in the concrete ``LossFunction`` used. At present only 
+  only differ in the concrete ``LossFunction`` used. At present only
   classification is implemented, with the Binomial Deviance loss function.
 
 - ``MonoGradientBoostingClassifier`` implements gradient boosting for
@@ -37,10 +37,10 @@ from abc import abstractmethod
 from sklearn.ensemble import BaseEnsemble
 from sklearn.base import ClassifierMixin
 # from sklearn.base import RegressorMixin
-from sklearn.externals import six 
+from sklearn.externals import six
 
-  
-from monoensemble._mono_gradient_boosting  import _random_sample_mask
+
+from monoensemble._mono_gradient_boosting import _random_sample_mask
 from monoensemble._mono_gradient_boosting import apply_rules_c
 from monoensemble._mono_gradient_boosting import get_node_map_c
 from monoensemble._mono_gradient_boosting import update_rule_coefs
@@ -55,7 +55,7 @@ from scipy.sparse import issparse
 from scipy.special import expit
 
 from time import time
-from sklearn.tree.tree import DecisionTreeRegressor 
+from sklearn.tree.tree import DecisionTreeRegressor
 from sklearn.tree._tree import DTYPE
 from sklearn.tree._tree import TREE_LEAF
 
@@ -76,16 +76,19 @@ import scipy as sp
 from scipy import optimize as opt
 from sklearn.utils.extmath import (log_logistic, safe_sparse_dot)
 
-RULE_LOWER_CONST=-1e9
-RULE_UPPER_CONST=1e9
+RULE_LOWER_CONST = -1e9
+RULE_UPPER_CONST = 1e9
+
 
 class LogOddsEstimator(object):
     """An estimator predicting the log odds ratio."""
     scale = 1.0
-    def __init__(self,n_classes=2):
-        self.n_classes=n_classes
+
+    def __init__(self, n_classes=2):
+        self.n_classes = n_classes
+
     def fit(self, X, y, sample_weight=None):
-        if self.n_classes<=2:
+        if self.n_classes <= 2:
             # pre-cond: pos, neg are encoded as 1, 0
             if sample_weight is None:
                 pos = np.sum(y)
@@ -93,30 +96,30 @@ class LogOddsEstimator(object):
             else:
                 pos = np.sum(sample_weight * y)
                 neg = np.sum(sample_weight * (1 - y))
-    
+
             if neg == 0 or pos == 0:
                 raise ValueError('y contains non binary labels.')
             self.prior = self.scale * np.log(pos / neg)
-        else: # multi-class ordinal
-            self.prior = np.zeros(self.n_classes-1,dtype=np.float64)
-            for k in np.arange(self.n_classes-1):
+        else:  # multi-class ordinal
+            self.prior = np.zeros(self.n_classes - 1, dtype=np.float64)
+            for k in np.arange(self.n_classes - 1):
                 if sample_weight is None:
-                    pos = np.sum(y>k)
+                    pos = np.sum(y > k)
                     neg = y.shape[0] - pos
                 else:
-                    pos = np.sum(sample_weight * (y>k).astype(np.float64))
-                    neg = np.sum(sample_weight * (1 - (y>k).astype(np.float64)))
-        
-                self.prior[k] = self.scale * np.log(pos / neg)
+                    pos = np.sum(sample_weight * (y > k).astype(np.float64))
+                    neg = np.sum(sample_weight *
+                                 (1 - (y > k).astype(np.float64)))
 
+                self.prior[k] = self.scale * np.log(pos / neg)
 
     def predict(self, X):
         check_is_fitted(self, 'prior')
         if np.isscalar(self.prior):
             y = np.empty((X.shape[0], 1), dtype=np.float64)
             y.fill(self.prior)
-        else: # multi-class
-            y = np.tile(self.prior,[X.shape[0],1]).astype(np.float64)         
+        else:  # multi-class
+            y = np.tile(self.prior, [X.shape[0], 1]).astype(np.float64)
         return y
 
 
@@ -129,6 +132,7 @@ class PriorProbabilityEstimator(object):
     """An estimator predicting the probability of each
     class in the training data.
     """
+
     def fit(self, X, y, sample_weight=None):
         if sample_weight is None:
             sample_weight = np.ones_like(y, dtype=np.float64)
@@ -153,7 +157,7 @@ class ZeroEstimator(object):
             if n_classes == 2:
                 self.n_classes = 1
             else:
-                self.n_classes=n_classes
+                self.n_classes = n_classes
         else:
             # regression
             self.n_classes = 1
@@ -161,7 +165,8 @@ class ZeroEstimator(object):
     def predict(self, X):
         check_is_fitted(self, 'n_classes')
 
-        y = np.empty((X.shape[0], 1 if self.n_classes<=2 else self.n_classes-1), dtype=np.float64)
+        y = np.empty((X.shape[0], 1 if self.n_classes <=
+                      2 else self.n_classes - 1), dtype=np.float64)
         y.fill(0.0)
         return y
 
@@ -189,16 +194,21 @@ class LossFunction(six.with_metaclass(ABCMeta, object)):
         'bayesian': Assumes conditional indpendence between rules and
         calculates coefficients as per Naive bayesian classification. Fast
         with good results.
-    
+
     """
 
     is_multi_class = False
 
-    def __init__(self, K,incr_feats=[],decr_feats=[],coef_calc_type='boost'):
+    def __init__(
+            self,
+            K,
+            incr_feats=[],
+            decr_feats=[],
+            coef_calc_type='boost'):
         self.K = K
-        self.incr_feats=np.asarray(incr_feats)
-        self.decr_feats=np.asarray(decr_feats)
-        self.coef_calc_type=0 if coef_calc_type =='boost' else 3 if coef_calc_type=='logistic' else 2 # bayes
+        self.incr_feats = np.asarray(incr_feats)
+        self.decr_feats = np.asarray(decr_feats)
+        self.coef_calc_type = 0 if coef_calc_type == 'boost' else 3 if coef_calc_type == 'logistic' else 2  # bayes
 
     def init_estimator(self):
         """Default ``init`` estimator for loss function. """
@@ -219,13 +229,26 @@ class LossFunction(six.with_metaclass(ABCMeta, object)):
         y_pred : np.ndarray, shape=(n,):
             The predictions.
         """
-    
+
     @abstractmethod
-    def update_terminal_rules(self, rule_lower_corners,rule_upper_corners,rule_values, X, y, residual, y_pred,
-                                sample_weight, sample_mask,
-                                learning_rate=1.0, k=0,X_leaf_node_ids=None,node_rule_map=None,logistic_intercept=True):
-        """Update the terminal rules (each derived from a leaf) 
-        and update the current predictions of the model. 
+    def update_terminal_rules(
+            self,
+            rule_lower_corners,
+            rule_upper_corners,
+            rule_values,
+            X,
+            y,
+            residual,
+            y_pred,
+            sample_weight,
+            sample_mask,
+            learning_rate=1.0,
+            k=0,
+            X_leaf_node_ids=None,
+            node_rule_map=None,
+            logistic_intercept=True):
+        """Update the terminal rules (each derived from a leaf)
+        and update the current predictions of the model.
 
         Parameters
         ----------
@@ -263,13 +286,12 @@ class LossFunction(six.with_metaclass(ABCMeta, object)):
             True if the logistic regression should fit an intercept. Only
             relevant if self.coef_calc_type==3 (logistic).
         """
-                                     
-    @abstractmethod
-    def _update_terminal_rule(self, rule_lower_corners,rule_upper_corners,
-                                rule_values,rule_mask,
-                                i_rule, X, y,residual, pred, sample_weight):
-        """Template method for updating terminal rules (=leaves). """
 
+    @abstractmethod
+    def _update_terminal_rule(self, rule_lower_corners, rule_upper_corners,
+                              rule_values, rule_mask,
+                              i_rule, X, y, residual, pred, sample_weight):
+        """Template method for updating terminal rules (=leaves). """
 
 
 class ClassificationLossFunction(six.with_metaclass(ABCMeta, LossFunction)):
@@ -280,7 +302,9 @@ class ClassificationLossFunction(six.with_metaclass(ABCMeta, LossFunction)):
 
          the does not support probabilities raises AttributeError.
         """
-        raise TypeError('%s does not support predict_proba' % type(self).__name__)
+        raise TypeError(
+            '%s does not support predict_proba' %
+            type(self).__name__)
 
     @abstractmethod
     def _score_to_decision(self, score):
@@ -296,48 +320,60 @@ class BinomialDeviance(ClassificationLossFunction):
     Binary classification is a special case; here, we only need to
     fit one tree instead of ``n_classes`` trees.
     """
-    def __init__(self, n_classes,coef_calc_type='boost',incr_feats=[],decr_feats=[]):
+
+    def __init__(
+            self,
+            n_classes,
+            coef_calc_type='boost',
+            incr_feats=[],
+            decr_feats=[]):
         # we only need to fit one tree for binary clf.
-        self.is_multi_class=True if n_classes>2 else False
-        super(BinomialDeviance, self).__init__(1 if n_classes==2 else n_classes,coef_calc_type=coef_calc_type,incr_feats=incr_feats,decr_feats=decr_feats)
-        
+        self.is_multi_class = True if n_classes > 2 else False
+        super(
+            BinomialDeviance,
+            self).__init__(
+            1 if n_classes == 2 else n_classes,
+            coef_calc_type=coef_calc_type,
+            incr_feats=incr_feats,
+            decr_feats=decr_feats)
+
     def init_estimator(self):
-        #if self.K<=2:
-        return LogOddsEstimator(n_classes=2 if self.K<=2 else self.K)
-        #else:
+        # if self.K<=2:
+        return LogOddsEstimator(n_classes=2 if self.K <= 2 else self.K)
+        # else:
         #    return PriorProbabilityEstimator()
 
     def __call__(self, y, pred, sample_weight=None):
         """Compute the deviance (= 2 * negative log-likelihood). """
-        if self.K<=2:
+        if self.K <= 2:
             pred = pred.ravel()
             if sample_weight is None:
                 return -2.0 * np.mean((y * pred) - np.logaddexp(0.0, pred))
             else:
-                return (-2.0 / sample_weight.sum() *
-                        np.sum(sample_weight * ((y * pred) - np.logaddexp(0.0, pred))))
+                return (-2.0 / sample_weight.sum() * np.sum(sample_weight *
+                                                            ((y * pred) - np.logaddexp(0.0, pred))))
         else:
             # create ordinal encoding
-            Y = np.zeros((y.shape[0], self.K-1), dtype=np.float64)
-            loss__=np.zeros(self.K-1)
-            for k in range(self.K-1):
+            Y = np.zeros((y.shape[0], self.K - 1), dtype=np.float64)
+            loss__ = np.zeros(self.K - 1)
+            for k in range(self.K - 1):
                 Y[:, k] = y > k
                 if sample_weight is None:
-                    loss__[k]= -2.0 * np.mean((Y[:, k] * pred[:, k]) - np.logaddexp(0.0, pred[:, k]))
+                    loss__[
+                        k] = -2.0 * np.mean((Y[:, k] * pred[:, k]) - np.logaddexp(0.0, pred[:, k]))
                 else:
-                    loss__[k]=(-2.0 / sample_weight.sum() *
-                            np.sum(sample_weight * ((Y[:, k] * pred[:, k]) - np.logaddexp(0.0, pred[:, k]))))
+                    loss__[k] = (-2.0 / sample_weight.sum() * np.sum(sample_weight * \
+                                 ((Y[:, k] * pred[:, k]) - np.logaddexp(0.0, pred[:, k]))))
             return np.sum(loss__)
-        
+
     def negative_gradient(self, y, pred, k=0, **kargs):
         """Compute the residual (= negative gradient). """
-        return y - expit(pred[:,k].ravel())
-
+        return y - expit(pred[:, k].ravel())
 
     ## NO LONGER USED, USES CYTHON VERSION FOR SPEED ##
     def _update_terminal_rule(self, leaf_mask,
-                                rule_values,rule_mask,
-                                i_rule, X, y,residual, pred, sample_weight):
+                              rule_values, rule_mask,
+                              i_rule, X, y, residual, pred, sample_weight):
         """Make a single Newton-Raphson step.
 
         our node estimate is given by:
@@ -345,114 +381,163 @@ class BinomialDeviance(ClassificationLossFunction):
             sum(w * (y - prob)) / sum(w * prob * (1 - prob))
 
         we take advantage that: y - prob = residual"""
-        this_rule_mask=rule_mask[:,i_rule]
-        this_rule_val=rule_values[i_rule]
-        residual_=residual[this_rule_mask]
-        pred_=pred[this_rule_mask]
-        y_=y[this_rule_mask]
-        sample_weight_=sample_weight[this_rule_mask]
-        if self.coef_calc_type==0 or self.coef_calc_type==1: #'boost':
+        this_rule_mask = rule_mask[:, i_rule]
+        this_rule_val = rule_values[i_rule]
+        residual_ = residual[this_rule_mask]
+        pred_ = pred[this_rule_mask]
+        y_ = y[this_rule_mask]
+        sample_weight_ = sample_weight[this_rule_mask]
+        if self.coef_calc_type == 0 or self.coef_calc_type == 1:  # 'boost':
             numerator = np.sum(sample_weight_ * residual_)
-            denominator = np.sum(sample_weight_ * (y_ - residual_) * (1 - y_ + residual_))
+            denominator = np.sum(
+                sample_weight_ * (y_ - residual_) * (1 - y_ + residual_))
             # prevents overflow and division by zero
-            if self.coef_calc_type==0: 
+            if self.coef_calc_type == 0:
                 if abs(denominator) < 1e-150:
                     coef_ = 0.0
                 else:
                     coef_ = numerator / denominator
-            elif self.coef_calc_type==1: #: #1, use leaf based coef if rule direction is ok
+            elif self.coef_calc_type == 1:  # : #1, use leaf based coef if rule direction is ok
                 coef_ = 0.0
-                if np.sign(numerator)*np.sign(denominator)*np.sign(this_rule_val)>=0:
-                    this_leaf_mask=leaf_mask[:,i_rule]
-                    residual_=residual[this_leaf_mask]
-                    pred_=pred[this_leaf_mask]
-                    y_=y[this_leaf_mask]
-                    sample_weight_=sample_weight[this_leaf_mask]
+                if np.sign(numerator) * np.sign(denominator) * \
+                        np.sign(this_rule_val) >= 0:
+                    this_leaf_mask = leaf_mask[:, i_rule]
+                    residual_ = residual[this_leaf_mask]
+                    pred_ = pred[this_leaf_mask]
+                    y_ = y[this_leaf_mask]
+                    sample_weight_ = sample_weight[this_leaf_mask]
                     numerator = np.sum(sample_weight_ * residual_)
-                    denominator = np.sum(sample_weight_ * (y_ - residual_) * (1 - y_ + residual_))
+                    denominator = np.sum(
+                        sample_weight_ * (y_ - residual_) * (1 - y_ + residual_))
                     # prevents overflow and division by zero
                     if abs(denominator) < 1e-150:
                         coef_ = 0.0
                     else:
                         coef_ = numerator / denominator
-        else: #sel f.coef_calc_type=='bayes':
-            lidstone_alpha=0.01
-            numerator=np.sum(y_*sample_weight_)+lidstone_alpha
-            denominator=np.sum(sample_weight_  )+lidstone_alpha*2.
-            prob1=  numerator/denominator 
-            prob1_pred=(np.sum(expit(pred_)*sample_weight_)+lidstone_alpha)/denominator                  
-            coef_=np.log(prob1/(1-prob1))-np.log(prob1_pred/(1-prob1_pred)) 
-        #apply constraints
-        if np.sign(this_rule_val)*np.sign(coef_)>=0:
+        else:  # sel f.coef_calc_type=='bayes':
+            lidstone_alpha = 0.01
+            numerator = np.sum(y_ * sample_weight_) + lidstone_alpha
+            denominator = np.sum(sample_weight_) + lidstone_alpha * 2.
+            prob1 = numerator / denominator
+            prob1_pred = (np.sum(expit(pred_) * sample_weight_) +
+                          lidstone_alpha) / denominator
+            coef_ = np.log(prob1 / (1 - prob1)) - \
+                np.log(prob1_pred / (1 - prob1_pred))
+        # apply constraints
+        if np.sign(this_rule_val) * np.sign(coef_) >= 0:
             return coef_
         else:
             return 0.0
-                   
-    def update_terminal_rules(self, rule_lower_corners,rule_upper_corners,rule_values, X, y, residual, y_pred,
-                                sample_weight, sample_mask,
-                                learning_rate=1.0, k=0,X_leaf_node_ids=None,node_rule_map=None,logistic_intercept=True):
 
-        rule_mask=apply_rules(X,rule_lower_corners,rule_upper_corners,X_leaf_node_ids,node_rule_map)
-        intercept_=0.
-        if self.coef_calc_type==3: # 'logistic'
-            sample_mask=sample_weight>0
-            y_=sp.float64(y[sample_mask].copy())
-            sample_weight_=sp.float64(sample_weight[sample_mask].astype(sp.float64).reshape([-1,1]))
-            rule_mask_=sp.float64(rule_mask[sample_mask,:])
-            pred_=sp.float64(y_pred[sample_mask, k])
-            offset_=sp.float64(np.hstack([-pred_.reshape([-1,1]),pred_.reshape([-1,1])]))
-            x_=sp.float64(rule_mask_)
-            coef_limits=sp.array([[sp.float64(-sp.inf)], [sp.float64(sp.inf)]]) # default, no limits on coefs
-            if  len( self.incr_feats)>0 or  len(self.decr_feats)>0 :
-                coef_limits=np.zeros([2,rule_mask_.shape[1]])
+    def update_terminal_rules(
+            self,
+            rule_lower_corners,
+            rule_upper_corners,
+            rule_values,
+            X,
+            y,
+            residual,
+            y_pred,
+            sample_weight,
+            sample_mask,
+            learning_rate=1.0,
+            k=0,
+            X_leaf_node_ids=None,
+            node_rule_map=None,
+            logistic_intercept=True):
+
+        rule_mask = apply_rules(
+            X,
+            rule_lower_corners,
+            rule_upper_corners,
+            X_leaf_node_ids,
+            node_rule_map)
+        intercept_ = 0.
+        if self.coef_calc_type == 3:  # 'logistic'
+            sample_mask = sample_weight > 0
+            y_ = sp.float64(y[sample_mask].copy())
+            sample_weight_ = sp.float64(
+                sample_weight[sample_mask].astype(sp.float64).reshape([-1, 1]))
+            rule_mask_ = sp.float64(rule_mask[sample_mask, :])
+            pred_ = sp.float64(y_pred[sample_mask, k])
+            offset_ = sp.float64(
+                np.hstack([-pred_.reshape([-1, 1]), pred_.reshape([-1, 1])]))
+            x_ = sp.float64(rule_mask_)
+            # default, no limits on coefs
+            coef_limits = sp.array(
+                [[sp.float64(-sp.inf)], [sp.float64(sp.inf)]])
+            if len(self.incr_feats) > 0 or len(self.decr_feats) > 0:
+                coef_limits = np.zeros([2, rule_mask_.shape[1]])
                 for i_r in np.arange(rule_mask_.shape[1]):
-                    coef_limits[0,i_r]=-np.inf if rule_values[i_r] <=0  else 0.
-                    coef_limits[1,i_r]=np.inf if rule_values[i_r] >=0 else 0.
-                coef_limits=sp.array(coef_limits)
+                    coef_limits[0, i_r] = - \
+                        np.inf if rule_values[i_r] <= 0 else 0.
+                    coef_limits[1,
+                                i_r] = np.inf if rule_values[i_r] >= 0 else 0.
+                coef_limits = sp.array(coef_limits)
             # simplify to unique rows
-            all_yx=np.hstack([y_.reshape([-1,1]),offset_,x_])
-            all_yx_uniq,inverse_idx=np.unique(all_yx,return_inverse=True,axis=0)
-            y_uniq=sp.float64(all_yx_uniq[:,0].reshape([-1,1]))
-            offset_uniq=sp.float64(all_yx_uniq[:,1:3].reshape([-1,2]))
-            x_uniq=sp.float64(all_yx_uniq[:,3:])
-            sample_weight_uniq=sp.float64(np.zeros([len(y_uniq),1]))
+            all_yx = np.hstack([y_.reshape([-1, 1]), offset_, x_])
+            all_yx_uniq, inverse_idx = np.unique(
+                all_yx, return_inverse=True, axis=0)
+            y_uniq = sp.float64(all_yx_uniq[:, 0].reshape([-1, 1]))
+            offset_uniq = sp.float64(all_yx_uniq[:, 1:3].reshape([-1, 2]))
+            x_uniq = sp.float64(all_yx_uniq[:, 3:])
+            sample_weight_uniq = sp.float64(np.zeros([len(y_uniq), 1]))
             for i_ in np.arange(all_yx_uniq.shape[0]):
-                sample_weight_uniq[i_,0]=np.sum(sample_weight_[inverse_idx==i_])
-            C_=1e4
-            standardize=False
-            intercept=logistic_intercept
-            incr_feats=np.arange(len(rule_values))[rule_values>0]+1
-            decr_feats=np.arange(len(rule_values))[rule_values<0]+1
-            logistic_conjug =ConstrainedLogisticRegression(C=C_,solver='newton-cg',incr_feats=incr_feats,decr_feats=decr_feats,regularise_intercept=False,standardize=standardize,penalty='l2',fit_intercept=intercept)
-            logistic_conjug.fit(x_uniq.copy(), y_uniq.copy(),sample_weight_uniq,offset=offset_uniq[:,1]) #,offset=
-            intercept_=logistic_conjug.intercept_[0]
-            coef_=logistic_conjug.coef_[0]
-            rule_values[:]=coef_
-        elif self.coef_calc_type==2: # 'bayes'
-            lidstone_alpha=0.01
-            coefs=np.zeros(rule_mask.shape[1],dtype=np.float64)
-            update_rule_coefs(rule_mask.astype(np.int32),y_pred[:,k].astype(np.float64),y.astype(np.int32),sample_weight.astype(np.float64),lidstone_alpha,coefs)
-            rule_values[:]=np.where(rule_values*coefs>=0,coefs,0)
-        elif self.coef_calc_type==0: # 'boost'
-            coefs=np.zeros(rule_mask.shape[1],dtype=np.float64)
-            update_rule_coefs_newton_step(rule_mask.astype(np.int32),residual.astype(np.float64),y.astype(np.int32),sample_weight.astype(np.float64),coefs)
-            rule_values[:]=np.where(rule_values*coefs>=0,coefs,0)
-## NO LONGER USED, USE CYTHON VERSION FOR SPEED
+                sample_weight_uniq[i_, 0] = np.sum(
+                    sample_weight_[inverse_idx == i_])
+            C_ = 1e4
+            standardize = False
+            intercept = logistic_intercept
+            incr_feats = np.arange(len(rule_values))[rule_values > 0] + 1
+            decr_feats = np.arange(len(rule_values))[rule_values < 0] + 1
+            logistic_conjug = ConstrainedLogisticRegression(
+                C=C_,
+                solver='newton-cg',
+                incr_feats=incr_feats,
+                decr_feats=decr_feats,
+                regularise_intercept=False,
+                standardize=standardize,
+                penalty='l2',
+                fit_intercept=intercept)
+            logistic_conjug.fit(x_uniq.copy(), y_uniq.copy(
+            ), sample_weight_uniq, offset=offset_uniq[:, 1])  # ,offset=
+            intercept_ = logistic_conjug.intercept_[0]
+            coef_ = logistic_conjug.coef_[0]
+            rule_values[:] = coef_
+        elif self.coef_calc_type == 2:  # 'bayes'
+            lidstone_alpha = 0.01
+            coefs = np.zeros(rule_mask.shape[1], dtype=np.float64)
+            update_rule_coefs(rule_mask.astype(np.int32), y_pred[:, k].astype(np.float64), y.astype(
+                np.int32), sample_weight.astype(np.float64), lidstone_alpha, coefs)
+            rule_values[:] = np.where(rule_values * coefs >= 0, coefs, 0)
+        elif self.coef_calc_type == 0:  # 'boost'
+            coefs = np.zeros(rule_mask.shape[1], dtype=np.float64)
+            update_rule_coefs_newton_step(
+                rule_mask.astype(
+                    np.int32), residual.astype(
+                    np.float64), y.astype(
+                    np.int32), sample_weight.astype(
+                    np.float64), coefs)
+            rule_values[:] = np.where(rule_values * coefs >= 0, coefs, 0)
+# NO LONGER USED, USE CYTHON VERSION FOR SPEED
 #        else:
 #            # update rule coefs
 #            for i_rule in np.arange(rule_mask.shape[1]):
 #                rule_values[i_rule]=self._update_terminal_rule(leaf_mask,
 #                                       rule_values,rule_mask,i_rule,X,y,residual,
 #                                       y_pred[:, k], sample_weight)
-                                       
+
         # update predictions (both in-bag and out-of-bag)
-        y_pred[:, k] +=learning_rate*intercept_
-        for i_rule in  np.arange(rule_mask.shape[1]):
-            y_pred[:, k] += (learning_rate * rule_mask[:,i_rule].astype(float)*rule_values[i_rule])
-        
-        return intercept_  
+        y_pred[:, k] += learning_rate * intercept_
+        for i_rule in np.arange(rule_mask.shape[1]):
+            y_pred[:, k] += (learning_rate *
+                             rule_mask[:, i_rule].astype(float) *
+                             rule_values[i_rule])
+
+        return intercept_
+
     def _score_to_proba(self, score):
-        if not self.is_multi_class: # binary
+        if not self.is_multi_class:  # binary
             proba = np.ones((score.shape[0], 2), dtype=np.float64)
             proba[:, 1] = expit(score.ravel())
             proba[:, 0] -= proba[:, 1]
@@ -461,13 +546,13 @@ class BinomialDeviance(ClassificationLossFunction):
         return proba
 
     def _score_to_decision(self, score):
-        if self.K<=2:
+        if self.K <= 2:
             proba = self._score_to_proba(score)
             return np.argmax(proba, axis=1)
         else:
             proba = self._score_to_proba(score)
-            return np.sum((proba>0.5).astype(np.int),axis=1)
-        
+            return np.sum((proba > 0.5).astype(np.int), axis=1)
+
 # TO BE IMPLEMENTED
 # class ExponentialLoss(ClassificationLossFunction):
 #    """Exponential loss function for binary classification.
@@ -528,7 +613,7 @@ class BinomialDeviance(ClassificationLossFunction):
 #        return (score.ravel() >= 0.0).astype(np.int)
 #
 #
-#LOSS_FUNCTIONS = {'ls': LeastSquaresError,
+# LOSS_FUNCTIONS = {'ls': LeastSquaresError,
 #                  'lad': LeastAbsoluteError,
 #                  'huber': HuberLossFunction,
 #                  'quantile': QuantileLossFunction,
@@ -536,7 +621,8 @@ class BinomialDeviance(ClassificationLossFunction):
 #                  'exponential': ExponentialLoss,
 #                  }
 
-LOSS_FUNCTIONS = {'deviance': BinomialDeviance }
+
+LOSS_FUNCTIONS = {'deviance': BinomialDeviance}
 
 INIT_ESTIMATORS = {'zero': ZeroEstimator}
 
@@ -594,107 +680,155 @@ class VerboseReporter(object):
                 # adjust verbose frequency (powers of 10)
                 self.verbose_mod *= 10
 
-def apply_rules(X,rule_lower_corners,rule_upper_corners,X_leaf_node_ids=None,node_rule_map=None):   
-## NON SPARSE - no longer used, use sparse version for scaleable speed.            
-#    rule_mask=np.zeros([X.shape[0],rule_lower_corners.shape[0]],dtype=int)
-#    apply_rules_c(np.asarray(X,dtype=np.float64),np.asarray(rule_lower_corners,dtype=np.float64) ,np.asarray(rule_upper_corners,dtype=np.float64) ,rule_mask)
-#    rule_mask=np.asarray(rule_mask,dtype=bool)      
+
+def apply_rules(
+        X,
+        rule_lower_corners,
+        rule_upper_corners,
+        X_leaf_node_ids=None,
+        node_rule_map=None):
+    # NON SPARSE - no longer used, use sparse version for scaleable speed.
+    #    rule_mask=np.zeros([X.shape[0],rule_lower_corners.shape[0]],dtype=int)
+    #    apply_rules_c(np.asarray(X,dtype=np.float64),np.asarray(rule_lower_corners,dtype=np.float64) ,np.asarray(rule_upper_corners,dtype=np.float64) ,rule_mask)
+    #    rule_mask=np.asarray(rule_mask,dtype=bool)
     # SPARSE VERSION:
-    rule_upper_corners_sparse=csr_matrix(rule_upper_corners-RULE_UPPER_CONST,dtype=np.float64)
-    rule_lower_corners_sparse=csr_matrix(rule_lower_corners-RULE_LOWER_CONST,dtype=np.float64)
-    rule_mask=np.zeros([X.shape[0],rule_lower_corners.shape[0]],dtype=np.int32)
-    apply_rules_c(X.astype(np.float64),rule_lower_corners_sparse ,rule_upper_corners_sparse,X_leaf_node_ids,node_rule_map,rule_mask)   
-    rule_mask=np.asarray(rule_mask,dtype=bool)
+    rule_upper_corners_sparse = csr_matrix(
+        rule_upper_corners - RULE_UPPER_CONST, dtype=np.float64)
+    rule_lower_corners_sparse = csr_matrix(
+        rule_lower_corners - RULE_LOWER_CONST, dtype=np.float64)
+    rule_mask = np.zeros(
+        [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32)
+    apply_rules_c(
+        X.astype(
+            np.float64),
+        rule_lower_corners_sparse,
+        rule_upper_corners_sparse,
+        X_leaf_node_ids,
+        node_rule_map,
+        rule_mask)
+    rule_mask = np.asarray(rule_mask, dtype=bool)
     return rule_mask
 
-def build_node_rule_map(leaf_ids, leaf_values,leaf_lower_corners,leaf_upper_corners,rule_lower_corners, rule_upper_corners):
-## NON SPARSE - no longer used, use sparse version for scaleable speed.
-#    map_=np.zeros([np.max(leaf_ids)+1,rule_upper_corners.shape[0]],dtype=np.int32)-99
-#    for i_leaf in np.arange(len(leaf_ids)):
-#        leaf_id=leaf_ids[i_leaf] # rule 'i_leaf' is definitely in this leaf (it was the base rule)
-#        leaf_rules_overlap=np.logical_and(np.all(leaf_lower_corners[i_leaf,:]<rule_upper_corners,axis=1),np.all(leaf_upper_corners[i_leaf,:]>rule_lower_corners,axis=1))
-#        rule_idxs=np.where(leaf_rules_overlap)[0]
-#        map_[leaf_id,0]=i_leaf # this was the base rule and is always fully covered by this leaf
-#        rule_idxs=rule_idxs[np.nonzero(rule_idxs-i_leaf)]
-#        map_[leaf_id,1:len(rule_idxs)+1]=rule_idxs
-## SPARSE VERSION:
-    rule_upper_corners_sparse=csr_matrix(rule_upper_corners-RULE_UPPER_CONST,dtype=np.float64)
-    rule_lower_corners_sparse=csr_matrix(rule_lower_corners-RULE_LOWER_CONST,dtype=np.float64)
-    map_c_=np.zeros([np.max(leaf_ids)+1,rule_upper_corners.shape[0]],dtype=np.int32)-99    
-    get_node_map_c(leaf_ids, leaf_values,leaf_lower_corners,leaf_upper_corners,rule_lower_corners_sparse, rule_upper_corners_sparse,map_c_)
+
+def build_node_rule_map(
+        leaf_ids,
+        leaf_values,
+        leaf_lower_corners,
+        leaf_upper_corners,
+        rule_lower_corners,
+        rule_upper_corners):
+    # NON SPARSE - no longer used, use sparse version for scaleable speed.
+    #    map_=np.zeros([np.max(leaf_ids)+1,rule_upper_corners.shape[0]],dtype=np.int32)-99
+    #    for i_leaf in np.arange(len(leaf_ids)):
+    #        leaf_id=leaf_ids[i_leaf] # rule 'i_leaf' is definitely in this leaf (it was the base rule)
+    #        leaf_rules_overlap=np.logical_and(np.all(leaf_lower_corners[i_leaf,:]<rule_upper_corners,axis=1),np.all(leaf_upper_corners[i_leaf,:]>rule_lower_corners,axis=1))
+    #        rule_idxs=np.where(leaf_rules_overlap)[0]
+    #        map_[leaf_id,0]=i_leaf # this was the base rule and is always fully covered by this leaf
+    #        rule_idxs=rule_idxs[np.nonzero(rule_idxs-i_leaf)]
+    #        map_[leaf_id,1:len(rule_idxs)+1]=rule_idxs
+    # SPARSE VERSION:
+    rule_upper_corners_sparse = csr_matrix(
+        rule_upper_corners - RULE_UPPER_CONST, dtype=np.float64)
+    rule_lower_corners_sparse = csr_matrix(
+        rule_lower_corners - RULE_LOWER_CONST, dtype=np.float64)
+    map_c_ = np.zeros([np.max(leaf_ids) + 1,
+                       rule_upper_corners.shape[0]],
+                      dtype=np.int32) - 99
+    get_node_map_c(
+        leaf_ids,
+        leaf_values,
+        leaf_lower_corners,
+        leaf_upper_corners,
+        rule_lower_corners_sparse,
+        rule_upper_corners_sparse,
+        map_c_)
     return map_c_
-            
-def extract_rules_from_tree(tree,num_feats,incr_feats,decr_feats):
+
+
+def extract_rules_from_tree(tree, num_feats, incr_feats, decr_feats):
     """Helper to turn a tree into as set of rules
     """
-    num_nodes=tree.node_count
-    leaf_ids=np.zeros([num_nodes],dtype=np.int32)
-    leaf_values=np.zeros([num_nodes],dtype=np.float64)
-    rule_upper_corners=np.ones([num_nodes,num_feats],dtype=np.float64)*np.inf
-    rule_lower_corners=np.ones([num_nodes,num_feats],dtype=np.float64)*-np.inf
-    
-    
+    num_nodes = tree.node_count
+    leaf_ids = np.zeros([num_nodes], dtype=np.int32)
+    leaf_values = np.zeros([num_nodes], dtype=np.float64)
+    rule_upper_corners = np.ones(
+        [num_nodes, num_feats], dtype=np.float64) * np.inf
+    rule_lower_corners = np.ones(
+        [num_nodes, num_feats], dtype=np.float64) * -np.inf
+
     def traverse_nodes(node_id=0,
                        operator=None,
                        threshold=None,
                        feature=None,
                        new_lower=None,
                        new_upper=None):
-        if node_id==0:
-            new_lower=np.ones(num_feats)*RULE_LOWER_CONST
-            new_upper=np.ones(num_feats)*RULE_UPPER_CONST
+        if node_id == 0:
+            new_lower = np.ones(num_feats) * RULE_LOWER_CONST
+            new_upper = np.ones(num_feats) * RULE_UPPER_CONST
         else:
-            if operator==+1:
-                new_upper[feature]=threshold
+            if operator == +1:
+                new_upper[feature] = threshold
             else:
-                new_lower[feature]=threshold
-        if tree.children_left[node_id]  != TREE_LEAF: #tree.children_left[node_id] != tree.children_right[node_id]: #not tree.feature[node_id] == -2:
+                new_lower[feature] = threshold
+        # tree.children_left[node_id] != tree.children_right[node_id]: #not
+        # tree.feature[node_id] == -2:
+        if tree.children_left[node_id] != TREE_LEAF:
             feature = tree.feature[node_id]
             threshold = tree.threshold[node_id]
-            
+
             left_node_id = tree.children_left[node_id]
-            traverse_nodes(left_node_id, +1, threshold, feature, new_lower.copy(),new_upper.copy()) #"<="
-            
+            traverse_nodes(left_node_id, +1, threshold, feature,
+                           new_lower.copy(), new_upper.copy())  # "<="
+
             right_node_id = tree.children_right[node_id]
-            traverse_nodes(right_node_id, -1, threshold, feature, new_lower.copy(),new_upper.copy()) #">"
-        else: # a leaf node
-            if node_id!=0:
-                leaf_ids[node_id]=node_id
-                leaf_values[node_id]=tree.value[node_id][0][0] 
-                rule_upper_corners[node_id,:]=new_upper 
-                rule_lower_corners[node_id,:]=new_lower
-            else: # the base node (0) is the only node!
+            traverse_nodes(right_node_id, -1, threshold, feature,
+                           new_lower.copy(), new_upper.copy())  # ">"
+        else:  # a leaf node
+            if node_id != 0:
+                leaf_ids[node_id] = node_id
+                leaf_values[node_id] = tree.value[node_id][0][0]
+                rule_upper_corners[node_id, :] = new_upper
+                rule_lower_corners[node_id, :] = new_lower
+            else:  # the base node (0) is the only node!
                 print('Warning: Tree only has one node! (i.e. the root node)')
             return None
 
     traverse_nodes()
     # filter unused rules
-    idx=leaf_ids!=0 
+    idx = leaf_ids != 0
 
-    leaf_ids=leaf_ids[idx]
-    leaf_values=leaf_values[idx]
-    rule_upper_corners=rule_upper_corners[idx,:]
-    rule_lower_corners=rule_lower_corners[idx,:]
+    leaf_ids = leaf_ids[idx]
+    leaf_values = leaf_values[idx]
+    rule_upper_corners = rule_upper_corners[idx, :]
+    rule_lower_corners = rule_lower_corners[idx, :]
     # store leaf definitions before montonising
-    leaf_upper_corners=rule_upper_corners.copy()
-    leaf_lower_corners=rule_lower_corners.copy()
+    leaf_upper_corners = rule_upper_corners.copy()
+    leaf_lower_corners = rule_lower_corners.copy()
     # monotonise if required
-    if len(incr_feats)>0:
-        for i_mt in incr_feats-1:
-            rule_lower_corners[leaf_values<0,i_mt]=RULE_LOWER_CONST
-            rule_upper_corners[leaf_values>0,i_mt]=RULE_UPPER_CONST
-    if len(decr_feats)>0:
-        for i_mt in decr_feats-1:
-            rule_lower_corners[leaf_values>0,i_mt]=RULE_LOWER_CONST
-            rule_upper_corners[leaf_values<0,i_mt]=RULE_UPPER_CONST        
+    if len(incr_feats) > 0:
+        for i_mt in incr_feats - 1:
+            rule_lower_corners[leaf_values < 0, i_mt] = RULE_LOWER_CONST
+            rule_upper_corners[leaf_values > 0, i_mt] = RULE_UPPER_CONST
+    if len(decr_feats) > 0:
+        for i_mt in decr_feats - 1:
+            rule_lower_corners[leaf_values > 0, i_mt] = RULE_LOWER_CONST
+            rule_upper_corners[leaf_values < 0, i_mt] = RULE_UPPER_CONST
     # filter unused features
-    feats=np.any(np.vstack([rule_lower_corners!=RULE_LOWER_CONST,rule_upper_corners!=RULE_UPPER_CONST]),axis=0)
-    feats_idx=np.where(feats)[0]
-    rule_upper_corners=rule_upper_corners[:,feats]
-    rule_lower_corners=rule_lower_corners[:,feats]
-    leaf_upper_corners=leaf_upper_corners[:,feats]
-    leaf_lower_corners=leaf_lower_corners[:,feats]
-    return [leaf_ids, leaf_values,leaf_lower_corners,leaf_upper_corners, rule_upper_corners,rule_lower_corners,feats_idx]
+    feats = np.any(np.vstack([rule_lower_corners != RULE_LOWER_CONST,
+                              rule_upper_corners != RULE_UPPER_CONST]), axis=0)
+    feats_idx = np.where(feats)[0]
+    rule_upper_corners = rule_upper_corners[:, feats]
+    rule_lower_corners = rule_lower_corners[:, feats]
+    leaf_upper_corners = leaf_upper_corners[:, feats]
+    leaf_lower_corners = leaf_lower_corners[:, feats]
+    return [
+        leaf_ids,
+        leaf_values,
+        leaf_lower_corners,
+        leaf_upper_corners,
+        rule_upper_corners,
+        rule_lower_corners,
+        feats_idx]
 
 
 class RuleEnsemble(BaseEnsemble):
@@ -705,48 +839,86 @@ class RuleEnsemble(BaseEnsemble):
     for a tree and node_rule_map to be included, which can speed up prediction
     by only checking rules that overlap with the leaf node a point belongs to.
     """
-    def __init__(self, rule_lower_corners,rule_upper_corners,rule_values,dist_feats,tree=None,node_rule_map=None,intercept_=0.):
-        self.rule_lower_corners=rule_lower_corners
-        self.rule_upper_corners=rule_upper_corners
-        self.rule_values=rule_values
-        self.dist_feats=dist_feats
-        self.tree=tree
-        self.node_rule_map=node_rule_map
-        self.intercept_=intercept_
 
-    def _validate_X_predict(self,X, check_input=True):
-        if len(X.shape)==1:
-            X=X.reshape([-1,X.shape[0]])
+    def __init__(
+            self,
+            rule_lower_corners,
+            rule_upper_corners,
+            rule_values,
+            dist_feats,
+            tree=None,
+            node_rule_map=None,
+            intercept_=0.):
+        self.rule_lower_corners = rule_lower_corners
+        self.rule_upper_corners = rule_upper_corners
+        self.rule_values = rule_values
+        self.dist_feats = dist_feats
+        self.tree = tree
+        self.node_rule_map = node_rule_map
+        self.intercept_ = intercept_
+
+    def _validate_X_predict(self, X, check_input=True):
+        if len(X.shape) == 1:
+            X = X.reshape([-1, X.shape[0]])
         return X
-    def decision_function(self,X):
+
+    def decision_function(self, X):
         X = self._validate_X_predict(X, check_input=True)
-        res=np.zeros(X.shape[0])+self.intercept_
-        if not self.tree is None:
-            X_leaf_node_ids=self.tree.apply(X,check_input=False).astype(np.int32)
-            rule_mask=apply_rules(X[:,self.dist_feats],self.rule_lower_corners,self.rule_upper_corners,X_leaf_node_ids=X_leaf_node_ids,node_rule_map=self.node_rule_map)
+        res = np.zeros(X.shape[0]) + self.intercept_
+        if self.tree is not None:
+            X_leaf_node_ids = self.tree.apply(
+                X, check_input=False).astype(
+                np.int32)
+            rule_mask = apply_rules(X[:,
+                                      self.dist_feats],
+                                    self.rule_lower_corners,
+                                    self.rule_upper_corners,
+                                    X_leaf_node_ids=X_leaf_node_ids,
+                                    node_rule_map=self.node_rule_map)
         else:
-            rule_mask=apply_rules(X[:,self.dist_feats],self.rule_lower_corners,self.rule_upper_corners)
-        for i_rule in  np.arange(len(self.rule_values)):
-            res += (rule_mask[:,i_rule].astype(float)*self.rule_values[i_rule])
+            rule_mask = apply_rules(
+                X[:, self.dist_feats], self.rule_lower_corners, self.rule_upper_corners)
+        for i_rule in np.arange(len(self.rule_values)):
+            res += (rule_mask[:, i_rule].astype(float)
+                    * self.rule_values[i_rule])
         return res
-    def predict_proba(self,X):
-        res=self.decision_function(X)
+
+    def predict_proba(self, X):
+        res = self.decision_function(X)
         return res
-    
-    def predict(self,X):
+
+    def predict(self, X):
         return np.sign(self.predict_proba(X))
 
-            
+
 class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
     """Abstract base class for Gradient Boosting. """
 
     @abstractmethod
-    def __init__(self, loss, learning_rate, n_estimators, criterion,
-                 min_samples_split, min_samples_leaf, min_weight_fraction_leaf,
-                 max_depth, min_impurity_decrease, min_impurity_split,
-                 init, subsample, max_features,
-                 random_state, alpha=0.9, verbose=0, max_leaf_nodes=None,
-                 warm_start=False, presort='auto', incr_feats=[],decr_feats=[],coef_calc_type='boost'):
+    def __init__(
+            self,
+            loss,
+            learning_rate,
+            n_estimators,
+            criterion,
+            min_samples_split,
+            min_samples_leaf,
+            min_weight_fraction_leaf,
+            max_depth,
+            min_impurity_decrease,
+            min_impurity_split,
+            init,
+            subsample,
+            max_features,
+            random_state,
+            alpha=0.9,
+            verbose=0,
+            max_leaf_nodes=None,
+            warm_start=False,
+            presort='auto',
+            incr_feats=[],
+            decr_feats=[],
+            coef_calc_type='boost'):
 
         self.n_estimators = n_estimators
         self.learning_rate = learning_rate
@@ -767,34 +939,38 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
         self.max_leaf_nodes = max_leaf_nodes
         self.warm_start = warm_start
         self.presort = presort
-        self.incr_feats=incr_feats
-        self.decr_feats=decr_feats
-        self.coef_calc_type=coef_calc_type
+        self.incr_feats = incr_feats
+        self.decr_feats = decr_feats
+        self.coef_calc_type = coef_calc_type
 
     @property
     def mt_feats(self):
-        if len(self.incr_feats)==0 and len(self.decr_feats)==0:
+        if len(self.incr_feats) == 0 and len(self.decr_feats) == 0:
             return np.asarray([]).astype(int)
         else:
-            return np.asarray(list(self.incr_feats)+list(self.decr_feats)).astype(int)-1
-                   
+            return np.asarray(list(self.incr_feats) +
+                              list(self.decr_feats)).astype(int) - 1
+
     @property
     def incr_feats(self):
         return self.incr_feats_
+
     @incr_feats.setter
     def incr_feats(self, x):
-        self.incr_feats_=np.asarray(x)
-            
+        self.incr_feats_ = np.asarray(x)
+
     @property
     def decr_feats(self):
         return self.decr_feats_
+
     @decr_feats.setter
     def decr_feats(self, x):
-        self.decr_feats_=np.asarray(x  )    
-      
-    def _validate_X_predict(self,X, check_input=True):
+        self.decr_feats_ = np.asarray(x)
+
+    def _validate_X_predict(self, X, check_input=True):
         """ Dummy function required to be used as RF component estimator"""
         return X
+
     def _fit_stage(self, i, X, y, y_pred, sample_weight, sample_mask,
                    random_state, X_idx_sorted, X_csc=None, X_csr=None):
         """Fit another stage of ``n_classes_`` trees to the boosting model. """
@@ -803,7 +979,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
         loss = self.loss_
         original_y = y
 
-        k_max=1 if loss.K<=2 else loss.K-1
+        k_max = 1 if loss.K <= 2 else loss.K - 1
         for k in range(k_max):
             if loss.is_multi_class:
                 y = np.array(original_y > k, dtype=np.float64)
@@ -836,34 +1012,85 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             else:
                 tree.fit(X, residual, sample_weight=sample_weight,
                          check_input=False, X_idx_sorted=X_idx_sorted)
-            
+
             # extract monotone rules
-            [leaf_ids, leaf_values,leaf_lower_corners,leaf_upper_corners, rule_upper_corners,rule_lower_corners,dist_feats]=extract_rules_from_tree(tree.tree_,X.shape[1],self.incr_feats,self.decr_feats)
+            [leaf_ids,
+             leaf_values,
+             leaf_lower_corners,
+             leaf_upper_corners,
+             rule_upper_corners,
+             rule_lower_corners,
+             dist_feats] = extract_rules_from_tree(tree.tree_,
+                                                   X.shape[1],
+                                                   self.incr_feats,
+                                                   self.decr_feats)
             # build node rule map
-            if len(leaf_ids)>0:
-                node_rule_map=build_node_rule_map(leaf_ids, leaf_values,leaf_lower_corners,leaf_upper_corners,rule_lower_corners, rule_upper_corners)
+            if len(leaf_ids) > 0:
+                node_rule_map = build_node_rule_map(
+                    leaf_ids,
+                    leaf_values,
+                    leaf_lower_corners,
+                    leaf_upper_corners,
+                    rule_lower_corners,
+                    rule_upper_corners)
             else:
-                node_rule_map=None
-            
+                node_rule_map = None
+
             # update tree leaves
-            intercept=(self.coef_calc_type=='logistic' and self.n_estimators==1) # only use intercept for single trees and logistic solve
+            # only use intercept for single trees and logistic solve
+            intercept = (self.coef_calc_type ==
+                         'logistic' and self.n_estimators == 1)
             if X_csr is not None:
-                X_leaf_node_ids=tree.apply(X_csr,check_input=False).astype(np.int32)
-                intercept_=loss.update_terminal_rules( rule_lower_corners,rule_upper_corners,
-                            leaf_values, X_csr[:,dist_feats], y, residual, y_pred,
-                            sample_weight, sample_mask,
-                            learning_rate=self.learning_rate, k=k,X_leaf_node_ids=X_leaf_node_ids,node_rule_map=node_rule_map,logistic_intercept=intercept      )      # add tree to ensemble
+                X_leaf_node_ids = tree.apply(
+                    X_csr, check_input=False).astype(
+                    np.int32)
+                intercept_ = loss.update_terminal_rules(rule_lower_corners,
+                                                        rule_upper_corners,
+                                                        leaf_values,
+                                                        X_csr[:,
+                                                              dist_feats],
+                                                        y,
+                                                        residual,
+                                                        y_pred,
+                                                        sample_weight,
+                                                        sample_mask,
+                                                        learning_rate=self.learning_rate,
+                                                        k=k,
+                                                        X_leaf_node_ids=X_leaf_node_ids,
+                                                        node_rule_map=node_rule_map,
+                                                        logistic_intercept=intercept)  # add tree to ensemble
             else:
-                X_leaf_node_ids=tree.apply(X,check_input=False).astype(np.int32)
-                intercept_=loss.update_terminal_rules( rule_lower_corners,rule_upper_corners,
-                            leaf_values, X[:,dist_feats], y, residual, y_pred,
-                            sample_weight, sample_mask,
-                            learning_rate=self.learning_rate, k=k,X_leaf_node_ids=X_leaf_node_ids,node_rule_map=node_rule_map,logistic_intercept=intercept      )      # add tree to ensemble
-            self.estimators_[i, k] =RuleEnsemble(rule_lower_corners,rule_upper_corners,leaf_values,dist_feats,tree,node_rule_map,intercept_)
+                X_leaf_node_ids = tree.apply(
+                    X, check_input=False).astype(
+                    np.int32)
+                intercept_ = loss.update_terminal_rules(rule_lower_corners,
+                                                        rule_upper_corners,
+                                                        leaf_values,
+                                                        X[:,
+                                                          dist_feats],
+                                                        y,
+                                                        residual,
+                                                        y_pred,
+                                                        sample_weight,
+                                                        sample_mask,
+                                                        learning_rate=self.learning_rate,
+                                                        k=k,
+                                                        X_leaf_node_ids=X_leaf_node_ids,
+                                                        node_rule_map=node_rule_map,
+                                                        logistic_intercept=intercept)  # add tree to ensemble
+            self.estimators_[
+                i,
+                k] = RuleEnsemble(
+                rule_lower_corners,
+                rule_upper_corners,
+                leaf_values,
+                dist_feats,
+                tree,
+                node_rule_map,
+                intercept_)
 
         return y_pred
-        
-    
+
     def _check_params(self):
         """Check validity of parameters and raise ValueError if not valid. """
         if self.n_estimators <= 0:
@@ -880,7 +1107,11 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
 
         if self.loss == 'deviance':
             loss_class = (BinomialDeviance)
-            self.loss_ = loss_class(self.n_classes_,coef_calc_type=self.coef_calc_type,incr_feats=self.incr_feats,decr_feats=self.decr_feats)
+            self.loss_ = loss_class(
+                self.n_classes_,
+                coef_calc_type=self.coef_calc_type,
+                incr_feats=self.incr_feats,
+                decr_feats=self.decr_feats)
         else:
             loss_class = LOSS_FUNCTIONS[self.loss]
 
@@ -940,15 +1171,15 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
     def _init_state(self):
         """Initialize model state and allocate model state data structures. """
 
-        if self.coef_calc_type=='logistic' and self.n_estimators==1:
-            self.init_=ZeroEstimator()
+        if self.coef_calc_type == 'logistic' and self.n_estimators == 1:
+            self.init_ = ZeroEstimator()
         elif self.init is None:
             self.init_ = self.loss_.init_estimator()
         elif isinstance(self.init, six.string_types):
             self.init_ = INIT_ESTIMATORS[self.init]()
         else:
             self.init_ = self.init
-        num_K=1 if self.loss_.K<=2 else self.loss_.K-1
+        num_K = 1 if self.loss_.K <= 2 else self.loss_.K - 1
         self.estimators_ = np.empty((self.n_estimators, num_K),
                                     dtype=np.object)
         self.train_score_ = np.zeros((self.n_estimators,), dtype=np.float64)
@@ -976,7 +1207,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             raise ValueError('resize with smaller n_estimators %d < %d' %
                              (total_n_estimators, self.estimators_[0]))
 
-        num_k=1 if self.loss_.K<=2 else self.loss_.K-1
+        num_k = 1 if self.loss_.K <= 2 else self.loss_.K - 1
         self.estimators_.resize((total_n_estimators, num_k))
         self.train_score_.resize(total_n_estimators)
         if (self.subsample < 1 or hasattr(self, 'oob_improvement_')):
@@ -1000,7 +1231,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
     def n_features(self):
         return self.n_features_
 
-    def fit(self, X, y, sample_weight=None, monitor=None,check_input=False):
+    def fit(self, X, y, sample_weight=None, monitor=None, check_input=False):
         """Fit the gradient boosting model.
 
         Parameters
@@ -1040,9 +1271,11 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             self._clear_state()
 
         # Check input
-        if len(y.shape)>1:
-            y=y.ravel() # when called from RandomForestClassifier, y is converted to a (n,1) column vector that generates a warning in the next line, unless we ravel it here
-        X, y = check_X_y(X, y, accept_sparse=['csr', 'csc', 'coo'], dtype=DTYPE)
+        if len(y.shape) > 1:
+            y = y.ravel()  # when called from RandomForestClassifier, y is converted to a (n,1) column vector that generates a warning in the next line, unless we ravel it here
+        X, y = check_X_y(
+            X, y, accept_sparse=[
+                'csr', 'csc', 'coo'], dtype=DTYPE)
         n_samples, self.n_features_ = X.shape
         if sample_weight is None:
             sample_weight = np.ones(n_samples, dtype=np.float32)
@@ -1087,9 +1320,10 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
         elif presort == 'auto':
             presort = True
 
-        if presort == True:
+        if presort:
             if issparse(X):
-                raise ValueError("Presorting is not supported for sparse matrices.")
+                raise ValueError(
+                    "Presorting is not supported for sparse matrices.")
             else:
                 X_idx_sorted = np.asfortranarray(np.argsort(X, axis=0),
                                                  dtype=np.int32)
@@ -1194,10 +1428,11 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
         # not doing input validation.
         #score = self._init_decision_function(X)
         K = self.estimators_.shape[1]
-        score=self._init_decision_function(X) #np.zeros([X.shape[0],K])
+        score = self._init_decision_function(X)  # np.zeros([X.shape[0],K])
         for i in range(self.estimators_.shape[0]):
-            for k in range(K): 
-                score[:,k] += self.learning_rate*self.estimators_[i, k].decision_function(X)
+            for k in range(K):
+                score[:, k] += self.learning_rate * \
+                    self.estimators_[i, k].decision_function(X)
         return score
 
 
@@ -1291,11 +1526,13 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
         return leaves
 
 
-class MonoGradientBoostingClassifier(BaseMonoGradientBoosting, ClassifierMixin):
+class MonoGradientBoostingClassifier(
+        BaseMonoGradientBoosting,
+        ClassifierMixin):
     """Monotone Gradient Boosting for classification.
 
     This is a high performance implementation of monotone classifier proposed
-    in Bartley et al. 2017. It behaves identically to sci-kit learn's 
+    in Bartley et al. 2017. It behaves identically to sci-kit learn's
     GradientBoostingClassifier with the following exceptions:
         1. The interface has three additional parameters for the constructor:
         ``incr_feats``, ``decr_feats``, and ``coef_calc_type``. The first two
@@ -1304,13 +1541,13 @@ class MonoGradientBoostingClassifier(BaseMonoGradientBoosting, ClassifierMixin):
         coefficient recalculation. See below for more details.
         2. After fitting each stage, the tree leaf rules are made
         'monotone compliant', and the coefficients re-calculated are
-        constrained to ensure monotonicity. 
+        constrained to ensure monotonicity.
         3. Logistic regression and Naive Bayesian techniques are offered as
         solutions to coefficient re-calculation method, in addition to the
         single Newton step used in GB.
         4. Multi-class capability is implemented using the monotone compliant
         ensembling method described in Kotlowski and Slowinski 2013.
-         
+
     This implementation makes heavy re-use of the original sci-kit learn code,
     but substantial additions have been made to efficiently implement the
     algorithm.
@@ -1322,26 +1559,26 @@ class MonoGradientBoostingClassifier(BaseMonoGradientBoosting, ClassifierMixin):
     incr_feats : array-like
         The one-based array indices of the columns in X that should only have
         a monotone increasing impact on the resulting class.
-        
+
     decr_feats : array-like
         The one-based array indices of the columns in X that should only have
         a monotone decreasing impact on the resulting class.
-        
+
     coef_calc_type : string
         Determines how the rule coefficients are calculated. Allowable values:
         'logistic': L2 regularised logistic regression. Slower.
         'boost' DEFAULT: A single Newton step approximation is used. Fast, and
-        generally best. 
+        generally best.
         'bayesian': Assumes conditional indpendence between rules and
         calculates coefficients as per Naive bayesian classification. Fast
         with good results.
-        
+
     loss : {'deviance', 'exponential'}, optional (default='deviance')
         loss function to be optimized. 'deviance' refers to
         deviance (= logistic regression) for classification
         with probabilistic outputs. For loss 'exponential' gradient
         boosting recovers the AdaBoost algorithm. ONLY DEVIANCE IS IMPLEMENTED.
-        
+
     learning_rate : float, optional (default=0.1)
         learning rate shrinks the contribution of each tree by `learning_rate`.
         There is a trade-off between learning_rate and n_estimators.
@@ -1527,7 +1764,7 @@ class MonoGradientBoostingClassifier(BaseMonoGradientBoosting, ClassifierMixin):
     ----------
     C. Bartley, W. Liu, and M. Reynolds.
     Fast & Perfect Monotone Random Forest Classication, 2017
-    
+
     W. Kotlowskiand R. Slowinski.
     On Nonparametric Ordinal Classification with Monotonicity Constraints, 2013
 
@@ -1538,12 +1775,12 @@ class MonoGradientBoostingClassifier(BaseMonoGradientBoosting, ClassifierMixin):
 
     T. Hastie, R. Tibshirani and J. Friedman.
     Elements of Statistical Learning Ed. 2, Springer, 2009.
-    
+
     """
 
-    _SUPPORTED_LOSS = ('deviance') # , 'exponential')
+    _SUPPORTED_LOSS = ('deviance')  # , 'exponential')
 
-    def __init__(self, incr_feats=[],decr_feats=[],coef_calc_type='boost',
+    def __init__(self, incr_feats=[], decr_feats=[], coef_calc_type='boost',
                  loss='deviance', learning_rate=0.1, n_estimators=100,
                  subsample=1.0, criterion='friedman_mse', min_samples_split=2,
                  min_samples_leaf=1, min_weight_fraction_leaf=0.,
@@ -1594,8 +1831,8 @@ class MonoGradientBoostingClassifier(BaseMonoGradientBoosting, ClassifierMixin):
             Regression and binary classification produce an array of shape
             [n_samples].
         """
-        X = check_array(X, dtype=DTYPE, order="C",  accept_sparse='csr')
-        X_preproc=X.copy()
+        X = check_array(X, dtype=DTYPE, order="C", accept_sparse='csr')
+        X_preproc = X.copy()
         score = self._decision_function(X_preproc)
         if score.shape[1] == 1:
             return score.ravel()
@@ -1751,42 +1988,40 @@ class MonoGradientBoostingClassifier(BaseMonoGradientBoosting, ClassifierMixin):
                                  self.loss)
 
 
-    
-    
 ##################################################
 ### START CONSTRAINED LOGISTIC REGRESSION CODE ###
 ##################################################
 class ConstrainedLogisticRegression:
     """A bounds constrained logistic regression with solution offset.
 
-    Required to enable ``coef_calc_type``='logistic' option for 
+    Required to enable ``coef_calc_type``='logistic' option for
     ``MonoGradientBoostingClassifier`` - because sci-kit learn
     ``LogisticRegression`` does not allow bounds constraints or solution
     offset. It is included here to reduce dependencies.
-    
+
     This is a simple implementation of logistic regression with L2
     regularisation, bounds constraints on the coefficients, and the ability
-    to accept an offset on the solution. It is solved using the scipy 
-    conjugate gradient Newton method ``fmin_tnc``. 
-    
-    Parameters 
+    to accept an offset on the solution. It is solved using the scipy
+    conjugate gradient Newton method ``fmin_tnc``.
+
+    Parameters
     ----------
     C : float, 0 < C <= 1.0
         Empirical error weight, inverse of lambda (regularisation strength).
-        
+
     fit_intercept : boolean
         True to fit an intercept.
-        
+
     random_state : random_state
         Random seed.
-        
+
     solver : 'newton-cg'
         Uses scipy.opt.fmin_tnc (only implemented option)
-        
+
     incr_feats : array-like
         The one-based array indices of the columns in X that should only have
         a monotone increasing impact on the resulting class.
-        
+
     decr_feats : array-like
         The one-based array indices of the columns in X that should only have
         a monotone decreasing impact on the resulting class.
@@ -1802,23 +2037,24 @@ class ConstrainedLogisticRegression:
         The regularisation penalty. 'l1' is not guaranteed to work very well
         because the newton solver relies on smoothness.
 
-    
+
     """
-    def __init__(self,C=1.0, fit_intercept=True,  random_state=None, 
-                 solver='newton-cg',incr_feats=[],decr_feats=[], 
-                 regularise_intercept=False,standardize=False,penalty='l2'):
-        self.fit_intercept=fit_intercept
-        self.random_state=random_state
-        self.solver=solver
-        self.C=C
-        self.incr_feats=np.asarray(incr_feats)
-        self.decr_feats=np.asarray(decr_feats) 
-        self.has_mt_feats=len(incr_feats)>0 or len(decr_feats)>0
-        self.regularise_intercept=regularise_intercept if self.fit_intercept else False
-        self.standardize=standardize
-        self.penalty=penalty
-        
-    def fit(self, X, y, sample_weight=None,offset=None):
+
+    def __init__(self, C=1.0, fit_intercept=True, random_state=None,
+                 solver='newton-cg', incr_feats=[], decr_feats=[],
+                 regularise_intercept=False, standardize=False, penalty='l2'):
+        self.fit_intercept = fit_intercept
+        self.random_state = random_state
+        self.solver = solver
+        self.C = C
+        self.incr_feats = np.asarray(incr_feats)
+        self.decr_feats = np.asarray(decr_feats)
+        self.has_mt_feats = len(incr_feats) > 0 or len(decr_feats) > 0
+        self.regularise_intercept = regularise_intercept if self.fit_intercept else False
+        self.standardize = standardize
+        self.penalty = penalty
+
+    def fit(self, X, y, sample_weight=None, offset=None):
         """Fit the gradient boosting model.
 
         Parameters
@@ -1847,32 +2083,55 @@ class ConstrainedLogisticRegression:
         self : object
             Returns self.
         """
-        self.classes_=np.sort(np.unique(y))
+        self.classes_ = np.sort(np.unique(y))
         if sample_weight is None:
-            sample_weight=np.ones(len(y))
-        sample_weight=np.ravel(sample_weight)
-        X_=X.copy()
-        y=np.ravel(y)
-        y[y==0]=-1
+            sample_weight = np.ones(len(y))
+        sample_weight = np.ravel(sample_weight)
+        X_ = X.copy()
+        y = np.ravel(y)
+        y[y == 0] = -1
         if self.standardize:
-            stds = np.sqrt(np.average((X_-np.average(X_,axis=0, weights=sample_weight))**2, axis=0,weights=sample_weight) ) # Fast and numerically precise
-            X_[:,stds!=0]=X_[:,stds!=0]/stds[stds!=0]
-        regularise_intercept_=self.regularise_intercept if self.fit_intercept else True
+            stds = np.sqrt(
+                np.average(
+                    (X_ -
+                     np.average(
+                         X_,
+                         axis=0,
+                         weights=sample_weight))**2,
+                    axis=0,
+                    weights=sample_weight))  # Fast and numerically precise
+            X_[:, stds != 0] = X_[:, stds != 0] / stds[stds != 0]
+        regularise_intercept_ = self.regularise_intercept if self.fit_intercept else True
 
         # Solve
-        if self.solver=='newton-cg':
-            coef_limits=[(0 if j in self.incr_feats-1 else None,0 if j in self.decr_feats-1 else None) for j in np.arange(X_.shape[1])]
-            coef=nnlr(X_, y,sample_weight, self.C,coef_limits,regularise_intercept_,1. if self.penalty=='l2' else 0.,self.fit_intercept,offset)
+        if self.solver == 'newton-cg':
+            coef_limits = [
+                (0 if j in self.incr_feats -
+                 1 else None,
+                 0 if j in self.decr_feats -
+                 1 else None) for j in np.arange(
+                    X_.shape[1])]
+            coef = nnlr(
+                X_,
+                y,
+                sample_weight,
+                self.C,
+                coef_limits,
+                regularise_intercept_,
+                1. if self.penalty == 'l2' else 0.,
+                self.fit_intercept,
+                offset)
             if self.fit_intercept:
-                self.intercept_=np.asarray([coef[-1]])
-                self.coef_=np.asarray([coef[0:len(coef)-1]])
+                self.intercept_ = np.asarray([coef[-1]])
+                self.coef_ = np.asarray([coef[0:len(coef) - 1]])
             else:
-                self.intercept_=np.asarray([0.])
-                self.coef_=np.asarray([coef])
-        elif self.solver=='two-pass':
-            pass 
+                self.intercept_ = np.asarray([0.])
+                self.coef_ = np.asarray([coef])
+        elif self.solver == 'two-pass':
+            pass
         if self.standardize:
-            self.coef_[0][stds!=0]=self.coef_[0][stds!=0]/stds[stds!=0]
+            self.coef_[0][stds != 0] = self.coef_[
+                0][stds != 0] / stds[stds != 0]
 
     def predict(self, X):
         """Predict class or regression value for X.
@@ -1896,9 +2155,9 @@ class ConstrainedLogisticRegression:
 
         #X = self._validate_X_predict(X, check_input)
         proba = self.predict_proba(X)
-        
+
         return self.classes_.take(np.argmax(proba, axis=1), axis=0)
-        
+
     def predict_proba(self, X):
         """Probability estimates.
         The returned estimates for all classes are ordered by the
@@ -1920,10 +2179,11 @@ class ConstrainedLogisticRegression:
         """
         if not hasattr(self, "coef_"):
             raise NotFittedError("Call fit before prediction")
-        prob1=1./(1+np.exp(np.dot(self.coef_,-X.T).reshape(-1,1)-self.intercept_))
-        probs=np.hstack([1-prob1,prob1])
-        return probs#softmax(self.decision_function(X), copy=False)
-        
+        prob1 = 1. / \
+            (1 + np.exp(np.dot(self.coef_, -X.T).reshape(-1, 1) - self.intercept_))
+        probs = np.hstack([1 - prob1, prob1])
+        return probs  # softmax(self.decision_function(X), copy=False)
+
     def decision_function(self, X):
         """Predict confidence scores for samples.
         The confidence score for a sample is the signed distance of that
@@ -1943,7 +2203,6 @@ class ConstrainedLogisticRegression:
             raise NotFittedError("This %(name)s instance is not fitted "
                                  "yet" % {'name': type(self).__name__})
 
-
         n_features = self.coef_.shape[1]
         if X.shape[1] != n_features:
             raise ValueError("X has %d features per sample; expecting %d"
@@ -1952,7 +2211,7 @@ class ConstrainedLogisticRegression:
         scores = safe_sparse_dot(X, self.coef_.T,
                                  dense_output=True) + self.intercept_
         return scores.ravel() if scores.shape[1] == 1 else scores
-        
+
     def predict_log_proba(self, X):
         """Log of probability estimates.
         The returned estimates for all classes are ordered by the
@@ -1967,10 +2226,16 @@ class ConstrainedLogisticRegression:
             model, where classes are ordered as they are in ``self.classes_``.
         """
         return np.log(self.predict_proba(X))
-    
 
 
-def _logistic_grad(w, X, y, alpha, sample_weight=None,regularise_intercept=True,offset=None):
+def _logistic_grad(
+        w,
+        X,
+        y,
+        alpha,
+        sample_weight=None,
+        regularise_intercept=True,
+        offset=None):
     """Computes the logistic loss and gradient.
     Parameters
     ----------
@@ -1991,26 +2256,34 @@ def _logistic_grad(w, X, y, alpha, sample_weight=None,regularise_intercept=True,
         Logistic gradient.
     """
     if offset is None:
-        offset=np.zeros(len(y))
+        offset = np.zeros(len(y))
     n_samples, n_features = X.shape
     grad = np.empty_like(w)
-    intercept=w[-1] if (regularise_intercept and len(w)>X.shape[1]) else 0.
+    intercept = w[-1] if (regularise_intercept and len(w) > X.shape[1]) else 0.
     w, c, yz = _intercept_dot(w, X, y)
 
     if sample_weight is None:
         sample_weight = np.ones(n_samples)
 
-    z = expit(yz+y*offset)
+    z = expit(yz + y * offset)
     z0 = sample_weight * (z - 1) * y
 
     grad[:n_features] = safe_sparse_dot(X.T, z0) + alpha * w
 
     # Case where we fit the intercept.
     if grad.shape[0] > n_features:
-        grad[-1] = z0.sum()+alpha*intercept
-    return  grad
+        grad[-1] = z0.sum() + alpha * intercept
+    return grad
 
-def _logistic_loss(w, X, y, alpha, sample_weight=None,regularise_intercept=True,offset=None):
+
+def _logistic_loss(
+        w,
+        X,
+        y,
+        alpha,
+        sample_weight=None,
+        regularise_intercept=True,
+        offset=None):
     """Computes the logistic loss.
     Parameters
     ----------
@@ -2031,16 +2304,18 @@ def _logistic_loss(w, X, y, alpha, sample_weight=None,regularise_intercept=True,
         Logistic loss.
     """
     if offset is None:
-        offset=np.zeros(len(y))
-    intercept=w[-1] if (regularise_intercept and len(w)>X.shape[1]) else 0.
+        offset = np.zeros(len(y))
+    intercept = w[-1] if (regularise_intercept and len(w) > X.shape[1]) else 0.
     w, c, yz = _intercept_dot(w, X, y)
 
     if sample_weight is None:
         sample_weight = np.ones(y.shape[0])
 
     # Logistic loss is the negative of the log of the logistic function.
-    out = -np.sum(sample_weight * log_logistic(yz+y*offset)) + .5 * alpha * (np.dot(w, w)+intercept**2) #(1/X.shape[0])*
+    out = -np.sum(sample_weight * log_logistic(yz + y * offset)) + .5 * \
+        alpha * (np.dot(w, w) + intercept**2)  # (1/X.shape[0])*
     return out
+
 
 def _intercept_dot(w, X, y):
     """Computes y * np.dot(X, w).
@@ -2072,33 +2347,58 @@ def _intercept_dot(w, X, y):
     yz = y * z
     return w, c, yz
 
-    
-def nnlr(X, y,sample_weight, C,coef_limits,regularise_intercept,alpha,fit_intercept,offset):
+
+def nnlr(
+        X,
+        y,
+        sample_weight,
+        C,
+        coef_limits,
+        regularise_intercept,
+        alpha,
+        fit_intercept,
+        offset):
     """
     Non-negative Logistic Regression with L2 regularizer
     """
-    
+
     N = X.shape[1]
-    J = lambda theta: _logistic_loss(theta, X, y,  1./C, sample_weight=sample_weight,regularise_intercept=regularise_intercept,offset=offset)
-    J_grad = lambda theta: _logistic_grad(theta, X, y, 1./C, sample_weight=sample_weight,regularise_intercept=regularise_intercept,offset=offset)
+
+    def J(theta): return _logistic_loss(
+        theta,
+        X,
+        y,
+        1. / C,
+        sample_weight=sample_weight,
+        regularise_intercept=regularise_intercept,
+        offset=offset)
+
+    def J_grad(theta): return _logistic_grad(
+        theta,
+        X,
+        y,
+        1. / C,
+        sample_weight=sample_weight,
+        regularise_intercept=regularise_intercept,
+        offset=offset)
     if fit_intercept:
-        theta0 = 0.0 * sp.ones(N+1 )
-        coef_limits=coef_limits+[(None,None)]
+        theta0 = 0.0 * sp.ones(N + 1)
+        coef_limits = coef_limits + [(None, None)]
     else:
-        theta0 = 0.0 * sp.ones( N)
-    x, nfeval, rc = opt.fmin_tnc(J,theta0, fprime=J_grad, bounds=coef_limits,
-                                 disp=0,messages=0)
+        theta0 = 0.0 * sp.ones(N)
+    x, nfeval, rc = opt.fmin_tnc(J, theta0, fprime=J_grad, bounds=coef_limits,
+                                 disp=0, messages=0)
     return x
 
 ################################################
 ### END CONSTRAINED LOGISTIC REGRESSION CODE ###
 ################################################
-    
+
 ############################################################
 ### START SAVED REGRESSION RELATED CODE FOR MODIFICATION ###
 ############################################################
 
-#class QuantileEstimator(object):
+# class QuantileEstimator(object):
 #    """An estimator predicting the alpha-quantile of the training targets."""
 #    def __init__(self, alpha=0.9):
 #        if not 0 < alpha < 1.0:
@@ -2120,7 +2420,7 @@ def nnlr(X, y,sample_weight, C,coef_limits,regularise_intercept,alpha,fit_interc
 #        return y
 #
 #
-#class MeanEstimator(object):
+# class MeanEstimator(object):
 #    """An estimator predicting the mean of the training targets."""
 #    def fit(self, X, y, sample_weight=None):
 #        if sample_weight is None:
@@ -2133,8 +2433,8 @@ def nnlr(X, y,sample_weight, C,coef_limits,regularise_intercept,alpha,fit_interc
 #
 #        y = np.empty((X.shape[0], 1), dtype=np.float64)
 #        y.fill(self.mean)
-#        return y        
-#class RegressionLossFunction(six.with_metaclass(ABCMeta, LossFunction)):
+#        return y
+# class RegressionLossFunction(six.with_metaclass(ABCMeta, LossFunction)):
 #    """Base class for regression loss functions. """
 #
 #    def __init__(self, n_classes):
@@ -2144,7 +2444,7 @@ def nnlr(X, y,sample_weight, C,coef_limits,regularise_intercept,alpha,fit_interc
 #        super(RegressionLossFunction, self).__init__(n_classes)
 #
 #
-#class LeastSquaresError(RegressionLossFunction):
+# class LeastSquaresError(RegressionLossFunction):
 #    """Loss function for least squares (LS) estimation.
 #    Terminal regions need not to be updated for least squares. """
 #    def init_estimator(self):
@@ -2175,7 +2475,7 @@ def nnlr(X, y,sample_weight, C,coef_limits,regularise_intercept,alpha,fit_interc
 #        pass
 #
 #
-#class LeastAbsoluteError(RegressionLossFunction):
+# class LeastAbsoluteError(RegressionLossFunction):
 #    """Loss function for least absolute deviation (LAD) regression. """
 #    def init_estimator(self):
 #        return QuantileEstimator(alpha=0.5)
@@ -2201,7 +2501,7 @@ def nnlr(X, y,sample_weight, C,coef_limits,regularise_intercept,alpha,fit_interc
 #        tree.value[leaf, 0, 0] = _weighted_percentile(diff, sample_weight, percentile=50)
 #
 #
-#class HuberLossFunction(RegressionLossFunction):
+# class HuberLossFunction(RegressionLossFunction):
 #    """Huber loss function for robust regression.
 #
 #    M-Regression proposed in Friedman 2001.
@@ -2270,7 +2570,7 @@ def nnlr(X, y,sample_weight, C,coef_limits,regularise_intercept,alpha,fit_interc
 #            np.minimum(np.abs(diff_minus_median), gamma))
 #
 #
-#class QuantileLossFunction(RegressionLossFunction):
+# class QuantileLossFunction(RegressionLossFunction):
 #    """Loss function for quantile regression.
 #
 #    Quantile regression allows to estimate the percentiles
@@ -2317,7 +2617,7 @@ def nnlr(X, y,sample_weight, C,coef_limits,regularise_intercept,alpha,fit_interc
 #        val = _weighted_percentile(diff, sample_weight, self.percentile)
 #        tree.value[leaf, 0] = val
 
-#class MonoGradientBoostingRegressor(BaseMonoGradientBoosting, RegressorMixin):
+# class MonoGradientBoostingRegressor(BaseMonoGradientBoosting, RegressorMixin):
 #    """Gradient Boosting for regression.
 #
 #    GB builds an additive model in a forward stage-wise fashion;
@@ -2614,7 +2914,7 @@ def nnlr(X, y,sample_weight, C,coef_limits,regularise_intercept,alpha,fit_interc
 #        leaves = super(MonoGradientBoostingRegressor, self).apply(X)
 #        leaves = leaves.reshape(X.shape[0], self.estimators_.shape[0])
 #        return leaves
-    
+
 ############################################################
 ### END SAVED REGRESSION RELATED CODE FOR MODIFICATION ###
 ############################################################
