@@ -26,7 +26,7 @@ dependent on (and inherits from) sci-kit learn's ``ForestClassifier``.
 # License: BSD 3 clause
 
 from sklearn.ensemble.forest import ForestClassifier
-from mono_gradient_boosting import MonoGradientBoostingClassifier
+from monoensemble import MonoGradientBoostingClassifier
 import numpy as np
 
 
