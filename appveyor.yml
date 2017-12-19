@@ -27,7 +27,9 @@ install:
 test_script:
   - mkdir for_test
   - cd for_test
-  - py.test --pyargs monoensemble --cov-report term-missing --cov=monoensemble
+  - py.test --pyargs monoensemble
+
+# --cov-report term-missing --cov=monoensemble
 
 cache:
   # Use the appveyor cache to avoid re-downloading large archives such
