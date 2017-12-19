@@ -1,0 +1,7 @@
+[run]
+branch = True
+source = monoensemble/*
+include = monoensemble/*
+omit = */setup.py
+[report]
+include = monoensemble/*

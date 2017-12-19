@@ -1,0 +1,39 @@
+language: python
+sudo: false
+
+before_deploy:
+  - cd /home/travis/build/chriswbartley/monoensemble
+
+deploy:
+  provider: pypi
+  user: chriswbartley
+  password:
+    secure: A6k5u4Ipg7A4/0zGNm+cWteUrHe5B3HvsD/fV9r+LW+0Wpcmu428gXYRmuML76WvhwVZ5kGa/ck2ghcF75/+9wfPeJd3G5dzW9uJvMCQbEdzzW59RKsRTPlpatDP23VjbQRN8lF3Mx4oQeGwWQIwAbsf/fB7HkGPlEBxzT7Z1OPSVLBANjAbWVE4cpjmVKLGHKkPycLrJm8p867NVvZfnW2zvyBID5++nqR21GwCKLNNAFjXGHS87LbGem6jNmpzuoW7U0LYeNqL0IDXriNeCBDCXpduI2+hXolnC1uqgEXlgFKADzTjRgCrP99zMCD/OILpCkxMUpY0revSoPzUD8v+9YIUwZUsNZ14a/B8DSw2z0YEqy0VPNxKEF0/uPxeXC/fiWkJB+bLio8t9Scw5vqmRMIrOXbu+KDVOXqdj0mI0WvNNL8DMegTh1WIhiIq9Rbs+ioTt1aJd4rWwn1l/un8/qPEmg5mvqGAajQvnxQfgvK6U4ZT6UYhmcPWiKYa+GJiW5kNqCXVUuLjlC4kJ7S5JoeOQvKi7bQm57/KDCZIxtWrs51LYNLw559D6ZiGwRI0WxtjArEXa7LQEMA5C8pKKU2z1BtOXWclv+JC0fv5idmjY2JLKUTvW/Vzc8ciMGBd8VpUjO6XVyclD3vbJtjKkGUchM/SPbiIYbhRsrg=
+  on:
+    tags: true
+    repo: chriswbartley/monoensemble
+  skip_cleanup: true
+
+env:
+  global:
+    - PIP_DEPS="pytest coveralls pytest-cov flake8"
+
+python:
+  - '3.6'
+
+
+install:
+- travis_retry pip install $PIP_DEPS
+- travis_retry pip install -r requirements.txt
+- travis_retry pip install -e .
+
+script:
+- flake8 --ignore N802,N806,E128 `find . -name \*.py | grep -v setup.py | grep -v version.py | grep -v __init__.py | grep -v /doc/` --exclude *example*.*
+- mkdir for_test
+- cd for_test
+- py.test --pyargs monoensemble --cov-report term-missing --cov=monoensemble
+
+after_success:
+- coveralls
+- cd..
+- dir

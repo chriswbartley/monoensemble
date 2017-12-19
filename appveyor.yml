@@ -1,0 +1,39 @@
+build: false
+
+environment:
+  matrix:
+    - PYTHON: "C:\\Python35"
+      PYTHON_VERSION: "3.5.1"
+      PYTHON_ARCH: "32"
+      MINICONDA: C:\Miniconda35
+
+init:
+  - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH% %MINICONDA%"
+
+install:
+  - "set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%"
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  - conda info -a
+  - "conda create -q -n test-environment python=%PYTHON_VERSION% numpy scipy pytest pytest-cov scikit-learn"
+  - activate test-environment
+  - pip install coverage
+  # sklearn needs numpy with MKL hich amazingly needs a custom wheel
+  # from http://www.lfd.uci.edu/~gohlke/pythonlibs/ , we store a copy
+  # on dropbox:
+  - pip install --upgrade --force-reinstall "https://dl.dropboxusercontent.com/s/ot5tj14jhrqfbvj/numpy-1.13.3%2Bmkl-cp35-cp35m-win32.whl?dl=0"
+  - python setup.py install
+
+test_script:
+  - mkdir for_test
+  - cd for_test
+  - py.test --pyargs monoensemble --cov-report term-missing --cov=monoensemble
+
+cache:
+  # Use the appveyor cache to avoid re-downloading large archives such
+  # the MKL numpy and scipy wheels mirrored on a rackspace cloud
+  # container, speed up the appveyor jobs and reduce bandwidth
+  # usage on our rackspace account. (was: '%APPDATA%\pip\Cache', but 
+  # that refers to Roaming, our pip cache is in Local
+  - C:\Users\appveyor\AppData\Local\pip\cache
+

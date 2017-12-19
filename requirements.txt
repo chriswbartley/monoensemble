@@ -1,0 +1,4 @@
+numpy
+sphinx_gallery
+scipy
+sklearn
