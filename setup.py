@@ -79,7 +79,7 @@ def configuration(parent_package="", top_path=None):
     return config
 
 import os
-from setuptools import setup, find_packages
+from setuptools import find_packages
 PACKAGES = find_packages()
 
 # Get version and release info, which is all stored in monoensemble/version.py
