@@ -16,7 +16,7 @@ deploy:
 
 env:
   global:
-    - PIP_DEPS="pytest coveralls pytest-cov flake8"
+    - PIP_DEPS="pytest coveralls pytest-cov flake8 cython"
 
 python:
   - '3.6'
