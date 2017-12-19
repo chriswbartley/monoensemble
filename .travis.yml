@@ -29,8 +29,8 @@ install:
 
 script:
 # - flake8 --ignore N802,N806,E128 `find . -name \*.py | grep -v setup.py | grep -v version.py | grep -v __init__.py | grep -v /doc/` --exclude *example*.*
-- mkdir for_test
-- cd for_test
+- mkdir for_test_
+- cd for_test_
 - py.test --pyargs monoensemble --cov-report term-missing --cov=monoensemble
 
 after_success:
