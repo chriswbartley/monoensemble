@@ -74,4 +74,4 @@ MICRO = _version_micro
 VERSION = __version__
 PACKAGE_DATA = {'monoensemble': [pjoin('data', '*')]}
 REQUIRES = []
-INSTALL_REQUIRES = ["numpy","scipy","scikit-learn"]
+INSTALL_REQUIRES = ["numpy","scipy","scikit-learn", "cython"]
