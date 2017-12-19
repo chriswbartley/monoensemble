@@ -27,6 +27,10 @@ install:
 test_script:
   - mkdir for_test
   - cd for_test
+  - cd c:\projects\monoensemble
+  - dir
+  - cd monoensemble
+  - dir
   - py.test --pyargs monoensemble
 
 # --cov-report term-missing --cov=monoensemble
