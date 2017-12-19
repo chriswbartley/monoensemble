@@ -2,7 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import numpy as np
 import numpy.testing as npt
-from monoensemble import MonoGradientBoostingClassifier
+from mono_gradient_boosting import MonoGradientBoostingClassifier
 from sklearn.datasets import load_boston
 
 
@@ -67,4 +67,4 @@ def test_model_fit():
         npt.assert_almost_equal(acc, insample_correct[i_test])
 
 
-# test_model_fit()
+test_model_fit()
