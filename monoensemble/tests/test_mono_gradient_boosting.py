@@ -2,7 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import numpy as np
 import numpy.testing as npt
-from mono_ensemble import *
+from monoensemble import MonoGradientBoostingClassifier
 from sklearn.datasets import load_boston
 
 
@@ -55,7 +55,7 @@ def test_model_fit():
     for i_test in np.arange(len(coef_calc_types)):
         coef_calc_type = coef_calc_types[i_test]
         # Solve model
-        clf = mono_gradient_boosting.MonoGradientBoostingClassifier(
+        clf = MonoGradientBoostingClassifier(
             learning_rate=learning_rate, max_depth=max_depth,
             coef_calc_type=coef_calc_type, incr_feats=incr_feats,
             decr_feats=decr_feats, n_estimators=n_estimators,
