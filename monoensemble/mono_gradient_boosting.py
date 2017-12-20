@@ -39,12 +39,6 @@ from sklearn.base import ClassifierMixin
 # from sklearn.base import RegressorMixin
 from sklearn.externals import six
 
-
-#from monoensemble._mono_gradient_boosting import _random_sample_mask
-#from monoensemble._mono_gradient_boosting import apply_rules_c
-#from monoensemble._mono_gradient_boosting import get_node_map_c
-#from monoensemble._mono_gradient_boosting import update_rule_coefs
-#from monoensemble._mono_gradient_boosting import update_rule_coefs_newton_step
 from monoensemble import apply_rules_c
 from monoensemble import get_node_map_c
 from monoensemble import update_rule_coefs
@@ -213,7 +207,8 @@ class LossFunction(six.with_metaclass(ABCMeta, object)):
         self.K = K
         self.incr_feats = np.asarray(incr_feats)
         self.decr_feats = np.asarray(decr_feats)
-        self.coef_calc_type = 0 if coef_calc_type == 'boost' else 3 if coef_calc_type == 'logistic' else 2  # bayes
+        self.coef_calc_type = 0 if coef_calc_type == 'boost' else 3 if (
+                coef_calc_type == 'logistic') else 2  # bayes
 
     def init_estimator(self):
         """Default ``init`` estimator for loss function. """
