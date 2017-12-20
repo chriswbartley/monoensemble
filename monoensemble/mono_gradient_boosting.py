@@ -362,8 +362,8 @@ class BinomialDeviance(ClassificationLossFunction):
                 else:
                     loss__[k] = (-2.0 / sample_weight.sum() *
                                  np.sum(sample_weight * (
-                                         (Y[:, k] * pred[:, k]) -
-                                          np.logaddexp(0.0, pred[:, k]))))
+                                        (Y[:, k] * pred[:, k]) -
+                                        np.logaddexp(0.0, pred[:, k]))))
             return np.sum(loss__)
 
     def negative_gradient(self, y, pred, k=0, **kargs):
@@ -1066,14 +1066,14 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                                                         y_pred,
                                                         sample_weight,
                                                         sample_mask,
-                                                        learning_rate=\
+                                                        learning_rate=
                                                         self.learning_rate,
                                                         k=k,
-                                                        X_leaf_node_ids=\
+                                                        X_leaf_node_ids=
                                                         X_leaf_node_ids,
-                                                        node_rule_map=\
+                                                        node_rule_map=
                                                         node_rule_map,
-                                                        logistic_intercept=\
+                                                        logistic_intercept=
                                                         intercept)  # add tree
             else:
                 X_leaf_node_ids = tree.apply(X, check_input=False).astype(
@@ -1088,11 +1088,15 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                                                         y_pred,
                                                         sample_weight,
                                                         sample_mask,
-                                                        learning_rate=self.learning_rate,
+                                                        learning_rate=
+                                                        self.learning_rate,
                                                         k=k,
-                                                        X_leaf_node_ids=X_leaf_node_ids,
-                                                        node_rule_map=node_rule_map,
-                                                        logistic_intercept=intercept)
+                                                        X_leaf_node_ids=
+                                                        X_leaf_node_ids,
+                                                        node_rule_map=
+                                                        node_rule_map,
+                                                        logistic_intercept=
+                                                        intercept)
             self.estimators_[i, k] = RuleEnsemble(rule_lower_corners,
                                                   rule_upper_corners,
                                                   leaf_values,
