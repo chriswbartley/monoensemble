@@ -64,7 +64,7 @@ def generate_a_pyrex_source(self, base, ext_name, source, extension):
 
 build_src.build_src.generate_a_pyrex_source = generate_a_pyrex_source
 ########################
-# END additionnal code #
+# END additional code  #
 ########################
 
 
@@ -72,7 +72,7 @@ def configuration(parent_package="", top_path=None):
     config = Configuration("monoensemble", parent_package, top_path)
     config.add_extension("_mono_gradient_boosting",
                          sources=["monoensemble/_mono_gradient_boosting.pyx"],
-                         include_dirs=[numpy.get_include()])
+                         include_dirs=['.', numpy.get_include()])
 
     #config.add_subpackage("tests")
 
