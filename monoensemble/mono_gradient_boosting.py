@@ -1058,45 +1058,36 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                     X_csr, check_input=False).astype(
                     np.int32)
                 intercept_ = loss.update_terminal_rules(rule_lower_corners,
-                                                        rule_upper_corners,
-                                                        leaf_values,
-                                                        X_csr[:, dist_feats],
-                                                        y,
-                                                        residual,
-                                                        y_pred,
-                                                        sample_weight,
-                                                        sample_mask,
-                                                        learning_rate=
-                                                        self.learning_rate,
-                                                        k=k,
-                                                        X_leaf_node_ids=
-                                                        X_leaf_node_ids,
-                                                        node_rule_map=
-                                                        node_rule_map,
-                                                        logistic_intercept=
-                                                        intercept)  # add tree
+                                            rule_upper_corners,
+                                            leaf_values,
+                                            X_csr[:, dist_feats],
+                                            y,
+                                            residual,
+                                            y_pred,
+                                            sample_weight,
+                                            sample_mask,
+                                            learning_rate=self.learning_rate,
+                                            k=k,
+                                            X_leaf_node_ids=X_leaf_node_ids,
+                                            node_rule_map=node_rule_map,
+                                            logistic_intercept=intercept)
             else:
                 X_leaf_node_ids = tree.apply(X, check_input=False).astype(
                     np.int32)
                 intercept_ = loss.update_terminal_rules(rule_lower_corners,
-                                                        rule_upper_corners,
-                                                        leaf_values,
-                                                        X[:,
-                                                          dist_feats],
-                                                        y,
-                                                        residual,
-                                                        y_pred,
-                                                        sample_weight,
-                                                        sample_mask,
-                                                        learning_rate=
-                                                        self.learning_rate,
-                                                        k=k,
-                                                        X_leaf_node_ids=
-                                                        X_leaf_node_ids,
-                                                        node_rule_map=
-                                                        node_rule_map,
-                                                        logistic_intercept=
-                                                        intercept)
+                                            rule_upper_corners,
+                                            leaf_values,
+                                            X[:, dist_feats],
+                                            y,
+                                            residual,
+                                            y_pred,
+                                            sample_weight,
+                                            sample_mask,
+                                            learning_rate=self.learning_rate,
+                                            k=k,
+                                            X_leaf_node_ids=X_leaf_node_ids,
+                                            node_rule_map=node_rule_map,
+                                            logistic_intercept=intercept)
             self.estimators_[i, k] = RuleEnsemble(rule_lower_corners,
                                                   rule_upper_corners,
                                                   leaf_values,
