@@ -345,8 +345,8 @@ class MonoRandomForestClassifier(ForestClassifier):
 
         The predicted class probabilities of an input sample are computed as
         the mean predicted class probabilities of the trees in the forest. The
-        class probability of a single tree is the fraction of samples of the same
-        class in a leaf.
+        class probability of a single tree is the fraction of samples of the
+        same class in a leaf.
 
         Parameters
         ----------
@@ -404,7 +404,7 @@ class MonoRandomForestClassifier(ForestClassifier):
 
 def node_is_leaf(tree, node_id, only_count_non_zero=False):
     if only_count_non_zero:
-        return tree.children_left[node_id] == tree.children_right[node_id] and not np.all(
-            np.asarray(tree.value[node_id][0]) == 0.)
+        return tree.children_left[node_id] == tree.children_right[node_id] and\
+            not np.all(np.asarray(tree.value[node_id][0]) == 0.)
     else:
         return tree.children_left[node_id] == tree.children_right[node_id]
