@@ -208,7 +208,7 @@ class LossFunction(six.with_metaclass(ABCMeta, object)):
         self.incr_feats = np.asarray(incr_feats)
         self.decr_feats = np.asarray(decr_feats)
         self.coef_calc_type = 0 if coef_calc_type == 'boost' else 3 if (
-                coef_calc_type == 'logistic') else 2  # bayes
+            coef_calc_type == 'logistic') else 2  # bayes
 
     def init_estimator(self):
         """Default ``init`` estimator for loss function. """
@@ -340,7 +340,6 @@ class BinomialDeviance(ClassificationLossFunction):
     def init_estimator(self):
         return LogOddsEstimator(n_classes=2 if self.K <= 2 else self.K)
 
-
     def __call__(self, y, pred, sample_weight=None):
         """Compute the deviance (= 2 * negative log-likelihood). """
         if self.K <= 2:
@@ -359,11 +358,11 @@ class BinomialDeviance(ClassificationLossFunction):
                 Y[:, k] = y > k
                 if sample_weight is None:
                     loss__[k] = -2.0 * np.mean((Y[:, k] * pred[:, k]) -
-                                              np.logaddexp(0.0, pred[:, k]))
+                                               np.logaddexp(0.0, pred[:, k]))
                 else:
                     loss__[k] = (-2.0 / sample_weight.sum() *
                                  np.sum(sample_weight * ((Y[:, k] * pred[:, k])
-                                 - np.logaddexp(0.0, pred[:, k]))))
+                                                         - np.logaddexp(0.0, pred[:, k]))))
             return np.sum(loss__)
 
     def negative_gradient(self, y, pred, k=0, **kargs):
@@ -407,8 +406,8 @@ class BinomialDeviance(ClassificationLossFunction):
                     y_ = y[this_leaf_mask]
                     sample_weight_ = sample_weight[this_leaf_mask]
                     numerator = np.sum(sample_weight_ * residual_)
-                    denominator = np.sum(sample_weight_ * 
-                                         (y_ - residual_) * 
+                    denominator = np.sum(sample_weight_ *
+                                         (y_ - residual_) *
                                          (1 - y_ + residual_))
                     # prevents overflow and division by zero
                     if abs(denominator) < 1e-150:
@@ -501,7 +500,7 @@ class BinomialDeviance(ClassificationLossFunction):
                 penalty='l2',
                 fit_intercept=intercept)
             logistic_conjug.fit(x_uniq.copy(), y_uniq.copy(
-            ), sample_weight_uniq, offset=offset_uniq[:, 1])  
+            ), sample_weight_uniq, offset=offset_uniq[:, 1])
             intercept_ = logistic_conjug.intercept_[0]
             coef_ = logistic_conjug.coef_[0]
             rule_values[:] = coef_
@@ -734,7 +733,7 @@ def build_node_rule_map(
     #           np.all(leaf_upper_corners[i_leaf,:]>
     #           rule_lower_corners,axis=1))
     #        rule_idxs=np.where(leaf_rules_overlap)[0]
-    #        map_[leaf_id,0]=i_leaf # this was the base rule and 
+    #        map_[leaf_id,0]=i_leaf # this was the base rule and
     #                               # is fully covered by this leaf
     #        rule_idxs=rule_idxs[np.nonzero(rule_idxs-i_leaf)]
     #        map_[leaf_id,1:len(rule_idxs)+1]=rule_idxs
@@ -888,8 +887,8 @@ class RuleEnsemble(BaseEnsemble):
                                     X_leaf_node_ids=X_leaf_node_ids,
                                     node_rule_map=self.node_rule_map)
         else:
-            rule_mask = apply_rules(X[:, self.dist_feats], 
-                                    self.rule_lower_corners, 
+            rule_mask = apply_rules(X[:, self.dist_feats],
+                                    self.rule_lower_corners,
                                     self.rule_upper_corners)
         for i_rule in np.arange(len(self.rule_values)):
             res += (rule_mask[:, i_rule].astype(float)
@@ -1066,18 +1065,14 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                                                         y_pred,
                                                         sample_weight,
                                                         sample_mask,
-                                                        learning_rate=\
-                                                        self.learning_rate,
+                                                        learning_rate=self.learning_rate,
                                                         k=k,
-                                                        X_leaf_node_ids=\
-                                                        X_leaf_node_ids,
-                                                        node_rule_map=\
-                                                        node_rule_map,
-                                                        logistic_intercept=\
-                                                        intercept)  # add tree
+                                                        X_leaf_node_ids=X_leaf_node_ids,
+                                                        node_rule_map=node_rule_map,
+                                                        logistic_intercept=intercept)  # add tree
             else:
                 X_leaf_node_ids = tree.apply(X, check_input=False).astype(
-                                                                    np.int32)
+                    np.int32)
                 intercept_ = loss.update_terminal_rules(rule_lower_corners,
                                                         rule_upper_corners,
                                                         leaf_values,
@@ -1088,22 +1083,18 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                                                         y_pred,
                                                         sample_weight,
                                                         sample_mask,
-                                                        learning_rate=\
-                                                        self.learning_rate,
+                                                        learning_rate=self.learning_rate,
                                                         k=k,
-                                                        X_leaf_node_ids=\
-                                                        X_leaf_node_ids,
-                                                        node_rule_map=\
-                                                        node_rule_map,
-                                                        logistic_intercept=\
-                                                        intercept)
+                                                        X_leaf_node_ids=X_leaf_node_ids,
+                                                        node_rule_map=node_rule_map,
+                                                        logistic_intercept=intercept)
             self.estimators_[i, k] = RuleEnsemble(rule_lower_corners,
-                                                    rule_upper_corners,
-                                                    leaf_values,
-                                                    dist_feats,
-                                                    tree,
-                                                    node_rule_map,
-                                                    intercept_)
+                                                  rule_upper_corners,
+                                                  leaf_values,
+                                                  dist_feats,
+                                                  tree,
+                                                  node_rule_map,
+                                                  intercept_)
         return y_pred
 
     def _check_params(self):
@@ -1116,7 +1107,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             raise ValueError("learning_rate must be greater than 0 but "
                              "was %r" % self.learning_rate)
 
-        if (self.loss not in self._SUPPORTED_LOSS \
+        if (self.loss not in self._SUPPORTED_LOSS
                 or self.loss not in LOSS_FUNCTIONS):
             raise ValueError("Loss '{0:s}' not supported. ".format(self.loss))
 
@@ -1144,7 +1135,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                 if self.init not in INIT_ESTIMATORS:
                     raise ValueError('init="%s" is not supported' % self.init)
             else:
-                if (not hasattr(self.init, 'fit') \
+                if (not hasattr(self.init, 'fit')
                         or not hasattr(self.init, 'predict')):
                     raise ValueError("init=%r must be valid BaseEstimator "
                                      "and support both fit and "
@@ -1290,7 +1281,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             # when called from RandomForestClassifier, y is converted to a
             # (n,1) column vector that generates a warning in the next line,
             # unless we ravel it here
-            y = y.ravel()  
+            y = y.ravel()
         X, y = check_X_y(
             X, y, accept_sparse=[
                 'csr', 'csc', 'coo'], dtype=DTYPE)
@@ -2070,7 +2061,7 @@ class ConstrainedLogisticRegression:
         self.decr_feats = np.asarray(decr_feats)
         self.has_mt_feats = len(incr_feats) > 0 or len(decr_feats) > 0
         self.regularise_intercept = regularise_intercept \
-                                    if self.fit_intercept else False
+            if self.fit_intercept else False
         self.standardize = standardize
         self.penalty = penalty
 
@@ -2122,7 +2113,7 @@ class ConstrainedLogisticRegression:
                     weights=sample_weight))  # Fast and numerically precise
             X_[:, stds != 0] = X_[:, stds != 0] / stds[stds != 0]
         regularise_intercept_ = self.regularise_intercept \
-                                if self.fit_intercept else True
+            if self.fit_intercept else True
 
         # Solve
         if self.solver == 'newton-cg':
@@ -2371,20 +2362,20 @@ def _intercept_dot(w, X, y):
 
 
 def nnlr(X, y, sample_weight, C, coef_limits, regularise_intercept, alpha,
-        fit_intercept, offset):
+         fit_intercept, offset):
     """
     Non-negative Logistic Regression with L2 regularizer
     """
 
     N = X.shape[1]
 
-    def J(theta): 
+    def J(theta):
         return _logistic_loss(theta, X, y, 1. / C,
                               sample_weight=sample_weight,
                               regularise_intercept=regularise_intercept,
                               offset=offset)
 
-    def J_grad(theta): 
+    def J_grad(theta):
         return _logistic_grad(theta, X, y, 1. / C,
                               sample_weight=sample_weight,
                               regularise_intercept=regularise_intercept,
@@ -2633,7 +2624,7 @@ def nnlr(X, y, sample_weight, C, coef_limits, regularise_intercept, alpha,
 #        val = _weighted_percentile(diff, sample_weight, self.percentile)
 #        tree.value[leaf, 0] = val
 
-# class MonoGradientBoostingRegressor(BaseMonoGradientBoosting, 
+# class MonoGradientBoostingRegressor(BaseMonoGradientBoosting,
 #                                       RegressorMixin):
 #    """Gradient Boosting for regression.
 #
