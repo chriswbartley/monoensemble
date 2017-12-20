@@ -4711,7 +4711,7 @@ static PyObject *__pyx_pf_23_mono_gradient_boosting_6apply_rules_c(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "_mono_gradient_boosting.pyx":708
+/* "_mono_gradient_boosting.pyx":443
  * 
  * 
  * def _random_sample_mask(np.npy_intp n_total_samples,             # <<<<<<<<<<<<<<
@@ -4755,17 +4755,17 @@ static PyObject *__pyx_pw_23_mono_gradient_boosting_9_random_sample_mask(PyObjec
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_n_total_in_bag)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_random_sample_mask", 1, 3, 3, 1); __PYX_ERR(0, 708, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_random_sample_mask", 1, 3, 3, 1); __PYX_ERR(0, 443, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_random_state)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_random_sample_mask", 1, 3, 3, 2); __PYX_ERR(0, 708, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_random_sample_mask", 1, 3, 3, 2); __PYX_ERR(0, 443, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_random_sample_mask") < 0)) __PYX_ERR(0, 708, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_random_sample_mask") < 0)) __PYX_ERR(0, 443, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -4774,13 +4774,13 @@ static PyObject *__pyx_pw_23_mono_gradient_boosting_9_random_sample_mask(PyObjec
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_n_total_samples = __Pyx_PyInt_As_Py_intptr_t(values[0]); if (unlikely((__pyx_v_n_total_samples == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 708, __pyx_L3_error)
-    __pyx_v_n_total_in_bag = __Pyx_PyInt_As_Py_intptr_t(values[1]); if (unlikely((__pyx_v_n_total_in_bag == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 709, __pyx_L3_error)
+    __pyx_v_n_total_samples = __Pyx_PyInt_As_Py_intptr_t(values[0]); if (unlikely((__pyx_v_n_total_samples == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 443, __pyx_L3_error)
+    __pyx_v_n_total_in_bag = __Pyx_PyInt_As_Py_intptr_t(values[1]); if (unlikely((__pyx_v_n_total_in_bag == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 444, __pyx_L3_error)
     __pyx_v_random_state = values[2];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_random_sample_mask", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 708, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_random_sample_mask", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 443, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_mono_gradient_boosting._random_sample_mask", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4826,16 +4826,16 @@ static PyObject *__pyx_pf_23_mono_gradient_boosting_8_random_sample_mask(CYTHON_
   __pyx_pybuffernd_sample_mask.data = NULL;
   __pyx_pybuffernd_sample_mask.rcbuffer = &__pyx_pybuffer_sample_mask;
 
-  /* "_mono_gradient_boosting.pyx":730
+  /* "_mono_gradient_boosting.pyx":465
  *      """
  *      cdef np.ndarray[float64, ndim=1, mode="c"] rand = \
  *           random_state.rand(n_total_samples)             # <<<<<<<<<<<<<<
  *      cdef np.ndarray[uint8, ndim=1, mode="c", cast=True] sample_mask = \
  *           np_zeros((n_total_samples,), dtype=np_bool)
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_random_state, __pyx_n_s_rand); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 730, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_random_state, __pyx_n_s_rand); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 465, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_n_total_samples); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 730, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_n_total_samples); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 465, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -4848,14 +4848,14 @@ static PyObject *__pyx_pf_23_mono_gradient_boosting_8_random_sample_mask(CYTHON_
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 730, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 465, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 730, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 465, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4864,32 +4864,32 @@ static PyObject *__pyx_pf_23_mono_gradient_boosting_8_random_sample_mask(CYTHON_
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 730, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 465, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 730, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 465, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 730, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 465, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 730, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 465, __pyx_L1_error)
   __pyx_t_6 = ((PyArrayObject *)__pyx_t_1);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_rand.rcbuffer->pybuffer, (PyObject*)__pyx_t_6, &__Pyx_TypeInfo_nn___pyx_t_23_mono_gradient_boosting_float64, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_rand = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_rand.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 729, __pyx_L1_error)
+      __PYX_ERR(0, 464, __pyx_L1_error)
     } else {__pyx_pybuffernd_rand.diminfo[0].strides = __pyx_pybuffernd_rand.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_rand.diminfo[0].shape = __pyx_pybuffernd_rand.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -4897,45 +4897,45 @@ static PyObject *__pyx_pf_23_mono_gradient_boosting_8_random_sample_mask(CYTHON_
   __pyx_v_rand = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "_mono_gradient_boosting.pyx":732
+  /* "_mono_gradient_boosting.pyx":467
  *           random_state.rand(n_total_samples)
  *      cdef np.ndarray[uint8, ndim=1, mode="c", cast=True] sample_mask = \
  *           np_zeros((n_total_samples,), dtype=np_bool)             # <<<<<<<<<<<<<<
  * 
  *      cdef np.npy_intp n_bagged = 0
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 732, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_n_total_samples); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 732, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_n_total_samples); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 732, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 732, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_5);
   __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 732, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np_bool); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 732, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np_bool); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 732, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 732, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 467, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 732, __pyx_L1_error)
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 467, __pyx_L1_error)
   __pyx_t_7 = ((PyArrayObject *)__pyx_t_3);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_sample_mask.rcbuffer->pybuffer, (PyObject*)__pyx_t_7, &__Pyx_TypeInfo_nn___pyx_t_23_mono_gradient_boosting_uint8, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS| PyBUF_WRITABLE, 1, 1, __pyx_stack) == -1)) {
       __pyx_v_sample_mask = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_sample_mask.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 731, __pyx_L1_error)
+      __PYX_ERR(0, 466, __pyx_L1_error)
     } else {__pyx_pybuffernd_sample_mask.diminfo[0].strides = __pyx_pybuffernd_sample_mask.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_sample_mask.diminfo[0].shape = __pyx_pybuffernd_sample_mask.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -4943,7 +4943,7 @@ static PyObject *__pyx_pf_23_mono_gradient_boosting_8_random_sample_mask(CYTHON_
   __pyx_v_sample_mask = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "_mono_gradient_boosting.pyx":734
+  /* "_mono_gradient_boosting.pyx":469
  *           np_zeros((n_total_samples,), dtype=np_bool)
  * 
  *      cdef np.npy_intp n_bagged = 0             # <<<<<<<<<<<<<<
@@ -4952,7 +4952,7 @@ static PyObject *__pyx_pf_23_mono_gradient_boosting_8_random_sample_mask(CYTHON_
  */
   __pyx_v_n_bagged = 0;
 
-  /* "_mono_gradient_boosting.pyx":735
+  /* "_mono_gradient_boosting.pyx":470
  * 
  *      cdef np.npy_intp n_bagged = 0
  *      cdef np.npy_intp i = 0             # <<<<<<<<<<<<<<
@@ -4961,7 +4961,7 @@ static PyObject *__pyx_pf_23_mono_gradient_boosting_8_random_sample_mask(CYTHON_
  */
   __pyx_v_i = 0;
 
-  /* "_mono_gradient_boosting.pyx":737
+  /* "_mono_gradient_boosting.pyx":472
  *      cdef np.npy_intp i = 0
  * 
  *      for i in range(n_total_samples):             # <<<<<<<<<<<<<<
@@ -4972,7 +4972,7 @@ static PyObject *__pyx_pf_23_mono_gradient_boosting_8_random_sample_mask(CYTHON_
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
     __pyx_v_i = __pyx_t_9;
 
-    /* "_mono_gradient_boosting.pyx":738
+    /* "_mono_gradient_boosting.pyx":473
  * 
  *      for i in range(n_total_samples):
  *          if rand[i] * (n_total_samples - i) < (n_total_in_bag - n_bagged):             # <<<<<<<<<<<<<<
@@ -4983,7 +4983,7 @@ static PyObject *__pyx_pf_23_mono_gradient_boosting_8_random_sample_mask(CYTHON_
     __pyx_t_11 = ((((*__Pyx_BufPtrCContig1d(__pyx_t_23_mono_gradient_boosting_float64 *, __pyx_pybuffernd_rand.rcbuffer->pybuffer.buf, __pyx_t_10, __pyx_pybuffernd_rand.diminfo[0].strides)) * (__pyx_v_n_total_samples - __pyx_v_i)) < (__pyx_v_n_total_in_bag - __pyx_v_n_bagged)) != 0);
     if (__pyx_t_11) {
 
-      /* "_mono_gradient_boosting.pyx":739
+      /* "_mono_gradient_boosting.pyx":474
  *      for i in range(n_total_samples):
  *          if rand[i] * (n_total_samples - i) < (n_total_in_bag - n_bagged):
  *              sample_mask[i] = 1             # <<<<<<<<<<<<<<
@@ -4993,7 +4993,7 @@ static PyObject *__pyx_pf_23_mono_gradient_boosting_8_random_sample_mask(CYTHON_
       __pyx_t_12 = __pyx_v_i;
       *__Pyx_BufPtrCContig1d(__pyx_t_23_mono_gradient_boosting_uint8 *, __pyx_pybuffernd_sample_mask.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_sample_mask.diminfo[0].strides) = 1;
 
-      /* "_mono_gradient_boosting.pyx":740
+      /* "_mono_gradient_boosting.pyx":475
  *          if rand[i] * (n_total_samples - i) < (n_total_in_bag - n_bagged):
  *              sample_mask[i] = 1
  *              n_bagged += 1             # <<<<<<<<<<<<<<
@@ -5002,7 +5002,7 @@ static PyObject *__pyx_pf_23_mono_gradient_boosting_8_random_sample_mask(CYTHON_
  */
       __pyx_v_n_bagged = (__pyx_v_n_bagged + 1);
 
-      /* "_mono_gradient_boosting.pyx":738
+      /* "_mono_gradient_boosting.pyx":473
  * 
  *      for i in range(n_total_samples):
  *          if rand[i] * (n_total_samples - i) < (n_total_in_bag - n_bagged):             # <<<<<<<<<<<<<<
@@ -5012,17 +5012,19 @@ static PyObject *__pyx_pf_23_mono_gradient_boosting_8_random_sample_mask(CYTHON_
     }
   }
 
-  /* "_mono_gradient_boosting.pyx":742
+  /* "_mono_gradient_boosting.pyx":477
  *              n_bagged += 1
  * 
  *      return sample_mask             # <<<<<<<<<<<<<<
+ * 
+ * #def _predict_regression_tree_stages_sparse(np.ndarray[object, ndim=2] estimators,
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(((PyObject *)__pyx_v_sample_mask));
   __pyx_r = ((PyObject *)__pyx_v_sample_mask);
   goto __pyx_L0;
 
-  /* "_mono_gradient_boosting.pyx":708
+  /* "_mono_gradient_boosting.pyx":443
  * 
  * 
  * def _random_sample_mask(np.npy_intp n_total_samples,             # <<<<<<<<<<<<<<
@@ -7904,17 +7906,17 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__16);
   __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(6, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mono_gradient_boosting_pyx, __pyx_n_s_apply_rules_c, 409, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 409, __pyx_L1_error)
 
-  /* "_mono_gradient_boosting.pyx":708
+  /* "_mono_gradient_boosting.pyx":443
  * 
  * 
  * def _random_sample_mask(np.npy_intp n_total_samples,             # <<<<<<<<<<<<<<
  *                         np.npy_intp n_total_in_bag, random_state):
  *      """Create a random sample mask where ``n_total_in_bag`` elements are set.
  */
-  __pyx_tuple__18 = PyTuple_Pack(7, __pyx_n_s_n_total_samples, __pyx_n_s_n_total_in_bag, __pyx_n_s_random_state, __pyx_n_s_rand, __pyx_n_s_sample_mask, __pyx_n_s_n_bagged, __pyx_n_s_i); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 708, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(7, __pyx_n_s_n_total_samples, __pyx_n_s_n_total_in_bag, __pyx_n_s_random_state, __pyx_n_s_rand, __pyx_n_s_sample_mask, __pyx_n_s_n_bagged, __pyx_n_s_i); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 443, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
-  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(3, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mono_gradient_boosting_pyx, __pyx_n_s_random_sample_mask, 708, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 708, __pyx_L1_error)
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(3, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_mono_gradient_boosting_pyx, __pyx_n_s_random_sample_mask, 443, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(0, 443, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -8333,16 +8335,16 @@ static int __pyx_pymod_exec__mono_gradient_boosting(PyObject *__pyx_pyinit_modul
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_apply_rules_c, __pyx_t_3) < 0) __PYX_ERR(0, 409, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "_mono_gradient_boosting.pyx":708
+  /* "_mono_gradient_boosting.pyx":443
  * 
  * 
  * def _random_sample_mask(np.npy_intp n_total_samples,             # <<<<<<<<<<<<<<
  *                         np.npy_intp n_total_in_bag, random_state):
  *      """Create a random sample mask where ``n_total_in_bag`` elements are set.
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_23_mono_gradient_boosting_9_random_sample_mask, NULL, __pyx_n_s_mono_gradient_boosting); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 708, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_23_mono_gradient_boosting_9_random_sample_mask, NULL, __pyx_n_s_mono_gradient_boosting); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 443, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_random_sample_mask, __pyx_t_3) < 0) __PYX_ERR(0, 708, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_random_sample_mask, __pyx_t_3) < 0) __PYX_ERR(0, 443, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "_mono_gradient_boosting.pyx":1

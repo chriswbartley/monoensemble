@@ -440,6 +440,41 @@ def apply_rules_c(np.ndarray[float64, ndim=2] X,object rule_lower_corners, objec
 
 
 
+def _random_sample_mask(np.npy_intp n_total_samples,
+                        np.npy_intp n_total_in_bag, random_state):
+     """Create a random sample mask where ``n_total_in_bag`` elements are set.
+
+     Parameters
+     ----------
+     n_total_samples : int
+         The length of the resulting mask.
+
+     n_total_in_bag : int
+         The number of elements in the sample mask which are set to 1.
+
+     random_state : np.RandomState
+         A numpy ``RandomState`` object.
+
+     Returns
+     -------
+     sample_mask : np.ndarray, shape=[n_total_samples]
+         An ndarray where ``n_total_in_bag`` elements are set to ``True``
+         the others are ``False``.
+     """
+     cdef np.ndarray[float64, ndim=1, mode="c"] rand = \
+          random_state.rand(n_total_samples)
+     cdef np.ndarray[uint8, ndim=1, mode="c", cast=True] sample_mask = \
+          np_zeros((n_total_samples,), dtype=np_bool)
+
+     cdef np.npy_intp n_bagged = 0
+     cdef np.npy_intp i = 0
+
+     for i in range(n_total_samples):
+         if rand[i] * (n_total_samples - i) < (n_total_in_bag - n_bagged):
+             sample_mask[i] = 1
+             n_bagged += 1
+
+     return sample_mask
     
 #def _predict_regression_tree_stages_sparse(np.ndarray[object, ndim=2] estimators,
 #                                           object X, double scale,
@@ -704,39 +739,3 @@ def apply_rules_c(np.ndarray[float64, ndim=2] X,object rule_lower_corners, objec
 #            raise ValueError("Total weight should be 1.0 but was %.9f" %
 #                             total_weight)
 
-
-def _random_sample_mask(np.npy_intp n_total_samples,
-                        np.npy_intp n_total_in_bag, random_state):
-     """Create a random sample mask where ``n_total_in_bag`` elements are set.
-
-     Parameters
-     ----------
-     n_total_samples : int
-         The length of the resulting mask.
-
-     n_total_in_bag : int
-         The number of elements in the sample mask which are set to 1.
-
-     random_state : np.RandomState
-         A numpy ``RandomState`` object.
-
-     Returns
-     -------
-     sample_mask : np.ndarray, shape=[n_total_samples]
-         An ndarray where ``n_total_in_bag`` elements are set to ``True``
-         the others are ``False``.
-     """
-     cdef np.ndarray[float64, ndim=1, mode="c"] rand = \
-          random_state.rand(n_total_samples)
-     cdef np.ndarray[uint8, ndim=1, mode="c", cast=True] sample_mask = \
-          np_zeros((n_total_samples,), dtype=np_bool)
-
-     cdef np.npy_intp n_bagged = 0
-     cdef np.npy_intp i = 0
-
-     for i in range(n_total_samples):
-         if rand[i] * (n_total_samples - i) < (n_total_in_bag - n_bagged):
-             sample_mask[i] = 1
-             n_bagged += 1
-
-     return sample_mask
