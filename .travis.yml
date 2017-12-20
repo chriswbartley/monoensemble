@@ -28,7 +28,7 @@ install:
 - travis_retry pip install -e .
 
 script:
-# - flake8 --ignore N802,N806,E128 `find . -name \*.py | grep -v setup.py | grep -v version.py | grep -v __init__.py | grep -v /doc/` --exclude *example*.*
+ - flake8 --ignore N802,N806,E128 `find . -name \*.py | grep -v setup.py | grep -v version.py | grep -v __init__.py | grep -v /doc/` --exclude *example*.*
 - mkdir for_test_
 - cd for_test_
 - py.test --pyargs monoensemble --cov-report term-missing --cov=monoensemble
