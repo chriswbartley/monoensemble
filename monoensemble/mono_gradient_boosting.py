@@ -45,11 +45,11 @@ from sklearn.externals import six
 #from monoensemble._mono_gradient_boosting import get_node_map_c
 #from monoensemble._mono_gradient_boosting import update_rule_coefs
 #from monoensemble._mono_gradient_boosting import update_rule_coefs_newton_step
-from monoensemble import _random_sample_mask
 from monoensemble import apply_rules_c
 from monoensemble import get_node_map_c
 from monoensemble import update_rule_coefs
 from monoensemble import update_rule_coefs_newton_step
+from monoensemble import _random_sample_mask
 
 import numbers
 import numpy as np
