@@ -361,15 +361,16 @@ class BinomialDeviance(ClassificationLossFunction):
                                                np.logaddexp(0.0, pred[:, k]))
                 else:
                     loss__[k] = (-2.0 / sample_weight.sum() *
-                                 np.sum(sample_weight * ((Y[:, k] * pred[:, k])
-                                                         - np.logaddexp(0.0, pred[:, k]))))
+                                 np.sum(sample_weight * (
+                                         (Y[:, k] * pred[:, k]) -
+                                          np.logaddexp(0.0, pred[:, k]))))
             return np.sum(loss__)
 
     def negative_gradient(self, y, pred, k=0, **kargs):
         """Compute the residual (= negative gradient). """
         return y - expit(pred[:, k].ravel())
 
-    ## NO LONGER USED, USES CYTHON VERSION FOR SPEED ##
+    #  NO LONGER USED, USES CYTHON VERSION FOR SPEED  #
     def _update_terminal_rule(self, leaf_mask,
                               rule_values, rule_mask,
                               i_rule, X, y, residual, pred, sample_weight):
@@ -565,7 +566,7 @@ class BinomialDeviance(ClassificationLossFunction):
 #
 #    References
 #    ----------
-#    Greg Ridgeway, Generalized Boosted Models: A guide to the gbm package, 2007
+#    Greg Ridgeway, Generalized Boosted Models: A guide to the gbm package,2007
 #    """
 #    def __init__(self, n_classes):
 #        if n_classes != 2:
@@ -891,8 +892,8 @@ class RuleEnsemble(BaseEnsemble):
                                     self.rule_lower_corners,
                                     self.rule_upper_corners)
         for i_rule in np.arange(len(self.rule_values)):
-            res += (rule_mask[:, i_rule].astype(float)
-                    * self.rule_values[i_rule])
+            res += (rule_mask[:, i_rule].astype(float) *
+                    self.rule_values[i_rule])
         return res
 
     def predict_proba(self, X):
@@ -1065,11 +1066,15 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                                                         y_pred,
                                                         sample_weight,
                                                         sample_mask,
-                                                        learning_rate=self.learning_rate,
+                                                        learning_rate=\
+                                                        self.learning_rate,
                                                         k=k,
-                                                        X_leaf_node_ids=X_leaf_node_ids,
-                                                        node_rule_map=node_rule_map,
-                                                        logistic_intercept=intercept)  # add tree
+                                                        X_leaf_node_ids=\
+                                                        X_leaf_node_ids,
+                                                        node_rule_map=\
+                                                        node_rule_map,
+                                                        logistic_intercept=\
+                                                        intercept)  # add tree
             else:
                 X_leaf_node_ids = tree.apply(X, check_input=False).astype(
                     np.int32)
@@ -1107,8 +1112,8 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             raise ValueError("learning_rate must be greater than 0 but "
                              "was %r" % self.learning_rate)
 
-        if (self.loss not in self._SUPPORTED_LOSS
-                or self.loss not in LOSS_FUNCTIONS):
+        if (self.loss not in self._SUPPORTED_LOSS or
+                self.loss not in LOSS_FUNCTIONS):
             raise ValueError("Loss '{0:s}' not supported. ".format(self.loss))
 
         if self.loss == 'deviance':
@@ -1135,8 +1140,8 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                 if self.init not in INIT_ESTIMATORS:
                     raise ValueError('init="%s" is not supported' % self.init)
             else:
-                if (not hasattr(self.init, 'fit')
-                        or not hasattr(self.init, 'predict')):
+                if (not hasattr(self.init, 'fit') or
+                        not hasattr(self.init, 'predict')):
                     raise ValueError("init=%r must be valid BaseEstimator "
                                      "and support both fit and "
                                      "predict" % self.init)
@@ -2192,8 +2197,8 @@ class ConstrainedLogisticRegression:
         if not hasattr(self, "coef_"):
             raise NotFittedError("Call fit before prediction")
         prob1 = 1. / \
-            (1 + np.exp(np.dot(self.coef_, -X.T).reshape(-1, 1)
-                        - self.intercept_))
+            (1 + np.exp(np.dot(self.coef_, -X.T).reshape(-1, 1) -
+                        self.intercept_))
         probs = np.hstack([1 - prob1, prob1])
         return probs
 
