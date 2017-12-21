@@ -5,21 +5,21 @@ API
 Classes
 -------
 
-.. currentmodule:: mono_forest
+.. currentmodule:: monoensemble
 
 .. autosummary::
    :template: class.rst
    :toctree: gen_api
 
-   MonoRandomForestClassifier
+   ~MonoRandomForestClassifier
 
-.. currentmodule:: mono_gradient_boosting
+.. currentmodule:: monoensemble
 
 .. autosummary::
    :template: class.rst
    :toctree: gen_api
 
-   MonoGradientBoostingClassifier
+   ~MonoGradientBoostingClassifier
 
 Functions
 ---------
