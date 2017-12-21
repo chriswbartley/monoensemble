@@ -1,4 +1,5 @@
-﻿"""Monotone Gradient Boosted Trees
+﻿# -*- coding: utf-8 -*-
+"""Monotone Gradient Boosted Trees
 
 This module contains methods for fitting gradient boosted trees for
 classification. Monotonicity in the requested features is achieved using the

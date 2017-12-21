@@ -5,7 +5,7 @@ API
 Classes
 -------
 
-.. currentmodule:: monoensemble
+.. currentmodule:: monoensemble.mono_forest
 
 .. autosummary::
    :template: class.rst
@@ -13,7 +13,7 @@ Classes
 
    MonoRandomForestClassifier
 
-.. currentmodule:: monoensemble
+.. currentmodule:: monoensemble.mono_gradient_boosting
 
 .. autosummary::
    :template: class.rst
