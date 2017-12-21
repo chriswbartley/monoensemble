@@ -5,7 +5,7 @@ API
 Classes
 -------
 
-.. currentmodule:: monoensemble
+.. currentmodule:: monoensemble.mono_forest
 
 .. autosummary::
    :template: class.rst
