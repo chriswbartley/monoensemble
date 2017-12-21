@@ -37,13 +37,13 @@ For more examples see [the documentation](http://monoensemble.readthedocs.io/en/
 
 ### Installation
 
-To install, simply use:
+Linux:
 
 ```
 pip install monoensemble
 ```
 
-or
+Windows:
 
 ```
 conda install -c chriswbartley monoensemble
