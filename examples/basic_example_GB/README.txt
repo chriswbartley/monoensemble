@@ -1,4 +1,4 @@
-Basic Model Fitting
------------------------
+Basic Model Fitting - MonoGradientBoostingClassifier
+---------------------------------------------------------------------
 
 Fit a basic model.

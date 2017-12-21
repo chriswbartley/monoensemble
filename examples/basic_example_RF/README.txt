@@ -1,4 +1,4 @@
-Basic Model Fitting
------------------------
+Basic Model Fitting - MonoRandomForestClassifier
+---------------------------------------------------------------------
 
 Fit a basic model.
