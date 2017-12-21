@@ -6,7 +6,8 @@
 
 
 This package implements a fast and perfect monotone classification technique in two classifiers:
-MonoRandomForestClassifier and MonoGradientBoostingClassifier. These are versions of the equivalent scit-kit learn classes with *partial* monotonicity capability (i.e. the ability to specify both monotone and non-monotone features). It extends or inherits all the capabilities of the corresponding `scikit-learn` classifiers. The theory is described in Bartley C., Liu W., Reynolds M., 2017, *A Novel Framework for Partially Monotone Rule Ensembles.* prepub, available [here](http://staffhome.ecm.uwa.edu.au/~19514733/). 
+MonoRandomForestClassifier and MonoGradientBoostingClassifier. These are versions of the equivalent scit-kit learn classes with *partial* monotonicity capability (i.e. the ability to specify both monotone and non-monotone features). It extends or inherits all the capabilities of the corresponding `scikit-learn` classifiers. The theory is described in Bartley C., Liu W., Reynolds M., 2017, *Fast & Perfect Monotone Random Forest
+Classication.* prepub, available [here](http://staffhome.ecm.uwa.edu.au/~19514733/). 
 
 It is very fast and has demonstrated good experimental accuracy. 
 

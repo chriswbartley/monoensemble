@@ -16,7 +16,7 @@ These algorithms are heavily based on (or inherit from) sci-kit learn's versions
  - coef_calc_type : string
         Determines how the rule coefficients are calculated. Allowable values:
             - 'boost' DEFAULT: A single Newton step approximation is used. Fast, and generally best. 
-            - 'bayesian': Assumes conditional indpendence between rules and calculates coefficients as per Naive bayesian classification. Fast with good results.
+            - 'bayesian': Assumes conditional independence between rules and calculates coefficients as per Naive bayesian classification. Fast with good results.
             - 'logistic': L2 regularised logistic regression. Slower.
 
 To install, simply use :bash:`pip install monoensemble` or :bash:`conda install -c chriswbartley monoensemble`. For full documentation you've come to the right place. For a brief overview, refer to the `README file 
