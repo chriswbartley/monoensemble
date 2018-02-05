@@ -91,4 +91,4 @@ build/temp.linux-x86_64-3.5/_mono_gradient_boosting.o: \
  /mnt/anaconda3/include/python3.5m/frameobject.h \
  /mnt/anaconda3/include/python3.5m/compile.h \
  /mnt/anaconda3/include/python3.5m/traceback.h
-commandline: -I/mnt/anaconda3/lib/python3.5/site-packages/numpy/core/include -I/mnt/anaconda3/lib/python3.5/site-packages/numpy/core/include -I/mnt/anaconda3/include/python3.5m -c-I/mnt/anaconda3/lib/python3.5/site-packages/numpy/core/include -I/mnt/anaconda3/lib/python3.5/site-packages/numpy/core/include -I/mnt/anaconda3/include/python3.5m
+commandline: -I/mnt/anaconda3/lib/python3.5/site-packages/numpy/core/include -I/mnt/anaconda3/lib/python3.5/site-packages/numpy/core/include -I/mnt/anaconda3/include/python3.5m -c-ffast-math-I/mnt/anaconda3/lib/python3.5/site-packages/numpy/core/include -I/mnt/anaconda3/lib/python3.5/site-packages/numpy/core/include -I/mnt/anaconda3/include/python3.5m

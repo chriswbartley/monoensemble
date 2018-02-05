@@ -1,7 +1,4 @@
-﻿# cython: cdivision=True
-# cython: boundscheck=False
-# cython: wraparound=False
-#
+﻿# cython: cdivision=True, boundscheck=False, wraparound=False, nonecheck=False
 # Author: Peter Prettenhofer
 #
 # License: BSD 3 clause
@@ -340,10 +337,11 @@ cdef _update_rule_coefs(int32 *rule_mask,
                 sum_swt_ttl=sum_swt_ttl+sample_weight[i]
                 if y[i]==1:
                     sum_swt_one=sum_swt_one+sample_weight[i]
-                sum_swt_pred=sum_swt_pred+sample_weight[i]/(1.+exp(-y_pred[i])) # expit(y_pred[i])*sample_weight[i]
+                sum_swt_pred=sum_swt_pred+sample_weight[i]/(1.+exp(-y_pred[i]))   # expit(y_pred[i])*sample_weight[i]
         prob1=(sum_swt_one+lidstone_alpha)/(sum_swt_ttl+2*lidstone_alpha)
         prob1_pred=(sum_swt_pred+lidstone_alpha)/(sum_swt_ttl+2*lidstone_alpha)
-        out[r]   =   log(prob1/(1-prob1))-log(prob1_pred/(1-prob1_pred))    
+        out[r]   =  log(prob1*(1-prob1_pred)/((1-prob1)*prob1_pred)) 
+        # log(prob1/(1-prob1))-log(prob1_pred/(1-prob1_pred))    
 
     
 def update_rule_coefs(object rule_mask,

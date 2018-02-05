@@ -68,5 +68,11 @@ def test_model_fit():
         acc = np.sum(y == y_pred) / len(y)
         npt.assert_almost_equal(clf.oob_score_, oob_correct[i_test])
         npt.assert_almost_equal(acc, insample_correct[i_test])
+        
+#import time
+#start=time.time()
+#test_model_fit()
+#end=time.time()
+#print('time: ' + str(np.round(end-start,2)))
 
-# test_model_fit()
+

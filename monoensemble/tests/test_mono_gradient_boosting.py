@@ -67,5 +67,8 @@ def test_model_fit():
         npt.assert_almost_equal(0 if (acc - insample_correct[i_test]) <= 0.02
                                 else 1, 0)
 
-
-test_model_fit()
+#import time
+#start=time.time()
+#test_model_fit()
+#end=time.time()
+#print('time: ' + str(np.round(end-start,2)))
