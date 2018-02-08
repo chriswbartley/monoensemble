@@ -483,29 +483,40 @@ class BinomialDeviance(ClassificationLossFunction):
             y_uniq = sp.float64(all_yx_uniq[:, 0].reshape([-1, 1]))
             offset_uniq = sp.float64(all_yx_uniq[:, 1:3].reshape([-1, 2]))
             x_uniq = sp.float64(all_yx_uniq[:, 3:])
-            sample_weight_uniq = sp.float64(np.zeros([len(y_uniq), 1]))
-            for i_ in np.arange(all_yx_uniq.shape[0]):
-                sample_weight_uniq[i_, 0] = np.sum(
-                    sample_weight_[inverse_idx == i_])
-            C_ = 1e4
-            standardize = False
-            intercept = logistic_intercept
-            incr_feats = np.arange(len(rule_values))[rule_values > 0] + 1
-            decr_feats = np.arange(len(rule_values))[rule_values < 0] + 1
-            logistic_conjug = ConstrainedLogisticRegression(
-                C=C_,
-                solver='newton-cg',
-                incr_feats=incr_feats,
-                decr_feats=decr_feats,
-                regularise_intercept=False,
-                standardize=standardize,
-                penalty='l2',
-                fit_intercept=intercept)
-            logistic_conjug.fit(x_uniq.copy(), y_uniq.copy(
-            ), sample_weight_uniq, offset=offset_uniq[:, 1])
-            intercept_ = logistic_conjug.intercept_[0]
-            coef_ = logistic_conjug.coef_[0]
-            rule_values[:] = coef_
+            if np.isscalar(y_uniq): # catch special case where all y=0 or y=1
+                if logistic_intercept: # need to add an intercept
+                    # use naive probability estimate, need lidstone smoothing
+                    # to avoid infinite results
+                    lidstone_alpha = 0.01
+                    n=np.sum(sample_weight[y == y_uniq])
+                    p_=(lidstone_alpha+y_uniq*n)/(n+2*lidstone_alpha) 
+                    intercept_=np.log(p_/(1-p_))
+                else:
+                    intercept_=0.
+            else: # have a mix of y worth solving!
+                sample_weight_uniq = sp.float64(np.zeros([len(y_uniq), 1]))
+                for i_ in np.arange(all_yx_uniq.shape[0]):
+                    sample_weight_uniq[i_, 0] = np.sum(
+                        sample_weight_[inverse_idx == i_])
+                C_ = 1e4
+                standardize = False
+                intercept = logistic_intercept
+                incr_feats = np.arange(len(rule_values))[rule_values > 0] + 1
+                decr_feats = np.arange(len(rule_values))[rule_values < 0] + 1
+                logistic_conjug = ConstrainedLogisticRegression(
+                    C=C_,
+                    solver='newton-cg',
+                    incr_feats=incr_feats,
+                    decr_feats=decr_feats,
+                    regularise_intercept=False,
+                    standardize=standardize,
+                    penalty='l2',
+                    fit_intercept=intercept)
+                logistic_conjug.fit(x_uniq.copy(), y_uniq.copy(
+                ), sample_weight_uniq, offset=offset_uniq[:, 1])
+                intercept_ = logistic_conjug.intercept_[0]
+                coef_ = logistic_conjug.coef_[0]
+                rule_values[:] = coef_
         elif self.coef_calc_type == 2:  # 'bayes'
             lidstone_alpha = 0.01
             coefs = np.zeros(rule_mask.shape[1], dtype=np.float64)

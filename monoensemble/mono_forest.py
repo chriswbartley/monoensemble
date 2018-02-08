@@ -25,7 +25,8 @@ dependent on (and inherits from) sci-kit learn's ``ForestClassifier``.
 #
 # License: BSD 3 clause
 
-from sklearn.ensemble.forest import ForestClassifier
+from sklearn.ensemble.forest import ForestClassifier, check_array
+from sklearn.ensemble.forest import _generate_unsampled_indices, DTYPE, warn
 from monoensemble import MonoGradientBoostingClassifier
 import numpy as np
 
@@ -401,6 +402,59 @@ class MonoRandomForestClassifier(ForestClassifier):
             num_leaves[itree] = np.sum(is_leaves)
         return num_leaves
 
+    # override this because the multi-class form has K-1 values not K due 
+    # to monotone ensembling
+    def _set_oob_score(self, X, y):
+        #super()._set_oob_score(X, y)
+        """Compute out-of-bag score"""
+        X = check_array(X, dtype=DTYPE, accept_sparse='csr')
+        if self.n_classes_[0]>2:
+            n_classes_ = list(np.asarray(self.n_classes_) - 1) # CHANGED TO K-1
+        else:
+            n_classes_=self.n_classes_
+        n_samples = y.shape[0]
+
+        oob_decision_function = []
+        oob_score = 0.0
+        predictions = []
+
+        for k in range(self.n_outputs_):
+            predictions.append(np.zeros((n_samples, n_classes_[k])))
+
+        for estimator in self.estimators_:
+            unsampled_indices = _generate_unsampled_indices(
+                estimator.random_state, n_samples)
+            p_estimator = estimator.predict_proba(X[unsampled_indices, :],
+                                                  check_input=False)
+
+            if self.n_outputs_ == 1:
+                p_estimator = [p_estimator]
+
+            for k in range(self.n_outputs_):
+                predictions[k][unsampled_indices, :] += p_estimator[k]
+
+        for k in range(self.n_outputs_):
+            if (predictions[k].sum(axis=1) == 0).any():
+                warn("Some inputs do not have OOB scores. "
+                     "This probably means too few trees were used "
+                     "to compute any reliable oob estimates.")
+
+            decision = (predictions[k] /
+                        predictions[k].sum(axis=1)[:, np.newaxis])
+            oob_decision_function.append(decision)
+            if self.n_classes_[0] <= 2:
+                oob_score += np.mean(y[:, k] ==
+                             np.argmax(predictions[k], axis=1), axis=0)
+            else:
+                class_index = np.sum((predictions[k] > 0.5).astype(np.int), axis=1)
+                oob_score += np.mean(y[:, k] == class_index, axis=0)
+
+        if self.n_outputs_ == 1:
+            self.oob_decision_function_ = oob_decision_function[0]
+        else:
+            self.oob_decision_function_ = oob_decision_function
+
+        self.oob_score_ = oob_score / self.n_outputs_
 
 def node_is_leaf(tree, node_id, only_count_non_zero=False):
     if only_count_non_zero:
