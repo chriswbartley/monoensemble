@@ -107,7 +107,91 @@ cdef float64 RULE_UPPER_CONST=1e9
 #        out[i * K + k] += scale * value[node - root_node]
 #
 
-                 
+#cdef void _apply_rulesXXX(float64 *X,
+#                       float64 *rule_lower_corners,
+#                           float64 *rule_upper_corners,
+#                           Py_ssize_t n_samples,
+#                          Py_ssize_t n_features,
+#                          Py_ssize_t n_rules,
+#                          int32 *out):
+#    cdef int32 res 
+#    cdef Py_ssize_t i
+#    cdef Py_ssize_t j
+#    cdef Py_ssize_t r
+#    for i in range(n_samples):
+#        for r in range(n_rules):
+#            res=1
+#            j=0
+#            while res==1 and j<n_features:
+#                if X[j * n_samples + i] > rule_upper_corners[j * n_rules + r]:
+#                    res=0
+#                if X[j * n_samples + i] <= rule_lower_corners[j * n_rules +  r]:
+#                    res=0
+#                j=j+1
+#            out[i * n_rules + r]=res   
+cdef void _apply_rules_with_map_and_feat_cache(float64 *X,
+                       float64 *rule_lower_corners,
+                           float64 *rule_upper_corners,
+                           int32 n_samples,
+                          int32 n_features,
+                          int32 n_rules,
+                          int32 *X_leaf_node_ids,
+                          int32 *node_rule_map,
+                          int32 *out_rule_feats_upper,
+                          int32 *out_rule_feats_lower,
+                          int32 *out):
+    """   """
+    cdef int32 res
+    cdef int32 rule_start
+    cdef int32 rule_end
+    cdef int32 i
+    cdef int32 j
+    cdef int32 r
+    cdef int32 j_test
+    cdef int32 leaf_id
+    cdef int32 base_rule_id
+    cdef int32 i_r
+    cdef int32 cont
+    cdef int32 f_to_check
+    cdef int32 if_to_check
+    for i in range(n_samples):
+        leaf_id=X_leaf_node_ids[i]
+        base_rule_id=node_rule_map[leaf_id * n_rules] # first column gives base leaf, this is the corresponding rule
+        out[i * n_rules + base_rule_id]=1 
+        i_r=1
+        if i_r>=n_rules:
+            cont=0
+        else:
+            cont=1 if node_rule_map[leaf_id * n_rules +i_r]!=-99 else 0
+        while cont==1:
+            r=node_rule_map[leaf_id * n_rules +i_r]
+            res=1 
+            # check lower rules
+            if_to_check=0
+            j=out_rule_feats_lower[leaf_id * n_rules * n_features + r*n_features + if_to_check]
+            while j!=-99 and res!=0:
+                if X[j * n_samples + i] <= rule_lower_corners[j * n_rules +  r]:
+                    res=0
+                if_to_check=if_to_check+1
+                j=out_rule_feats_lower[leaf_id * n_rules * n_features + r*n_features + if_to_check]
+            if res==1:     
+                # check upper rules
+                if_to_check=0
+                j=out_rule_feats_upper[leaf_id * n_rules * n_features + r*n_features + if_to_check]
+                while j!=-99 and res!=0:
+                    if X[j * n_samples + i] > rule_upper_corners[j * n_rules +  r]:
+                        res=0
+                    if_to_check=if_to_check+1
+                    j=out_rule_feats_upper[leaf_id * n_rules * n_features + r*n_features + if_to_check]
+            out[i * n_rules + r]=res 
+            i_r=i_r+1
+            if i_r>=n_rules:
+                cont=0
+            else:
+                cont=1 if node_rule_map[leaf_id * n_rules +i_r]!=-99 else 0
+            
+
+
 cdef void _apply_rules_with_map_sparse(float64 *X,
                        object rule_lower_corners,
                            object rule_upper_corners,
@@ -211,7 +295,81 @@ cdef void _apply_rules_sparse(float64 *X,
                     if X[j * n_samples + i] > (upper_data[j_test]+RULE_UPPER_CONST):
                         res=0                
             out[i * n_rules + r]=res 
- 
+
+
+cdef void _get_node_map_and_rules_sparse(int32 *leaf_ids, 
+                          float64 *leaf_values,
+                          float64 *leaf_lower_corners,
+                          float64 *leaf_upper_corners,
+                          object rule_lower_corners,
+                          object rule_upper_corners,
+                          Py_ssize_t n_leaves,
+                          Py_ssize_t n_features,
+                          Py_ssize_t n_rules,
+                          int32 *out,
+                          int32 *out_rule_feats_upper,
+                          int32 *out_rule_feats_lower):
+    """   """
+    #DTYPE_t
+    cdef float64* lower_data = <float64*>(<np.ndarray> rule_lower_corners.data).data
+    cdef INT32_t* lower_indices = <INT32_t*>(<np.ndarray> rule_lower_corners.indices).data
+    cdef INT32_t* lower_indptr = <INT32_t*>(<np.ndarray> rule_lower_corners.indptr).data
+    cdef float64* upper_data = <float64*>(<np.ndarray> rule_upper_corners.data).data
+    cdef INT32_t* upper_indices = <INT32_t*>(<np.ndarray> rule_upper_corners.indices).data
+    cdef INT32_t* upper_indptr = <INT32_t*>(<np.ndarray> rule_upper_corners.indptr).data
+    cdef int32 res
+    cdef int32 rule_start
+    cdef int32 rule_end
+    cdef Py_ssize_t i
+    cdef Py_ssize_t j
+    cdef Py_ssize_t r
+    cdef int32 j_test
+    cdef int32 r_to_add
+    cdef int32 f_upper_to_add
+    cdef int32 f_lower_to_add
+    for i in range(n_leaves):
+        leaf_id=leaf_ids[i]
+        out[leaf_id * n_rules +0]=i # base rule always applies
+        r_to_add=1
+        for r in range(n_rules):
+            if r!=i:
+                # check lower rules
+                rule_start=lower_indptr[r]
+                rule_end=lower_indptr[r+1]
+                res=1 
+                for j_test in range(rule_start,rule_end):
+                    j= lower_indices[j_test]
+                    if leaf_upper_corners[j * n_leaves + i] <= (lower_data[j_test]+RULE_LOWER_CONST):
+                        res=0                        
+                if res==1:     
+                    rule_start=upper_indptr[r]
+                    rule_end=upper_indptr[r+1]
+                    for j_test in range(rule_start,rule_end):
+                        j= upper_indices[j_test]
+                        if leaf_lower_corners[j * n_leaves + i] >= (upper_data[j_test]+RULE_UPPER_CONST):
+                            res=0   
+                if res==1: # rule does overlap
+                    out[leaf_id * n_rules + r_to_add]=r 
+                    r_to_add=r_to_add+1
+                    # now examine rule features to see which are reqd to assess
+                    rule_start=upper_indptr[r]
+                    rule_end=upper_indptr[r+1]
+                    f_upper_to_add=0
+                    for j_test in range(rule_start,rule_end):
+                        j= upper_indices[j_test]
+                        if leaf_upper_corners[j * n_leaves + i] > (upper_data[j_test]+RULE_UPPER_CONST):
+                            out_rule_feats_upper[leaf_id * n_rules * n_features + r*n_features+f_upper_to_add]=j
+                            f_upper_to_add=f_upper_to_add+1
+                    rule_start=lower_indptr[r]
+                    rule_end=lower_indptr[r+1]
+                    f_lower_to_add=0
+                    for j_test in range(rule_start,rule_end):
+                        j= lower_indices[j_test]
+                        if leaf_lower_corners[j * n_leaves + i] < (lower_data[j_test]+RULE_LOWER_CONST):
+                            out_rule_feats_lower[leaf_id * n_rules * n_features + r*n_features + f_lower_to_add]=j
+                            f_lower_to_add=f_lower_to_add+1                    
+
+
 cdef void _get_node_map_sparse(int32 *leaf_ids, 
                           float64 *leaf_values,
                           float64 *leaf_lower_corners,
@@ -250,7 +408,7 @@ cdef void _get_node_map_sparse(int32 *leaf_ids,
                 for j_test in range(rule_start,rule_end):
                     j= lower_indices[j_test]
                     if leaf_upper_corners[j * n_leaves + i] <= (lower_data[j_test]+RULE_LOWER_CONST):
-                        res=0
+                        res=0                        
                 if res==1:     
                     rule_start=upper_indptr[r]
                     rule_end=upper_indptr[r+1]
@@ -271,7 +429,7 @@ cdef void _apply_rules(float64 *X,
                           Py_ssize_t n_features,
                           Py_ssize_t n_rules,
                           int32 *out):
-    cdef int32 res
+    cdef int32 res 
     cdef Py_ssize_t i
     cdef Py_ssize_t j
     cdef Py_ssize_t r
@@ -289,6 +447,30 @@ cdef void _apply_rules(float64 *X,
 
 
 
+def get_node_map_and_rule_feats_c(np.ndarray[int32, ndim=1] leaf_ids, 
+                      np.ndarray[float64, ndim=1] leaf_values,
+                      np.ndarray[float64, ndim=2] leaf_lower_corners,
+                      np.ndarray[float64, ndim=2] leaf_upper_corners,
+                      object rule_lower_corners, 
+                      object rule_upper_corners,
+                      int32 n_rules,
+                      np.ndarray[int32, ndim=2]  out,
+                      np.ndarray[int32, ndim=3]  out_rules_upper,
+                      np.ndarray[int32, ndim=3]  out_rules_lower):
+    _get_node_map_and_rules_sparse(
+         <int32*> (<np.ndarray> leaf_ids).data, 
+         <float64*> (<np.ndarray> leaf_values).data, 
+         <float64*> (<np.ndarray> leaf_lower_corners).data,
+         <float64*> (<np.ndarray> leaf_upper_corners).data,
+         rule_lower_corners, 
+         rule_upper_corners,
+         leaf_lower_corners.shape[0],
+         leaf_lower_corners.shape[1],
+         n_rules, #rule_lower_corners.shape[0],
+         <int32*> (<np.ndarray> out).data,
+         <int32*> (<np.ndarray> out_rules_upper).data,
+         <int32*> (<np.ndarray> out_rules_lower).data)
+            
 def get_node_map_c   (np.ndarray[int32, ndim=1] leaf_ids, 
                       np.ndarray[float64, ndim=1] leaf_values,
                       np.ndarray[float64, ndim=2] leaf_lower_corners,
@@ -404,6 +586,23 @@ def update_rule_coefs_newton_step(object rule_mask,
            rule_mask.shape[1],
            <float64*> (<np.ndarray> out).data)
             
+def apply_rules_rule_feat_cache_c(np.ndarray[float64, ndim=2] X,object rule_lower_corners, object rule_upper_corners,
+                   object  X_leaf_node_ids,
+                   object node_rule_map,
+                   object node_rule_feat_upper,
+                   object node_rule_feat_lower,
+                   np.ndarray[int32, ndim=2] out):
+    _apply_rules_with_map_and_feat_cache(<float64*> (<np.ndarray> X).data, 
+                  <float64*> (<np.ndarray> rule_lower_corners).data, 
+                  <float64*> (<np.ndarray> rule_upper_corners).data,
+                 <int32> X.shape[0],
+                 <int32> X.shape[1],
+                 <int32> rule_lower_corners.shape[0],
+                 <int32*> (<np.ndarray> X_leaf_node_ids).data ,
+                 <int32*> (<np.ndarray> node_rule_map).data ,
+                 <int32*> (<np.ndarray> node_rule_feat_upper).data ,
+                 <int32*> (<np.ndarray> node_rule_feat_lower).data ,
+                 <int32*> (<np.ndarray> out).data)
 def apply_rules_c(np.ndarray[float64, ndim=2] X,object rule_lower_corners, object rule_upper_corners,
                    object  X_leaf_node_ids,
                    object node_rule_map,

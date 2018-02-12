@@ -51,28 +51,32 @@ def test_model_fit():
     coef_calc_types = ['boost', 'bayes', 'logistic']
     oob_correct = [0.8649999999999, 0.85999999999, 0.86499999999999]
     insample_correct = [0.949999999999, 0.9649999999999, 0.98499999999]
-    for i_test in np.arange(len(coef_calc_types)):
-        coef_calc_type = coef_calc_types[i_test]
-        # Solve model
-        clf = MonoRandomForestClassifier(
-            n_estimators=n_estimators,
-            max_features=mtry,
-            oob_score=True,
-            random_state=11,
-            incr_feats=incr_feats,
-            decr_feats=decr_feats,
-            coef_calc_type=coef_calc_type)
-        clf.fit(X, y)
-        # Assess fit
-        y_pred = clf.predict(X)
-        acc = np.sum(y == y_pred) / len(y)
-        npt.assert_almost_equal(clf.oob_score_, oob_correct[i_test])
-        npt.assert_almost_equal(acc, insample_correct[i_test])
+    for rule_feat_caching in [False, True]:
+        for i_test in np.arange(len(coef_calc_types)):
+            coef_calc_type = coef_calc_types[i_test]
+            # Solve model
+            clf = MonoRandomForestClassifier(
+                n_estimators=n_estimators,
+                max_features=mtry,
+                oob_score=True,
+                random_state=11,
+                incr_feats=incr_feats,
+                decr_feats=decr_feats,
+                coef_calc_type=coef_calc_type,
+                rule_feat_caching=rule_feat_caching)
+            clf.fit(X, y)
+            # Assess fit
+            y_pred = clf.predict(X)
+            acc = np.sum(y == y_pred) / len(y)
+            # print(clf.oob_score_- oob_correct[i_test])
+            # print(acc - insample_correct[i_test])
+            npt.assert_almost_equal(clf.oob_score_, oob_correct[i_test])
+            npt.assert_almost_equal(acc, insample_correct[i_test])
         
-#import time
-#start=time.time()
-#test_model_fit()
-#end=time.time()
-#print('time: ' + str(np.round(end-start,2)))
+# import time
+# start=time.time()
+test_model_fit()
+# end=time.time()
+# print('time: ' + str(np.round(end-start,2)))
 
 

@@ -39,7 +39,6 @@ def load_data_set():
         y_class[y_class >= thresh] = +1
     return X[0:max_N, :], y_class[0:max_N], incr_feats, decr_feats
 
-
 # Load data
 X, y, incr_feats, decr_feats = load_data_set()
 
@@ -52,23 +51,27 @@ def test_model_fit():
     max_depth = 3
     coef_calc_types = ['boost', 'bayes', 'logistic']
     insample_correct = [0.93999999999, 0.974999999, 0.9849999999]
-    for i_test in np.arange(len(coef_calc_types)):
-        coef_calc_type = coef_calc_types[i_test]
-        # Solve model
-        clf = MonoGradientBoostingClassifier(
-            learning_rate=learning_rate, max_depth=max_depth,
-            coef_calc_type=coef_calc_type, incr_feats=incr_feats,
-            decr_feats=decr_feats, n_estimators=n_estimators,
-            subsample=subsample, random_state=11)
-        clf.fit(X, y)
-        # Assess fit
-        y_pred = clf.predict(X)
-        acc = np.sum(y == y_pred) / len(y)
-        npt.assert_almost_equal(0 if (acc - insample_correct[i_test]) <= 0.02
-                                else 1, 0)
+    
+    for rule_feat_caching in [False, True]:
+        for i_test in np.arange(len(coef_calc_types)):
+            coef_calc_type = coef_calc_types[i_test]
+            # Solve model
+            clf = MonoGradientBoostingClassifier(
+                learning_rate=learning_rate, max_depth=max_depth,
+                coef_calc_type=coef_calc_type, incr_feats=incr_feats,
+                decr_feats=decr_feats, n_estimators=n_estimators,
+                subsample=subsample, random_state=11,
+                rule_feat_caching=rule_feat_caching)
+            clf.fit(X, y)
+            # Assess fit
+            y_pred = clf.predict(X)
+            acc = np.sum(y == y_pred) / len(y)
+            # print(acc - insample_correct[i_test])
+            npt.assert_almost_equal(0 if np.abs(acc - insample_correct[i_test]) <= 0.02
+                                    else 1, 0)
 
-#import time
-#start=time.time()
-#test_model_fit()
-#end=time.time()
-#print('time: ' + str(np.round(end-start,2)))
+# import time
+# start=time.time()
+test_model_fit()
+# end=time.time()
+# print('time: ' + str(np.round(end-start,2)))

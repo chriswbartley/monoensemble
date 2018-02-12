@@ -40,11 +40,14 @@ from sklearn.base import ClassifierMixin
 # from sklearn.base import RegressorMixin
 from sklearn.externals import six
 
+
 from monoensemble import apply_rules_c
 from monoensemble import get_node_map_c
 from monoensemble import update_rule_coefs
 from monoensemble import update_rule_coefs_newton_step
 from monoensemble import _random_sample_mask
+from monoensemble import get_node_map_and_rule_feats_c
+from monoensemble import apply_rules_rule_feat_cache_c
 
 import numbers
 import numpy as np
@@ -88,6 +91,7 @@ class LogOddsEstimator(object):
         self.n_classes = n_classes
 
     def fit(self, X, y, sample_weight=None):
+        lidstone_alpha = 0.01
         if self.n_classes <= 2:
             # pre-cond: pos, neg are encoded as 1, 0
             if sample_weight is None:
@@ -110,7 +114,9 @@ class LogOddsEstimator(object):
                     pos = np.sum(sample_weight * (y > k).astype(np.float64))
                     neg = np.sum(sample_weight *
                                  (1 - (y > k).astype(np.float64)))
-
+                if pos == 0 or neg == 0:
+                    pos = pos + lidstone_alpha
+                    neg = neg + 2 * lidstone_alpha
                 self.prior[k] = self.scale * np.log(pos / neg)
 
     def predict(self, X):
@@ -234,19 +240,14 @@ class LossFunction(six.with_metaclass(ABCMeta, object)):
     @abstractmethod
     def update_terminal_rules(
             self,
-            rule_lower_corners,
-            rule_upper_corners,
+            rule_mask,
             rule_values,
-            X,
             y,
             residual,
             y_pred,
             sample_weight,
-            sample_mask,
             learning_rate=1.0,
             k=0,
-            X_leaf_node_ids=None,
-            node_rule_map=None,
             logistic_intercept=True):
         """Update the terminal rules (each derived from a leaf)
         and update the current predictions of the model.
@@ -433,27 +434,16 @@ class BinomialDeviance(ClassificationLossFunction):
 
     def update_terminal_rules(
             self,
-            rule_lower_corners,
-            rule_upper_corners,
+            rule_mask,
             rule_values,
-            X,
             y,
             residual,
             y_pred,
             sample_weight,
-            sample_mask,
             learning_rate=1.0,
             k=0,
-            X_leaf_node_ids=None,
-            node_rule_map=None,
             logistic_intercept=True):
 
-        rule_mask = apply_rules(
-            X,
-            rule_lower_corners,
-            rule_upper_corners,
-            X_leaf_node_ids,
-            node_rule_map)
         intercept_ = 0.
         if self.coef_calc_type == 3:  # 'logistic'
             sample_mask = sample_weight > 0
@@ -483,17 +473,18 @@ class BinomialDeviance(ClassificationLossFunction):
             y_uniq = sp.float64(all_yx_uniq[:, 0].reshape([-1, 1]))
             offset_uniq = sp.float64(all_yx_uniq[:, 1:3].reshape([-1, 2]))
             x_uniq = sp.float64(all_yx_uniq[:, 3:])
-            if np.isscalar(y_uniq): # catch special case where all y=0 or y=1
-                if logistic_intercept: # need to add an intercept
+            if np.isscalar(y_uniq):  # catch special case where all y=0 or y=1
+                if logistic_intercept:  # need to add an intercept
                     # use naive probability estimate, need lidstone smoothing
                     # to avoid infinite results
                     lidstone_alpha = 0.01
-                    n=np.sum(sample_weight[y == y_uniq])
-                    p_=(lidstone_alpha+y_uniq*n)/(n+2*lidstone_alpha) 
-                    intercept_=np.log(p_/(1-p_))
+                    n = np.sum(sample_weight[y == y_uniq])
+                    p_ = (lidstone_alpha + y_uniq * n) / \
+                        (n + 2 * lidstone_alpha)
+                    intercept_ = np.log(p_ / (1 - p_))
                 else:
-                    intercept_=0.
-            else: # have a mix of y worth solving!
+                    intercept_ = 0.
+            else:  # have a mix of y worth solving!
                 sample_weight_uniq = sp.float64(np.zeros([len(y_uniq), 1]))
                 for i_ in np.arange(all_yx_uniq.shape[0]):
                     sample_weight_uniq[i_, 0] = np.sum(
@@ -703,7 +694,9 @@ def apply_rules(
         rule_lower_corners,
         rule_upper_corners,
         X_leaf_node_ids=None,
-        node_rule_map=None):
+        node_rule_map=None,
+        node_rule_feats_upper=None,
+        node_rule_feats_lower=None):
     # NON SPARSE - no longer used, use sparse version for scaleable speed.
     #    rule_mask=np.zeros([X.shape[0],rule_lower_corners.shape[0]],dtype=int)
     #    apply_rules_c(np.asarray(X,dtype=np.float64),\
@@ -711,22 +704,124 @@ def apply_rules(
     #           np.asarray(rule_upper_corners,dtype=np.float64), rule_mask)
     #    rule_mask=np.asarray(rule_mask,dtype=bool)
     # SPARSE VERSION:
+    if node_rule_feats_upper is not None:
+        rule_mask = np.zeros(
+            [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32)
+
+        apply_rules_rule_feat_cache_c(
+            X.astype(
+                np.float64),
+            rule_lower_corners,
+            rule_upper_corners,
+            X_leaf_node_ids,
+            node_rule_map,
+            node_rule_feats_upper,
+            node_rule_feats_lower,
+            rule_mask)
+    else:
+        rule_upper_corners_sparse = csr_matrix(
+            rule_upper_corners - RULE_UPPER_CONST, dtype=np.float64)
+        rule_lower_corners_sparse = csr_matrix(
+            rule_lower_corners - RULE_LOWER_CONST, dtype=np.float64)
+        rule_mask = np.zeros(
+            [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32)
+        apply_rules_c(
+            X.astype(
+                np.float64),
+            rule_lower_corners_sparse,
+            rule_upper_corners_sparse,
+            X_leaf_node_ids,
+            node_rule_map,
+            rule_mask)
+    rule_mask = np.asarray(rule_mask, dtype=bool)
+    return rule_mask
+
+# SLOW - KILL IT
+# def build_training_rule_mask(
+#    leaf_ids,
+#    leaf_lower_corners,
+#    leaf_upper_corners,
+#    rule_lower_corners,
+#    rule_upper_corners,
+#    X,
+#    X_leaf_node_ids):
+#    training_rule_mask_=np.zeros([X.shape[0],len(leaf_ids)],dtype=np.int8)
+#
+#    rule_mask=np.zeros([X.shape[0]],dtype=np.int8)
+#    for i_leaf in np.arange(len(leaf_ids)):
+#        leaf_id=leaf_ids[i_leaf]
+#        leaf_mask=X_leaf_node_ids==leaf_id
+#        leaf_n=np.sum(leaf_mask)
+#        #leaf_id=leaf_ids[i_leaf]
+#        X_leaf=X[leaf_mask,:]
+#        for i_rule in np.arange(len(leaf_ids)):
+#            # initialise assuming all training points from this leaf
+#            # are in the rule
+#            rule_mask_=rule_mask[0:leaf_n]
+#            rule_mask_[:]=1
+#            #rule_mask[leaf_ids==leaf_id]=1
+#            # rule out datapoints by feature
+#            for i_feat in np.arange(rule_upper_corners.shape[1]):
+#                if rule_upper_corners[i_rule,i_feat]<leaf_upper_corners[i_leaf,i_feat]:
+#                    rule_mask_[X_leaf[:,i_feat]>rule_upper_corners[i_rule,i_feat]]=0
+#                if rule_lower_corners[i_rule,i_feat]>leaf_lower_corners[i_leaf,i_feat]:
+#                    rule_mask_[X_leaf[:,i_feat]<=rule_lower_corners[i_rule,i_feat]]=0
+#            training_rule_mask_[leaf_mask,i_rule]=rule_mask_
+#
+#    return training_rule_mask_
+
+
+def build_node_rule_map_and_rule_feats(
+        leaf_ids,
+        leaf_values,
+        leaf_lower_corners,
+        leaf_upper_corners,
+        rule_lower_corners,
+        rule_upper_corners):
+    # NON SPARSE - no longer used, use sparse version for scaleable speed.
+    #    map_=np.zeros([np.max(leaf_ids)+1,rule_upper_corners.shape[0]],
+    #                  dtype=np.int32)-99
+    #    for i_leaf in np.arange(len(leaf_ids)):
+    #        leaf_id=leaf_ids[i_leaf] # rule 'i_leaf' is in this leaf
+    #        leaf_rules_overlap=np.logical_and(np.all(leaf_lower_corners
+    #           [i_leaf,:]<rule_upper_corners,axis=1),
+    #           np.all(leaf_upper_corners[i_leaf,:]>
+    #           rule_lower_corners,axis=1))
+    #        rule_idxs=np.where(leaf_rules_overlap)[0]
+    #        map_[leaf_id,0]=i_leaf # this was the base rule and
+    #                               # is fully covered by this leaf
+    #        rule_idxs=rule_idxs[np.nonzero(rule_idxs-i_leaf)]
+    #        map_[leaf_id,1:len(rule_idxs)+1]=rule_idxs
+    # SPARSE VERSION:
     rule_upper_corners_sparse = csr_matrix(
         rule_upper_corners - RULE_UPPER_CONST, dtype=np.float64)
     rule_lower_corners_sparse = csr_matrix(
         rule_lower_corners - RULE_LOWER_CONST, dtype=np.float64)
-    rule_mask = np.zeros(
-        [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32)
-    apply_rules_c(
-        X.astype(
-            np.float64),
+    n_leaves = np.max(leaf_ids) + 1  # leaf_lower_corners.shape[0] #
+    map_c_ = np.zeros([n_leaves,
+                       rule_upper_corners.shape[0]],
+                      dtype=np.int32) - 99
+    map_rule_feats_upper_c_ = np.zeros([n_leaves,
+                                        rule_upper_corners.shape[0],
+                                        leaf_lower_corners.shape[1]],
+                                       dtype=np.int32) - 99
+    map_rule_feats_lower_c_ = np.zeros([n_leaves,
+                                        rule_upper_corners.shape[0],
+                                        leaf_lower_corners.shape[1]],
+                                       dtype=np.int32) - 99
+
+    get_node_map_and_rule_feats_c(
+        leaf_ids,
+        leaf_values,
+        leaf_lower_corners,
+        leaf_upper_corners,
         rule_lower_corners_sparse,
         rule_upper_corners_sparse,
-        X_leaf_node_ids,
-        node_rule_map,
-        rule_mask)
-    rule_mask = np.asarray(rule_mask, dtype=bool)
-    return rule_mask
+        rule_upper_corners.shape[0],
+        map_c_,
+        map_rule_feats_upper_c_,
+        map_rule_feats_lower_c_)
+    return [map_c_, map_rule_feats_upper_c_, map_rule_feats_lower_c_]
 
 
 def build_node_rule_map(
@@ -872,7 +967,9 @@ class RuleEnsemble(BaseEnsemble):
             dist_feats,
             tree=None,
             node_rule_map=None,
-            intercept_=0.):
+            intercept_=0.,
+            node_rule_feats_upper=None,
+            node_rule_feats_lower=None):
         self.rule_lower_corners = rule_lower_corners
         self.rule_upper_corners = rule_upper_corners
         self.rule_values = rule_values
@@ -880,6 +977,8 @@ class RuleEnsemble(BaseEnsemble):
         self.tree = tree
         self.node_rule_map = node_rule_map
         self.intercept_ = intercept_
+        self.node_rule_feats_upper = node_rule_feats_upper
+        self.node_rule_feats_lower = node_rule_feats_lower
 
     def _validate_X_predict(self, X, check_input=True):
         if len(X.shape) == 1:
@@ -893,12 +992,23 @@ class RuleEnsemble(BaseEnsemble):
             X_leaf_node_ids = self.tree.apply(
                 X, check_input=False).astype(
                 np.int32)
-            rule_mask = apply_rules(X[:,
-                                      self.dist_feats],
-                                    self.rule_lower_corners,
-                                    self.rule_upper_corners,
-                                    X_leaf_node_ids=X_leaf_node_ids,
-                                    node_rule_map=self.node_rule_map)
+            if self.node_rule_feats_upper is not None:
+                rule_mask = apply_rules(X[:,
+                                          self.dist_feats],
+                                        self.rule_lower_corners,
+                                        self.rule_upper_corners,
+                                        X_leaf_node_ids=X_leaf_node_ids,
+                                        node_rule_map=self.node_rule_map,
+                                        node_rule_feats_upper=self.node_rule_feats_upper,
+                                        node_rule_feats_lower=self.node_rule_feats_lower)
+
+            else:
+                rule_mask = apply_rules(X[:,
+                                          self.dist_feats],
+                                        self.rule_lower_corners,
+                                        self.rule_upper_corners,
+                                        X_leaf_node_ids=X_leaf_node_ids,
+                                        node_rule_map=self.node_rule_map)
         else:
             rule_mask = apply_rules(X[:, self.dist_feats],
                                     self.rule_lower_corners,
@@ -943,7 +1053,8 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             presort='auto',
             incr_feats=[],
             decr_feats=[],
-            coef_calc_type='boost'):
+            coef_calc_type='bayes',
+            rule_feat_caching=False):
 
         self.n_estimators = n_estimators
         self.learning_rate = learning_rate
@@ -967,6 +1078,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
         self.incr_feats = incr_feats
         self.decr_feats = decr_feats
         self.coef_calc_type = coef_calc_type
+        self.rule_feat_caching = rule_feat_caching
 
     @property
     def mt_feats(self):
@@ -1051,62 +1163,76 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                                                    self.decr_feats)
             # build node rule map
             if len(leaf_ids) > 0:
-                node_rule_map = build_node_rule_map(
-                    leaf_ids,
-                    leaf_values,
-                    leaf_lower_corners,
-                    leaf_upper_corners,
-                    rule_lower_corners,
-                    rule_upper_corners)
+                if self.rule_feat_caching:
+                    [node_rule_map, node_rule_feats_upper, node_rule_feats_lower] = build_node_rule_map_and_rule_feats(
+                        leaf_ids,
+                        leaf_values,
+                        leaf_lower_corners,
+                        leaf_upper_corners,
+                        rule_lower_corners,
+                        rule_upper_corners)
+                else:
+                    node_rule_map = build_node_rule_map(
+                        leaf_ids,
+                        leaf_values,
+                        leaf_lower_corners,
+                        leaf_upper_corners,
+                        rule_lower_corners,
+                        rule_upper_corners)
+                    node_rule_feats_upper = None
+                    node_rule_feats_lower = None
             else:
                 node_rule_map = None
+                node_rule_feats_upper = None
+                node_rule_feats_lower = None
 
             # update tree leaves
             # only use intercept for single trees and logistic solve
             intercept = (self.coef_calc_type ==
                          'logistic' and self.n_estimators == 1)
-            if X_csr is not None:
-                X_leaf_node_ids = tree.apply(
-                    X_csr, check_input=False).astype(
-                    np.int32)
-                intercept_ = loss.update_terminal_rules(rule_lower_corners,
-                                            rule_upper_corners,
-                                            leaf_values,
-                                            X_csr[:, dist_feats],
-                                            y,
-                                            residual,
-                                            y_pred,
-                                            sample_weight,
-                                            sample_mask,
-                                            learning_rate=self.learning_rate,
-                                            k=k,
-                                            X_leaf_node_ids=X_leaf_node_ids,
-                                            node_rule_map=node_rule_map,
-                                            logistic_intercept=intercept)
+            X_use = X_csr if X_csr is not None else X
+
+            X_leaf_node_ids = tree.apply(X_use, check_input=False).astype(
+                np.int32)
+
+            if node_rule_feats_upper is None:
+                rule_mask = apply_rules(
+                    X_use[:, dist_feats],
+                    rule_lower_corners,
+                    rule_upper_corners,
+                    X_leaf_node_ids,
+                    node_rule_map)
             else:
-                X_leaf_node_ids = tree.apply(X, check_input=False).astype(
-                    np.int32)
-                intercept_ = loss.update_terminal_rules(rule_lower_corners,
-                                            rule_upper_corners,
-                                            leaf_values,
-                                            X[:, dist_feats],
-                                            y,
-                                            residual,
-                                            y_pred,
-                                            sample_weight,
-                                            sample_mask,
-                                            learning_rate=self.learning_rate,
-                                            k=k,
-                                            X_leaf_node_ids=X_leaf_node_ids,
-                                            node_rule_map=node_rule_map,
-                                            logistic_intercept=intercept)
+                rule_mask = apply_rules(
+                    X_use[:, dist_feats],
+                    rule_lower_corners,
+                    rule_upper_corners,
+                    X_leaf_node_ids,
+                    node_rule_map,
+                    node_rule_feats_upper,
+                    node_rule_feats_lower)
+            # if np.sum(np.abs(rule_mask2-rule_mask))>0.01:
+            #    print('prob houston')
+            intercept_ = loss.update_terminal_rules(
+                rule_mask,
+                leaf_values,
+                y,
+                residual,
+                y_pred,
+                sample_weight,
+                learning_rate=self.learning_rate,
+                k=k,
+                logistic_intercept=intercept)
+
             self.estimators_[i, k] = RuleEnsemble(rule_lower_corners,
                                                   rule_upper_corners,
                                                   leaf_values,
                                                   dist_feats,
                                                   tree,
                                                   node_rule_map,
-                                                  intercept_)
+                                                  intercept_,
+                                                  node_rule_feats_upper,
+                                                  node_rule_feats_lower)
         return y_pred
 
     def _check_params(self):
@@ -1300,12 +1426,19 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
         n_samples, self.n_features_ = X.shape
         if sample_weight is None:
             sample_weight = np.ones(n_samples, dtype=np.float32)
+            check_consistent_length(X, y, sample_weight)
+            y = self._validate_y(y)
         else:
             sample_weight = column_or_1d(sample_weight, warn=True)
-
-        check_consistent_length(X, y, sample_weight)
-
-        y = self._validate_y(y)
+            check_consistent_length(X, y, sample_weight)
+            y = self._validate_y(y)
+            # Attempted removing sample_weight==0 training points
+            # BUT causes errors for multi-class with small minority class(es)
+            # (e.g. SWD dataset)
+            # sample_weight_mask=sample_weight>0
+            # X=X[sample_weight_mask,:]
+            # y=y[sample_weight_mask]
+            # sample_weight=sample_weight[sample_weight_mask]
 
         random_state = check_random_state(self.random_state)
         self._check_params()
@@ -1593,7 +1726,10 @@ class MonoGradientBoostingClassifier(
         'bayesian': Assumes conditional indpendence between rules and
         calculates coefficients as per Naive bayesian classification. Fast
         with good results.
-
+    rule_feat_caching : bool
+        If True, caches the features that distinguish the each rule from each
+        leaf. This can make prediction faster, but at the cost of increased
+        memory usage and sometimes slightly slower fit().
     loss : {'deviance', 'exponential'}, optional (default='deviance')
         loss function to be optimized. 'deviance' refers to
         deviance (= logistic regression) for classification
@@ -1802,7 +1938,8 @@ class MonoGradientBoostingClassifier(
 
     _SUPPORTED_LOSS = ('deviance')  # , 'exponential')
 
-    def __init__(self, incr_feats=[], decr_feats=[], coef_calc_type='boost',
+    def __init__(self, incr_feats=[], decr_feats=[], coef_calc_type='bayes',
+                 rule_feat_caching=False,
                  loss='deviance', learning_rate=0.1, n_estimators=100,
                  subsample=1.0, criterion='friedman_mse', min_samples_split=2,
                  min_samples_leaf=1, min_weight_fraction_leaf=0.,

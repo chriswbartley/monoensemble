@@ -69,6 +69,11 @@ class MonoRandomForestClassifier(ForestClassifier):
         calculates coefficients as per Naive bayesian classification. Fast
         with good results.
 
+    rule_feat_caching : bool
+        If True, caches the features that distinguish the each rule from each
+        leaf. This can make prediction faster, but at the cost of increased
+        memory usage and sometimes slightly slower fit().
+
     n_estimators : integer, optional (default=10)
         The number of trees in the forest.
 
@@ -234,6 +239,7 @@ class MonoRandomForestClassifier(ForestClassifier):
                  incr_feats=[],
                  decr_feats=[],
                  coef_calc_type='bayes',
+                 rule_feat_caching=False,
                  n_estimators=10,
                  criterion="gini",
                  max_depth=None,
@@ -269,7 +275,8 @@ class MonoRandomForestClassifier(ForestClassifier):
                 "random_state",
                 "incr_feats",
                 "decr_feats",
-                "coef_calc_type"),
+                "coef_calc_type",
+                "rule_feat_caching"),
             bootstrap=bootstrap,
             oob_score=oob_score,
             n_jobs=n_jobs,
@@ -288,6 +295,7 @@ class MonoRandomForestClassifier(ForestClassifier):
         self.incr_feats = incr_feats
         self.decr_feats = decr_feats
         self.coef_calc_type = coef_calc_type
+        self.rule_feat_caching = rule_feat_caching
 
     def predict(self, X):
         """Predict class for X.
@@ -402,16 +410,19 @@ class MonoRandomForestClassifier(ForestClassifier):
             num_leaves[itree] = np.sum(is_leaves)
         return num_leaves
 
-    # override this because the multi-class form has K-1 values not K due 
+    # override this because the multi-class form has K-1 values not K due
     # to monotone ensembling
     def _set_oob_score(self, X, y):
         #super()._set_oob_score(X, y)
         """Compute out-of-bag score"""
         X = check_array(X, dtype=DTYPE, accept_sparse='csr')
-        if self.n_classes_[0]>2:
-            n_classes_ = list(np.asarray(self.n_classes_) - 1) # CHANGED TO K-1
+        if self.n_classes_[0] > 2:
+            n_classes_ = list(
+                np.asarray(
+                    self.n_classes_) -
+                1)  # CHANGED TO K-1
         else:
-            n_classes_=self.n_classes_
+            n_classes_ = self.n_classes_
         n_samples = y.shape[0]
 
         oob_decision_function = []
@@ -444,9 +455,11 @@ class MonoRandomForestClassifier(ForestClassifier):
             oob_decision_function.append(decision)
             if self.n_classes_[0] <= 2:
                 oob_score += np.mean(y[:, k] ==
-                             np.argmax(predictions[k], axis=1), axis=0)
+                                     np.argmax(predictions[k], axis=1), axis=0)
             else:
-                class_index = np.sum((predictions[k] > 0.5).astype(np.int), axis=1)
+                class_index = np.sum(
+                    (predictions[k] > 0.5).astype(
+                        np.int), axis=1)
                 oob_score += np.mean(y[:, k] == class_index, axis=0)
 
         if self.n_outputs_ == 1:
@@ -455,6 +468,7 @@ class MonoRandomForestClassifier(ForestClassifier):
             self.oob_decision_function_ = oob_decision_function
 
         self.oob_score_ = oob_score / self.n_outputs_
+
 
 def node_is_leaf(tree, node_id, only_count_non_zero=False):
     if only_count_non_zero:
