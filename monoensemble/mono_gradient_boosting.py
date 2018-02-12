@@ -998,7 +998,7 @@ class RuleEnsemble(BaseEnsemble):
                 np.int32)
             if self.node_rule_feats_upper is not None:
                 rule_mask = apply_rules(
-                        X[:,self.dist_feats],
+                        X[:, self.dist_feats],
                         self.rule_lower_corners,
                         self.rule_upper_corners,
                         X_leaf_node_ids=X_leaf_node_ids,
