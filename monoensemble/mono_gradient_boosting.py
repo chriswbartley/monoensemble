@@ -762,16 +762,20 @@ def apply_rules(
 #            #rule_mask[leaf_ids==leaf_id]=1
 #            # rule out datapoints by feature
 #            for i_feat in np.arange(rule_upper_corners.shape[1]):
-#                if rule_upper_corners[i_rule,i_feat]<leaf_upper_corners[i_leaf,i_feat]:
-#                    rule_mask_[X_leaf[:,i_feat]>rule_upper_corners[i_rule,i_feat]]=0
-#                if rule_lower_corners[i_rule,i_feat]>leaf_lower_corners[i_leaf,i_feat]:
-#                    rule_mask_[X_leaf[:,i_feat]<=rule_lower_corners[i_rule,i_feat]]=0
+#                if rule_upper_corners[i_rule,i_feat]<
+#                           leaf_upper_corners[i_leaf,i_feat]:
+#                    rule_mask_[X_leaf[:,i_feat]>
+#                           rule_upper_corners[i_rule,i_feat]]=0
+#                if rule_lower_corners[i_rule,i_feat]>
+#                           leaf_lower_corners[i_leaf,i_feat]:
+#                    rule_mask_[X_leaf[:,i_feat]<=
+#                           rule_lower_corners[i_rule,i_feat]]=0
 #            training_rule_mask_[leaf_mask,i_rule]=rule_mask_
 #
 #    return training_rule_mask_
 
 
-def build_node_rule_map_and_rule_feats(
+def build_node_map_rule_feats(
         leaf_ids,
         leaf_values,
         leaf_lower_corners,
@@ -993,14 +997,14 @@ class RuleEnsemble(BaseEnsemble):
                 X, check_input=False).astype(
                 np.int32)
             if self.node_rule_feats_upper is not None:
-                rule_mask = apply_rules(X[:,
-                                          self.dist_feats],
-                                        self.rule_lower_corners,
-                                        self.rule_upper_corners,
-                                        X_leaf_node_ids=X_leaf_node_ids,
-                                        node_rule_map=self.node_rule_map,
-                                        node_rule_feats_upper=self.node_rule_feats_upper,
-                                        node_rule_feats_lower=self.node_rule_feats_lower)
+                rule_mask = apply_rules(
+                        X[:,self.dist_feats],
+                        self.rule_lower_corners,
+                        self.rule_upper_corners,
+                        X_leaf_node_ids=X_leaf_node_ids,
+                        node_rule_map=self.node_rule_map,
+                        node_rule_feats_upper=self.node_rule_feats_upper,
+                        node_rule_feats_lower=self.node_rule_feats_lower)
 
             else:
                 rule_mask = apply_rules(X[:,
@@ -1164,7 +1168,8 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             # build node rule map
             if len(leaf_ids) > 0:
                 if self.rule_feat_caching:
-                    [node_rule_map, node_rule_feats_upper, node_rule_feats_lower] = build_node_rule_map_and_rule_feats(
+                    [node_rule_map, node_rule_feats_upper,
+                     node_rule_feats_lower] = build_node_map_rule_feats(
                         leaf_ids,
                         leaf_values,
                         leaf_lower_corners,

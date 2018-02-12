@@ -413,7 +413,6 @@ class MonoRandomForestClassifier(ForestClassifier):
     # override this because the multi-class form has K-1 values not K due
     # to monotone ensembling
     def _set_oob_score(self, X, y):
-        #super()._set_oob_score(X, y)
         """Compute out-of-bag score"""
         X = check_array(X, dtype=DTYPE, accept_sparse='csr')
         if self.n_classes_[0] > 2:
