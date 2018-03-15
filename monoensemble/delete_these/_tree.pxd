@@ -19,8 +19,11 @@ ctypedef np.npy_intp SIZE_t              # Type for indices and counters
 ctypedef np.npy_int32 INT32_t            # Signed 32 bit integer
 ctypedef np.npy_uint32 UINT32_t          # Unsigned 32 bit integer
 
-from ._splitter cimport Splitter
-from ._splitter cimport SplitRecord
+from _splitter cimport Splitter
+from _splitter cimport SplitRecord
+
+from _utils cimport PriorityHeapRecord
+
 
 cdef struct Node:
     # Base storage structure for the nodes in a Tree object
@@ -99,7 +102,15 @@ cdef class TreeBuilder:
     cdef double min_impurity_split
     cdef double min_impurity_decrease   # Impurity threshold for early stopping
 
+    cdef SIZE_t max_leaf_nodes
+    
     cpdef build(self, Tree tree, object X, np.ndarray y,
                 np.ndarray sample_weight=*,
                 np.ndarray X_idx_sorted=*)
     cdef _check_input(self, object X, np.ndarray y, np.ndarray sample_weight)
+
+    cdef int _add_split_node(self, Splitter splitter, Tree tree,
+                                    SIZE_t start, SIZE_t end, double impurity,
+                                    bint is_first, bint is_left, Node* parent,
+                                    SIZE_t depth,
+                                    PriorityHeapRecord* res) nogil except -1

@@ -58,7 +58,8 @@ from scipy.sparse import issparse
 from scipy.special import expit
 
 from time import time
-from sklearn.tree.tree import DecisionTreeRegressor
+#from sklearn.tree.tree import DecisionTreeRegressor
+from monoensemble.tree import DecisionTreeRegressor
 from sklearn.tree._tree import DTYPE
 from sklearn.tree._tree import TREE_LEAF
 

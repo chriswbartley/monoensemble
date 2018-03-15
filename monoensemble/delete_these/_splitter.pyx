@@ -15,7 +15,7 @@
 #
 # License: BSD 3 clause
 
-from ._criterion cimport Criterion
+from _criterion cimport Criterion
 
 from libc.stdlib cimport free
 from libc.stdlib cimport qsort
@@ -28,11 +28,11 @@ np.import_array()
 
 from scipy.sparse import csc_matrix
 
-from ._utils cimport log
-from ._utils cimport rand_int
-from ._utils cimport rand_uniform
-from ._utils cimport RAND_R_MAX
-from ._utils cimport safe_realloc
+from _utils cimport log
+from _utils cimport rand_int
+from _utils cimport rand_uniform
+from _utils cimport RAND_R_MAX
+from _utils cimport safe_realloc
 
 cdef double INFINITY = np.inf
 
