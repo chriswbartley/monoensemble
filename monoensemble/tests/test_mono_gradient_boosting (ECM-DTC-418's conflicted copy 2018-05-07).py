@@ -45,7 +45,7 @@ X, y, incr_feats, decr_feats = load_data_set()
 
 def test_model_fit():
     # Specify hyperparams for model solution
-    n_estimators = 200#200#100
+    n_estimators = 50#200#100
     subsample = 1.0
     learning_rate = 0.1
     max_depth = None#3

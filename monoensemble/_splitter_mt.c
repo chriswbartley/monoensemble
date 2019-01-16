@@ -793,9 +793,9 @@ static const char *__pyx_filename;
 
 static const char *__pyx_f[] = {
   "_splitter_mt.pyx",
-  "stringsource",
   "__init__.pxd",
   "type.pxd",
+  "_criterion.pxd",
 };
 /* ForceInitThreads.proto */
 #ifndef __PYX_FORCE_INIT_THREADS
@@ -1035,7 +1035,97 @@ typedef npy_double __pyx_t_5numpy_double_t;
  */
 typedef npy_longdouble __pyx_t_5numpy_longdouble_t;
 
-/* "_splitter_mt.pyx":42
+/* "sklearn/tree/_criterion.pxd":15
+ * cimport numpy as np
+ * 
+ * ctypedef np.npy_float32 DTYPE_t          # Type of X             # <<<<<<<<<<<<<<
+ * ctypedef np.npy_float64 DOUBLE_t         # Type of y, sample_weight
+ * ctypedef np.npy_intp SIZE_t              # Type for indices and counters
+ */
+typedef npy_float32 __pyx_t_7sklearn_4tree_10_criterion_DTYPE_t;
+
+/* "sklearn/tree/_criterion.pxd":16
+ * 
+ * ctypedef np.npy_float32 DTYPE_t          # Type of X
+ * ctypedef np.npy_float64 DOUBLE_t         # Type of y, sample_weight             # <<<<<<<<<<<<<<
+ * ctypedef np.npy_intp SIZE_t              # Type for indices and counters
+ * ctypedef np.npy_int32 INT32_t            # Signed 32 bit integer
+ */
+typedef npy_float64 __pyx_t_7sklearn_4tree_10_criterion_DOUBLE_t;
+
+/* "sklearn/tree/_criterion.pxd":17
+ * ctypedef np.npy_float32 DTYPE_t          # Type of X
+ * ctypedef np.npy_float64 DOUBLE_t         # Type of y, sample_weight
+ * ctypedef np.npy_intp SIZE_t              # Type for indices and counters             # <<<<<<<<<<<<<<
+ * ctypedef np.npy_int32 INT32_t            # Signed 32 bit integer
+ * ctypedef np.npy_uint32 UINT32_t          # Unsigned 32 bit integer
+ */
+typedef npy_intp __pyx_t_7sklearn_4tree_10_criterion_SIZE_t;
+
+/* "sklearn/tree/_criterion.pxd":18
+ * ctypedef np.npy_float64 DOUBLE_t         # Type of y, sample_weight
+ * ctypedef np.npy_intp SIZE_t              # Type for indices and counters
+ * ctypedef np.npy_int32 INT32_t            # Signed 32 bit integer             # <<<<<<<<<<<<<<
+ * ctypedef np.npy_uint32 UINT32_t          # Unsigned 32 bit integer
+ * 
+ */
+typedef npy_int32 __pyx_t_7sklearn_4tree_10_criterion_INT32_t;
+
+/* "sklearn/tree/_criterion.pxd":19
+ * ctypedef np.npy_intp SIZE_t              # Type for indices and counters
+ * ctypedef np.npy_int32 INT32_t            # Signed 32 bit integer
+ * ctypedef np.npy_uint32 UINT32_t          # Unsigned 32 bit integer             # <<<<<<<<<<<<<<
+ * 
+ * cdef class Criterion:
+ */
+typedef npy_uint32 __pyx_t_7sklearn_4tree_10_criterion_UINT32_t;
+
+/* "sklearn/tree/_splitter.pxd":17
+ * from ._criterion cimport Criterion
+ * 
+ * ctypedef np.npy_float32 DTYPE_t          # Type of X             # <<<<<<<<<<<<<<
+ * ctypedef np.npy_float64 DOUBLE_t         # Type of y, sample_weight
+ * ctypedef np.npy_intp SIZE_t              # Type for indices and counters
+ */
+typedef npy_float32 __pyx_t_7sklearn_4tree_9_splitter_DTYPE_t;
+
+/* "sklearn/tree/_splitter.pxd":18
+ * 
+ * ctypedef np.npy_float32 DTYPE_t          # Type of X
+ * ctypedef np.npy_float64 DOUBLE_t         # Type of y, sample_weight             # <<<<<<<<<<<<<<
+ * ctypedef np.npy_intp SIZE_t              # Type for indices and counters
+ * ctypedef np.npy_int32 INT32_t            # Signed 32 bit integer
+ */
+typedef npy_float64 __pyx_t_7sklearn_4tree_9_splitter_DOUBLE_t;
+
+/* "sklearn/tree/_splitter.pxd":19
+ * ctypedef np.npy_float32 DTYPE_t          # Type of X
+ * ctypedef np.npy_float64 DOUBLE_t         # Type of y, sample_weight
+ * ctypedef np.npy_intp SIZE_t              # Type for indices and counters             # <<<<<<<<<<<<<<
+ * ctypedef np.npy_int32 INT32_t            # Signed 32 bit integer
+ * ctypedef np.npy_uint32 UINT32_t          # Unsigned 32 bit integer
+ */
+typedef npy_intp __pyx_t_7sklearn_4tree_9_splitter_SIZE_t;
+
+/* "sklearn/tree/_splitter.pxd":20
+ * ctypedef np.npy_float64 DOUBLE_t         # Type of y, sample_weight
+ * ctypedef np.npy_intp SIZE_t              # Type for indices and counters
+ * ctypedef np.npy_int32 INT32_t            # Signed 32 bit integer             # <<<<<<<<<<<<<<
+ * ctypedef np.npy_uint32 UINT32_t          # Unsigned 32 bit integer
+ * 
+ */
+typedef npy_int32 __pyx_t_7sklearn_4tree_9_splitter_INT32_t;
+
+/* "sklearn/tree/_splitter.pxd":21
+ * ctypedef np.npy_intp SIZE_t              # Type for indices and counters
+ * ctypedef np.npy_int32 INT32_t            # Signed 32 bit integer
+ * ctypedef np.npy_uint32 UINT32_t          # Unsigned 32 bit integer             # <<<<<<<<<<<<<<
+ * 
+ * cdef struct SplitRecord:
+ */
+typedef npy_uint32 __pyx_t_7sklearn_4tree_9_splitter_UINT32_t;
+
+/* "_splitter_mt.pyx":48
  * cdef double INFINITY = np.inf
  * 
  * ctypedef np.npy_float32 DTYPE_t          # Type of X             # <<<<<<<<<<<<<<
@@ -1044,7 +1134,7 @@ typedef npy_longdouble __pyx_t_5numpy_longdouble_t;
  */
 typedef npy_float32 __pyx_t_12_splitter_mt_DTYPE_t;
 
-/* "_splitter_mt.pyx":43
+/* "_splitter_mt.pyx":49
  * 
  * ctypedef np.npy_float32 DTYPE_t          # Type of X
  * ctypedef np.npy_float64 DOUBLE_t         # Type of y, sample_weight             # <<<<<<<<<<<<<<
@@ -1053,7 +1143,7 @@ typedef npy_float32 __pyx_t_12_splitter_mt_DTYPE_t;
  */
 typedef npy_float64 __pyx_t_12_splitter_mt_DOUBLE_t;
 
-/* "_splitter_mt.pyx":44
+/* "_splitter_mt.pyx":50
  * ctypedef np.npy_float32 DTYPE_t          # Type of X
  * ctypedef np.npy_float64 DOUBLE_t         # Type of y, sample_weight
  * ctypedef np.npy_intp SIZE_t              # Type for indices and counters             # <<<<<<<<<<<<<<
@@ -1062,7 +1152,7 @@ typedef npy_float64 __pyx_t_12_splitter_mt_DOUBLE_t;
  */
 typedef npy_intp __pyx_t_12_splitter_mt_SIZE_t;
 
-/* "_splitter_mt.pyx":45
+/* "_splitter_mt.pyx":51
  * ctypedef np.npy_float64 DOUBLE_t         # Type of y, sample_weight
  * ctypedef np.npy_intp SIZE_t              # Type for indices and counters
  * ctypedef np.npy_int32 INT32_t            # Signed 32 bit integer             # <<<<<<<<<<<<<<
@@ -1071,7 +1161,7 @@ typedef npy_intp __pyx_t_12_splitter_mt_SIZE_t;
  */
 typedef npy_int32 __pyx_t_12_splitter_mt_INT32_t;
 
-/* "_splitter_mt.pyx":46
+/* "_splitter_mt.pyx":52
  * ctypedef np.npy_intp SIZE_t              # Type for indices and counters
  * ctypedef np.npy_int32 INT32_t            # Signed 32 bit integer
  * ctypedef np.npy_uint32 UINT32_t          # Unsigned 32 bit integer             # <<<<<<<<<<<<<<
@@ -1105,7 +1195,8 @@ static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(do
 
 
 /*--- Type declarations ---*/
-struct __pyx_obj_12_splitter_mt_Criterion;
+struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion;
+struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter;
 struct __pyx_obj_12_splitter_mt_BestSplitterMT;
 
 /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":769
@@ -1143,6 +1234,36 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  * cdef inline object PyArray_MultiIterNew1(a):
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
+struct __pyx_t_7sklearn_4tree_9_splitter_SplitRecord;
+struct __pyx_opt_args_7sklearn_4tree_9_splitter_8Splitter_init;
+
+/* "sklearn/tree/_splitter.pxd":23
+ * ctypedef np.npy_uint32 UINT32_t          # Unsigned 32 bit integer
+ * 
+ * cdef struct SplitRecord:             # <<<<<<<<<<<<<<
+ *     # Data to track sample split
+ *     SIZE_t feature         # Which feature to split on.
+ */
+struct __pyx_t_7sklearn_4tree_9_splitter_SplitRecord {
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t feature;
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t pos;
+  double threshold;
+  double improvement;
+  double impurity_left;
+  double impurity_right;
+};
+
+/* "sklearn/tree/_splitter.pxd":84
+ * 
+ *     # Methods
+ *     cdef int init(self, object X, np.ndarray y,             # <<<<<<<<<<<<<<
+ *                   DOUBLE_t* sample_weight,
+ *                   np.ndarray X_idx_sorted=*) except -1
+ */
+struct __pyx_opt_args_7sklearn_4tree_9_splitter_8Splitter_init {
+  int __pyx_n;
+  PyArrayObject *X_idx_sorted;
+};
 struct __pyx_t_12_splitter_mt_WeightedPQueueRecord;
 struct __pyx_t_12_splitter_mt_Node;
 struct __pyx_t_12_splitter_mt_SplitRecord;
@@ -1151,7 +1272,7 @@ struct __pyx_t_12_splitter_mt_StackRecord;
 struct __pyx_t_12_splitter_mt_PriorityHeapRecord;
 struct __pyx_opt_args_12_splitter_mt_14BestSplitterMT_init;
 
-/* "_splitter_mt.pyx":183
+/* "_splitter_mt.pyx":189
  * # in SparseSplitter
  * cdef DTYPE_t EXTRACT_NNZ_SWITCH = 0.1
  * cdef enum:             # <<<<<<<<<<<<<<
@@ -1162,7 +1283,7 @@ enum  {
   __pyx_e_12_splitter_mt_RAND_R_MAX = 0x7FFFFFFF
 };
 
-/* "_splitter_mt.pyx":49
+/* "_splitter_mt.pyx":55
  * 
  * # A record stored in the WeightedPQueue
  * cdef struct WeightedPQueueRecord:             # <<<<<<<<<<<<<<
@@ -1174,7 +1295,7 @@ struct __pyx_t_12_splitter_mt_WeightedPQueueRecord {
   __pyx_t_12_splitter_mt_DOUBLE_t weight;
 };
 
-/* "_splitter_mt.pyx":53
+/* "_splitter_mt.pyx":59
  *     DOUBLE_t weight
  * 
  * cdef struct Node:             # <<<<<<<<<<<<<<
@@ -1191,7 +1312,7 @@ struct __pyx_t_12_splitter_mt_Node {
   __pyx_t_12_splitter_mt_DOUBLE_t weighted_n_node_samples;
 };
 
-/* "_splitter_mt.pyx":64
+/* "_splitter_mt.pyx":70
  *     DOUBLE_t weighted_n_node_samples     # Weighted number of samples at the node
  * 
  * cdef struct SplitRecord:             # <<<<<<<<<<<<<<
@@ -1207,7 +1328,7 @@ struct __pyx_t_12_splitter_mt_SplitRecord {
   double impurity_right;
 };
 
-/* "_splitter_mt.pyx":75
+/* "_splitter_mt.pyx":81
  *     double impurity_right  # Impurity of the right split.
  * 
  * cdef struct Cell:             # <<<<<<<<<<<<<<
@@ -1229,7 +1350,7 @@ struct __pyx_t_12_splitter_mt_Cell {
   __pyx_t_12_splitter_mt_DTYPE_t max_bounds[3];
 };
 
-/* "_splitter_mt.pyx":105
+/* "_splitter_mt.pyx":111
  * 
  * # A record on the stack for depth-first tree growing
  * cdef struct StackRecord:             # <<<<<<<<<<<<<<
@@ -1246,7 +1367,7 @@ struct __pyx_t_12_splitter_mt_StackRecord {
   __pyx_t_12_splitter_mt_SIZE_t n_constant_features;
 };
 
-/* "_splitter_mt.pyx":131
+/* "_splitter_mt.pyx":137
  * 
  * # A record on the frontier for best-first tree growing
  * cdef struct PriorityHeapRecord:             # <<<<<<<<<<<<<<
@@ -1266,8 +1387,8 @@ struct __pyx_t_12_splitter_mt_PriorityHeapRecord {
   double improvement;
 };
 
-/* "_splitter_mt.pyx":493
- *         pass
+/* "_splitter_mt.pyx":464
+ *         return 0
  * 
  *     cdef int init(self,             # <<<<<<<<<<<<<<
  *                    object X,
@@ -1278,26 +1399,26 @@ struct __pyx_opt_args_12_splitter_mt_14BestSplitterMT_init {
   PyArrayObject *X_idx_sorted;
 };
 
-/* "_splitter_mt.pyx":240
- *     self.improvement = -INFINITY
+/* "sklearn/tree/_criterion.pxd":21
+ * ctypedef np.npy_uint32 UINT32_t          # Unsigned 32 bit integer
  * 
  * cdef class Criterion:             # <<<<<<<<<<<<<<
  *     # The criterion computes the impurity of a node and the reduction of
  *     # impurity of a split on that node. It also computes the output statistics
  */
-struct __pyx_obj_12_splitter_mt_Criterion {
+struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion {
   PyObject_HEAD
-  struct __pyx_vtabstruct_12_splitter_mt_Criterion *__pyx_vtab;
-  __pyx_t_12_splitter_mt_DOUBLE_t *y;
-  __pyx_t_12_splitter_mt_SIZE_t y_stride;
-  __pyx_t_12_splitter_mt_DOUBLE_t *sample_weight;
-  __pyx_t_12_splitter_mt_SIZE_t *samples;
-  __pyx_t_12_splitter_mt_SIZE_t start;
-  __pyx_t_12_splitter_mt_SIZE_t pos;
-  __pyx_t_12_splitter_mt_SIZE_t end;
-  __pyx_t_12_splitter_mt_SIZE_t n_outputs;
-  __pyx_t_12_splitter_mt_SIZE_t n_samples;
-  __pyx_t_12_splitter_mt_SIZE_t n_node_samples;
+  struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion *__pyx_vtab;
+  __pyx_t_7sklearn_4tree_10_criterion_DOUBLE_t *y;
+  __pyx_t_7sklearn_4tree_10_criterion_SIZE_t y_stride;
+  __pyx_t_7sklearn_4tree_10_criterion_DOUBLE_t *sample_weight;
+  __pyx_t_7sklearn_4tree_10_criterion_SIZE_t *samples;
+  __pyx_t_7sklearn_4tree_10_criterion_SIZE_t start;
+  __pyx_t_7sklearn_4tree_10_criterion_SIZE_t pos;
+  __pyx_t_7sklearn_4tree_10_criterion_SIZE_t end;
+  __pyx_t_7sklearn_4tree_10_criterion_SIZE_t n_outputs;
+  __pyx_t_7sklearn_4tree_10_criterion_SIZE_t n_samples;
+  __pyx_t_7sklearn_4tree_10_criterion_SIZE_t n_node_samples;
   double weighted_n_samples;
   double weighted_n_node_samples;
   double weighted_n_left;
@@ -1308,35 +1429,47 @@ struct __pyx_obj_12_splitter_mt_Criterion {
 };
 
 
-/* "_splitter_mt.pyx":373
- * #    cdef double node_impurity(self) nogil
+/* "sklearn/tree/_splitter.pxd":34
+ *     double impurity_right  # Impurity of the right split.
  * 
- * cdef class BestSplitterMT:             # <<<<<<<<<<<<<<
- *         # Internal structures
- *     cdef public Criterion criterion      # Impurity criterion
+ * cdef class Splitter:             # <<<<<<<<<<<<<<
+ *     # The splitter searches in the input space for a feature and a threshold
+ *     # to split the samples samples[start:end].
  */
-struct __pyx_obj_12_splitter_mt_BestSplitterMT {
+struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter {
   PyObject_HEAD
-  struct __pyx_vtabstruct_12_splitter_mt_BestSplitterMT *__pyx_vtab;
-  struct __pyx_obj_12_splitter_mt_Criterion *criterion;
-  __pyx_t_12_splitter_mt_SIZE_t max_features;
-  __pyx_t_12_splitter_mt_SIZE_t min_samples_leaf;
+  struct __pyx_vtabstruct_7sklearn_4tree_9_splitter_Splitter *__pyx_vtab;
+  struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion *criterion;
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t max_features;
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t min_samples_leaf;
   double min_weight_leaf;
   PyObject *random_state;
-  __pyx_t_12_splitter_mt_UINT32_t rand_r_state;
-  __pyx_t_12_splitter_mt_SIZE_t *samples;
-  __pyx_t_12_splitter_mt_SIZE_t n_samples;
+  __pyx_t_7sklearn_4tree_9_splitter_UINT32_t rand_r_state;
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t *samples;
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t n_samples;
   double weighted_n_samples;
-  __pyx_t_12_splitter_mt_SIZE_t *features;
-  __pyx_t_12_splitter_mt_SIZE_t *constant_features;
-  __pyx_t_12_splitter_mt_SIZE_t n_features;
-  __pyx_t_12_splitter_mt_DTYPE_t *feature_values;
-  __pyx_t_12_splitter_mt_SIZE_t start;
-  __pyx_t_12_splitter_mt_SIZE_t end;
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t *features;
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t *constant_features;
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t n_features;
+  __pyx_t_7sklearn_4tree_9_splitter_DTYPE_t *feature_values;
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t start;
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t end;
   int presort;
-  __pyx_t_12_splitter_mt_DOUBLE_t *y;
-  __pyx_t_12_splitter_mt_SIZE_t y_stride;
-  __pyx_t_12_splitter_mt_DOUBLE_t *sample_weight;
+  __pyx_t_7sklearn_4tree_9_splitter_DOUBLE_t *y;
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t y_stride;
+  __pyx_t_7sklearn_4tree_9_splitter_DOUBLE_t *sample_weight;
+};
+
+
+/* "_splitter_mt.pyx":303
+ * #        pass
+ * 
+ * cdef class BestSplitterMT(Splitter):             # <<<<<<<<<<<<<<
+ *     # The splitter searches in the input space for a feature and a threshold
+ *     # to split the samples samples[start:end].
+ */
+struct __pyx_obj_12_splitter_mt_BestSplitterMT {
+  struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter __pyx_base;
   __pyx_t_12_splitter_mt_DTYPE_t *X;
   __pyx_t_12_splitter_mt_SIZE_t X_sample_stride;
   __pyx_t_12_splitter_mt_SIZE_t X_feature_stride;
@@ -1345,46 +1478,68 @@ struct __pyx_obj_12_splitter_mt_BestSplitterMT {
   __pyx_t_12_splitter_mt_SIZE_t X_idx_sorted_stride;
   __pyx_t_12_splitter_mt_SIZE_t n_total_samples;
   __pyx_t_12_splitter_mt_SIZE_t *sample_mask;
+  int is_monotone;
+  PyArrayObject *feat_mt_types;
+  __pyx_t_12_splitter_mt_INT32_t *feat_mt_types_ptr;
+  __pyx_t_12_splitter_mt_SIZE_t feat_mt_types_stride;
+  __pyx_t_12_splitter_mt_INT32_t is_classification;
+  __pyx_t_12_splitter_mt_INT32_t *n_classes;
+  __pyx_t_12_splitter_mt_SIZE_t n_classes_stride;
+  __pyx_t_12_splitter_mt_SIZE_t crit_sum_stride;
 };
 
 
 
-/* "_splitter_mt.pyx":240
- *     self.improvement = -INFINITY
+/* "sklearn/tree/_criterion.pxd":21
+ * ctypedef np.npy_uint32 UINT32_t          # Unsigned 32 bit integer
  * 
  * cdef class Criterion:             # <<<<<<<<<<<<<<
  *     # The criterion computes the impurity of a node and the reduction of
  *     # impurity of a split on that node. It also computes the output statistics
  */
 
-struct __pyx_vtabstruct_12_splitter_mt_Criterion {
-  int (*init)(struct __pyx_obj_12_splitter_mt_Criterion *, __pyx_t_12_splitter_mt_DOUBLE_t *, __pyx_t_12_splitter_mt_SIZE_t, __pyx_t_12_splitter_mt_DOUBLE_t *, double, __pyx_t_12_splitter_mt_SIZE_t *, __pyx_t_12_splitter_mt_SIZE_t, __pyx_t_12_splitter_mt_SIZE_t);
-  int (*reset)(struct __pyx_obj_12_splitter_mt_Criterion *);
-  int (*reverse_reset)(struct __pyx_obj_12_splitter_mt_Criterion *);
-  int (*update)(struct __pyx_obj_12_splitter_mt_Criterion *, __pyx_t_12_splitter_mt_SIZE_t);
-  double (*node_impurity)(struct __pyx_obj_12_splitter_mt_Criterion *);
-  void (*children_impurity)(struct __pyx_obj_12_splitter_mt_Criterion *, double *, double *);
-  void (*node_value)(struct __pyx_obj_12_splitter_mt_Criterion *, double *);
-  double (*impurity_improvement)(struct __pyx_obj_12_splitter_mt_Criterion *, double);
-  double (*proxy_impurity_improvement)(struct __pyx_obj_12_splitter_mt_Criterion *);
+struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion {
+  int (*init)(struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion *, __pyx_t_7sklearn_4tree_10_criterion_DOUBLE_t *, __pyx_t_7sklearn_4tree_10_criterion_SIZE_t, __pyx_t_7sklearn_4tree_10_criterion_DOUBLE_t *, double, __pyx_t_7sklearn_4tree_10_criterion_SIZE_t *, __pyx_t_7sklearn_4tree_10_criterion_SIZE_t, __pyx_t_7sklearn_4tree_10_criterion_SIZE_t);
+  int (*reset)(struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion *);
+  int (*reverse_reset)(struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion *);
+  int (*update)(struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion *, __pyx_t_7sklearn_4tree_10_criterion_SIZE_t);
+  double (*node_impurity)(struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion *);
+  void (*children_impurity)(struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion *, double *, double *);
+  void (*node_value)(struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion *, double *);
+  double (*impurity_improvement)(struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion *, double);
+  double (*proxy_impurity_improvement)(struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion *);
 };
-static struct __pyx_vtabstruct_12_splitter_mt_Criterion *__pyx_vtabptr_12_splitter_mt_Criterion;
+static struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion *__pyx_vtabptr_7sklearn_4tree_10_criterion_Criterion;
 
 
-/* "_splitter_mt.pyx":373
- * #    cdef double node_impurity(self) nogil
+/* "sklearn/tree/_splitter.pxd":34
+ *     double impurity_right  # Impurity of the right split.
  * 
- * cdef class BestSplitterMT:             # <<<<<<<<<<<<<<
- *         # Internal structures
- *     cdef public Criterion criterion      # Impurity criterion
+ * cdef class Splitter:             # <<<<<<<<<<<<<<
+ *     # The splitter searches in the input space for a feature and a threshold
+ *     # to split the samples samples[start:end].
+ */
+
+struct __pyx_vtabstruct_7sklearn_4tree_9_splitter_Splitter {
+  int (*init)(struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter *, PyObject *, PyArrayObject *, __pyx_t_7sklearn_4tree_9_splitter_DOUBLE_t *, struct __pyx_opt_args_7sklearn_4tree_9_splitter_8Splitter_init *__pyx_optional_args);
+  int (*node_reset)(struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter *, __pyx_t_7sklearn_4tree_9_splitter_SIZE_t, __pyx_t_7sklearn_4tree_9_splitter_SIZE_t, double *);
+  int (*node_split)(struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter *, double, struct __pyx_t_7sklearn_4tree_9_splitter_SplitRecord *, __pyx_t_7sklearn_4tree_9_splitter_SIZE_t *);
+  void (*node_value)(struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter *, double *);
+  double (*node_impurity)(struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter *);
+};
+static struct __pyx_vtabstruct_7sklearn_4tree_9_splitter_Splitter *__pyx_vtabptr_7sklearn_4tree_9_splitter_Splitter;
+
+
+/* "_splitter_mt.pyx":303
+ * #        pass
+ * 
+ * cdef class BestSplitterMT(Splitter):             # <<<<<<<<<<<<<<
+ *     # The splitter searches in the input space for a feature and a threshold
+ *     # to split the samples samples[start:end].
  */
 
 struct __pyx_vtabstruct_12_splitter_mt_BestSplitterMT {
-  int (*init)(struct __pyx_obj_12_splitter_mt_BestSplitterMT *, PyObject *, PyArrayObject *, __pyx_t_12_splitter_mt_DOUBLE_t *, struct __pyx_opt_args_12_splitter_mt_14BestSplitterMT_init *__pyx_optional_args);
-  int (*node_reset)(struct __pyx_obj_12_splitter_mt_BestSplitterMT *, __pyx_t_12_splitter_mt_SIZE_t, __pyx_t_12_splitter_mt_SIZE_t, double *);
-  int (*node_split)(struct __pyx_obj_12_splitter_mt_BestSplitterMT *, double, struct __pyx_t_12_splitter_mt_SplitRecord *, __pyx_t_12_splitter_mt_SIZE_t *);
-  void (*node_value)(struct __pyx_obj_12_splitter_mt_BestSplitterMT *, double *);
-  double (*node_impurity)(struct __pyx_obj_12_splitter_mt_BestSplitterMT *);
+  struct __pyx_vtabstruct_7sklearn_4tree_9_splitter_Splitter __pyx_base;
 };
 static struct __pyx_vtabstruct_12_splitter_mt_BestSplitterMT *__pyx_vtabptr_12_splitter_mt_BestSplitterMT;
 
@@ -1556,27 +1711,6 @@ static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
 /* ExtTypeTest.proto */
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
-/* IsLittleEndian.proto */
-static CYTHON_INLINE int __Pyx_Is_Little_Endian(void);
-
-/* BufferFormatCheck.proto */
-static const char* __Pyx_BufFmt_CheckString(__Pyx_BufFmt_Context* ctx, const char* ts);
-static void __Pyx_BufFmt_Init(__Pyx_BufFmt_Context* ctx,
-                              __Pyx_BufFmt_StackElem* stack,
-                              __Pyx_TypeInfo* type);
-
-/* BufferGetAndValidate.proto */
-#define __Pyx_GetBufferAndValidate(buf, obj, dtype, flags, nd, cast, stack)\
-    ((obj == Py_None || obj == NULL) ?\
-    (__Pyx_ZeroBuffer(buf), 0) :\
-    __Pyx__GetBufferAndValidate(buf, obj, dtype, flags, nd, cast, stack))
-static int  __Pyx__GetBufferAndValidate(Py_buffer* buf, PyObject* obj,
-    __Pyx_TypeInfo* dtype, int flags, int nd, int cast, __Pyx_BufFmt_StackElem* stack);
-static void __Pyx_ZeroBuffer(Py_buffer* buf);
-static CYTHON_INLINE void __Pyx_SafeReleaseBuffer(Py_buffer* info);
-static Py_ssize_t __Pyx_minusones[] = { -1, -1, -1, -1, -1, -1, -1, -1 };
-static Py_ssize_t __Pyx_zeros[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-
 /* GetItemInt.proto */
 #define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
     (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
@@ -1598,6 +1732,27 @@ static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize
 static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
 static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
                                                      int is_list, int wraparound, int boundscheck);
+
+/* IsLittleEndian.proto */
+static CYTHON_INLINE int __Pyx_Is_Little_Endian(void);
+
+/* BufferFormatCheck.proto */
+static const char* __Pyx_BufFmt_CheckString(__Pyx_BufFmt_Context* ctx, const char* ts);
+static void __Pyx_BufFmt_Init(__Pyx_BufFmt_Context* ctx,
+                              __Pyx_BufFmt_StackElem* stack,
+                              __Pyx_TypeInfo* type);
+
+/* BufferGetAndValidate.proto */
+#define __Pyx_GetBufferAndValidate(buf, obj, dtype, flags, nd, cast, stack)\
+    ((obj == Py_None || obj == NULL) ?\
+    (__Pyx_ZeroBuffer(buf), 0) :\
+    __Pyx__GetBufferAndValidate(buf, obj, dtype, flags, nd, cast, stack))
+static int  __Pyx__GetBufferAndValidate(Py_buffer* buf, PyObject* obj,
+    __Pyx_TypeInfo* dtype, int flags, int nd, int cast, __Pyx_BufFmt_StackElem* stack);
+static void __Pyx_ZeroBuffer(Py_buffer* buf);
+static CYTHON_INLINE void __Pyx_SafeReleaseBuffer(Py_buffer* info);
+static Py_ssize_t __Pyx_minusones[] = { -1, -1, -1, -1, -1, -1, -1, -1 };
+static Py_ssize_t __Pyx_zeros[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 /* DictGetItem.proto */
 #if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
@@ -1646,6 +1801,18 @@ static int __Pyx__GetException(PyThreadState *tstate, PyObject **type, PyObject 
 static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb);
 #endif
 
+/* CallNextTpDealloc.proto */
+static void __Pyx_call_next_tp_dealloc(PyObject* obj, destructor current_tp_dealloc);
+
+/* CallNextTpTraverse.proto */
+static int __Pyx_call_next_tp_traverse(PyObject* obj, visitproc v, void *a, traverseproc current_tp_traverse);
+
+/* CallNextTpClear.proto */
+static void __Pyx_call_next_tp_clear(PyObject* obj, inquiry current_tp_dealloc);
+
+/* GetVTable.proto */
+static void* __Pyx_GetVtable(PyObject *dict);
+
 /* PyObject_GenericGetAttrNoDict.proto */
 #if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
 static CYTHON_INLINE PyObject* __Pyx_PyObject_GenericGetAttrNoDict(PyObject* obj, PyObject* attr_name);
@@ -1662,9 +1829,6 @@ static PyObject* __Pyx_PyObject_GenericGetAttr(PyObject* obj, PyObject* attr_nam
 
 /* SetVTable.proto */
 static int __Pyx_SetVtable(PyObject *dict, void *vtable);
-
-/* SetupReduce.proto */
-static int __Pyx_setup_reduce(PyObject* type_obj);
 
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
@@ -1880,15 +2044,6 @@ static PyTypeObject *__Pyx_ImportType(const char *module_name, const char *class
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static int __pyx_f_12_splitter_mt_9Criterion_init(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self, CYTHON_UNUSED __pyx_t_12_splitter_mt_DOUBLE_t *__pyx_v_y, CYTHON_UNUSED __pyx_t_12_splitter_mt_SIZE_t __pyx_v_y_stride, CYTHON_UNUSED __pyx_t_12_splitter_mt_DOUBLE_t *__pyx_v_sample_weight, CYTHON_UNUSED double __pyx_v_weighted_n_samples, CYTHON_UNUSED __pyx_t_12_splitter_mt_SIZE_t *__pyx_v_samples, CYTHON_UNUSED __pyx_t_12_splitter_mt_SIZE_t __pyx_v_start, CYTHON_UNUSED __pyx_t_12_splitter_mt_SIZE_t __pyx_v_end); /* proto*/
-static int __pyx_f_12_splitter_mt_9Criterion_reset(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self); /* proto*/
-static int __pyx_f_12_splitter_mt_9Criterion_reverse_reset(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self); /* proto*/
-static int __pyx_f_12_splitter_mt_9Criterion_update(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self, CYTHON_UNUSED __pyx_t_12_splitter_mt_SIZE_t __pyx_v_new_pos); /* proto*/
-static double __pyx_f_12_splitter_mt_9Criterion_node_impurity(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self); /* proto*/
-static void __pyx_f_12_splitter_mt_9Criterion_children_impurity(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self, CYTHON_UNUSED double *__pyx_v_impurity_left, CYTHON_UNUSED double *__pyx_v_impurity_right); /* proto*/
-static void __pyx_f_12_splitter_mt_9Criterion_node_value(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self, CYTHON_UNUSED double *__pyx_v_dest); /* proto*/
-static double __pyx_f_12_splitter_mt_9Criterion_impurity_improvement(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self, CYTHON_UNUSED double __pyx_v_impurity); /* proto*/
-static double __pyx_f_12_splitter_mt_9Criterion_proxy_impurity_improvement(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self); /* proto*/
 static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_X, PyArrayObject *__pyx_v_y, __pyx_t_12_splitter_mt_DOUBLE_t *__pyx_v_sample_weight, struct __pyx_opt_args_12_splitter_mt_14BestSplitterMT_init *__pyx_optional_args); /* proto*/
 static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_reset(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, __pyx_t_12_splitter_mt_SIZE_t __pyx_v_start, __pyx_t_12_splitter_mt_SIZE_t __pyx_v_end, double *__pyx_v_weighted_n_node_samples); /* proto*/
 static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, double __pyx_v_impurity, struct __pyx_t_12_splitter_mt_SplitRecord *__pyx_v_split, __pyx_t_12_splitter_mt_SIZE_t *__pyx_v_n_constant_features); /* proto*/
@@ -1929,8 +2084,17 @@ static PyTypeObject *__pyx_ptype_5numpy_ufunc = 0;
 static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, char *, char *, int *); /*proto*/
 static CYTHON_INLINE int __pyx_f_5numpy_import_array(void); /*proto*/
 
+/* Module declarations from 'sklearn.tree._criterion' */
+static PyTypeObject *__pyx_ptype_7sklearn_4tree_10_criterion_Criterion = 0;
+
+/* Module declarations from 'sklearn.tree._splitter' */
+static PyTypeObject *__pyx_ptype_7sklearn_4tree_9_splitter_Splitter = 0;
+
+/* Module declarations from 'sklearn.tree' */
+
+/* Module declarations from 'sklearn' */
+
 /* Module declarations from '_splitter_mt' */
-static PyTypeObject *__pyx_ptype_12_splitter_mt_Criterion = 0;
 static PyTypeObject *__pyx_ptype_12_splitter_mt_BestSplitterMT = 0;
 static double __pyx_v_12_splitter_mt_INFINITY;
 static __pyx_t_12_splitter_mt_DTYPE_t __pyx_v_12_splitter_mt_FEATURE_THRESHOLD;
@@ -1954,7 +2118,6 @@ int __pyx_module_is_main__splitter_mt = 0;
 
 /* Implementation of '_splitter_mt' */
 static PyObject *__pyx_builtin_MemoryError;
-static PyObject *__pyx_builtin_TypeError;
 static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_ValueError;
 static PyObject *__pyx_builtin_RuntimeError;
@@ -1962,22 +2125,17 @@ static PyObject *__pyx_builtin_ImportError;
 static const char __pyx_k_np[] = "np";
 static const char __pyx_k_inf[] = "inf";
 static const char __pyx_k_main[] = "__main__";
-static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_numpy[] = "numpy";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_shape[] = "shape";
 static const char __pyx_k_import[] = "__import__";
-static const char __pyx_k_reduce[] = "__reduce__";
 static const char __pyx_k_presort[] = "presort";
 static const char __pyx_k_randint[] = "randint";
 static const char __pyx_k_strides[] = "strides";
 static const char __pyx_k_getstate[] = "__getstate__";
 static const char __pyx_k_itemsize[] = "itemsize";
-static const char __pyx_k_setstate[] = "__setstate__";
-static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_criterion[] = "criterion";
-static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
 static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_csc_matrix[] = "csc_matrix";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
@@ -1987,16 +2145,13 @@ static const char __pyx_k_RuntimeError[] = "RuntimeError";
 static const char __pyx_k_max_features[] = "max_features";
 static const char __pyx_k_random_state[] = "random_state";
 static const char __pyx_k_scipy_sparse[] = "scipy.sparse";
-static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
 static const char __pyx_k_min_weight_leaf[] = "min_weight_leaf";
-static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_min_samples_leaf[] = "min_samples_leaf";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_could_not_allocate_d_bytes[] = "could not allocate %d bytes";
 static const char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C contiguous";
 static const char __pyx_k_could_not_allocate_d_d_bytes[] = "could not allocate (%d * %d) bytes";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
-static const char __pyx_k_self_sample_weight_self_samples[] = "self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling";
 static const char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static const char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
 static const char __pyx_k_Non_native_byte_order_not_suppor[] = "Non-native byte order not supported";
@@ -2009,7 +2164,6 @@ static PyObject *__pyx_n_s_ImportError;
 static PyObject *__pyx_n_s_MemoryError;
 static PyObject *__pyx_kp_u_Non_native_byte_order_not_suppor;
 static PyObject *__pyx_n_s_RuntimeError;
-static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_kp_s_could_not_allocate_d_bytes;
@@ -2024,7 +2178,6 @@ static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_max_features;
 static PyObject *__pyx_n_s_min_samples_leaf;
 static PyObject *__pyx_n_s_min_weight_leaf;
-static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_kp_u_ndarray_is_not_C_contiguous;
 static PyObject *__pyx_kp_u_ndarray_is_not_Fortran_contiguou;
 static PyObject *__pyx_n_s_np;
@@ -2036,36 +2189,20 @@ static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_randint;
 static PyObject *__pyx_n_s_random_state;
 static PyObject *__pyx_n_s_range;
-static PyObject *__pyx_n_s_reduce;
-static PyObject *__pyx_n_s_reduce_cython;
-static PyObject *__pyx_n_s_reduce_ex;
 static PyObject *__pyx_n_s_scipy_sparse;
-static PyObject *__pyx_kp_s_self_sample_weight_self_samples;
-static PyObject *__pyx_n_s_setstate;
-static PyObject *__pyx_n_s_setstate_cython;
 static PyObject *__pyx_n_s_shape;
 static PyObject *__pyx_n_s_strides;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
-static PyObject *__pyx_pf_12_splitter_mt_9Criterion___reduce_cython__(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_12_splitter_mt_9Criterion_2__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT___reduce__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self); /* proto */
 static int __pyx_pf_12_splitter_mt_14BestSplitterMT_2__cinit__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_criterion, __pyx_t_12_splitter_mt_SIZE_t __pyx_v_max_features, __pyx_t_12_splitter_mt_SIZE_t __pyx_v_min_samples_leaf, double __pyx_v_min_weight_leaf, PyObject *__pyx_v_random_state, int __pyx_v_presort); /* proto */
 static void __pyx_pf_12_splitter_mt_14BestSplitterMT_4__dealloc__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_6__getstate__(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_8__setstate__(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_d); /* proto */
-static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_9criterion___get__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self); /* proto */
-static int __pyx_pf_12_splitter_mt_14BestSplitterMT_9criterion_2__set__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_12_splitter_mt_14BestSplitterMT_9criterion_4__del__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_12max_features___get__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self); /* proto */
-static int __pyx_pf_12_splitter_mt_14BestSplitterMT_12max_features_2__set__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_16min_samples_leaf___get__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self); /* proto */
-static int __pyx_pf_12_splitter_mt_14BestSplitterMT_16min_samples_leaf_2__set__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_15min_weight_leaf___get__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self); /* proto */
-static int __pyx_pf_12_splitter_mt_14BestSplitterMT_15min_weight_leaf_2__set__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_10init_monotone(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_feat_mt_types); /* proto */
+static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_12init_classification(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_n_classes); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
-static PyObject *__pyx_tp_new_12_splitter_mt_Criterion(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_12_splitter_mt_BestSplitterMT(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_tuple_;
@@ -2077,11 +2214,9 @@ static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
-static PyObject *__pyx_tuple__10;
-static PyObject *__pyx_tuple__11;
 /* Late includes */
 
-/* "_splitter_mt.pyx":189
+/* "_splitter_mt.pyx":195
  *     RAND_R_MAX = 0x7FFFFFFF
  * 
  * cdef realloc_ptr safe_realloc(realloc_ptr* p, size_t nelems) nogil except *:             # <<<<<<<<<<<<<<
@@ -2103,7 +2238,7 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
   #endif
   __Pyx_RefNannySetupContext("__pyx_fuse_0safe_realloc", 1);
 
-  /* "_splitter_mt.pyx":192
+  /* "_splitter_mt.pyx":198
  *     # sizeof(realloc_ptr[0]) would be more like idiomatic C, but causes Cython
  *     # 0.20.1 to crash.
  *     cdef size_t nbytes = nelems * sizeof(p[0][0])             # <<<<<<<<<<<<<<
@@ -2113,7 +2248,7 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
   /*try:*/ {
     __pyx_v_nbytes = (__pyx_v_nelems * (sizeof(((__pyx_v_p[0])[0]))));
 
-    /* "_splitter_mt.pyx":193
+    /* "_splitter_mt.pyx":199
  *     # 0.20.1 to crash.
  *     cdef size_t nbytes = nelems * sizeof(p[0][0])
  *     if nbytes / sizeof(p[0][0]) != nelems:             # <<<<<<<<<<<<<<
@@ -2123,7 +2258,7 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
     __pyx_t_1 = (((__pyx_v_nbytes / (sizeof(((__pyx_v_p[0])[0])))) != __pyx_v_nelems) != 0);
     if (__pyx_t_1) {
 
-      /* "_splitter_mt.pyx":195
+      /* "_splitter_mt.pyx":201
  *     if nbytes / sizeof(p[0][0]) != nelems:
  *         # Overflow in the multiplication
  *         with gil:             # <<<<<<<<<<<<<<
@@ -2136,18 +2271,18 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
           #endif
           /*try:*/ {
 
-            /* "_splitter_mt.pyx":197
+            /* "_splitter_mt.pyx":203
  *         with gil:
  *             raise MemoryError("could not allocate (%d * %d) bytes"
  *                               % (nelems, sizeof(p[0][0])))             # <<<<<<<<<<<<<<
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)
  *     if tmp == NULL:
  */
-            __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_nelems); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L8_error)
+            __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_nelems); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L8_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_3 = __Pyx_PyInt_FromSize_t((sizeof(((__pyx_v_p[0])[0])))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 197, __pyx_L8_error)
+            __pyx_t_3 = __Pyx_PyInt_FromSize_t((sizeof(((__pyx_v_p[0])[0])))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L8_error)
             __Pyx_GOTREF(__pyx_t_3);
-            __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 197, __pyx_L8_error)
+            __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 203, __pyx_L8_error)
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_GIVEREF(__pyx_t_2);
             PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
@@ -2155,26 +2290,26 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
             PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_3);
             __pyx_t_2 = 0;
             __pyx_t_3 = 0;
-            __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_could_not_allocate_d_d_bytes, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 197, __pyx_L8_error)
+            __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_could_not_allocate_d_d_bytes, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L8_error)
             __Pyx_GOTREF(__pyx_t_3);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-            /* "_splitter_mt.pyx":196
+            /* "_splitter_mt.pyx":202
  *         # Overflow in the multiplication
  *         with gil:
  *             raise MemoryError("could not allocate (%d * %d) bytes"             # <<<<<<<<<<<<<<
  *                               % (nelems, sizeof(p[0][0])))
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)
  */
-            __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_MemoryError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L8_error)
+            __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_MemoryError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 202, __pyx_L8_error)
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
             __Pyx_Raise(__pyx_t_4, 0, 0, 0);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __PYX_ERR(0, 196, __pyx_L8_error)
+            __PYX_ERR(0, 202, __pyx_L8_error)
           }
 
-          /* "_splitter_mt.pyx":195
+          /* "_splitter_mt.pyx":201
  *     if nbytes / sizeof(p[0][0]) != nelems:
  *         # Overflow in the multiplication
  *         with gil:             # <<<<<<<<<<<<<<
@@ -2191,7 +2326,7 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
           }
       }
 
-      /* "_splitter_mt.pyx":193
+      /* "_splitter_mt.pyx":199
  *     # 0.20.1 to crash.
  *     cdef size_t nbytes = nelems * sizeof(p[0][0])
  *     if nbytes / sizeof(p[0][0]) != nelems:             # <<<<<<<<<<<<<<
@@ -2200,7 +2335,7 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
  */
     }
 
-    /* "_splitter_mt.pyx":198
+    /* "_splitter_mt.pyx":204
  *             raise MemoryError("could not allocate (%d * %d) bytes"
  *                               % (nelems, sizeof(p[0][0])))
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)             # <<<<<<<<<<<<<<
@@ -2209,7 +2344,7 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
  */
     __pyx_v_tmp = ((__pyx_t_12_splitter_mt_DTYPE_t *)realloc((__pyx_v_p[0]), __pyx_v_nbytes));
 
-    /* "_splitter_mt.pyx":199
+    /* "_splitter_mt.pyx":205
  *                               % (nelems, sizeof(p[0][0])))
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)
  *     if tmp == NULL:             # <<<<<<<<<<<<<<
@@ -2219,7 +2354,7 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
     __pyx_t_1 = ((__pyx_v_tmp == NULL) != 0);
     if (__pyx_t_1) {
 
-      /* "_splitter_mt.pyx":200
+      /* "_splitter_mt.pyx":206
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)
  *     if tmp == NULL:
  *         with gil:             # <<<<<<<<<<<<<<
@@ -2232,27 +2367,27 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
           #endif
           /*try:*/ {
 
-            /* "_splitter_mt.pyx":201
+            /* "_splitter_mt.pyx":207
  *     if tmp == NULL:
  *         with gil:
  *             raise MemoryError("could not allocate %d bytes" % nbytes)             # <<<<<<<<<<<<<<
  * 
  *     p[0] = tmp
  */
-            __pyx_t_4 = __Pyx_PyInt_FromSize_t(__pyx_v_nbytes); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 201, __pyx_L12_error)
+            __pyx_t_4 = __Pyx_PyInt_FromSize_t(__pyx_v_nbytes); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 207, __pyx_L12_error)
             __Pyx_GOTREF(__pyx_t_4);
-            __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_could_not_allocate_d_bytes, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 201, __pyx_L12_error)
+            __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_could_not_allocate_d_bytes, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 207, __pyx_L12_error)
             __Pyx_GOTREF(__pyx_t_3);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_MemoryError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 201, __pyx_L12_error)
+            __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_MemoryError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 207, __pyx_L12_error)
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
             __Pyx_Raise(__pyx_t_4, 0, 0, 0);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __PYX_ERR(0, 201, __pyx_L12_error)
+            __PYX_ERR(0, 207, __pyx_L12_error)
           }
 
-          /* "_splitter_mt.pyx":200
+          /* "_splitter_mt.pyx":206
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)
  *     if tmp == NULL:
  *         with gil:             # <<<<<<<<<<<<<<
@@ -2269,7 +2404,7 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
           }
       }
 
-      /* "_splitter_mt.pyx":199
+      /* "_splitter_mt.pyx":205
  *                               % (nelems, sizeof(p[0][0])))
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)
  *     if tmp == NULL:             # <<<<<<<<<<<<<<
@@ -2278,7 +2413,7 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
  */
     }
 
-    /* "_splitter_mt.pyx":203
+    /* "_splitter_mt.pyx":209
  *             raise MemoryError("could not allocate %d bytes" % nbytes)
  * 
  *     p[0] = tmp             # <<<<<<<<<<<<<<
@@ -2287,7 +2422,7 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
  */
     (__pyx_v_p[0]) = __pyx_v_tmp;
 
-    /* "_splitter_mt.pyx":204
+    /* "_splitter_mt.pyx":210
  * 
  *     p[0] = tmp
  *     return tmp  # for convenience             # <<<<<<<<<<<<<<
@@ -2298,7 +2433,7 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
     goto __pyx_L3_return;
   }
 
-  /* "_splitter_mt.pyx":192
+  /* "_splitter_mt.pyx":198
  *     # sizeof(realloc_ptr[0]) would be more like idiomatic C, but causes Cython
  *     # 0.20.1 to crash.
  *     cdef size_t nbytes = nelems * sizeof(p[0][0])             # <<<<<<<<<<<<<<
@@ -2320,7 +2455,7 @@ static __pyx_t_12_splitter_mt_DTYPE_t *__pyx_fuse_0__pyx_f_12_splitter_mt_safe_r
     }
   }
 
-  /* "_splitter_mt.pyx":189
+  /* "_splitter_mt.pyx":195
  *     RAND_R_MAX = 0x7FFFFFFF
  * 
  * cdef realloc_ptr safe_realloc(realloc_ptr* p, size_t nelems) nogil except *:             # <<<<<<<<<<<<<<
@@ -2358,7 +2493,7 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
   #endif
   __Pyx_RefNannySetupContext("__pyx_fuse_1safe_realloc", 1);
 
-  /* "_splitter_mt.pyx":192
+  /* "_splitter_mt.pyx":198
  *     # sizeof(realloc_ptr[0]) would be more like idiomatic C, but causes Cython
  *     # 0.20.1 to crash.
  *     cdef size_t nbytes = nelems * sizeof(p[0][0])             # <<<<<<<<<<<<<<
@@ -2368,7 +2503,7 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
   /*try:*/ {
     __pyx_v_nbytes = (__pyx_v_nelems * (sizeof(((__pyx_v_p[0])[0]))));
 
-    /* "_splitter_mt.pyx":193
+    /* "_splitter_mt.pyx":199
  *     # 0.20.1 to crash.
  *     cdef size_t nbytes = nelems * sizeof(p[0][0])
  *     if nbytes / sizeof(p[0][0]) != nelems:             # <<<<<<<<<<<<<<
@@ -2378,7 +2513,7 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
     __pyx_t_1 = (((__pyx_v_nbytes / (sizeof(((__pyx_v_p[0])[0])))) != __pyx_v_nelems) != 0);
     if (__pyx_t_1) {
 
-      /* "_splitter_mt.pyx":195
+      /* "_splitter_mt.pyx":201
  *     if nbytes / sizeof(p[0][0]) != nelems:
  *         # Overflow in the multiplication
  *         with gil:             # <<<<<<<<<<<<<<
@@ -2391,18 +2526,18 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
           #endif
           /*try:*/ {
 
-            /* "_splitter_mt.pyx":197
+            /* "_splitter_mt.pyx":203
  *         with gil:
  *             raise MemoryError("could not allocate (%d * %d) bytes"
  *                               % (nelems, sizeof(p[0][0])))             # <<<<<<<<<<<<<<
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)
  *     if tmp == NULL:
  */
-            __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_nelems); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L8_error)
+            __pyx_t_2 = __Pyx_PyInt_FromSize_t(__pyx_v_nelems); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L8_error)
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_3 = __Pyx_PyInt_FromSize_t((sizeof(((__pyx_v_p[0])[0])))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 197, __pyx_L8_error)
+            __pyx_t_3 = __Pyx_PyInt_FromSize_t((sizeof(((__pyx_v_p[0])[0])))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L8_error)
             __Pyx_GOTREF(__pyx_t_3);
-            __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 197, __pyx_L8_error)
+            __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 203, __pyx_L8_error)
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_GIVEREF(__pyx_t_2);
             PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
@@ -2410,26 +2545,26 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
             PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_3);
             __pyx_t_2 = 0;
             __pyx_t_3 = 0;
-            __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_could_not_allocate_d_d_bytes, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 197, __pyx_L8_error)
+            __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_could_not_allocate_d_d_bytes, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L8_error)
             __Pyx_GOTREF(__pyx_t_3);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-            /* "_splitter_mt.pyx":196
+            /* "_splitter_mt.pyx":202
  *         # Overflow in the multiplication
  *         with gil:
  *             raise MemoryError("could not allocate (%d * %d) bytes"             # <<<<<<<<<<<<<<
  *                               % (nelems, sizeof(p[0][0])))
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)
  */
-            __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_MemoryError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L8_error)
+            __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_MemoryError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 202, __pyx_L8_error)
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
             __Pyx_Raise(__pyx_t_4, 0, 0, 0);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __PYX_ERR(0, 196, __pyx_L8_error)
+            __PYX_ERR(0, 202, __pyx_L8_error)
           }
 
-          /* "_splitter_mt.pyx":195
+          /* "_splitter_mt.pyx":201
  *     if nbytes / sizeof(p[0][0]) != nelems:
  *         # Overflow in the multiplication
  *         with gil:             # <<<<<<<<<<<<<<
@@ -2446,7 +2581,7 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
           }
       }
 
-      /* "_splitter_mt.pyx":193
+      /* "_splitter_mt.pyx":199
  *     # 0.20.1 to crash.
  *     cdef size_t nbytes = nelems * sizeof(p[0][0])
  *     if nbytes / sizeof(p[0][0]) != nelems:             # <<<<<<<<<<<<<<
@@ -2455,7 +2590,7 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
  */
     }
 
-    /* "_splitter_mt.pyx":198
+    /* "_splitter_mt.pyx":204
  *             raise MemoryError("could not allocate (%d * %d) bytes"
  *                               % (nelems, sizeof(p[0][0])))
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)             # <<<<<<<<<<<<<<
@@ -2464,7 +2599,7 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
  */
     __pyx_v_tmp = ((__pyx_t_12_splitter_mt_SIZE_t *)realloc((__pyx_v_p[0]), __pyx_v_nbytes));
 
-    /* "_splitter_mt.pyx":199
+    /* "_splitter_mt.pyx":205
  *                               % (nelems, sizeof(p[0][0])))
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)
  *     if tmp == NULL:             # <<<<<<<<<<<<<<
@@ -2474,7 +2609,7 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
     __pyx_t_1 = ((__pyx_v_tmp == NULL) != 0);
     if (__pyx_t_1) {
 
-      /* "_splitter_mt.pyx":200
+      /* "_splitter_mt.pyx":206
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)
  *     if tmp == NULL:
  *         with gil:             # <<<<<<<<<<<<<<
@@ -2487,27 +2622,27 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
           #endif
           /*try:*/ {
 
-            /* "_splitter_mt.pyx":201
+            /* "_splitter_mt.pyx":207
  *     if tmp == NULL:
  *         with gil:
  *             raise MemoryError("could not allocate %d bytes" % nbytes)             # <<<<<<<<<<<<<<
  * 
  *     p[0] = tmp
  */
-            __pyx_t_4 = __Pyx_PyInt_FromSize_t(__pyx_v_nbytes); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 201, __pyx_L12_error)
+            __pyx_t_4 = __Pyx_PyInt_FromSize_t(__pyx_v_nbytes); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 207, __pyx_L12_error)
             __Pyx_GOTREF(__pyx_t_4);
-            __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_could_not_allocate_d_bytes, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 201, __pyx_L12_error)
+            __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_could_not_allocate_d_bytes, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 207, __pyx_L12_error)
             __Pyx_GOTREF(__pyx_t_3);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_MemoryError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 201, __pyx_L12_error)
+            __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_MemoryError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 207, __pyx_L12_error)
             __Pyx_GOTREF(__pyx_t_4);
             __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
             __Pyx_Raise(__pyx_t_4, 0, 0, 0);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __PYX_ERR(0, 201, __pyx_L12_error)
+            __PYX_ERR(0, 207, __pyx_L12_error)
           }
 
-          /* "_splitter_mt.pyx":200
+          /* "_splitter_mt.pyx":206
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)
  *     if tmp == NULL:
  *         with gil:             # <<<<<<<<<<<<<<
@@ -2524,7 +2659,7 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
           }
       }
 
-      /* "_splitter_mt.pyx":199
+      /* "_splitter_mt.pyx":205
  *                               % (nelems, sizeof(p[0][0])))
  *     cdef realloc_ptr tmp = <realloc_ptr>realloc(p[0], nbytes)
  *     if tmp == NULL:             # <<<<<<<<<<<<<<
@@ -2533,7 +2668,7 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
  */
     }
 
-    /* "_splitter_mt.pyx":203
+    /* "_splitter_mt.pyx":209
  *             raise MemoryError("could not allocate %d bytes" % nbytes)
  * 
  *     p[0] = tmp             # <<<<<<<<<<<<<<
@@ -2542,7 +2677,7 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
  */
     (__pyx_v_p[0]) = __pyx_v_tmp;
 
-    /* "_splitter_mt.pyx":204
+    /* "_splitter_mt.pyx":210
  * 
  *     p[0] = tmp
  *     return tmp  # for convenience             # <<<<<<<<<<<<<<
@@ -2553,7 +2688,7 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
     goto __pyx_L3_return;
   }
 
-  /* "_splitter_mt.pyx":192
+  /* "_splitter_mt.pyx":198
  *     # sizeof(realloc_ptr[0]) would be more like idiomatic C, but causes Cython
  *     # 0.20.1 to crash.
  *     cdef size_t nbytes = nelems * sizeof(p[0][0])             # <<<<<<<<<<<<<<
@@ -2575,7 +2710,7 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
     }
   }
 
-  /* "_splitter_mt.pyx":189
+  /* "_splitter_mt.pyx":195
  *     RAND_R_MAX = 0x7FFFFFFF
  * 
  * cdef realloc_ptr safe_realloc(realloc_ptr* p, size_t nelems) nogil except *:             # <<<<<<<<<<<<<<
@@ -2599,7 +2734,7 @@ static __pyx_t_12_splitter_mt_SIZE_t *__pyx_fuse_1__pyx_f_12_splitter_mt_safe_re
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":208
+/* "_splitter_mt.pyx":214
  * # rand_r replacement using a 32bit XorShift generator
  * # See http://www.jstatsoft.org/v08/i14/paper for details
  * cdef inline UINT32_t our_rand_r(UINT32_t* seed) nogil:             # <<<<<<<<<<<<<<
@@ -2611,7 +2746,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_UINT32_t __pyx_f_12_splitter_mt_our_
   __pyx_t_12_splitter_mt_UINT32_t __pyx_r;
   long __pyx_t_1;
 
-  /* "_splitter_mt.pyx":209
+  /* "_splitter_mt.pyx":215
  * # See http://www.jstatsoft.org/v08/i14/paper for details
  * cdef inline UINT32_t our_rand_r(UINT32_t* seed) nogil:
  *     seed[0] ^= <UINT32_t>(seed[0] << 13)             # <<<<<<<<<<<<<<
@@ -2621,7 +2756,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_UINT32_t __pyx_f_12_splitter_mt_our_
   __pyx_t_1 = 0;
   (__pyx_v_seed[__pyx_t_1]) = ((__pyx_v_seed[__pyx_t_1]) ^ ((__pyx_t_12_splitter_mt_UINT32_t)((__pyx_v_seed[0]) << 13)));
 
-  /* "_splitter_mt.pyx":210
+  /* "_splitter_mt.pyx":216
  * cdef inline UINT32_t our_rand_r(UINT32_t* seed) nogil:
  *     seed[0] ^= <UINT32_t>(seed[0] << 13)
  *     seed[0] ^= <UINT32_t>(seed[0] >> 17)             # <<<<<<<<<<<<<<
@@ -2631,7 +2766,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_UINT32_t __pyx_f_12_splitter_mt_our_
   __pyx_t_1 = 0;
   (__pyx_v_seed[__pyx_t_1]) = ((__pyx_v_seed[__pyx_t_1]) ^ ((__pyx_t_12_splitter_mt_UINT32_t)((__pyx_v_seed[0]) >> 17)));
 
-  /* "_splitter_mt.pyx":211
+  /* "_splitter_mt.pyx":217
  *     seed[0] ^= <UINT32_t>(seed[0] << 13)
  *     seed[0] ^= <UINT32_t>(seed[0] >> 17)
  *     seed[0] ^= <UINT32_t>(seed[0] << 5)             # <<<<<<<<<<<<<<
@@ -2641,7 +2776,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_UINT32_t __pyx_f_12_splitter_mt_our_
   __pyx_t_1 = 0;
   (__pyx_v_seed[__pyx_t_1]) = ((__pyx_v_seed[__pyx_t_1]) ^ ((__pyx_t_12_splitter_mt_UINT32_t)((__pyx_v_seed[0]) << 5)));
 
-  /* "_splitter_mt.pyx":213
+  /* "_splitter_mt.pyx":219
  *     seed[0] ^= <UINT32_t>(seed[0] << 5)
  * 
  *     return seed[0] % (<UINT32_t>RAND_R_MAX + 1)             # <<<<<<<<<<<<<<
@@ -2651,7 +2786,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_UINT32_t __pyx_f_12_splitter_mt_our_
   __pyx_r = ((__pyx_v_seed[0]) % (((__pyx_t_12_splitter_mt_UINT32_t)__pyx_e_12_splitter_mt_RAND_R_MAX) + 1));
   goto __pyx_L0;
 
-  /* "_splitter_mt.pyx":208
+  /* "_splitter_mt.pyx":214
  * # rand_r replacement using a 32bit XorShift generator
  * # See http://www.jstatsoft.org/v08/i14/paper for details
  * cdef inline UINT32_t our_rand_r(UINT32_t* seed) nogil:             # <<<<<<<<<<<<<<
@@ -2664,7 +2799,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_UINT32_t __pyx_f_12_splitter_mt_our_
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":215
+/* "_splitter_mt.pyx":221
  *     return seed[0] % (<UINT32_t>RAND_R_MAX + 1)
  * 
  * cdef inline SIZE_t rand_int(SIZE_t low, SIZE_t high,             # <<<<<<<<<<<<<<
@@ -2675,7 +2810,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_UINT32_t __pyx_f_12_splitter_mt_our_
 static CYTHON_INLINE __pyx_t_12_splitter_mt_SIZE_t __pyx_f_12_splitter_mt_rand_int(__pyx_t_12_splitter_mt_SIZE_t __pyx_v_low, __pyx_t_12_splitter_mt_SIZE_t __pyx_v_high, __pyx_t_12_splitter_mt_UINT32_t *__pyx_v_random_state) {
   __pyx_t_12_splitter_mt_SIZE_t __pyx_r;
 
-  /* "_splitter_mt.pyx":218
+  /* "_splitter_mt.pyx":224
  *                             UINT32_t* random_state) nogil:
  *     """Generate a random integer in [low; end)."""
  *     return low + our_rand_r(random_state) % (high - low)             # <<<<<<<<<<<<<<
@@ -2685,7 +2820,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_SIZE_t __pyx_f_12_splitter_mt_rand_i
   __pyx_r = (__pyx_v_low + (__pyx_f_12_splitter_mt_our_rand_r(__pyx_v_random_state) % (__pyx_v_high - __pyx_v_low)));
   goto __pyx_L0;
 
-  /* "_splitter_mt.pyx":215
+  /* "_splitter_mt.pyx":221
  *     return seed[0] % (<UINT32_t>RAND_R_MAX + 1)
  * 
  * cdef inline SIZE_t rand_int(SIZE_t low, SIZE_t high,             # <<<<<<<<<<<<<<
@@ -2698,7 +2833,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_SIZE_t __pyx_f_12_splitter_mt_rand_i
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":221
+/* "_splitter_mt.pyx":227
  * 
  * 
  * cdef inline double rand_uniform(double low, double high,             # <<<<<<<<<<<<<<
@@ -2709,7 +2844,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_SIZE_t __pyx_f_12_splitter_mt_rand_i
 static CYTHON_INLINE double __pyx_f_12_splitter_mt_rand_uniform(double __pyx_v_low, double __pyx_v_high, __pyx_t_12_splitter_mt_UINT32_t *__pyx_v_random_state) {
   double __pyx_r;
 
-  /* "_splitter_mt.pyx":225
+  /* "_splitter_mt.pyx":231
  *     """Generate a random double in [low; high)."""
  *     return ((high - low) * <double> our_rand_r(random_state) /
  *             <double> RAND_R_MAX) + low             # <<<<<<<<<<<<<<
@@ -2719,7 +2854,7 @@ static CYTHON_INLINE double __pyx_f_12_splitter_mt_rand_uniform(double __pyx_v_l
   __pyx_r = ((((__pyx_v_high - __pyx_v_low) * ((double)__pyx_f_12_splitter_mt_our_rand_r(__pyx_v_random_state))) / ((double)__pyx_e_12_splitter_mt_RAND_R_MAX)) + __pyx_v_low);
   goto __pyx_L0;
 
-  /* "_splitter_mt.pyx":221
+  /* "_splitter_mt.pyx":227
  * 
  * 
  * cdef inline double rand_uniform(double low, double high,             # <<<<<<<<<<<<<<
@@ -2732,7 +2867,7 @@ static CYTHON_INLINE double __pyx_f_12_splitter_mt_rand_uniform(double __pyx_v_l
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":228
+/* "_splitter_mt.pyx":234
  * 
  * 
  * cdef inline double log(double x) nogil:             # <<<<<<<<<<<<<<
@@ -2743,7 +2878,7 @@ static CYTHON_INLINE double __pyx_f_12_splitter_mt_rand_uniform(double __pyx_v_l
 static CYTHON_INLINE double __pyx_f_12_splitter_mt_log(double __pyx_v_x) {
   double __pyx_r;
 
-  /* "_splitter_mt.pyx":229
+  /* "_splitter_mt.pyx":235
  * 
  * cdef inline double log(double x) nogil:
  *     return ln(x) / ln(2.0)             # <<<<<<<<<<<<<<
@@ -2753,7 +2888,7 @@ static CYTHON_INLINE double __pyx_f_12_splitter_mt_log(double __pyx_v_x) {
   __pyx_r = (log(__pyx_v_x) / log(2.0));
   goto __pyx_L0;
 
-  /* "_splitter_mt.pyx":228
+  /* "_splitter_mt.pyx":234
  * 
  * 
  * cdef inline double log(double x) nogil:             # <<<<<<<<<<<<<<
@@ -2766,7 +2901,7 @@ static CYTHON_INLINE double __pyx_f_12_splitter_mt_log(double __pyx_v_x) {
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":232
+/* "_splitter_mt.pyx":238
  * 
  * 
  * cdef inline void _init_split(SplitRecord* self, SIZE_t start_pos) nogil:             # <<<<<<<<<<<<<<
@@ -2776,7 +2911,7 @@ static CYTHON_INLINE double __pyx_f_12_splitter_mt_log(double __pyx_v_x) {
 
 static CYTHON_INLINE void __pyx_f_12_splitter_mt__init_split(struct __pyx_t_12_splitter_mt_SplitRecord *__pyx_v_self, __pyx_t_12_splitter_mt_SIZE_t __pyx_v_start_pos) {
 
-  /* "_splitter_mt.pyx":233
+  /* "_splitter_mt.pyx":239
  * 
  * cdef inline void _init_split(SplitRecord* self, SIZE_t start_pos) nogil:
  *     self.impurity_left = INFINITY             # <<<<<<<<<<<<<<
@@ -2785,7 +2920,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt__init_split(struct __pyx_t_12_s
  */
   __pyx_v_self->impurity_left = __pyx_v_12_splitter_mt_INFINITY;
 
-  /* "_splitter_mt.pyx":234
+  /* "_splitter_mt.pyx":240
  * cdef inline void _init_split(SplitRecord* self, SIZE_t start_pos) nogil:
  *     self.impurity_left = INFINITY
  *     self.impurity_right = INFINITY             # <<<<<<<<<<<<<<
@@ -2794,7 +2929,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt__init_split(struct __pyx_t_12_s
  */
   __pyx_v_self->impurity_right = __pyx_v_12_splitter_mt_INFINITY;
 
-  /* "_splitter_mt.pyx":235
+  /* "_splitter_mt.pyx":241
  *     self.impurity_left = INFINITY
  *     self.impurity_right = INFINITY
  *     self.pos = start_pos             # <<<<<<<<<<<<<<
@@ -2803,7 +2938,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt__init_split(struct __pyx_t_12_s
  */
   __pyx_v_self->pos = __pyx_v_start_pos;
 
-  /* "_splitter_mt.pyx":236
+  /* "_splitter_mt.pyx":242
  *     self.impurity_right = INFINITY
  *     self.pos = start_pos
  *     self.feature = 0             # <<<<<<<<<<<<<<
@@ -2812,7 +2947,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt__init_split(struct __pyx_t_12_s
  */
   __pyx_v_self->feature = 0;
 
-  /* "_splitter_mt.pyx":237
+  /* "_splitter_mt.pyx":243
  *     self.pos = start_pos
  *     self.feature = 0
  *     self.threshold = 0.             # <<<<<<<<<<<<<<
@@ -2821,16 +2956,16 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt__init_split(struct __pyx_t_12_s
  */
   __pyx_v_self->threshold = 0.;
 
-  /* "_splitter_mt.pyx":238
+  /* "_splitter_mt.pyx":244
  *     self.feature = 0
  *     self.threshold = 0.
  *     self.improvement = -INFINITY             # <<<<<<<<<<<<<<
  * 
- * cdef class Criterion:
+ * #cdef class Criterion:
  */
   __pyx_v_self->improvement = (-__pyx_v_12_splitter_mt_INFINITY);
 
-  /* "_splitter_mt.pyx":232
+  /* "_splitter_mt.pyx":238
  * 
  * 
  * cdef inline void _init_split(SplitRecord* self, SIZE_t start_pos) nogil:             # <<<<<<<<<<<<<<
@@ -2841,252 +2976,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt__init_split(struct __pyx_t_12_s
   /* function exit code */
 }
 
-/* "_splitter_mt.pyx":275
- * 
- *     # Methods
- *     cdef int init(self, DOUBLE_t* y, SIZE_t y_stride, DOUBLE_t* sample_weight,             # <<<<<<<<<<<<<<
- *                   double weighted_n_samples, SIZE_t* samples, SIZE_t start,
- *                   SIZE_t end) nogil except -1:
- */
-
-static int __pyx_f_12_splitter_mt_9Criterion_init(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self, CYTHON_UNUSED __pyx_t_12_splitter_mt_DOUBLE_t *__pyx_v_y, CYTHON_UNUSED __pyx_t_12_splitter_mt_SIZE_t __pyx_v_y_stride, CYTHON_UNUSED __pyx_t_12_splitter_mt_DOUBLE_t *__pyx_v_sample_weight, CYTHON_UNUSED double __pyx_v_weighted_n_samples, CYTHON_UNUSED __pyx_t_12_splitter_mt_SIZE_t *__pyx_v_samples, CYTHON_UNUSED __pyx_t_12_splitter_mt_SIZE_t __pyx_v_start, CYTHON_UNUSED __pyx_t_12_splitter_mt_SIZE_t __pyx_v_end) {
-  int __pyx_r;
-
-  /* function exit code */
-  __pyx_r = 0;
-  return __pyx_r;
-}
-
-/* "_splitter_mt.pyx":279
- *                   SIZE_t end) nogil except -1:
- *         pass
- *     cdef int reset(self) nogil except -1:             # <<<<<<<<<<<<<<
- *         pass
- *     cdef int reverse_reset(self) nogil except -1:
- */
-
-static int __pyx_f_12_splitter_mt_9Criterion_reset(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self) {
-  int __pyx_r;
-
-  /* function exit code */
-  __pyx_r = 0;
-  return __pyx_r;
-}
-
-/* "_splitter_mt.pyx":281
- *     cdef int reset(self) nogil except -1:
- *         pass
- *     cdef int reverse_reset(self) nogil except -1:             # <<<<<<<<<<<<<<
- *         pass
- *     cdef int update(self, SIZE_t new_pos) nogil except -1:
- */
-
-static int __pyx_f_12_splitter_mt_9Criterion_reverse_reset(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self) {
-  int __pyx_r;
-
-  /* function exit code */
-  __pyx_r = 0;
-  return __pyx_r;
-}
-
-/* "_splitter_mt.pyx":283
- *     cdef int reverse_reset(self) nogil except -1:
- *         pass
- *     cdef int update(self, SIZE_t new_pos) nogil except -1:             # <<<<<<<<<<<<<<
- *         pass
- *     cdef double node_impurity(self) nogil:
- */
-
-static int __pyx_f_12_splitter_mt_9Criterion_update(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self, CYTHON_UNUSED __pyx_t_12_splitter_mt_SIZE_t __pyx_v_new_pos) {
-  int __pyx_r;
-
-  /* function exit code */
-  __pyx_r = 0;
-  return __pyx_r;
-}
-
-/* "_splitter_mt.pyx":285
- *     cdef int update(self, SIZE_t new_pos) nogil except -1:
- *         pass
- *     cdef double node_impurity(self) nogil:             # <<<<<<<<<<<<<<
- *         pass
- *     cdef void children_impurity(self, double* impurity_left,
- */
-
-static double __pyx_f_12_splitter_mt_9Criterion_node_impurity(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self) {
-  double __pyx_r;
-
-  /* function exit code */
-  __pyx_r = 0;
-  return __pyx_r;
-}
-
-/* "_splitter_mt.pyx":287
- *     cdef double node_impurity(self) nogil:
- *         pass
- *     cdef void children_impurity(self, double* impurity_left,             # <<<<<<<<<<<<<<
- *                                 double* impurity_right) nogil:
- *         pass
- */
-
-static void __pyx_f_12_splitter_mt_9Criterion_children_impurity(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self, CYTHON_UNUSED double *__pyx_v_impurity_left, CYTHON_UNUSED double *__pyx_v_impurity_right) {
-
-  /* function exit code */
-}
-
-/* "_splitter_mt.pyx":290
- *                                 double* impurity_right) nogil:
- *         pass
- *     cdef void node_value(self, double* dest) nogil:             # <<<<<<<<<<<<<<
- *         pass
- *     cdef double impurity_improvement(self, double impurity) nogil:
- */
-
-static void __pyx_f_12_splitter_mt_9Criterion_node_value(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self, CYTHON_UNUSED double *__pyx_v_dest) {
-
-  /* function exit code */
-}
-
-/* "_splitter_mt.pyx":292
- *     cdef void node_value(self, double* dest) nogil:
- *         pass
- *     cdef double impurity_improvement(self, double impurity) nogil:             # <<<<<<<<<<<<<<
- *         pass
- *     cdef double proxy_impurity_improvement(self) nogil:
- */
-
-static double __pyx_f_12_splitter_mt_9Criterion_impurity_improvement(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self, CYTHON_UNUSED double __pyx_v_impurity) {
-  double __pyx_r;
-
-  /* function exit code */
-  __pyx_r = 0;
-  return __pyx_r;
-}
-
-/* "_splitter_mt.pyx":294
- *     cdef double impurity_improvement(self, double impurity) nogil:
- *         pass
- *     cdef double proxy_impurity_improvement(self) nogil:             # <<<<<<<<<<<<<<
- *         pass
- * 
- */
-
-static double __pyx_f_12_splitter_mt_9Criterion_proxy_impurity_improvement(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self) {
-  double __pyx_r;
-
-  /* function exit code */
-  __pyx_r = 0;
-  return __pyx_r;
-}
-
-/* "(tree fragment)":1
- * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_12_splitter_mt_9Criterion_1__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_12_splitter_mt_9Criterion_1__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_12_splitter_mt_9Criterion___reduce_cython__(((struct __pyx_obj_12_splitter_mt_Criterion *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_12_splitter_mt_9Criterion___reduce_cython__(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__reduce_cython__", 0);
-
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")
- */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 2, __pyx_L1_error)
-
-  /* "(tree fragment)":1
- * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("_splitter_mt.Criterion.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "(tree fragment)":3
- * def __reduce_cython__(self):
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_12_splitter_mt_9Criterion_3__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_12_splitter_mt_9Criterion_3__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_12_splitter_mt_9Criterion_2__setstate_cython__(((struct __pyx_obj_12_splitter_mt_Criterion *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_12_splitter_mt_9Criterion_2__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_12_splitter_mt_Criterion *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__setstate_cython__", 0);
-
-  /* "(tree fragment)":4
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_Raise(__pyx_t_1, 0, 0, 0);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 4, __pyx_L1_error)
-
-  /* "(tree fragment)":3
- * def __reduce_cython__(self):
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):             # <<<<<<<<<<<<<<
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("_splitter_mt.Criterion.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "_splitter_mt.pyx":415
+/* "_splitter_mt.pyx":359
  *     sparse and dense data, one split at a time.
  *     """
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
@@ -3117,7 +3007,7 @@ static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT___reduce__(struct __py
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("__reduce__", 0);
 
-  /* "_splitter_mt.pyx":416
+  /* "_splitter_mt.pyx":360
  *     """
  *     def __reduce__(self):
  *         return (BestSplitterMT, (self.criterion,             # <<<<<<<<<<<<<<
@@ -3126,67 +3016,67 @@ static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT___reduce__(struct __py
  */
   __Pyx_XDECREF(__pyx_r);
 
-  /* "_splitter_mt.pyx":417
+  /* "_splitter_mt.pyx":361
  *     def __reduce__(self):
  *         return (BestSplitterMT, (self.criterion,
  *                                self.max_features,             # <<<<<<<<<<<<<<
  *                                self.min_samples_leaf,
  *                                self.min_weight_leaf,
  */
-  __pyx_t_1 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_self->max_features); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 417, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_self->__pyx_base.max_features); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "_splitter_mt.pyx":418
+  /* "_splitter_mt.pyx":362
  *         return (BestSplitterMT, (self.criterion,
  *                                self.max_features,
  *                                self.min_samples_leaf,             # <<<<<<<<<<<<<<
  *                                self.min_weight_leaf,
  *                                self.random_state,
  */
-  __pyx_t_2 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_self->min_samples_leaf); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 418, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_self->__pyx_base.min_samples_leaf); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 362, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "_splitter_mt.pyx":419
+  /* "_splitter_mt.pyx":363
  *                                self.max_features,
  *                                self.min_samples_leaf,
  *                                self.min_weight_leaf,             # <<<<<<<<<<<<<<
  *                                self.random_state,
  *                                self.presort), self.__getstate__())
  */
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->min_weight_leaf); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 419, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->__pyx_base.min_weight_leaf); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 363, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "_splitter_mt.pyx":421
+  /* "_splitter_mt.pyx":365
  *                                self.min_weight_leaf,
  *                                self.random_state,
  *                                self.presort), self.__getstate__())             # <<<<<<<<<<<<<<
  *     def __cinit__(self, object criterion, SIZE_t max_features,
  *                   SIZE_t min_samples_leaf, double min_weight_leaf,
  */
-  __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_v_self->presort); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 421, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_v_self->__pyx_base.presort); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 365, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "_splitter_mt.pyx":416
+  /* "_splitter_mt.pyx":360
  *     """
  *     def __reduce__(self):
  *         return (BestSplitterMT, (self.criterion,             # <<<<<<<<<<<<<<
  *                                self.max_features,
  *                                self.min_samples_leaf,
  */
-  __pyx_t_5 = PyTuple_New(6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 360, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_INCREF(((PyObject *)__pyx_v_self->criterion));
-  __Pyx_GIVEREF(((PyObject *)__pyx_v_self->criterion));
-  PyTuple_SET_ITEM(__pyx_t_5, 0, ((PyObject *)__pyx_v_self->criterion));
+  __Pyx_INCREF(((PyObject *)__pyx_v_self->__pyx_base.criterion));
+  __Pyx_GIVEREF(((PyObject *)__pyx_v_self->__pyx_base.criterion));
+  PyTuple_SET_ITEM(__pyx_t_5, 0, ((PyObject *)__pyx_v_self->__pyx_base.criterion));
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_5, 3, __pyx_t_3);
-  __Pyx_INCREF(__pyx_v_self->random_state);
-  __Pyx_GIVEREF(__pyx_v_self->random_state);
-  PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_v_self->random_state);
+  __Pyx_INCREF(__pyx_v_self->__pyx_base.random_state);
+  __Pyx_GIVEREF(__pyx_v_self->__pyx_base.random_state);
+  PyTuple_SET_ITEM(__pyx_t_5, 4, __pyx_v_self->__pyx_base.random_state);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_5, 5, __pyx_t_4);
   __pyx_t_1 = 0;
@@ -3194,14 +3084,14 @@ static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT___reduce__(struct __py
   __pyx_t_3 = 0;
   __pyx_t_4 = 0;
 
-  /* "_splitter_mt.pyx":421
+  /* "_splitter_mt.pyx":365
  *                                self.min_weight_leaf,
  *                                self.random_state,
  *                                self.presort), self.__getstate__())             # <<<<<<<<<<<<<<
  *     def __cinit__(self, object criterion, SIZE_t max_features,
  *                   SIZE_t min_samples_leaf, double min_weight_leaf,
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getstate); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 421, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_getstate); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 365, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -3214,22 +3104,22 @@ static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT___reduce__(struct __py
     }
   }
   if (__pyx_t_2) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 421, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 365, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else {
-    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 421, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 365, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "_splitter_mt.pyx":416
+  /* "_splitter_mt.pyx":360
  *     """
  *     def __reduce__(self):
  *         return (BestSplitterMT, (self.criterion,             # <<<<<<<<<<<<<<
  *                                self.max_features,
  *                                self.min_samples_leaf,
  */
-  __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 360, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_12_splitter_mt_BestSplitterMT));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_12_splitter_mt_BestSplitterMT));
@@ -3244,7 +3134,7 @@ static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT___reduce__(struct __py
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "_splitter_mt.pyx":415
+  /* "_splitter_mt.pyx":359
  *     sparse and dense data, one split at a time.
  *     """
  *     def __reduce__(self):             # <<<<<<<<<<<<<<
@@ -3267,7 +3157,7 @@ static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT___reduce__(struct __py
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":422
+/* "_splitter_mt.pyx":366
  *                                self.random_state,
  *                                self.presort), self.__getstate__())
  *     def __cinit__(self, object criterion, SIZE_t max_features,             # <<<<<<<<<<<<<<
@@ -3318,35 +3208,35 @@ static int __pyx_pw_12_splitter_mt_14BestSplitterMT_3__cinit__(PyObject *__pyx_v
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_max_features)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 6, 6, 1); __PYX_ERR(0, 422, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 6, 6, 1); __PYX_ERR(0, 366, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_min_samples_leaf)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 6, 6, 2); __PYX_ERR(0, 422, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 6, 6, 2); __PYX_ERR(0, 366, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_min_weight_leaf)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 6, 6, 3); __PYX_ERR(0, 422, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 6, 6, 3); __PYX_ERR(0, 366, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_random_state)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 6, 6, 4); __PYX_ERR(0, 422, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 6, 6, 4); __PYX_ERR(0, 366, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_presort)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 6, 6, 5); __PYX_ERR(0, 422, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 6, 6, 5); __PYX_ERR(0, 366, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 422, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 366, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 6) {
       goto __pyx_L5_argtuple_error;
@@ -3359,15 +3249,15 @@ static int __pyx_pw_12_splitter_mt_14BestSplitterMT_3__cinit__(PyObject *__pyx_v
       values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
     }
     __pyx_v_criterion = values[0];
-    __pyx_v_max_features = __Pyx_PyInt_As_Py_intptr_t(values[1]); if (unlikely((__pyx_v_max_features == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 422, __pyx_L3_error)
-    __pyx_v_min_samples_leaf = __Pyx_PyInt_As_Py_intptr_t(values[2]); if (unlikely((__pyx_v_min_samples_leaf == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 423, __pyx_L3_error)
-    __pyx_v_min_weight_leaf = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_min_weight_leaf == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 423, __pyx_L3_error)
+    __pyx_v_max_features = __Pyx_PyInt_As_Py_intptr_t(values[1]); if (unlikely((__pyx_v_max_features == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 366, __pyx_L3_error)
+    __pyx_v_min_samples_leaf = __Pyx_PyInt_As_Py_intptr_t(values[2]); if (unlikely((__pyx_v_min_samples_leaf == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 367, __pyx_L3_error)
+    __pyx_v_min_weight_leaf = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_min_weight_leaf == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 367, __pyx_L3_error)
     __pyx_v_random_state = values[4];
-    __pyx_v_presort = __Pyx_PyObject_IsTrue(values[5]); if (unlikely((__pyx_v_presort == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 424, __pyx_L3_error)
+    __pyx_v_presort = __Pyx_PyObject_IsTrue(values[5]); if (unlikely((__pyx_v_presort == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 368, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 422, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 366, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("_splitter_mt.BestSplitterMT.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3386,122 +3276,122 @@ static int __pyx_pf_12_splitter_mt_14BestSplitterMT_2__cinit__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "_splitter_mt.pyx":448
+  /* "_splitter_mt.pyx":392
  *         """
  * 
  *         self.criterion = criterion             # <<<<<<<<<<<<<<
  * 
  *         self.samples = NULL
  */
-  if (!(likely(((__pyx_v_criterion) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_criterion, __pyx_ptype_12_splitter_mt_Criterion))))) __PYX_ERR(0, 448, __pyx_L1_error)
+  if (!(likely(((__pyx_v_criterion) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_criterion, __pyx_ptype_7sklearn_4tree_10_criterion_Criterion))))) __PYX_ERR(0, 392, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_criterion;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
-  __Pyx_GOTREF(__pyx_v_self->criterion);
-  __Pyx_DECREF(((PyObject *)__pyx_v_self->criterion));
-  __pyx_v_self->criterion = ((struct __pyx_obj_12_splitter_mt_Criterion *)__pyx_t_1);
+  __Pyx_GOTREF(__pyx_v_self->__pyx_base.criterion);
+  __Pyx_DECREF(((PyObject *)__pyx_v_self->__pyx_base.criterion));
+  __pyx_v_self->__pyx_base.criterion = ((struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "_splitter_mt.pyx":450
+  /* "_splitter_mt.pyx":394
  *         self.criterion = criterion
  * 
  *         self.samples = NULL             # <<<<<<<<<<<<<<
  *         self.n_samples = 0
  *         self.features = NULL
  */
-  __pyx_v_self->samples = NULL;
+  __pyx_v_self->__pyx_base.samples = NULL;
 
-  /* "_splitter_mt.pyx":451
+  /* "_splitter_mt.pyx":395
  * 
  *         self.samples = NULL
  *         self.n_samples = 0             # <<<<<<<<<<<<<<
  *         self.features = NULL
  *         self.n_features = 0
  */
-  __pyx_v_self->n_samples = 0;
+  __pyx_v_self->__pyx_base.n_samples = 0;
 
-  /* "_splitter_mt.pyx":452
+  /* "_splitter_mt.pyx":396
  *         self.samples = NULL
  *         self.n_samples = 0
  *         self.features = NULL             # <<<<<<<<<<<<<<
  *         self.n_features = 0
  *         self.feature_values = NULL
  */
-  __pyx_v_self->features = NULL;
+  __pyx_v_self->__pyx_base.features = NULL;
 
-  /* "_splitter_mt.pyx":453
+  /* "_splitter_mt.pyx":397
  *         self.n_samples = 0
  *         self.features = NULL
  *         self.n_features = 0             # <<<<<<<<<<<<<<
  *         self.feature_values = NULL
  * 
  */
-  __pyx_v_self->n_features = 0;
+  __pyx_v_self->__pyx_base.n_features = 0;
 
-  /* "_splitter_mt.pyx":454
+  /* "_splitter_mt.pyx":398
  *         self.features = NULL
  *         self.n_features = 0
  *         self.feature_values = NULL             # <<<<<<<<<<<<<<
  * 
  *         self.y = NULL
  */
-  __pyx_v_self->feature_values = NULL;
+  __pyx_v_self->__pyx_base.feature_values = NULL;
 
-  /* "_splitter_mt.pyx":456
+  /* "_splitter_mt.pyx":400
  *         self.feature_values = NULL
  * 
  *         self.y = NULL             # <<<<<<<<<<<<<<
  *         self.y_stride = 0
  *         self.sample_weight = NULL
  */
-  __pyx_v_self->y = NULL;
+  __pyx_v_self->__pyx_base.y = NULL;
 
-  /* "_splitter_mt.pyx":457
+  /* "_splitter_mt.pyx":401
  * 
  *         self.y = NULL
  *         self.y_stride = 0             # <<<<<<<<<<<<<<
  *         self.sample_weight = NULL
  * 
  */
-  __pyx_v_self->y_stride = 0;
+  __pyx_v_self->__pyx_base.y_stride = 0;
 
-  /* "_splitter_mt.pyx":458
+  /* "_splitter_mt.pyx":402
  *         self.y = NULL
  *         self.y_stride = 0
  *         self.sample_weight = NULL             # <<<<<<<<<<<<<<
  * 
  *         self.max_features = max_features
  */
-  __pyx_v_self->sample_weight = NULL;
+  __pyx_v_self->__pyx_base.sample_weight = NULL;
 
-  /* "_splitter_mt.pyx":460
+  /* "_splitter_mt.pyx":404
  *         self.sample_weight = NULL
  * 
  *         self.max_features = max_features             # <<<<<<<<<<<<<<
  *         self.min_samples_leaf = min_samples_leaf
  *         self.min_weight_leaf = min_weight_leaf
  */
-  __pyx_v_self->max_features = __pyx_v_max_features;
+  __pyx_v_self->__pyx_base.max_features = __pyx_v_max_features;
 
-  /* "_splitter_mt.pyx":461
+  /* "_splitter_mt.pyx":405
  * 
  *         self.max_features = max_features
  *         self.min_samples_leaf = min_samples_leaf             # <<<<<<<<<<<<<<
  *         self.min_weight_leaf = min_weight_leaf
  *         self.random_state = random_state
  */
-  __pyx_v_self->min_samples_leaf = __pyx_v_min_samples_leaf;
+  __pyx_v_self->__pyx_base.min_samples_leaf = __pyx_v_min_samples_leaf;
 
-  /* "_splitter_mt.pyx":462
+  /* "_splitter_mt.pyx":406
  *         self.max_features = max_features
  *         self.min_samples_leaf = min_samples_leaf
  *         self.min_weight_leaf = min_weight_leaf             # <<<<<<<<<<<<<<
  *         self.random_state = random_state
  *         self.presort = presort
  */
-  __pyx_v_self->min_weight_leaf = __pyx_v_min_weight_leaf;
+  __pyx_v_self->__pyx_base.min_weight_leaf = __pyx_v_min_weight_leaf;
 
-  /* "_splitter_mt.pyx":463
+  /* "_splitter_mt.pyx":407
  *         self.min_samples_leaf = min_samples_leaf
  *         self.min_weight_leaf = min_weight_leaf
  *         self.random_state = random_state             # <<<<<<<<<<<<<<
@@ -3510,20 +3400,20 @@ static int __pyx_pf_12_splitter_mt_14BestSplitterMT_2__cinit__(struct __pyx_obj_
  */
   __Pyx_INCREF(__pyx_v_random_state);
   __Pyx_GIVEREF(__pyx_v_random_state);
-  __Pyx_GOTREF(__pyx_v_self->random_state);
-  __Pyx_DECREF(__pyx_v_self->random_state);
-  __pyx_v_self->random_state = __pyx_v_random_state;
+  __Pyx_GOTREF(__pyx_v_self->__pyx_base.random_state);
+  __Pyx_DECREF(__pyx_v_self->__pyx_base.random_state);
+  __pyx_v_self->__pyx_base.random_state = __pyx_v_random_state;
 
-  /* "_splitter_mt.pyx":464
+  /* "_splitter_mt.pyx":408
  *         self.min_weight_leaf = min_weight_leaf
  *         self.random_state = random_state
  *         self.presort = presort             # <<<<<<<<<<<<<<
  * 
  *         self.X = NULL
  */
-  __pyx_v_self->presort = __pyx_v_presort;
+  __pyx_v_self->__pyx_base.presort = __pyx_v_presort;
 
-  /* "_splitter_mt.pyx":466
+  /* "_splitter_mt.pyx":410
  *         self.presort = presort
  * 
  *         self.X = NULL             # <<<<<<<<<<<<<<
@@ -3532,7 +3422,7 @@ static int __pyx_pf_12_splitter_mt_14BestSplitterMT_2__cinit__(struct __pyx_obj_
  */
   __pyx_v_self->X = NULL;
 
-  /* "_splitter_mt.pyx":467
+  /* "_splitter_mt.pyx":411
  * 
  *         self.X = NULL
  *         self.X_sample_stride = 0             # <<<<<<<<<<<<<<
@@ -3541,7 +3431,7 @@ static int __pyx_pf_12_splitter_mt_14BestSplitterMT_2__cinit__(struct __pyx_obj_
  */
   __pyx_v_self->X_sample_stride = 0;
 
-  /* "_splitter_mt.pyx":468
+  /* "_splitter_mt.pyx":412
  *         self.X = NULL
  *         self.X_sample_stride = 0
  *         self.X_feature_stride = 0             # <<<<<<<<<<<<<<
@@ -3550,7 +3440,7 @@ static int __pyx_pf_12_splitter_mt_14BestSplitterMT_2__cinit__(struct __pyx_obj_
  */
   __pyx_v_self->X_feature_stride = 0;
 
-  /* "_splitter_mt.pyx":469
+  /* "_splitter_mt.pyx":413
  *         self.X_sample_stride = 0
  *         self.X_feature_stride = 0
  *         self.X_idx_sorted_ptr = NULL             # <<<<<<<<<<<<<<
@@ -3559,7 +3449,7 @@ static int __pyx_pf_12_splitter_mt_14BestSplitterMT_2__cinit__(struct __pyx_obj_
  */
   __pyx_v_self->X_idx_sorted_ptr = NULL;
 
-  /* "_splitter_mt.pyx":470
+  /* "_splitter_mt.pyx":414
  *         self.X_feature_stride = 0
  *         self.X_idx_sorted_ptr = NULL
  *         self.X_idx_sorted_stride = 0             # <<<<<<<<<<<<<<
@@ -3568,7 +3458,7 @@ static int __pyx_pf_12_splitter_mt_14BestSplitterMT_2__cinit__(struct __pyx_obj_
  */
   __pyx_v_self->X_idx_sorted_stride = 0;
 
-  /* "_splitter_mt.pyx":471
+  /* "_splitter_mt.pyx":415
  *         self.X_idx_sorted_ptr = NULL
  *         self.X_idx_sorted_stride = 0
  *         self.sample_mask = NULL             # <<<<<<<<<<<<<<
@@ -3577,16 +3467,79 @@ static int __pyx_pf_12_splitter_mt_14BestSplitterMT_2__cinit__(struct __pyx_obj_
  */
   __pyx_v_self->sample_mask = NULL;
 
-  /* "_splitter_mt.pyx":472
+  /* "_splitter_mt.pyx":416
  *         self.X_idx_sorted_stride = 0
  *         self.sample_mask = NULL
  *         self.presort = presort             # <<<<<<<<<<<<<<
  * 
- *     def __dealloc__(self):
+ *         self.is_monotone = 0
  */
-  __pyx_v_self->presort = __pyx_v_presort;
+  __pyx_v_self->__pyx_base.presort = __pyx_v_presort;
+
+  /* "_splitter_mt.pyx":418
+ *         self.presort = presort
+ * 
+ *         self.is_monotone = 0             # <<<<<<<<<<<<<<
+ *         self.feat_mt_types_ptr = NULL
+ *         self.feat_mt_types_stride = 0
+ */
+  __pyx_v_self->is_monotone = 0;
+
+  /* "_splitter_mt.pyx":419
+ * 
+ *         self.is_monotone = 0
+ *         self.feat_mt_types_ptr = NULL             # <<<<<<<<<<<<<<
+ *         self.feat_mt_types_stride = 0
+ *         self.is_classification = 0
+ */
+  __pyx_v_self->feat_mt_types_ptr = NULL;
+
+  /* "_splitter_mt.pyx":420
+ *         self.is_monotone = 0
+ *         self.feat_mt_types_ptr = NULL
+ *         self.feat_mt_types_stride = 0             # <<<<<<<<<<<<<<
+ *         self.is_classification = 0
+ *         self.n_classes = NULL
+ */
+  __pyx_v_self->feat_mt_types_stride = 0;
+
+  /* "_splitter_mt.pyx":421
+ *         self.feat_mt_types_ptr = NULL
+ *         self.feat_mt_types_stride = 0
+ *         self.is_classification = 0             # <<<<<<<<<<<<<<
+ *         self.n_classes = NULL
+ *         self.n_classes_stride = 0
+ */
+  __pyx_v_self->is_classification = 0;
 
   /* "_splitter_mt.pyx":422
+ *         self.feat_mt_types_stride = 0
+ *         self.is_classification = 0
+ *         self.n_classes = NULL             # <<<<<<<<<<<<<<
+ *         self.n_classes_stride = 0
+ *         self.crit_sum_stride = 0
+ */
+  __pyx_v_self->n_classes = NULL;
+
+  /* "_splitter_mt.pyx":423
+ *         self.is_classification = 0
+ *         self.n_classes = NULL
+ *         self.n_classes_stride = 0             # <<<<<<<<<<<<<<
+ *         self.crit_sum_stride = 0
+ * 
+ */
+  __pyx_v_self->n_classes_stride = 0;
+
+  /* "_splitter_mt.pyx":424
+ *         self.n_classes = NULL
+ *         self.n_classes_stride = 0
+ *         self.crit_sum_stride = 0             # <<<<<<<<<<<<<<
+ * 
+ *     def __dealloc__(self):
+ */
+  __pyx_v_self->crit_sum_stride = 0;
+
+  /* "_splitter_mt.pyx":366
  *                                self.random_state,
  *                                self.presort), self.__getstate__())
  *     def __cinit__(self, object criterion, SIZE_t max_features,             # <<<<<<<<<<<<<<
@@ -3606,12 +3559,12 @@ static int __pyx_pf_12_splitter_mt_14BestSplitterMT_2__cinit__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":474
- *         self.presort = presort
+/* "_splitter_mt.pyx":426
+ *         self.crit_sum_stride = 0
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
  *         """Destructor."""
- * 
+ *         if self.presort == 1:
  */
 
 /* Python wrapper */
@@ -3630,54 +3583,18 @@ static void __pyx_pf_12_splitter_mt_14BestSplitterMT_4__dealloc__(struct __pyx_o
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "_splitter_mt.pyx":477
+  /* "_splitter_mt.pyx":428
+ *     def __dealloc__(self):
  *         """Destructor."""
- * 
- *         free(self.samples)             # <<<<<<<<<<<<<<
- *         free(self.features)
- *         free(self.constant_features)
- */
-  free(__pyx_v_self->samples);
-
-  /* "_splitter_mt.pyx":478
- * 
- *         free(self.samples)
- *         free(self.features)             # <<<<<<<<<<<<<<
- *         free(self.constant_features)
- *         free(self.feature_values)
- */
-  free(__pyx_v_self->features);
-
-  /* "_splitter_mt.pyx":479
- *         free(self.samples)
- *         free(self.features)
- *         free(self.constant_features)             # <<<<<<<<<<<<<<
- *         free(self.feature_values)
- *         if self.presort == 1:
- */
-  free(__pyx_v_self->constant_features);
-
-  /* "_splitter_mt.pyx":480
- *         free(self.features)
- *         free(self.constant_features)
- *         free(self.feature_values)             # <<<<<<<<<<<<<<
- *         if self.presort == 1:
- *             free(self.sample_mask)
- */
-  free(__pyx_v_self->feature_values);
-
-  /* "_splitter_mt.pyx":481
- *         free(self.constant_features)
- *         free(self.feature_values)
  *         if self.presort == 1:             # <<<<<<<<<<<<<<
  *             free(self.sample_mask)
  * 
  */
-  __pyx_t_1 = ((__pyx_v_self->presort == 1) != 0);
+  __pyx_t_1 = ((__pyx_v_self->__pyx_base.presort == 1) != 0);
   if (__pyx_t_1) {
 
-    /* "_splitter_mt.pyx":482
- *         free(self.feature_values)
+    /* "_splitter_mt.pyx":429
+ *         """Destructor."""
  *         if self.presort == 1:
  *             free(self.sample_mask)             # <<<<<<<<<<<<<<
  * 
@@ -3685,28 +3602,28 @@ static void __pyx_pf_12_splitter_mt_14BestSplitterMT_4__dealloc__(struct __pyx_o
  */
     free(__pyx_v_self->sample_mask);
 
-    /* "_splitter_mt.pyx":481
- *         free(self.constant_features)
- *         free(self.feature_values)
+    /* "_splitter_mt.pyx":428
+ *     def __dealloc__(self):
+ *         """Destructor."""
  *         if self.presort == 1:             # <<<<<<<<<<<<<<
  *             free(self.sample_mask)
  * 
  */
   }
 
-  /* "_splitter_mt.pyx":474
- *         self.presort = presort
+  /* "_splitter_mt.pyx":426
+ *         self.crit_sum_stride = 0
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
  *         """Destructor."""
- * 
+ *         if self.presort == 1:
  */
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
 }
 
-/* "_splitter_mt.pyx":487
+/* "_splitter_mt.pyx":434
  * 
  * 
  *     def __getstate__(self):             # <<<<<<<<<<<<<<
@@ -3733,7 +3650,7 @@ static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_6__getstate__(CYTHON_U
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__getstate__", 0);
 
-  /* "_splitter_mt.pyx":488
+  /* "_splitter_mt.pyx":435
  * 
  *     def __getstate__(self):
  *         return {}             # <<<<<<<<<<<<<<
@@ -3741,13 +3658,13 @@ static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_6__getstate__(CYTHON_U
  *     def __setstate__(self, d):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 488, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 435, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "_splitter_mt.pyx":487
+  /* "_splitter_mt.pyx":434
  * 
  * 
  *     def __getstate__(self):             # <<<<<<<<<<<<<<
@@ -3766,7 +3683,7 @@ static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_6__getstate__(CYTHON_U
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":490
+/* "_splitter_mt.pyx":437
  *         return {}
  * 
  *     def __setstate__(self, d):             # <<<<<<<<<<<<<<
@@ -3799,8 +3716,274 @@ static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_8__setstate__(CYTHON_U
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":493
+/* "_splitter_mt.pyx":440
  *         pass
+ * 
+ *     def init_monotone(self,             # <<<<<<<<<<<<<<
+ *                    object feat_mt_types):
+ *         self.is_monotone = 1
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_12_splitter_mt_14BestSplitterMT_11init_monotone(PyObject *__pyx_v_self, PyObject *__pyx_v_feat_mt_types); /*proto*/
+static PyObject *__pyx_pw_12_splitter_mt_14BestSplitterMT_11init_monotone(PyObject *__pyx_v_self, PyObject *__pyx_v_feat_mt_types) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("init_monotone (wrapper)", 0);
+  __pyx_r = __pyx_pf_12_splitter_mt_14BestSplitterMT_10init_monotone(((struct __pyx_obj_12_splitter_mt_BestSplitterMT *)__pyx_v_self), ((PyObject *)__pyx_v_feat_mt_types));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_10init_monotone(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_feat_mt_types) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __pyx_t_12_splitter_mt_SIZE_t __pyx_t_2;
+  __Pyx_RefNannySetupContext("init_monotone", 0);
+
+  /* "_splitter_mt.pyx":442
+ *     def init_monotone(self,
+ *                    object feat_mt_types):
+ *         self.is_monotone = 1             # <<<<<<<<<<<<<<
+ *         self.feat_mt_types = feat_mt_types
+ *         self.feat_mt_types_ptr = <INT32_t*> self.feat_mt_types.data
+ */
+  __pyx_v_self->is_monotone = 1;
+
+  /* "_splitter_mt.pyx":443
+ *                    object feat_mt_types):
+ *         self.is_monotone = 1
+ *         self.feat_mt_types = feat_mt_types             # <<<<<<<<<<<<<<
+ *         self.feat_mt_types_ptr = <INT32_t*> self.feat_mt_types.data
+ *         self.feat_mt_types_stride = (<SIZE_t> self.feat_mt_types.strides[0] /
+ */
+  if (!(likely(((__pyx_v_feat_mt_types) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_feat_mt_types, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 443, __pyx_L1_error)
+  __pyx_t_1 = __pyx_v_feat_mt_types;
+  __Pyx_INCREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __Pyx_GOTREF(__pyx_v_self->feat_mt_types);
+  __Pyx_DECREF(((PyObject *)__pyx_v_self->feat_mt_types));
+  __pyx_v_self->feat_mt_types = ((PyArrayObject *)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "_splitter_mt.pyx":444
+ *         self.is_monotone = 1
+ *         self.feat_mt_types = feat_mt_types
+ *         self.feat_mt_types_ptr = <INT32_t*> self.feat_mt_types.data             # <<<<<<<<<<<<<<
+ *         self.feat_mt_types_stride = (<SIZE_t> self.feat_mt_types.strides[0] /
+ *                                     <SIZE_t> self.feat_mt_types.itemsize)
+ */
+  __pyx_v_self->feat_mt_types_ptr = ((__pyx_t_12_splitter_mt_INT32_t *)__pyx_v_self->feat_mt_types->data);
+
+  /* "_splitter_mt.pyx":446
+ *         self.feat_mt_types_ptr = <INT32_t*> self.feat_mt_types.data
+ *         self.feat_mt_types_stride = (<SIZE_t> self.feat_mt_types.strides[0] /
+ *                                     <SIZE_t> self.feat_mt_types.itemsize)             # <<<<<<<<<<<<<<
+ * 
+ *         return 0
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->feat_mt_types), __pyx_n_s_itemsize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 446, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_1); if (unlikely((__pyx_t_2 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 446, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "_splitter_mt.pyx":445
+ *         self.feat_mt_types = feat_mt_types
+ *         self.feat_mt_types_ptr = <INT32_t*> self.feat_mt_types.data
+ *         self.feat_mt_types_stride = (<SIZE_t> self.feat_mt_types.strides[0] /             # <<<<<<<<<<<<<<
+ *                                     <SIZE_t> self.feat_mt_types.itemsize)
+ * 
+ */
+  __pyx_v_self->feat_mt_types_stride = (((__pyx_t_12_splitter_mt_SIZE_t)(__pyx_v_self->feat_mt_types->strides[0])) / ((__pyx_t_12_splitter_mt_SIZE_t)__pyx_t_2));
+
+  /* "_splitter_mt.pyx":448
+ *                                     <SIZE_t> self.feat_mt_types.itemsize)
+ * 
+ *         return 0             # <<<<<<<<<<<<<<
+ * 
+ *     def init_classification(self,
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_r = __pyx_int_0;
+  goto __pyx_L0;
+
+  /* "_splitter_mt.pyx":440
+ *         pass
+ * 
+ *     def init_monotone(self,             # <<<<<<<<<<<<<<
+ *                    object feat_mt_types):
+ *         self.is_monotone = 1
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("_splitter_mt.BestSplitterMT.init_monotone", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_splitter_mt.pyx":450
+ *         return 0
+ * 
+ *     def init_classification(self,             # <<<<<<<<<<<<<<
+ *                    object n_classes):
+ *         self.is_classification = 1
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_12_splitter_mt_14BestSplitterMT_13init_classification(PyObject *__pyx_v_self, PyObject *__pyx_v_n_classes); /*proto*/
+static PyObject *__pyx_pw_12_splitter_mt_14BestSplitterMT_13init_classification(PyObject *__pyx_v_self, PyObject *__pyx_v_n_classes) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("init_classification (wrapper)", 0);
+  __pyx_r = __pyx_pf_12_splitter_mt_14BestSplitterMT_12init_classification(((struct __pyx_obj_12_splitter_mt_BestSplitterMT *)__pyx_v_self), ((PyObject *)__pyx_v_n_classes));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_12init_classification(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_n_classes) {
+  __pyx_t_7sklearn_4tree_10_criterion_SIZE_t __pyx_v_k;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __pyx_t_12_splitter_mt_SIZE_t __pyx_t_2;
+  __pyx_t_7sklearn_4tree_10_criterion_SIZE_t __pyx_t_3;
+  __pyx_t_7sklearn_4tree_10_criterion_SIZE_t __pyx_t_4;
+  __pyx_t_7sklearn_4tree_10_criterion_SIZE_t __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_8;
+  __Pyx_RefNannySetupContext("init_classification", 0);
+
+  /* "_splitter_mt.pyx":452
+ *     def init_classification(self,
+ *                    object n_classes):
+ *         self.is_classification = 1             # <<<<<<<<<<<<<<
+ *         self.n_classes = <INT32_t*> (<np.ndarray> n_classes).data
+ *         self.n_classes_stride = <SIZE_t> (<np.ndarray> n_classes).strides[0] / <SIZE_t> (<np.ndarray> n_classes).itemsize
+ */
+  __pyx_v_self->is_classification = 1;
+
+  /* "_splitter_mt.pyx":453
+ *                    object n_classes):
+ *         self.is_classification = 1
+ *         self.n_classes = <INT32_t*> (<np.ndarray> n_classes).data             # <<<<<<<<<<<<<<
+ *         self.n_classes_stride = <SIZE_t> (<np.ndarray> n_classes).strides[0] / <SIZE_t> (<np.ndarray> n_classes).itemsize
+ * 
+ */
+  __pyx_v_self->n_classes = ((__pyx_t_12_splitter_mt_INT32_t *)((PyArrayObject *)__pyx_v_n_classes)->data);
+
+  /* "_splitter_mt.pyx":454
+ *         self.is_classification = 1
+ *         self.n_classes = <INT32_t*> (<np.ndarray> n_classes).data
+ *         self.n_classes_stride = <SIZE_t> (<np.ndarray> n_classes).strides[0] / <SIZE_t> (<np.ndarray> n_classes).itemsize             # <<<<<<<<<<<<<<
+ * 
+ *         # duplicate code here to calculate criteiron sum_stride
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_n_classes, __pyx_n_s_itemsize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 454, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_1); if (unlikely((__pyx_t_2 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 454, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_self->n_classes_stride = (((__pyx_t_12_splitter_mt_SIZE_t)(((PyArrayObject *)__pyx_v_n_classes)->strides[0])) / ((__pyx_t_12_splitter_mt_SIZE_t)__pyx_t_2));
+
+  /* "_splitter_mt.pyx":458
+ *         # duplicate code here to calculate criteiron sum_stride
+ *         # because cannot access ClassificatonCriterion from pxd reference.
+ *         for k in range(self.criterion.n_outputs):             # <<<<<<<<<<<<<<
+ *             #self.n_classes[k] = n_classes[k]
+ *             if n_classes[k] > self.crit_sum_stride:
+ */
+  __pyx_t_3 = __pyx_v_self->__pyx_base.criterion->n_outputs;
+  __pyx_t_4 = __pyx_t_3;
+  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_k = __pyx_t_5;
+
+    /* "_splitter_mt.pyx":460
+ *         for k in range(self.criterion.n_outputs):
+ *             #self.n_classes[k] = n_classes[k]
+ *             if n_classes[k] > self.crit_sum_stride:             # <<<<<<<<<<<<<<
+ *                 self.crit_sum_stride = n_classes[k]
+ *         return 0
+ */
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_n_classes, __pyx_v_k, __pyx_t_7sklearn_4tree_10_criterion_SIZE_t, 1, __Pyx_PyInt_From_Py_intptr_t, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 460, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_6 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_self->crit_sum_stride); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 460, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_6, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 460, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 460, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (__pyx_t_8) {
+
+      /* "_splitter_mt.pyx":461
+ *             #self.n_classes[k] = n_classes[k]
+ *             if n_classes[k] > self.crit_sum_stride:
+ *                 self.crit_sum_stride = n_classes[k]             # <<<<<<<<<<<<<<
+ *         return 0
+ * 
+ */
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_n_classes, __pyx_v_k, __pyx_t_7sklearn_4tree_10_criterion_SIZE_t, 1, __Pyx_PyInt_From_Py_intptr_t, 0, 0, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 461, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_2 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_7); if (unlikely((__pyx_t_2 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 461, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_v_self->crit_sum_stride = __pyx_t_2;
+
+      /* "_splitter_mt.pyx":460
+ *         for k in range(self.criterion.n_outputs):
+ *             #self.n_classes[k] = n_classes[k]
+ *             if n_classes[k] > self.crit_sum_stride:             # <<<<<<<<<<<<<<
+ *                 self.crit_sum_stride = n_classes[k]
+ *         return 0
+ */
+    }
+  }
+
+  /* "_splitter_mt.pyx":462
+ *             if n_classes[k] > self.crit_sum_stride:
+ *                 self.crit_sum_stride = n_classes[k]
+ *         return 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef int init(self,
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_r = __pyx_int_0;
+  goto __pyx_L0;
+
+  /* "_splitter_mt.pyx":450
+ *         return 0
+ * 
+ *     def init_classification(self,             # <<<<<<<<<<<<<<
+ *                    object n_classes):
+ *         self.is_classification = 1
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_AddTraceback("_splitter_mt.BestSplitterMT.init_classification", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "_splitter_mt.pyx":464
+ *         return 0
  * 
  *     cdef int init(self,             # <<<<<<<<<<<<<<
  *                    object X,
@@ -3809,12 +3992,12 @@ static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_8__setstate__(CYTHON_U
 
 static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_X, PyArrayObject *__pyx_v_y, __pyx_t_12_splitter_mt_DOUBLE_t *__pyx_v_sample_weight, struct __pyx_opt_args_12_splitter_mt_14BestSplitterMT_init *__pyx_optional_args) {
 
-  /* "_splitter_mt.pyx":497
+  /* "_splitter_mt.pyx":468
  *                    np.ndarray[DOUBLE_t, ndim=2, mode="c"] y,
  *                    DOUBLE_t* sample_weight,
- *                    np.ndarray X_idx_sorted=None) except -1:             # <<<<<<<<<<<<<<
+ *                    np.ndarray X_idx_sorted=None             # <<<<<<<<<<<<<<
+ *                    ) except -1:
  *         """Initialize the splitter.
- * 
  */
   PyArrayObject *__pyx_v_X_idx_sorted = ((PyArrayObject *)Py_None);
   __pyx_t_12_splitter_mt_SIZE_t __pyx_v_n_samples;
@@ -3835,7 +4018,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
   PyObject *__pyx_t_4 = NULL;
   int __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
-  __pyx_t_12_splitter_mt_UINT32_t __pyx_t_7;
+  __pyx_t_7sklearn_4tree_9_splitter_UINT32_t __pyx_t_7;
   __pyx_t_12_splitter_mt_SIZE_t __pyx_t_8;
   __pyx_t_12_splitter_mt_SIZE_t *__pyx_t_9;
   __pyx_t_12_splitter_mt_SIZE_t __pyx_t_10;
@@ -3854,20 +4037,20 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
   __pyx_pybuffernd_y.rcbuffer = &__pyx_pybuffer_y;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_y.rcbuffer->pybuffer, (PyObject*)__pyx_v_y, &__Pyx_TypeInfo_nn___pyx_t_12_splitter_mt_DOUBLE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 2, 0, __pyx_stack) == -1)) __PYX_ERR(0, 493, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_y.rcbuffer->pybuffer, (PyObject*)__pyx_v_y, &__Pyx_TypeInfo_nn___pyx_t_12_splitter_mt_DOUBLE_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 2, 0, __pyx_stack) == -1)) __PYX_ERR(0, 464, __pyx_L1_error)
   }
   __pyx_pybuffernd_y.diminfo[0].strides = __pyx_pybuffernd_y.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_y.diminfo[0].shape = __pyx_pybuffernd_y.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_y.diminfo[1].strides = __pyx_pybuffernd_y.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_y.diminfo[1].shape = __pyx_pybuffernd_y.rcbuffer->pybuffer.shape[1];
 
-  /* "_splitter_mt.pyx":519
+  /* "_splitter_mt.pyx":491
  *         """
  * 
  *         self.rand_r_state = self.random_state.randint(0, RAND_R_MAX)             # <<<<<<<<<<<<<<
  *         cdef SIZE_t n_samples = X.shape[0]
- * 
+ *         # Create a new array which will be used to store nonzero
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->random_state, __pyx_n_s_randint); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 519, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->__pyx_base.random_state, __pyx_n_s_randint); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 491, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_e_12_splitter_mt_RAND_R_MAX); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 519, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_e_12_splitter_mt_RAND_R_MAX); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 491, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -3884,7 +4067,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_int_0, __pyx_t_3};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 519, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 491, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3893,14 +4076,14 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_int_0, __pyx_t_3};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 519, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 491, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 519, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 491, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -3911,42 +4094,42 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 519, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 491, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_7 = __Pyx_PyInt_As_npy_uint32(__pyx_t_1); if (unlikely((__pyx_t_7 == ((npy_uint32)-1)) && PyErr_Occurred())) __PYX_ERR(0, 519, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_npy_uint32(__pyx_t_1); if (unlikely((__pyx_t_7 == ((npy_uint32)-1)) && PyErr_Occurred())) __PYX_ERR(0, 491, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_self->rand_r_state = __pyx_t_7;
+  __pyx_v_self->__pyx_base.rand_r_state = __pyx_t_7;
 
-  /* "_splitter_mt.pyx":520
+  /* "_splitter_mt.pyx":492
  * 
  *         self.rand_r_state = self.random_state.randint(0, RAND_R_MAX)
  *         cdef SIZE_t n_samples = X.shape[0]             # <<<<<<<<<<<<<<
- * 
  *         # Create a new array which will be used to store nonzero
+ *         # samples from the feature of interest
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 520, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 492, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 520, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 492, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_2); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 520, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_2); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 492, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_n_samples = __pyx_t_8;
 
-  /* "_splitter_mt.pyx":524
+  /* "_splitter_mt.pyx":495
  *         # Create a new array which will be used to store nonzero
  *         # samples from the feature of interest
  *         cdef SIZE_t* samples = safe_realloc(&self.samples, n_samples)             # <<<<<<<<<<<<<<
  * 
  *         cdef SIZE_t i, j
  */
-  __pyx_t_9 = __pyx_fuse_1__pyx_f_12_splitter_mt_safe_realloc((&__pyx_v_self->samples), __pyx_v_n_samples); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 524, __pyx_L1_error)
+  __pyx_t_9 = __pyx_fuse_1__pyx_f_12_splitter_mt_safe_realloc((&__pyx_v_self->__pyx_base.samples), __pyx_v_n_samples); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 495, __pyx_L1_error)
   __pyx_v_samples = __pyx_t_9;
 
-  /* "_splitter_mt.pyx":527
+  /* "_splitter_mt.pyx":498
  * 
  *         cdef SIZE_t i, j
  *         cdef double weighted_n_samples = 0.0             # <<<<<<<<<<<<<<
@@ -3955,7 +4138,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
  */
   __pyx_v_weighted_n_samples = 0.0;
 
-  /* "_splitter_mt.pyx":528
+  /* "_splitter_mt.pyx":499
  *         cdef SIZE_t i, j
  *         cdef double weighted_n_samples = 0.0
  *         j = 0             # <<<<<<<<<<<<<<
@@ -3964,7 +4147,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
  */
   __pyx_v_j = 0;
 
-  /* "_splitter_mt.pyx":530
+  /* "_splitter_mt.pyx":501
  *         j = 0
  * 
  *         for i in range(n_samples):             # <<<<<<<<<<<<<<
@@ -3976,7 +4159,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
   for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
     __pyx_v_i = __pyx_t_11;
 
-    /* "_splitter_mt.pyx":532
+    /* "_splitter_mt.pyx":503
  *         for i in range(n_samples):
  *             # Only work with positively weighted samples
  *             if sample_weight == NULL or sample_weight[i] != 0.0:             # <<<<<<<<<<<<<<
@@ -3994,7 +4177,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_12) {
 
-      /* "_splitter_mt.pyx":533
+      /* "_splitter_mt.pyx":504
  *             # Only work with positively weighted samples
  *             if sample_weight == NULL or sample_weight[i] != 0.0:
  *                 samples[j] = i             # <<<<<<<<<<<<<<
@@ -4003,7 +4186,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
  */
       (__pyx_v_samples[__pyx_v_j]) = __pyx_v_i;
 
-      /* "_splitter_mt.pyx":534
+      /* "_splitter_mt.pyx":505
  *             if sample_weight == NULL or sample_weight[i] != 0.0:
  *                 samples[j] = i
  *                 j += 1             # <<<<<<<<<<<<<<
@@ -4012,7 +4195,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
  */
       __pyx_v_j = (__pyx_v_j + 1);
 
-      /* "_splitter_mt.pyx":532
+      /* "_splitter_mt.pyx":503
  *         for i in range(n_samples):
  *             # Only work with positively weighted samples
  *             if sample_weight == NULL or sample_weight[i] != 0.0:             # <<<<<<<<<<<<<<
@@ -4021,7 +4204,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
  */
     }
 
-    /* "_splitter_mt.pyx":536
+    /* "_splitter_mt.pyx":507
  *                 j += 1
  * 
  *             if sample_weight != NULL:             # <<<<<<<<<<<<<<
@@ -4031,7 +4214,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
     __pyx_t_12 = ((__pyx_v_sample_weight != NULL) != 0);
     if (__pyx_t_12) {
 
-      /* "_splitter_mt.pyx":537
+      /* "_splitter_mt.pyx":508
  * 
  *             if sample_weight != NULL:
  *                 weighted_n_samples += sample_weight[i]             # <<<<<<<<<<<<<<
@@ -4040,7 +4223,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
  */
       __pyx_v_weighted_n_samples = (__pyx_v_weighted_n_samples + (__pyx_v_sample_weight[__pyx_v_i]));
 
-      /* "_splitter_mt.pyx":536
+      /* "_splitter_mt.pyx":507
  *                 j += 1
  * 
  *             if sample_weight != NULL:             # <<<<<<<<<<<<<<
@@ -4050,7 +4233,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
       goto __pyx_L8;
     }
 
-    /* "_splitter_mt.pyx":539
+    /* "_splitter_mt.pyx":510
  *                 weighted_n_samples += sample_weight[i]
  *             else:
  *                 weighted_n_samples += 1.0             # <<<<<<<<<<<<<<
@@ -4063,51 +4246,51 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
     __pyx_L8:;
   }
 
-  /* "_splitter_mt.pyx":542
+  /* "_splitter_mt.pyx":513
  * 
  *         # Number of samples is number of positively weighted samples
  *         self.n_samples = j             # <<<<<<<<<<<<<<
  *         self.weighted_n_samples = weighted_n_samples
  * 
  */
-  __pyx_v_self->n_samples = __pyx_v_j;
+  __pyx_v_self->__pyx_base.n_samples = __pyx_v_j;
 
-  /* "_splitter_mt.pyx":543
+  /* "_splitter_mt.pyx":514
  *         # Number of samples is number of positively weighted samples
  *         self.n_samples = j
  *         self.weighted_n_samples = weighted_n_samples             # <<<<<<<<<<<<<<
  * 
  *         cdef SIZE_t n_features = X.shape[1]
  */
-  __pyx_v_self->weighted_n_samples = __pyx_v_weighted_n_samples;
+  __pyx_v_self->__pyx_base.weighted_n_samples = __pyx_v_weighted_n_samples;
 
-  /* "_splitter_mt.pyx":545
+  /* "_splitter_mt.pyx":516
  *         self.weighted_n_samples = weighted_n_samples
  * 
  *         cdef SIZE_t n_features = X.shape[1]             # <<<<<<<<<<<<<<
  *         cdef SIZE_t* features = safe_realloc(&self.features, n_features)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 545, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 516, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 545, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 516, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_1); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 545, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_1); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 516, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_n_features = __pyx_t_8;
 
-  /* "_splitter_mt.pyx":546
+  /* "_splitter_mt.pyx":517
  * 
  *         cdef SIZE_t n_features = X.shape[1]
  *         cdef SIZE_t* features = safe_realloc(&self.features, n_features)             # <<<<<<<<<<<<<<
  * 
  *         for i in range(n_features):
  */
-  __pyx_t_9 = __pyx_fuse_1__pyx_f_12_splitter_mt_safe_realloc((&__pyx_v_self->features), __pyx_v_n_features); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 546, __pyx_L1_error)
+  __pyx_t_9 = __pyx_fuse_1__pyx_f_12_splitter_mt_safe_realloc((&__pyx_v_self->__pyx_base.features), __pyx_v_n_features); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 517, __pyx_L1_error)
   __pyx_v_features = __pyx_t_9;
 
-  /* "_splitter_mt.pyx":548
+  /* "_splitter_mt.pyx":519
  *         cdef SIZE_t* features = safe_realloc(&self.features, n_features)
  * 
  *         for i in range(n_features):             # <<<<<<<<<<<<<<
@@ -4119,7 +4302,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
   for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
     __pyx_v_i = __pyx_t_11;
 
-    /* "_splitter_mt.pyx":549
+    /* "_splitter_mt.pyx":520
  * 
  *         for i in range(n_features):
  *             features[i] = i             # <<<<<<<<<<<<<<
@@ -4129,78 +4312,78 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
     (__pyx_v_features[__pyx_v_i]) = __pyx_v_i;
   }
 
-  /* "_splitter_mt.pyx":551
+  /* "_splitter_mt.pyx":522
  *             features[i] = i
  * 
  *         self.n_features = n_features             # <<<<<<<<<<<<<<
  * 
  *         safe_realloc(&self.feature_values, n_samples)
  */
-  __pyx_v_self->n_features = __pyx_v_n_features;
+  __pyx_v_self->__pyx_base.n_features = __pyx_v_n_features;
 
-  /* "_splitter_mt.pyx":553
+  /* "_splitter_mt.pyx":524
  *         self.n_features = n_features
  * 
  *         safe_realloc(&self.feature_values, n_samples)             # <<<<<<<<<<<<<<
  *         safe_realloc(&self.constant_features, n_features)
  * 
  */
-  __pyx_fuse_0__pyx_f_12_splitter_mt_safe_realloc((&__pyx_v_self->feature_values), __pyx_v_n_samples); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 553, __pyx_L1_error)
+  __pyx_fuse_0__pyx_f_12_splitter_mt_safe_realloc((&__pyx_v_self->__pyx_base.feature_values), __pyx_v_n_samples); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 524, __pyx_L1_error)
 
-  /* "_splitter_mt.pyx":554
+  /* "_splitter_mt.pyx":525
  * 
  *         safe_realloc(&self.feature_values, n_samples)
  *         safe_realloc(&self.constant_features, n_features)             # <<<<<<<<<<<<<<
  * 
  *         self.y = <DOUBLE_t*> y.data
  */
-  __pyx_fuse_1__pyx_f_12_splitter_mt_safe_realloc((&__pyx_v_self->constant_features), __pyx_v_n_features); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 554, __pyx_L1_error)
+  __pyx_fuse_1__pyx_f_12_splitter_mt_safe_realloc((&__pyx_v_self->__pyx_base.constant_features), __pyx_v_n_features); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 525, __pyx_L1_error)
 
-  /* "_splitter_mt.pyx":556
+  /* "_splitter_mt.pyx":527
  *         safe_realloc(&self.constant_features, n_features)
  * 
  *         self.y = <DOUBLE_t*> y.data             # <<<<<<<<<<<<<<
  *         self.y_stride = <SIZE_t> y.strides[0] / <SIZE_t> y.itemsize
  * 
  */
-  __pyx_v_self->y = ((__pyx_t_12_splitter_mt_DOUBLE_t *)__pyx_v_y->data);
+  __pyx_v_self->__pyx_base.y = ((__pyx_t_12_splitter_mt_DOUBLE_t *)__pyx_v_y->data);
 
-  /* "_splitter_mt.pyx":557
+  /* "_splitter_mt.pyx":528
  * 
  *         self.y = <DOUBLE_t*> y.data
  *         self.y_stride = <SIZE_t> y.strides[0] / <SIZE_t> y.itemsize             # <<<<<<<<<<<<<<
  * 
  *         self.sample_weight = sample_weight
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_y), __pyx_n_s_itemsize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 557, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_y), __pyx_n_s_itemsize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 528, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_1); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 557, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_1); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 528, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_self->y_stride = (((__pyx_t_12_splitter_mt_SIZE_t)(__pyx_v_y->strides[0])) / ((__pyx_t_12_splitter_mt_SIZE_t)__pyx_t_8));
+  __pyx_v_self->__pyx_base.y_stride = (((__pyx_t_12_splitter_mt_SIZE_t)(__pyx_v_y->strides[0])) / ((__pyx_t_12_splitter_mt_SIZE_t)__pyx_t_8));
 
-  /* "_splitter_mt.pyx":559
+  /* "_splitter_mt.pyx":530
  *         self.y_stride = <SIZE_t> y.strides[0] / <SIZE_t> y.itemsize
  * 
  *         self.sample_weight = sample_weight             # <<<<<<<<<<<<<<
  * 
  *         #BDS
  */
-  __pyx_v_self->sample_weight = __pyx_v_sample_weight;
+  __pyx_v_self->__pyx_base.sample_weight = __pyx_v_sample_weight;
 
-  /* "_splitter_mt.pyx":562
+  /* "_splitter_mt.pyx":533
  * 
  *         #BDS
  *         cdef np.ndarray X_ndarray = X             # <<<<<<<<<<<<<<
  * 
  *         self.X = <DTYPE_t*> X_ndarray.data
  */
-  if (!(likely(((__pyx_v_X) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_X, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 562, __pyx_L1_error)
+  if (!(likely(((__pyx_v_X) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_X, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 533, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_X;
   __Pyx_INCREF(__pyx_t_1);
   __pyx_v_X_ndarray = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "_splitter_mt.pyx":564
+  /* "_splitter_mt.pyx":535
  *         cdef np.ndarray X_ndarray = X
  * 
  *         self.X = <DTYPE_t*> X_ndarray.data             # <<<<<<<<<<<<<<
@@ -4209,57 +4392,57 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
  */
   __pyx_v_self->X = ((__pyx_t_12_splitter_mt_DTYPE_t *)__pyx_v_X_ndarray->data);
 
-  /* "_splitter_mt.pyx":565
+  /* "_splitter_mt.pyx":536
  * 
  *         self.X = <DTYPE_t*> X_ndarray.data
  *         self.X_sample_stride = <SIZE_t> X.strides[0] / <SIZE_t> X.itemsize             # <<<<<<<<<<<<<<
  *         self.X_feature_stride = <SIZE_t> X.strides[1] / <SIZE_t> X.itemsize
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_strides); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 565, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_strides); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 536, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 565, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 536, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_2); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 565, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_2); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 536, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_itemsize); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 565, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_itemsize); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 536, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_10 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_2); if (unlikely((__pyx_t_10 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 565, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_2); if (unlikely((__pyx_t_10 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 536, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_self->X_sample_stride = (((__pyx_t_12_splitter_mt_SIZE_t)__pyx_t_8) / ((__pyx_t_12_splitter_mt_SIZE_t)__pyx_t_10));
 
-  /* "_splitter_mt.pyx":566
+  /* "_splitter_mt.pyx":537
  *         self.X = <DTYPE_t*> X_ndarray.data
  *         self.X_sample_stride = <SIZE_t> X.strides[0] / <SIZE_t> X.itemsize
  *         self.X_feature_stride = <SIZE_t> X.strides[1] / <SIZE_t> X.itemsize             # <<<<<<<<<<<<<<
  * 
  *         if self.presort == 1:
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_strides); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 566, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_strides); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 537, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 566, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 537, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_10 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_1); if (unlikely((__pyx_t_10 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 566, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_1); if (unlikely((__pyx_t_10 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 537, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_itemsize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 566, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_itemsize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 537, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_1); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 566, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_1); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 537, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->X_feature_stride = (((__pyx_t_12_splitter_mt_SIZE_t)__pyx_t_10) / ((__pyx_t_12_splitter_mt_SIZE_t)__pyx_t_8));
 
-  /* "_splitter_mt.pyx":568
+  /* "_splitter_mt.pyx":539
  *         self.X_feature_stride = <SIZE_t> X.strides[1] / <SIZE_t> X.itemsize
  * 
  *         if self.presort == 1:             # <<<<<<<<<<<<<<
  *             self.X_idx_sorted = X_idx_sorted
  *             self.X_idx_sorted_ptr = <INT32_t*> self.X_idx_sorted.data
  */
-  __pyx_t_12 = ((__pyx_v_self->presort == 1) != 0);
+  __pyx_t_12 = ((__pyx_v_self->__pyx_base.presort == 1) != 0);
   if (__pyx_t_12) {
 
-    /* "_splitter_mt.pyx":569
+    /* "_splitter_mt.pyx":540
  * 
  *         if self.presort == 1:
  *             self.X_idx_sorted = X_idx_sorted             # <<<<<<<<<<<<<<
@@ -4272,7 +4455,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
     __Pyx_DECREF(((PyObject *)__pyx_v_self->X_idx_sorted));
     __pyx_v_self->X_idx_sorted = __pyx_v_X_idx_sorted;
 
-    /* "_splitter_mt.pyx":570
+    /* "_splitter_mt.pyx":541
  *         if self.presort == 1:
  *             self.X_idx_sorted = X_idx_sorted
  *             self.X_idx_sorted_ptr = <INT32_t*> self.X_idx_sorted.data             # <<<<<<<<<<<<<<
@@ -4281,19 +4464,19 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
  */
     __pyx_v_self->X_idx_sorted_ptr = ((__pyx_t_12_splitter_mt_INT32_t *)__pyx_v_self->X_idx_sorted->data);
 
-    /* "_splitter_mt.pyx":572
+    /* "_splitter_mt.pyx":543
  *             self.X_idx_sorted_ptr = <INT32_t*> self.X_idx_sorted.data
  *             self.X_idx_sorted_stride = (<SIZE_t> self.X_idx_sorted.strides[1] /
  *                                         <SIZE_t> self.X_idx_sorted.itemsize)             # <<<<<<<<<<<<<<
  * 
  *             self.n_total_samples = X.shape[0]
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->X_idx_sorted), __pyx_n_s_itemsize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 572, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->X_idx_sorted), __pyx_n_s_itemsize); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 543, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_1); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 572, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_1); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 543, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "_splitter_mt.pyx":571
+    /* "_splitter_mt.pyx":542
  *             self.X_idx_sorted = X_idx_sorted
  *             self.X_idx_sorted_ptr = <INT32_t*> self.X_idx_sorted.data
  *             self.X_idx_sorted_stride = (<SIZE_t> self.X_idx_sorted.strides[1] /             # <<<<<<<<<<<<<<
@@ -4302,41 +4485,41 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
  */
     __pyx_v_self->X_idx_sorted_stride = (((__pyx_t_12_splitter_mt_SIZE_t)(__pyx_v_self->X_idx_sorted->strides[1])) / ((__pyx_t_12_splitter_mt_SIZE_t)__pyx_t_8));
 
-    /* "_splitter_mt.pyx":574
+    /* "_splitter_mt.pyx":545
  *                                         <SIZE_t> self.X_idx_sorted.itemsize)
  * 
  *             self.n_total_samples = X.shape[0]             # <<<<<<<<<<<<<<
  *             safe_realloc(&self.sample_mask, self.n_total_samples)
  *             memset(self.sample_mask, 0, self.n_total_samples*sizeof(SIZE_t))
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 574, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_X, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 545, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 574, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 545, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_2); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 574, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyInt_As_Py_intptr_t(__pyx_t_2); if (unlikely((__pyx_t_8 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 545, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_self->n_total_samples = __pyx_t_8;
 
-    /* "_splitter_mt.pyx":575
+    /* "_splitter_mt.pyx":546
  * 
  *             self.n_total_samples = X.shape[0]
  *             safe_realloc(&self.sample_mask, self.n_total_samples)             # <<<<<<<<<<<<<<
  *             memset(self.sample_mask, 0, self.n_total_samples*sizeof(SIZE_t))
- *         return 0
+ * 
  */
-    __pyx_fuse_1__pyx_f_12_splitter_mt_safe_realloc((&__pyx_v_self->sample_mask), __pyx_v_self->n_total_samples); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 575, __pyx_L1_error)
+    __pyx_fuse_1__pyx_f_12_splitter_mt_safe_realloc((&__pyx_v_self->sample_mask), __pyx_v_self->n_total_samples); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 546, __pyx_L1_error)
 
-    /* "_splitter_mt.pyx":576
+    /* "_splitter_mt.pyx":547
  *             self.n_total_samples = X.shape[0]
  *             safe_realloc(&self.sample_mask, self.n_total_samples)
  *             memset(self.sample_mask, 0, self.n_total_samples*sizeof(SIZE_t))             # <<<<<<<<<<<<<<
- *         return 0
  * 
+ *         return 0
  */
     (void)(memset(__pyx_v_self->sample_mask, 0, (__pyx_v_self->n_total_samples * (sizeof(__pyx_t_12_splitter_mt_SIZE_t)))));
 
-    /* "_splitter_mt.pyx":568
+    /* "_splitter_mt.pyx":539
  *         self.X_feature_stride = <SIZE_t> X.strides[1] / <SIZE_t> X.itemsize
  * 
  *         if self.presort == 1:             # <<<<<<<<<<<<<<
@@ -4345,9 +4528,9 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
  */
   }
 
-  /* "_splitter_mt.pyx":577
- *             safe_realloc(&self.sample_mask, self.n_total_samples)
+  /* "_splitter_mt.pyx":549
  *             memset(self.sample_mask, 0, self.n_total_samples*sizeof(SIZE_t))
+ * 
  *         return 0             # <<<<<<<<<<<<<<
  * 
  * 
@@ -4355,8 +4538,8 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
   __pyx_r = 0;
   goto __pyx_L0;
 
-  /* "_splitter_mt.pyx":493
- *         pass
+  /* "_splitter_mt.pyx":464
+ *         return 0
  * 
  *     cdef int init(self,             # <<<<<<<<<<<<<<
  *                    object X,
@@ -4387,7 +4570,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_init(struct __pyx_obj_12_spli
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":581
+/* "_splitter_mt.pyx":553
  * 
  * 
  *     cdef int node_reset(self, SIZE_t start, SIZE_t end,             # <<<<<<<<<<<<<<
@@ -4400,44 +4583,44 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_reset(struct __pyx_obj_1
   int __pyx_t_1;
   double __pyx_t_2;
 
-  /* "_splitter_mt.pyx":598
+  /* "_splitter_mt.pyx":570
  *         """
  * 
  *         self.start = start             # <<<<<<<<<<<<<<
  *         self.end = end
  * 
  */
-  __pyx_v_self->start = __pyx_v_start;
+  __pyx_v_self->__pyx_base.start = __pyx_v_start;
 
-  /* "_splitter_mt.pyx":599
+  /* "_splitter_mt.pyx":571
  * 
  *         self.start = start
  *         self.end = end             # <<<<<<<<<<<<<<
  * 
  *         self.criterion.init(self.y,
  */
-  __pyx_v_self->end = __pyx_v_end;
+  __pyx_v_self->__pyx_base.end = __pyx_v_end;
 
-  /* "_splitter_mt.pyx":601
+  /* "_splitter_mt.pyx":573
  *         self.end = end
  * 
  *         self.criterion.init(self.y,             # <<<<<<<<<<<<<<
  *                             self.y_stride,
  *                             self.sample_weight,
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_12_splitter_mt_Criterion *)__pyx_v_self->criterion->__pyx_vtab)->init(__pyx_v_self->criterion, __pyx_v_self->y, __pyx_v_self->y_stride, __pyx_v_self->sample_weight, __pyx_v_self->weighted_n_samples, __pyx_v_self->samples, __pyx_v_start, __pyx_v_end); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 601, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion *)__pyx_v_self->__pyx_base.criterion->__pyx_vtab)->init(__pyx_v_self->__pyx_base.criterion, __pyx_v_self->__pyx_base.y, __pyx_v_self->__pyx_base.y_stride, __pyx_v_self->__pyx_base.sample_weight, __pyx_v_self->__pyx_base.weighted_n_samples, __pyx_v_self->__pyx_base.samples, __pyx_v_start, __pyx_v_end); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 573, __pyx_L1_error)
 
-  /* "_splitter_mt.pyx":609
+  /* "_splitter_mt.pyx":581
  *                             end)
  * 
  *         weighted_n_node_samples[0] = self.criterion.weighted_n_node_samples             # <<<<<<<<<<<<<<
  *         return 0
  * 
  */
-  __pyx_t_2 = __pyx_v_self->criterion->weighted_n_node_samples;
+  __pyx_t_2 = __pyx_v_self->__pyx_base.criterion->weighted_n_node_samples;
   (__pyx_v_weighted_n_node_samples[0]) = __pyx_t_2;
 
-  /* "_splitter_mt.pyx":610
+  /* "_splitter_mt.pyx":582
  * 
  *         weighted_n_node_samples[0] = self.criterion.weighted_n_node_samples
  *         return 0             # <<<<<<<<<<<<<<
@@ -4447,7 +4630,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_reset(struct __pyx_obj_1
   __pyx_r = 0;
   goto __pyx_L0;
 
-  /* "_splitter_mt.pyx":581
+  /* "_splitter_mt.pyx":553
  * 
  * 
  *     cdef int node_reset(self, SIZE_t start, SIZE_t end,             # <<<<<<<<<<<<<<
@@ -4471,7 +4654,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_reset(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":612
+/* "_splitter_mt.pyx":584
  *         return 0
  * 
  *     cdef int node_split(self, double impurity, SplitRecord* split,             # <<<<<<<<<<<<<<
@@ -4514,79 +4697,101 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
   __pyx_t_12_splitter_mt_SIZE_t __pyx_v_n_known_constants;
   __pyx_t_12_splitter_mt_SIZE_t __pyx_v_n_total_constants;
   __pyx_t_12_splitter_mt_SIZE_t __pyx_v_partition_end;
+  __pyx_t_12_splitter_mt_INT32_t *__pyx_v_feat_mt_types;
+  __pyx_t_12_splitter_mt_INT32_t __pyx_v_mt_feat_type;
+  __pyx_t_12_splitter_mt_SIZE_t __pyx_v_mt_feature_idx_offset;
+  __pyx_t_12_splitter_mt_SIZE_t __pyx_v_feat_mt_types_stride;
+  double __pyx_v_weighted_n_left;
+  double __pyx_v_weighted_n_right;
+  double __pyx_v_cum_weighted_n_left;
+  double __pyx_v_cum_weighted_n_right;
+  double *__pyx_v_sum_left;
+  double *__pyx_v_sum_right;
+  __pyx_t_12_splitter_mt_INT32_t __pyx_v_still_monotone;
+  __pyx_t_12_splitter_mt_SIZE_t __pyx_v_k;
+  __pyx_t_12_splitter_mt_SIZE_t __pyx_v_c;
+  __pyx_t_12_splitter_mt_INT32_t *__pyx_v_n_classes;
+  CYTHON_UNUSED __pyx_t_12_splitter_mt_SIZE_t __pyx_v_n_classes_stride;
+  CYTHON_UNUSED __pyx_t_12_splitter_mt_SIZE_t __pyx_v_n_classes_;
+  __pyx_t_12_splitter_mt_INT32_t __pyx_v_is_classification;
   int __pyx_r;
-  __pyx_t_12_splitter_mt_SIZE_t *__pyx_t_1;
-  __pyx_t_12_splitter_mt_SIZE_t __pyx_t_2;
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t *__pyx_t_1;
+  __pyx_t_7sklearn_4tree_9_splitter_SIZE_t __pyx_t_2;
   __pyx_t_12_splitter_mt_DTYPE_t *__pyx_t_3;
-  double __pyx_t_4;
-  __pyx_t_12_splitter_mt_INT32_t *__pyx_t_5;
-  int __pyx_t_6;
-  __pyx_t_12_splitter_mt_SIZE_t __pyx_t_7;
-  __pyx_t_12_splitter_mt_SIZE_t __pyx_t_8;
-  int __pyx_t_9;
+  __pyx_t_7sklearn_4tree_9_splitter_DTYPE_t *__pyx_t_4;
+  __pyx_t_12_splitter_mt_SIZE_t __pyx_t_5;
+  double __pyx_t_6;
+  __pyx_t_12_splitter_mt_INT32_t *__pyx_t_7;
+  __pyx_t_12_splitter_mt_SIZE_t *__pyx_t_8;
+  __pyx_t_12_splitter_mt_INT32_t __pyx_t_9;
   int __pyx_t_10;
+  __pyx_t_12_splitter_mt_SIZE_t __pyx_t_11;
+  __pyx_t_12_splitter_mt_SIZE_t __pyx_t_12;
+  int __pyx_t_13;
+  int __pyx_t_14;
+  double *__pyx_t_15;
 
-  /* "_splitter_mt.pyx":620
+  /* "_splitter_mt.pyx":592
  *         """
  *         # Find the best split
  *         cdef SIZE_t* samples = self.samples             # <<<<<<<<<<<<<<
  *         cdef SIZE_t start = self.start
  *         cdef SIZE_t end = self.end
  */
-  __pyx_t_1 = __pyx_v_self->samples;
+  __pyx_t_1 = __pyx_v_self->__pyx_base.samples;
   __pyx_v_samples = __pyx_t_1;
 
-  /* "_splitter_mt.pyx":621
+  /* "_splitter_mt.pyx":593
  *         # Find the best split
  *         cdef SIZE_t* samples = self.samples
  *         cdef SIZE_t start = self.start             # <<<<<<<<<<<<<<
  *         cdef SIZE_t end = self.end
  * 
  */
-  __pyx_t_2 = __pyx_v_self->start;
+  __pyx_t_2 = __pyx_v_self->__pyx_base.start;
   __pyx_v_start = __pyx_t_2;
 
-  /* "_splitter_mt.pyx":622
+  /* "_splitter_mt.pyx":594
  *         cdef SIZE_t* samples = self.samples
  *         cdef SIZE_t start = self.start
  *         cdef SIZE_t end = self.end             # <<<<<<<<<<<<<<
  * 
  *         cdef SIZE_t* features = self.features
  */
-  __pyx_t_2 = __pyx_v_self->end;
+  __pyx_t_2 = __pyx_v_self->__pyx_base.end;
   __pyx_v_end = __pyx_t_2;
 
-  /* "_splitter_mt.pyx":624
+  /* "_splitter_mt.pyx":596
  *         cdef SIZE_t end = self.end
  * 
  *         cdef SIZE_t* features = self.features             # <<<<<<<<<<<<<<
  *         cdef SIZE_t* constant_features = self.constant_features
  *         cdef SIZE_t n_features = self.n_features
  */
-  __pyx_t_1 = __pyx_v_self->features;
+  __pyx_t_1 = __pyx_v_self->__pyx_base.features;
   __pyx_v_features = __pyx_t_1;
 
-  /* "_splitter_mt.pyx":625
+  /* "_splitter_mt.pyx":597
  * 
  *         cdef SIZE_t* features = self.features
  *         cdef SIZE_t* constant_features = self.constant_features             # <<<<<<<<<<<<<<
  *         cdef SIZE_t n_features = self.n_features
  * 
  */
-  __pyx_t_1 = __pyx_v_self->constant_features;
+  __pyx_t_1 = __pyx_v_self->__pyx_base.constant_features;
   __pyx_v_constant_features = __pyx_t_1;
 
-  /* "_splitter_mt.pyx":626
+  /* "_splitter_mt.pyx":598
  *         cdef SIZE_t* features = self.features
  *         cdef SIZE_t* constant_features = self.constant_features
  *         cdef SIZE_t n_features = self.n_features             # <<<<<<<<<<<<<<
  * 
  *         cdef DTYPE_t* X = self.X
  */
-  __pyx_t_2 = __pyx_v_self->n_features;
+  __pyx_t_2 = __pyx_v_self->__pyx_base.n_features;
   __pyx_v_n_features = __pyx_t_2;
 
-  /* "_splitter_mt.pyx":628
+  /* "_splitter_mt.pyx":600
  *         cdef SIZE_t n_features = self.n_features
  * 
  *         cdef DTYPE_t* X = self.X             # <<<<<<<<<<<<<<
@@ -4596,96 +4801,96 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
   __pyx_t_3 = __pyx_v_self->X;
   __pyx_v_X = __pyx_t_3;
 
-  /* "_splitter_mt.pyx":629
+  /* "_splitter_mt.pyx":601
  * 
  *         cdef DTYPE_t* X = self.X
  *         cdef DTYPE_t* Xf = self.feature_values             # <<<<<<<<<<<<<<
  *         cdef SIZE_t X_sample_stride = self.X_sample_stride
  *         cdef SIZE_t X_feature_stride = self.X_feature_stride
  */
-  __pyx_t_3 = __pyx_v_self->feature_values;
-  __pyx_v_Xf = __pyx_t_3;
+  __pyx_t_4 = __pyx_v_self->__pyx_base.feature_values;
+  __pyx_v_Xf = __pyx_t_4;
 
-  /* "_splitter_mt.pyx":630
+  /* "_splitter_mt.pyx":602
  *         cdef DTYPE_t* X = self.X
  *         cdef DTYPE_t* Xf = self.feature_values
  *         cdef SIZE_t X_sample_stride = self.X_sample_stride             # <<<<<<<<<<<<<<
  *         cdef SIZE_t X_feature_stride = self.X_feature_stride
  *         cdef SIZE_t max_features = self.max_features
  */
-  __pyx_t_2 = __pyx_v_self->X_sample_stride;
-  __pyx_v_X_sample_stride = __pyx_t_2;
+  __pyx_t_5 = __pyx_v_self->X_sample_stride;
+  __pyx_v_X_sample_stride = __pyx_t_5;
 
-  /* "_splitter_mt.pyx":631
+  /* "_splitter_mt.pyx":603
  *         cdef DTYPE_t* Xf = self.feature_values
  *         cdef SIZE_t X_sample_stride = self.X_sample_stride
  *         cdef SIZE_t X_feature_stride = self.X_feature_stride             # <<<<<<<<<<<<<<
  *         cdef SIZE_t max_features = self.max_features
  *         cdef SIZE_t min_samples_leaf = self.min_samples_leaf
  */
-  __pyx_t_2 = __pyx_v_self->X_feature_stride;
-  __pyx_v_X_feature_stride = __pyx_t_2;
+  __pyx_t_5 = __pyx_v_self->X_feature_stride;
+  __pyx_v_X_feature_stride = __pyx_t_5;
 
-  /* "_splitter_mt.pyx":632
+  /* "_splitter_mt.pyx":604
  *         cdef SIZE_t X_sample_stride = self.X_sample_stride
  *         cdef SIZE_t X_feature_stride = self.X_feature_stride
  *         cdef SIZE_t max_features = self.max_features             # <<<<<<<<<<<<<<
  *         cdef SIZE_t min_samples_leaf = self.min_samples_leaf
  *         cdef double min_weight_leaf = self.min_weight_leaf
  */
-  __pyx_t_2 = __pyx_v_self->max_features;
+  __pyx_t_2 = __pyx_v_self->__pyx_base.max_features;
   __pyx_v_max_features = __pyx_t_2;
 
-  /* "_splitter_mt.pyx":633
+  /* "_splitter_mt.pyx":605
  *         cdef SIZE_t X_feature_stride = self.X_feature_stride
  *         cdef SIZE_t max_features = self.max_features
  *         cdef SIZE_t min_samples_leaf = self.min_samples_leaf             # <<<<<<<<<<<<<<
  *         cdef double min_weight_leaf = self.min_weight_leaf
  *         cdef UINT32_t* random_state = &self.rand_r_state
  */
-  __pyx_t_2 = __pyx_v_self->min_samples_leaf;
+  __pyx_t_2 = __pyx_v_self->__pyx_base.min_samples_leaf;
   __pyx_v_min_samples_leaf = __pyx_t_2;
 
-  /* "_splitter_mt.pyx":634
+  /* "_splitter_mt.pyx":606
  *         cdef SIZE_t max_features = self.max_features
  *         cdef SIZE_t min_samples_leaf = self.min_samples_leaf
  *         cdef double min_weight_leaf = self.min_weight_leaf             # <<<<<<<<<<<<<<
  *         cdef UINT32_t* random_state = &self.rand_r_state
  * 
  */
-  __pyx_t_4 = __pyx_v_self->min_weight_leaf;
-  __pyx_v_min_weight_leaf = __pyx_t_4;
+  __pyx_t_6 = __pyx_v_self->__pyx_base.min_weight_leaf;
+  __pyx_v_min_weight_leaf = __pyx_t_6;
 
-  /* "_splitter_mt.pyx":635
+  /* "_splitter_mt.pyx":607
  *         cdef SIZE_t min_samples_leaf = self.min_samples_leaf
  *         cdef double min_weight_leaf = self.min_weight_leaf
  *         cdef UINT32_t* random_state = &self.rand_r_state             # <<<<<<<<<<<<<<
  * 
  *         cdef INT32_t* X_idx_sorted = self.X_idx_sorted_ptr
  */
-  __pyx_v_random_state = (&__pyx_v_self->rand_r_state);
+  __pyx_v_random_state = (&__pyx_v_self->__pyx_base.rand_r_state);
 
-  /* "_splitter_mt.pyx":637
+  /* "_splitter_mt.pyx":609
  *         cdef UINT32_t* random_state = &self.rand_r_state
  * 
  *         cdef INT32_t* X_idx_sorted = self.X_idx_sorted_ptr             # <<<<<<<<<<<<<<
  *         cdef SIZE_t* sample_mask = self.sample_mask
  * 
  */
-  __pyx_t_5 = __pyx_v_self->X_idx_sorted_ptr;
-  __pyx_v_X_idx_sorted = __pyx_t_5;
+  __pyx_t_7 = __pyx_v_self->X_idx_sorted_ptr;
+  __pyx_v_X_idx_sorted = __pyx_t_7;
 
-  /* "_splitter_mt.pyx":638
+  /* "_splitter_mt.pyx":610
  * 
  *         cdef INT32_t* X_idx_sorted = self.X_idx_sorted_ptr
  *         cdef SIZE_t* sample_mask = self.sample_mask             # <<<<<<<<<<<<<<
  * 
  *         cdef SplitRecord best, current
  */
-  __pyx_t_1 = __pyx_v_self->sample_mask;
-  __pyx_v_sample_mask = __pyx_t_1;
+  __pyx_t_8 = __pyx_v_self->sample_mask;
+  __pyx_v_sample_mask = __pyx_t_8;
 
-  /* "_splitter_mt.pyx":641
+  /* "_splitter_mt.pyx":613
  * 
  *         cdef SplitRecord best, current
  *         cdef double current_proxy_improvement = -INFINITY             # <<<<<<<<<<<<<<
@@ -4694,7 +4899,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   __pyx_v_current_proxy_improvement = (-__pyx_v_12_splitter_mt_INFINITY);
 
-  /* "_splitter_mt.pyx":642
+  /* "_splitter_mt.pyx":614
  *         cdef SplitRecord best, current
  *         cdef double current_proxy_improvement = -INFINITY
  *         cdef double best_proxy_improvement = -INFINITY             # <<<<<<<<<<<<<<
@@ -4703,7 +4908,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   __pyx_v_best_proxy_improvement = (-__pyx_v_12_splitter_mt_INFINITY);
 
-  /* "_splitter_mt.pyx":644
+  /* "_splitter_mt.pyx":616
  *         cdef double best_proxy_improvement = -INFINITY
  * 
  *         cdef SIZE_t f_i = n_features             # <<<<<<<<<<<<<<
@@ -4712,7 +4917,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   __pyx_v_f_i = __pyx_v_n_features;
 
-  /* "_splitter_mt.pyx":653
+  /* "_splitter_mt.pyx":625
  *         cdef SIZE_t j
  * 
  *         cdef SIZE_t n_visited_features = 0             # <<<<<<<<<<<<<<
@@ -4721,7 +4926,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   __pyx_v_n_visited_features = 0;
 
-  /* "_splitter_mt.pyx":655
+  /* "_splitter_mt.pyx":627
  *         cdef SIZE_t n_visited_features = 0
  *         # Number of features discovered to be constant during the split search
  *         cdef SIZE_t n_found_constants = 0             # <<<<<<<<<<<<<<
@@ -4730,7 +4935,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   __pyx_v_n_found_constants = 0;
 
-  /* "_splitter_mt.pyx":657
+  /* "_splitter_mt.pyx":629
  *         cdef SIZE_t n_found_constants = 0
  *         # Number of features known to be constant and drawn without replacement
  *         cdef SIZE_t n_drawn_constants = 0             # <<<<<<<<<<<<<<
@@ -4739,7 +4944,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   __pyx_v_n_drawn_constants = 0;
 
-  /* "_splitter_mt.pyx":658
+  /* "_splitter_mt.pyx":630
  *         # Number of features known to be constant and drawn without replacement
  *         cdef SIZE_t n_drawn_constants = 0
  *         cdef SIZE_t n_known_constants = n_constant_features[0]             # <<<<<<<<<<<<<<
@@ -4748,7 +4953,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   __pyx_v_n_known_constants = (__pyx_v_n_constant_features[0]);
 
-  /* "_splitter_mt.pyx":660
+  /* "_splitter_mt.pyx":632
  *         cdef SIZE_t n_known_constants = n_constant_features[0]
  *         # n_total_constants = n_known_constants + n_found_constants
  *         cdef SIZE_t n_total_constants = n_known_constants             # <<<<<<<<<<<<<<
@@ -4757,38 +4962,133 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   __pyx_v_n_total_constants = __pyx_v_n_known_constants;
 
-  /* "_splitter_mt.pyx":664
+  /* "_splitter_mt.pyx":636
  *         cdef SIZE_t partition_end
  * 
+ *         cdef INT32_t* feat_mt_types = self.feat_mt_types_ptr             # <<<<<<<<<<<<<<
+ *         cdef INT32_t mt_feat_type = 0
+ *         cdef SIZE_t mt_feature_idx_offset
+ */
+  __pyx_t_7 = __pyx_v_self->feat_mt_types_ptr;
+  __pyx_v_feat_mt_types = __pyx_t_7;
+
+  /* "_splitter_mt.pyx":637
+ * 
+ *         cdef INT32_t* feat_mt_types = self.feat_mt_types_ptr
+ *         cdef INT32_t mt_feat_type = 0             # <<<<<<<<<<<<<<
+ *         cdef SIZE_t mt_feature_idx_offset
+ *         cdef SIZE_t feat_mt_types_stride = self.feat_mt_types_stride
+ */
+  __pyx_v_mt_feat_type = 0;
+
+  /* "_splitter_mt.pyx":639
+ *         cdef INT32_t mt_feat_type = 0
+ *         cdef SIZE_t mt_feature_idx_offset
+ *         cdef SIZE_t feat_mt_types_stride = self.feat_mt_types_stride             # <<<<<<<<<<<<<<
+ * 
+ *         cdef double weighted_n_left
+ */
+  __pyx_t_5 = __pyx_v_self->feat_mt_types_stride;
+  __pyx_v_feat_mt_types_stride = __pyx_t_5;
+
+  /* "_splitter_mt.pyx":647
+ *         cdef double* sum_left
+ *         cdef double* sum_right
+ *         cdef INT32_t still_monotone = 0             # <<<<<<<<<<<<<<
+ *         cdef SIZE_t k = 0
+ *         cdef SIZE_t c = 0
+ */
+  __pyx_v_still_monotone = 0;
+
+  /* "_splitter_mt.pyx":648
+ *         cdef double* sum_right
+ *         cdef INT32_t still_monotone = 0
+ *         cdef SIZE_t k = 0             # <<<<<<<<<<<<<<
+ *         cdef SIZE_t c = 0
+ *         cdef INT32_t* n_classes = self.n_classes
+ */
+  __pyx_v_k = 0;
+
+  /* "_splitter_mt.pyx":649
+ *         cdef INT32_t still_monotone = 0
+ *         cdef SIZE_t k = 0
+ *         cdef SIZE_t c = 0             # <<<<<<<<<<<<<<
+ *         cdef INT32_t* n_classes = self.n_classes
+ *         cdef SIZE_t n_classes_stride = self.n_classes_stride
+ */
+  __pyx_v_c = 0;
+
+  /* "_splitter_mt.pyx":650
+ *         cdef SIZE_t k = 0
+ *         cdef SIZE_t c = 0
+ *         cdef INT32_t* n_classes = self.n_classes             # <<<<<<<<<<<<<<
+ *         cdef SIZE_t n_classes_stride = self.n_classes_stride
+ *         cdef SIZE_t n_classes_ = 0
+ */
+  __pyx_t_7 = __pyx_v_self->n_classes;
+  __pyx_v_n_classes = __pyx_t_7;
+
+  /* "_splitter_mt.pyx":651
+ *         cdef SIZE_t c = 0
+ *         cdef INT32_t* n_classes = self.n_classes
+ *         cdef SIZE_t n_classes_stride = self.n_classes_stride             # <<<<<<<<<<<<<<
+ *         cdef SIZE_t n_classes_ = 0
+ *         cdef INT32_t is_classification = self.is_classification
+ */
+  __pyx_t_5 = __pyx_v_self->n_classes_stride;
+  __pyx_v_n_classes_stride = __pyx_t_5;
+
+  /* "_splitter_mt.pyx":652
+ *         cdef INT32_t* n_classes = self.n_classes
+ *         cdef SIZE_t n_classes_stride = self.n_classes_stride
+ *         cdef SIZE_t n_classes_ = 0             # <<<<<<<<<<<<<<
+ *         cdef INT32_t is_classification = self.is_classification
+ *         cdef double count_k
+ */
+  __pyx_v_n_classes_ = 0;
+
+  /* "_splitter_mt.pyx":653
+ *         cdef SIZE_t n_classes_stride = self.n_classes_stride
+ *         cdef SIZE_t n_classes_ = 0
+ *         cdef INT32_t is_classification = self.is_classification             # <<<<<<<<<<<<<<
+ *         cdef double count_k
+ *         #cdef Criterion criterion
+ */
+  __pyx_t_9 = __pyx_v_self->is_classification;
+  __pyx_v_is_classification = __pyx_t_9;
+
+  /* "_splitter_mt.pyx":656
+ *         cdef double count_k
+ *         #cdef Criterion criterion
  *         _init_split(&best, end)             # <<<<<<<<<<<<<<
  * 
  *         if self.presort == 1:
  */
   __pyx_f_12_splitter_mt__init_split((&__pyx_v_best), __pyx_v_end);
 
-  /* "_splitter_mt.pyx":666
+  /* "_splitter_mt.pyx":658
  *         _init_split(&best, end)
  * 
  *         if self.presort == 1:             # <<<<<<<<<<<<<<
  *             for p in range(start, end):
  *                 sample_mask[samples[p]] = 1
  */
-  __pyx_t_6 = ((__pyx_v_self->presort == 1) != 0);
-  if (__pyx_t_6) {
+  __pyx_t_10 = ((__pyx_v_self->__pyx_base.presort == 1) != 0);
+  if (__pyx_t_10) {
 
-    /* "_splitter_mt.pyx":667
+    /* "_splitter_mt.pyx":659
  * 
  *         if self.presort == 1:
  *             for p in range(start, end):             # <<<<<<<<<<<<<<
  *                 sample_mask[samples[p]] = 1
  * 
  */
-    __pyx_t_2 = __pyx_v_end;
-    __pyx_t_7 = __pyx_t_2;
-    for (__pyx_t_8 = __pyx_v_start; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-      __pyx_v_p = __pyx_t_8;
+    __pyx_t_5 = __pyx_v_end;
+    __pyx_t_11 = __pyx_t_5;
+    for (__pyx_t_12 = __pyx_v_start; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
+      __pyx_v_p = __pyx_t_12;
 
-      /* "_splitter_mt.pyx":668
+      /* "_splitter_mt.pyx":660
  *         if self.presort == 1:
  *             for p in range(start, end):
  *                 sample_mask[samples[p]] = 1             # <<<<<<<<<<<<<<
@@ -4798,7 +5098,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
       (__pyx_v_sample_mask[(__pyx_v_samples[__pyx_v_p])]) = 1;
     }
 
-    /* "_splitter_mt.pyx":666
+    /* "_splitter_mt.pyx":658
  *         _init_split(&best, end)
  * 
  *         if self.presort == 1:             # <<<<<<<<<<<<<<
@@ -4807,7 +5107,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   }
 
-  /* "_splitter_mt.pyx":679
+  /* "_splitter_mt.pyx":671
  *         # newly discovered constant features to spare computation on descendant
  *         # nodes.
  *         while (f_i > n_total_constants and  # Stop early if remaining features             # <<<<<<<<<<<<<<
@@ -4815,40 +5115,40 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  *                 (n_visited_features < max_features or
  */
   while (1) {
-    __pyx_t_9 = ((__pyx_v_f_i > __pyx_v_n_total_constants) != 0);
-    if (__pyx_t_9) {
+    __pyx_t_13 = ((__pyx_v_f_i > __pyx_v_n_total_constants) != 0);
+    if (__pyx_t_13) {
     } else {
-      __pyx_t_6 = __pyx_t_9;
+      __pyx_t_10 = __pyx_t_13;
       goto __pyx_L8_bool_binop_done;
     }
 
-    /* "_splitter_mt.pyx":681
+    /* "_splitter_mt.pyx":673
  *         while (f_i > n_total_constants and  # Stop early if remaining features
  *                                             # are constant
  *                 (n_visited_features < max_features or             # <<<<<<<<<<<<<<
  *                  # At least one drawn features must be non constant
  *                  n_visited_features <= n_found_constants + n_drawn_constants)):
  */
-    __pyx_t_9 = ((__pyx_v_n_visited_features < __pyx_v_max_features) != 0);
-    if (!__pyx_t_9) {
+    __pyx_t_13 = ((__pyx_v_n_visited_features < __pyx_v_max_features) != 0);
+    if (!__pyx_t_13) {
     } else {
-      __pyx_t_6 = __pyx_t_9;
+      __pyx_t_10 = __pyx_t_13;
       goto __pyx_L8_bool_binop_done;
     }
 
-    /* "_splitter_mt.pyx":683
+    /* "_splitter_mt.pyx":675
  *                 (n_visited_features < max_features or
  *                  # At least one drawn features must be non constant
  *                  n_visited_features <= n_found_constants + n_drawn_constants)):             # <<<<<<<<<<<<<<
  * 
  *             n_visited_features += 1
  */
-    __pyx_t_9 = ((__pyx_v_n_visited_features <= (__pyx_v_n_found_constants + __pyx_v_n_drawn_constants)) != 0);
-    __pyx_t_6 = __pyx_t_9;
+    __pyx_t_13 = ((__pyx_v_n_visited_features <= (__pyx_v_n_found_constants + __pyx_v_n_drawn_constants)) != 0);
+    __pyx_t_10 = __pyx_t_13;
     __pyx_L8_bool_binop_done:;
-    if (!__pyx_t_6) break;
+    if (!__pyx_t_10) break;
 
-    /* "_splitter_mt.pyx":685
+    /* "_splitter_mt.pyx":677
  *                  n_visited_features <= n_found_constants + n_drawn_constants)):
  * 
  *             n_visited_features += 1             # <<<<<<<<<<<<<<
@@ -4857,7 +5157,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
     __pyx_v_n_visited_features = (__pyx_v_n_visited_features + 1);
 
-    /* "_splitter_mt.pyx":699
+    /* "_splitter_mt.pyx":691
  * 
  *             # Draw a feature at random
  *             f_j = rand_int(n_drawn_constants, f_i - n_found_constants,             # <<<<<<<<<<<<<<
@@ -4866,17 +5166,17 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
     __pyx_v_f_j = __pyx_f_12_splitter_mt_rand_int(__pyx_v_n_drawn_constants, (__pyx_v_f_i - __pyx_v_n_found_constants), __pyx_v_random_state);
 
-    /* "_splitter_mt.pyx":702
+    /* "_splitter_mt.pyx":694
  *                            random_state)
  * 
  *             if f_j < n_known_constants:             # <<<<<<<<<<<<<<
  *                 # f_j in the interval [n_drawn_constants, n_known_constants[
  *                 tmp = features[f_j]
  */
-    __pyx_t_6 = ((__pyx_v_f_j < __pyx_v_n_known_constants) != 0);
-    if (__pyx_t_6) {
+    __pyx_t_10 = ((__pyx_v_f_j < __pyx_v_n_known_constants) != 0);
+    if (__pyx_t_10) {
 
-      /* "_splitter_mt.pyx":704
+      /* "_splitter_mt.pyx":696
  *             if f_j < n_known_constants:
  *                 # f_j in the interval [n_drawn_constants, n_known_constants[
  *                 tmp = features[f_j]             # <<<<<<<<<<<<<<
@@ -4885,7 +5185,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
       __pyx_v_tmp = (__pyx_v_features[__pyx_v_f_j]);
 
-      /* "_splitter_mt.pyx":705
+      /* "_splitter_mt.pyx":697
  *                 # f_j in the interval [n_drawn_constants, n_known_constants[
  *                 tmp = features[f_j]
  *                 features[f_j] = features[n_drawn_constants]             # <<<<<<<<<<<<<<
@@ -4894,7 +5194,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
       (__pyx_v_features[__pyx_v_f_j]) = (__pyx_v_features[__pyx_v_n_drawn_constants]);
 
-      /* "_splitter_mt.pyx":706
+      /* "_splitter_mt.pyx":698
  *                 tmp = features[f_j]
  *                 features[f_j] = features[n_drawn_constants]
  *                 features[n_drawn_constants] = tmp             # <<<<<<<<<<<<<<
@@ -4903,7 +5203,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
       (__pyx_v_features[__pyx_v_n_drawn_constants]) = __pyx_v_tmp;
 
-      /* "_splitter_mt.pyx":708
+      /* "_splitter_mt.pyx":700
  *                 features[n_drawn_constants] = tmp
  * 
  *                 n_drawn_constants += 1             # <<<<<<<<<<<<<<
@@ -4912,7 +5212,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
       __pyx_v_n_drawn_constants = (__pyx_v_n_drawn_constants + 1);
 
-      /* "_splitter_mt.pyx":702
+      /* "_splitter_mt.pyx":694
  *                            random_state)
  * 
  *             if f_j < n_known_constants:             # <<<<<<<<<<<<<<
@@ -4922,7 +5222,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
       goto __pyx_L11;
     }
 
-    /* "_splitter_mt.pyx":712
+    /* "_splitter_mt.pyx":704
  *             else:
  *                 # f_j in the interval [n_known_constants, f_i - n_found_constants[
  *                 f_j += n_found_constants             # <<<<<<<<<<<<<<
@@ -4932,7 +5232,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
     /*else*/ {
       __pyx_v_f_j = (__pyx_v_f_j + __pyx_v_n_found_constants);
 
-      /* "_splitter_mt.pyx":714
+      /* "_splitter_mt.pyx":706
  *                 f_j += n_found_constants
  *                 # f_j in the interval [n_total_constants, f_i[
  *                 current.feature = features[f_j]             # <<<<<<<<<<<<<<
@@ -4941,7 +5241,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
       __pyx_v_current.feature = (__pyx_v_features[__pyx_v_f_j]);
 
-      /* "_splitter_mt.pyx":715
+      /* "_splitter_mt.pyx":707
  *                 # f_j in the interval [n_total_constants, f_i[
  *                 current.feature = features[f_j]
  *                 feature_offset = self.X_feature_stride * current.feature             # <<<<<<<<<<<<<<
@@ -4950,17 +5250,17 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
       __pyx_v_feature_offset = (__pyx_v_self->X_feature_stride * __pyx_v_current.feature);
 
-      /* "_splitter_mt.pyx":721
+      /* "_splitter_mt.pyx":713
  *                 # sorting the array in a manner which utilizes the cache more
  *                 # effectively.
  *                 if self.presort == 1:             # <<<<<<<<<<<<<<
  *                     p = start
  *                     feature_idx_offset = self.X_idx_sorted_stride * current.feature
  */
-      __pyx_t_6 = ((__pyx_v_self->presort == 1) != 0);
-      if (__pyx_t_6) {
+      __pyx_t_10 = ((__pyx_v_self->__pyx_base.presort == 1) != 0);
+      if (__pyx_t_10) {
 
-        /* "_splitter_mt.pyx":722
+        /* "_splitter_mt.pyx":714
  *                 # effectively.
  *                 if self.presort == 1:
  *                     p = start             # <<<<<<<<<<<<<<
@@ -4969,7 +5269,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
         __pyx_v_p = __pyx_v_start;
 
-        /* "_splitter_mt.pyx":723
+        /* "_splitter_mt.pyx":715
  *                 if self.presort == 1:
  *                     p = start
  *                     feature_idx_offset = self.X_idx_sorted_stride * current.feature             # <<<<<<<<<<<<<<
@@ -4978,19 +5278,19 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
         __pyx_v_feature_idx_offset = (__pyx_v_self->X_idx_sorted_stride * __pyx_v_current.feature);
 
-        /* "_splitter_mt.pyx":725
+        /* "_splitter_mt.pyx":717
  *                     feature_idx_offset = self.X_idx_sorted_stride * current.feature
  * 
  *                     for i in range(self.n_total_samples):             # <<<<<<<<<<<<<<
  *                         j = X_idx_sorted[i + feature_idx_offset]
  *                         if sample_mask[j] == 1:
  */
-        __pyx_t_2 = __pyx_v_self->n_total_samples;
-        __pyx_t_7 = __pyx_t_2;
-        for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-          __pyx_v_i = __pyx_t_8;
+        __pyx_t_5 = __pyx_v_self->n_total_samples;
+        __pyx_t_11 = __pyx_t_5;
+        for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
+          __pyx_v_i = __pyx_t_12;
 
-          /* "_splitter_mt.pyx":726
+          /* "_splitter_mt.pyx":718
  * 
  *                     for i in range(self.n_total_samples):
  *                         j = X_idx_sorted[i + feature_idx_offset]             # <<<<<<<<<<<<<<
@@ -4999,17 +5299,17 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
           __pyx_v_j = (__pyx_v_X_idx_sorted[(__pyx_v_i + __pyx_v_feature_idx_offset)]);
 
-          /* "_splitter_mt.pyx":727
+          /* "_splitter_mt.pyx":719
  *                     for i in range(self.n_total_samples):
  *                         j = X_idx_sorted[i + feature_idx_offset]
  *                         if sample_mask[j] == 1:             # <<<<<<<<<<<<<<
  *                             samples[p] = j
  *                             Xf[p] = X[self.X_sample_stride * j + feature_offset]
  */
-          __pyx_t_6 = (((__pyx_v_sample_mask[__pyx_v_j]) == 1) != 0);
-          if (__pyx_t_6) {
+          __pyx_t_10 = (((__pyx_v_sample_mask[__pyx_v_j]) == 1) != 0);
+          if (__pyx_t_10) {
 
-            /* "_splitter_mt.pyx":728
+            /* "_splitter_mt.pyx":720
  *                         j = X_idx_sorted[i + feature_idx_offset]
  *                         if sample_mask[j] == 1:
  *                             samples[p] = j             # <<<<<<<<<<<<<<
@@ -5018,7 +5318,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
             (__pyx_v_samples[__pyx_v_p]) = __pyx_v_j;
 
-            /* "_splitter_mt.pyx":729
+            /* "_splitter_mt.pyx":721
  *                         if sample_mask[j] == 1:
  *                             samples[p] = j
  *                             Xf[p] = X[self.X_sample_stride * j + feature_offset]             # <<<<<<<<<<<<<<
@@ -5027,7 +5327,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
             (__pyx_v_Xf[__pyx_v_p]) = (__pyx_v_X[((__pyx_v_self->X_sample_stride * __pyx_v_j) + __pyx_v_feature_offset)]);
 
-            /* "_splitter_mt.pyx":730
+            /* "_splitter_mt.pyx":722
  *                             samples[p] = j
  *                             Xf[p] = X[self.X_sample_stride * j + feature_offset]
  *                             p += 1             # <<<<<<<<<<<<<<
@@ -5036,7 +5336,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
             __pyx_v_p = (__pyx_v_p + 1);
 
-            /* "_splitter_mt.pyx":727
+            /* "_splitter_mt.pyx":719
  *                     for i in range(self.n_total_samples):
  *                         j = X_idx_sorted[i + feature_idx_offset]
  *                         if sample_mask[j] == 1:             # <<<<<<<<<<<<<<
@@ -5046,7 +5346,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
           }
         }
 
-        /* "_splitter_mt.pyx":721
+        /* "_splitter_mt.pyx":713
  *                 # sorting the array in a manner which utilizes the cache more
  *                 # effectively.
  *                 if self.presort == 1:             # <<<<<<<<<<<<<<
@@ -5056,7 +5356,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
         goto __pyx_L12;
       }
 
-      /* "_splitter_mt.pyx":732
+      /* "_splitter_mt.pyx":724
  *                             p += 1
  *                 else:
  *                     for i in range(start, end):             # <<<<<<<<<<<<<<
@@ -5064,12 +5364,12 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  * 
  */
       /*else*/ {
-        __pyx_t_2 = __pyx_v_end;
-        __pyx_t_7 = __pyx_t_2;
-        for (__pyx_t_8 = __pyx_v_start; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-          __pyx_v_i = __pyx_t_8;
+        __pyx_t_5 = __pyx_v_end;
+        __pyx_t_11 = __pyx_t_5;
+        for (__pyx_t_12 = __pyx_v_start; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
+          __pyx_v_i = __pyx_t_12;
 
-          /* "_splitter_mt.pyx":733
+          /* "_splitter_mt.pyx":725
  *                 else:
  *                     for i in range(start, end):
  *                         Xf[i] = X[self.X_sample_stride * samples[i] + feature_offset]             # <<<<<<<<<<<<<<
@@ -5079,7 +5379,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
           (__pyx_v_Xf[__pyx_v_i]) = (__pyx_v_X[((__pyx_v_self->X_sample_stride * (__pyx_v_samples[__pyx_v_i])) + __pyx_v_feature_offset)]);
         }
 
-        /* "_splitter_mt.pyx":735
+        /* "_splitter_mt.pyx":727
  *                         Xf[i] = X[self.X_sample_stride * samples[i] + feature_offset]
  * 
  *                     sort(Xf + start, samples + start, end - start)             # <<<<<<<<<<<<<<
@@ -5090,17 +5390,17 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
       }
       __pyx_L12:;
 
-      /* "_splitter_mt.pyx":737
+      /* "_splitter_mt.pyx":729
  *                     sort(Xf + start, samples + start, end - start)
  * 
  *                 if Xf[end - 1] <= Xf[start] + FEATURE_THRESHOLD:             # <<<<<<<<<<<<<<
  *                     features[f_j] = features[n_total_constants]
  *                     features[n_total_constants] = current.feature
  */
-      __pyx_t_6 = (((__pyx_v_Xf[(__pyx_v_end - 1)]) <= ((__pyx_v_Xf[__pyx_v_start]) + __pyx_v_12_splitter_mt_FEATURE_THRESHOLD)) != 0);
-      if (__pyx_t_6) {
+      __pyx_t_10 = (((__pyx_v_Xf[(__pyx_v_end - 1)]) <= ((__pyx_v_Xf[__pyx_v_start]) + __pyx_v_12_splitter_mt_FEATURE_THRESHOLD)) != 0);
+      if (__pyx_t_10) {
 
-        /* "_splitter_mt.pyx":738
+        /* "_splitter_mt.pyx":730
  * 
  *                 if Xf[end - 1] <= Xf[start] + FEATURE_THRESHOLD:
  *                     features[f_j] = features[n_total_constants]             # <<<<<<<<<<<<<<
@@ -5109,17 +5409,17 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
         (__pyx_v_features[__pyx_v_f_j]) = (__pyx_v_features[__pyx_v_n_total_constants]);
 
-        /* "_splitter_mt.pyx":739
+        /* "_splitter_mt.pyx":731
  *                 if Xf[end - 1] <= Xf[start] + FEATURE_THRESHOLD:
  *                     features[f_j] = features[n_total_constants]
  *                     features[n_total_constants] = current.feature             # <<<<<<<<<<<<<<
  * 
  *                     n_found_constants += 1
  */
-        __pyx_t_2 = __pyx_v_current.feature;
-        (__pyx_v_features[__pyx_v_n_total_constants]) = __pyx_t_2;
+        __pyx_t_5 = __pyx_v_current.feature;
+        (__pyx_v_features[__pyx_v_n_total_constants]) = __pyx_t_5;
 
-        /* "_splitter_mt.pyx":741
+        /* "_splitter_mt.pyx":733
  *                     features[n_total_constants] = current.feature
  * 
  *                     n_found_constants += 1             # <<<<<<<<<<<<<<
@@ -5128,7 +5428,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
         __pyx_v_n_found_constants = (__pyx_v_n_found_constants + 1);
 
-        /* "_splitter_mt.pyx":742
+        /* "_splitter_mt.pyx":734
  * 
  *                     n_found_constants += 1
  *                     n_total_constants += 1             # <<<<<<<<<<<<<<
@@ -5137,7 +5437,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
         __pyx_v_n_total_constants = (__pyx_v_n_total_constants + 1);
 
-        /* "_splitter_mt.pyx":737
+        /* "_splitter_mt.pyx":729
  *                     sort(Xf + start, samples + start, end - start)
  * 
  *                 if Xf[end - 1] <= Xf[start] + FEATURE_THRESHOLD:             # <<<<<<<<<<<<<<
@@ -5147,7 +5447,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
         goto __pyx_L18;
       }
 
-      /* "_splitter_mt.pyx":745
+      /* "_splitter_mt.pyx":737
  * 
  *                 else:
  *                     f_i -= 1             # <<<<<<<<<<<<<<
@@ -5157,28 +5457,28 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
       /*else*/ {
         __pyx_v_f_i = (__pyx_v_f_i - 1);
 
-        /* "_splitter_mt.pyx":746
+        /* "_splitter_mt.pyx":738
  *                 else:
  *                     f_i -= 1
  *                     features[f_i], features[f_j] = features[f_j], features[f_i]             # <<<<<<<<<<<<<<
  * 
  *                     # Evaluate all splits
  */
-        __pyx_t_2 = (__pyx_v_features[__pyx_v_f_j]);
-        __pyx_t_7 = (__pyx_v_features[__pyx_v_f_i]);
-        (__pyx_v_features[__pyx_v_f_i]) = __pyx_t_2;
-        (__pyx_v_features[__pyx_v_f_j]) = __pyx_t_7;
+        __pyx_t_5 = (__pyx_v_features[__pyx_v_f_j]);
+        __pyx_t_11 = (__pyx_v_features[__pyx_v_f_i]);
+        (__pyx_v_features[__pyx_v_f_i]) = __pyx_t_5;
+        (__pyx_v_features[__pyx_v_f_j]) = __pyx_t_11;
 
-        /* "_splitter_mt.pyx":749
+        /* "_splitter_mt.pyx":741
  * 
  *                     # Evaluate all splits
  *                     self.criterion.reset()             # <<<<<<<<<<<<<<
  *                     p = start
  * 
  */
-        __pyx_t_10 = ((struct __pyx_vtabstruct_12_splitter_mt_Criterion *)__pyx_v_self->criterion->__pyx_vtab)->reset(__pyx_v_self->criterion); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 749, __pyx_L1_error)
+        __pyx_t_14 = ((struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion *)__pyx_v_self->__pyx_base.criterion->__pyx_vtab)->reset(__pyx_v_self->__pyx_base.criterion); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 741, __pyx_L1_error)
 
-        /* "_splitter_mt.pyx":750
+        /* "_splitter_mt.pyx":742
  *                     # Evaluate all splits
  *                     self.criterion.reset()
  *                     p = start             # <<<<<<<<<<<<<<
@@ -5187,7 +5487,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
         __pyx_v_p = __pyx_v_start;
 
-        /* "_splitter_mt.pyx":752
+        /* "_splitter_mt.pyx":744
  *                     p = start
  * 
  *                     while p < end:             # <<<<<<<<<<<<<<
@@ -5195,10 +5495,10 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  *                                Xf[p + 1] <= Xf[p] + FEATURE_THRESHOLD):
  */
         while (1) {
-          __pyx_t_6 = ((__pyx_v_p < __pyx_v_end) != 0);
-          if (!__pyx_t_6) break;
+          __pyx_t_10 = ((__pyx_v_p < __pyx_v_end) != 0);
+          if (!__pyx_t_10) break;
 
-          /* "_splitter_mt.pyx":753
+          /* "_splitter_mt.pyx":745
  * 
  *                     while p < end:
  *                         while (p + 1 < end and             # <<<<<<<<<<<<<<
@@ -5206,26 +5506,26 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  *                             p += 1
  */
           while (1) {
-            __pyx_t_9 = (((__pyx_v_p + 1) < __pyx_v_end) != 0);
-            if (__pyx_t_9) {
+            __pyx_t_13 = (((__pyx_v_p + 1) < __pyx_v_end) != 0);
+            if (__pyx_t_13) {
             } else {
-              __pyx_t_6 = __pyx_t_9;
+              __pyx_t_10 = __pyx_t_13;
               goto __pyx_L23_bool_binop_done;
             }
 
-            /* "_splitter_mt.pyx":754
+            /* "_splitter_mt.pyx":746
  *                     while p < end:
  *                         while (p + 1 < end and
  *                                Xf[p + 1] <= Xf[p] + FEATURE_THRESHOLD):             # <<<<<<<<<<<<<<
  *                             p += 1
  * 
  */
-            __pyx_t_9 = (((__pyx_v_Xf[(__pyx_v_p + 1)]) <= ((__pyx_v_Xf[__pyx_v_p]) + __pyx_v_12_splitter_mt_FEATURE_THRESHOLD)) != 0);
-            __pyx_t_6 = __pyx_t_9;
+            __pyx_t_13 = (((__pyx_v_Xf[(__pyx_v_p + 1)]) <= ((__pyx_v_Xf[__pyx_v_p]) + __pyx_v_12_splitter_mt_FEATURE_THRESHOLD)) != 0);
+            __pyx_t_10 = __pyx_t_13;
             __pyx_L23_bool_binop_done:;
-            if (!__pyx_t_6) break;
+            if (!__pyx_t_10) break;
 
-            /* "_splitter_mt.pyx":755
+            /* "_splitter_mt.pyx":747
  *                         while (p + 1 < end and
  *                                Xf[p + 1] <= Xf[p] + FEATURE_THRESHOLD):
  *                             p += 1             # <<<<<<<<<<<<<<
@@ -5235,7 +5535,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
             __pyx_v_p = (__pyx_v_p + 1);
           }
 
-          /* "_splitter_mt.pyx":759
+          /* "_splitter_mt.pyx":751
  *                         # (p + 1 >= end) or (X[samples[p + 1], current.feature] >
  *                         #                    X[samples[p], current.feature])
  *                         p += 1             # <<<<<<<<<<<<<<
@@ -5244,17 +5544,17 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
           __pyx_v_p = (__pyx_v_p + 1);
 
-          /* "_splitter_mt.pyx":763
+          /* "_splitter_mt.pyx":755
  *                         #                X[samples[p - 1], current.feature])
  * 
  *                         if p < end:             # <<<<<<<<<<<<<<
  *                             current.pos = p
  * 
  */
-          __pyx_t_6 = ((__pyx_v_p < __pyx_v_end) != 0);
-          if (__pyx_t_6) {
+          __pyx_t_10 = ((__pyx_v_p < __pyx_v_end) != 0);
+          if (__pyx_t_10) {
 
-            /* "_splitter_mt.pyx":764
+            /* "_splitter_mt.pyx":756
  * 
  *                         if p < end:
  *                             current.pos = p             # <<<<<<<<<<<<<<
@@ -5263,41 +5563,41 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
             __pyx_v_current.pos = __pyx_v_p;
 
-            /* "_splitter_mt.pyx":767
+            /* "_splitter_mt.pyx":759
  * 
  *                             # Reject if min_samples_leaf is not guaranteed
  *                             if (((current.pos - start) < min_samples_leaf) or             # <<<<<<<<<<<<<<
  *                                     ((end - current.pos) < min_samples_leaf)):
  *                                 continue
  */
-            __pyx_t_9 = (((__pyx_v_current.pos - __pyx_v_start) < __pyx_v_min_samples_leaf) != 0);
-            if (!__pyx_t_9) {
+            __pyx_t_13 = (((__pyx_v_current.pos - __pyx_v_start) < __pyx_v_min_samples_leaf) != 0);
+            if (!__pyx_t_13) {
             } else {
-              __pyx_t_6 = __pyx_t_9;
+              __pyx_t_10 = __pyx_t_13;
               goto __pyx_L27_bool_binop_done;
             }
 
-            /* "_splitter_mt.pyx":768
+            /* "_splitter_mt.pyx":760
  *                             # Reject if min_samples_leaf is not guaranteed
  *                             if (((current.pos - start) < min_samples_leaf) or
  *                                     ((end - current.pos) < min_samples_leaf)):             # <<<<<<<<<<<<<<
  *                                 continue
  * 
  */
-            __pyx_t_9 = (((__pyx_v_end - __pyx_v_current.pos) < __pyx_v_min_samples_leaf) != 0);
-            __pyx_t_6 = __pyx_t_9;
+            __pyx_t_13 = (((__pyx_v_end - __pyx_v_current.pos) < __pyx_v_min_samples_leaf) != 0);
+            __pyx_t_10 = __pyx_t_13;
             __pyx_L27_bool_binop_done:;
 
-            /* "_splitter_mt.pyx":767
+            /* "_splitter_mt.pyx":759
  * 
  *                             # Reject if min_samples_leaf is not guaranteed
  *                             if (((current.pos - start) < min_samples_leaf) or             # <<<<<<<<<<<<<<
  *                                     ((end - current.pos) < min_samples_leaf)):
  *                                 continue
  */
-            if (__pyx_t_6) {
+            if (__pyx_t_10) {
 
-              /* "_splitter_mt.pyx":769
+              /* "_splitter_mt.pyx":761
  *                             if (((current.pos - start) < min_samples_leaf) or
  *                                     ((end - current.pos) < min_samples_leaf)):
  *                                 continue             # <<<<<<<<<<<<<<
@@ -5306,7 +5606,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
               goto __pyx_L19_continue;
 
-              /* "_splitter_mt.pyx":767
+              /* "_splitter_mt.pyx":759
  * 
  *                             # Reject if min_samples_leaf is not guaranteed
  *                             if (((current.pos - start) < min_samples_leaf) or             # <<<<<<<<<<<<<<
@@ -5315,50 +5615,535 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
             }
 
-            /* "_splitter_mt.pyx":771
+            /* "_splitter_mt.pyx":763
  *                                 continue
  * 
  *                             self.criterion.update(current.pos)             # <<<<<<<<<<<<<<
  * 
- *                             # Reject if min_weight_leaf is not satisfied
+ *                             # MONOTONE ADDITIONAL CHECK
  */
-            __pyx_t_10 = ((struct __pyx_vtabstruct_12_splitter_mt_Criterion *)__pyx_v_self->criterion->__pyx_vtab)->update(__pyx_v_self->criterion, __pyx_v_current.pos); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 771, __pyx_L1_error)
+            __pyx_t_14 = ((struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion *)__pyx_v_self->__pyx_base.criterion->__pyx_vtab)->update(__pyx_v_self->__pyx_base.criterion, __pyx_v_current.pos); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 763, __pyx_L1_error)
 
-            /* "_splitter_mt.pyx":774
+            /* "_splitter_mt.pyx":766
  * 
+ *                             # MONOTONE ADDITIONAL CHECK
+ *                             if self.is_monotone == 1:             # <<<<<<<<<<<<<<
+ *                                 mt_feature_idx_offset = feat_mt_types_stride * current.feature
+ *                                 mt_feat_type = feat_mt_types[mt_feature_idx_offset]
+ */
+            __pyx_t_10 = ((__pyx_v_self->is_monotone == 1) != 0);
+            if (__pyx_t_10) {
+
+              /* "_splitter_mt.pyx":767
+ *                             # MONOTONE ADDITIONAL CHECK
+ *                             if self.is_monotone == 1:
+ *                                 mt_feature_idx_offset = feat_mt_types_stride * current.feature             # <<<<<<<<<<<<<<
+ *                                 mt_feat_type = feat_mt_types[mt_feature_idx_offset]
+ *                                 weighted_n_left = self.criterion.weighted_n_left
+ */
+              __pyx_v_mt_feature_idx_offset = (__pyx_v_feat_mt_types_stride * __pyx_v_current.feature);
+
+              /* "_splitter_mt.pyx":768
+ *                             if self.is_monotone == 1:
+ *                                 mt_feature_idx_offset = feat_mt_types_stride * current.feature
+ *                                 mt_feat_type = feat_mt_types[mt_feature_idx_offset]             # <<<<<<<<<<<<<<
+ *                                 weighted_n_left = self.criterion.weighted_n_left
+ *                                 weighted_n_right  = self.criterion.weighted_n_right
+ */
+              __pyx_v_mt_feat_type = (__pyx_v_feat_mt_types[__pyx_v_mt_feature_idx_offset]);
+
+              /* "_splitter_mt.pyx":769
+ *                                 mt_feature_idx_offset = feat_mt_types_stride * current.feature
+ *                                 mt_feat_type = feat_mt_types[mt_feature_idx_offset]
+ *                                 weighted_n_left = self.criterion.weighted_n_left             # <<<<<<<<<<<<<<
+ *                                 weighted_n_right  = self.criterion.weighted_n_right
+ *                                 sum_left = self.criterion.sum_left
+ */
+              __pyx_t_6 = __pyx_v_self->__pyx_base.criterion->weighted_n_left;
+              __pyx_v_weighted_n_left = __pyx_t_6;
+
+              /* "_splitter_mt.pyx":770
+ *                                 mt_feat_type = feat_mt_types[mt_feature_idx_offset]
+ *                                 weighted_n_left = self.criterion.weighted_n_left
+ *                                 weighted_n_right  = self.criterion.weighted_n_right             # <<<<<<<<<<<<<<
+ *                                 sum_left = self.criterion.sum_left
+ *                                 sum_right = self.criterion.sum_right
+ */
+              __pyx_t_6 = __pyx_v_self->__pyx_base.criterion->weighted_n_right;
+              __pyx_v_weighted_n_right = __pyx_t_6;
+
+              /* "_splitter_mt.pyx":771
+ *                                 weighted_n_left = self.criterion.weighted_n_left
+ *                                 weighted_n_right  = self.criterion.weighted_n_right
+ *                                 sum_left = self.criterion.sum_left             # <<<<<<<<<<<<<<
+ *                                 sum_right = self.criterion.sum_right
+ *                                 if not mt_feat_type == 0:
+ */
+              __pyx_t_15 = __pyx_v_self->__pyx_base.criterion->sum_left;
+              __pyx_v_sum_left = __pyx_t_15;
+
+              /* "_splitter_mt.pyx":772
+ *                                 weighted_n_right  = self.criterion.weighted_n_right
+ *                                 sum_left = self.criterion.sum_left
+ *                                 sum_right = self.criterion.sum_right             # <<<<<<<<<<<<<<
+ *                                 if not mt_feat_type == 0:
+ *                                     #criterion= self.criterion
+ */
+              __pyx_t_15 = __pyx_v_self->__pyx_base.criterion->sum_right;
+              __pyx_v_sum_right = __pyx_t_15;
+
+              /* "_splitter_mt.pyx":773
+ *                                 sum_left = self.criterion.sum_left
+ *                                 sum_right = self.criterion.sum_right
+ *                                 if not mt_feat_type == 0:             # <<<<<<<<<<<<<<
+ *                                     #criterion= self.criterion
+ *                                     still_monotone = 1
+ */
+              __pyx_t_10 = ((!((__pyx_v_mt_feat_type == 0) != 0)) != 0);
+              if (__pyx_t_10) {
+
+                /* "_splitter_mt.pyx":775
+ *                                 if not mt_feat_type == 0:
+ *                                     #criterion= self.criterion
+ *                                     still_monotone = 1             # <<<<<<<<<<<<<<
+ *                                     k = 0
+ *                                     #for k in range(self.n_outputs):
+ */
+                __pyx_v_still_monotone = 1;
+
+                /* "_splitter_mt.pyx":776
+ *                                     #criterion= self.criterion
+ *                                     still_monotone = 1
+ *                                     k = 0             # <<<<<<<<<<<<<<
+ *                                     #for k in range(self.n_outputs):
+ *                                     while k<self.criterion.n_outputs and still_monotone==1:
+ */
+                __pyx_v_k = 0;
+
+                /* "_splitter_mt.pyx":778
+ *                                     k = 0
+ *                                     #for k in range(self.n_outputs):
+ *                                     while k<self.criterion.n_outputs and still_monotone==1:             # <<<<<<<<<<<<<<
+ *                                         if is_classification==0: # regression
+ *                                             if mt_feat_type==1: # increasing
+ */
+                while (1) {
+                  __pyx_t_13 = ((__pyx_v_k < __pyx_v_self->__pyx_base.criterion->n_outputs) != 0);
+                  if (__pyx_t_13) {
+                  } else {
+                    __pyx_t_10 = __pyx_t_13;
+                    goto __pyx_L33_bool_binop_done;
+                  }
+                  __pyx_t_13 = ((__pyx_v_still_monotone == 1) != 0);
+                  __pyx_t_10 = __pyx_t_13;
+                  __pyx_L33_bool_binop_done:;
+                  if (!__pyx_t_10) break;
+
+                  /* "_splitter_mt.pyx":779
+ *                                     #for k in range(self.n_outputs):
+ *                                     while k<self.criterion.n_outputs and still_monotone==1:
+ *                                         if is_classification==0: # regression             # <<<<<<<<<<<<<<
+ *                                             if mt_feat_type==1: # increasing
+ *                                                 if ((sum_left[k]/weighted_n_left) >
+ */
+                  __pyx_t_10 = ((__pyx_v_is_classification == 0) != 0);
+                  if (__pyx_t_10) {
+
+                    /* "_splitter_mt.pyx":780
+ *                                     while k<self.criterion.n_outputs and still_monotone==1:
+ *                                         if is_classification==0: # regression
+ *                                             if mt_feat_type==1: # increasing             # <<<<<<<<<<<<<<
+ *                                                 if ((sum_left[k]/weighted_n_left) >
+ *                                                     (sum_right[k]/weighted_n_right)):
+ */
+                    __pyx_t_10 = ((__pyx_v_mt_feat_type == 1) != 0);
+                    if (__pyx_t_10) {
+
+                      /* "_splitter_mt.pyx":781
+ *                                         if is_classification==0: # regression
+ *                                             if mt_feat_type==1: # increasing
+ *                                                 if ((sum_left[k]/weighted_n_left) >             # <<<<<<<<<<<<<<
+ *                                                     (sum_right[k]/weighted_n_right)):
+ *                                                     still_monotone=0
+ */
+                      __pyx_t_10 = ((((__pyx_v_sum_left[__pyx_v_k]) / __pyx_v_weighted_n_left) > ((__pyx_v_sum_right[__pyx_v_k]) / __pyx_v_weighted_n_right)) != 0);
+                      if (__pyx_t_10) {
+
+                        /* "_splitter_mt.pyx":783
+ *                                                 if ((sum_left[k]/weighted_n_left) >
+ *                                                     (sum_right[k]/weighted_n_right)):
+ *                                                     still_monotone=0             # <<<<<<<<<<<<<<
+ *                                             else:
+ *                                                 if ((sum_left[k]/weighted_n_left) <
+ */
+                        __pyx_v_still_monotone = 0;
+
+                        /* "_splitter_mt.pyx":781
+ *                                         if is_classification==0: # regression
+ *                                             if mt_feat_type==1: # increasing
+ *                                                 if ((sum_left[k]/weighted_n_left) >             # <<<<<<<<<<<<<<
+ *                                                     (sum_right[k]/weighted_n_right)):
+ *                                                     still_monotone=0
+ */
+                      }
+
+                      /* "_splitter_mt.pyx":780
+ *                                     while k<self.criterion.n_outputs and still_monotone==1:
+ *                                         if is_classification==0: # regression
+ *                                             if mt_feat_type==1: # increasing             # <<<<<<<<<<<<<<
+ *                                                 if ((sum_left[k]/weighted_n_left) >
+ *                                                     (sum_right[k]/weighted_n_right)):
+ */
+                      goto __pyx_L36;
+                    }
+
+                    /* "_splitter_mt.pyx":785
+ *                                                     still_monotone=0
+ *                                             else:
+ *                                                 if ((sum_left[k]/weighted_n_left) <             # <<<<<<<<<<<<<<
+ *                                                     (sum_right[k]/weighted_n_right)):
+ *                                                     still_monotone=0
+ */
+                    /*else*/ {
+
+                      /* "_splitter_mt.pyx":786
+ *                                             else:
+ *                                                 if ((sum_left[k]/weighted_n_left) <
+ *                                                     (sum_right[k]/weighted_n_right)):             # <<<<<<<<<<<<<<
+ *                                                     still_monotone=0
+ *                                         else: # classification - check for stochastic dominance on cum pdf
+ */
+                      __pyx_t_10 = ((((__pyx_v_sum_left[__pyx_v_k]) / __pyx_v_weighted_n_left) < ((__pyx_v_sum_right[__pyx_v_k]) / __pyx_v_weighted_n_right)) != 0);
+
+                      /* "_splitter_mt.pyx":785
+ *                                                     still_monotone=0
+ *                                             else:
+ *                                                 if ((sum_left[k]/weighted_n_left) <             # <<<<<<<<<<<<<<
+ *                                                     (sum_right[k]/weighted_n_right)):
+ *                                                     still_monotone=0
+ */
+                      if (__pyx_t_10) {
+
+                        /* "_splitter_mt.pyx":787
+ *                                                 if ((sum_left[k]/weighted_n_left) <
+ *                                                     (sum_right[k]/weighted_n_right)):
+ *                                                     still_monotone=0             # <<<<<<<<<<<<<<
+ *                                         else: # classification - check for stochastic dominance on cum pdf
+ *                                             cum_weighted_n_left = 0.
+ */
+                        __pyx_v_still_monotone = 0;
+
+                        /* "_splitter_mt.pyx":785
+ *                                                     still_monotone=0
+ *                                             else:
+ *                                                 if ((sum_left[k]/weighted_n_left) <             # <<<<<<<<<<<<<<
+ *                                                     (sum_right[k]/weighted_n_right)):
+ *                                                     still_monotone=0
+ */
+                      }
+                    }
+                    __pyx_L36:;
+
+                    /* "_splitter_mt.pyx":779
+ *                                     #for k in range(self.n_outputs):
+ *                                     while k<self.criterion.n_outputs and still_monotone==1:
+ *                                         if is_classification==0: # regression             # <<<<<<<<<<<<<<
+ *                                             if mt_feat_type==1: # increasing
+ *                                                 if ((sum_left[k]/weighted_n_left) >
+ */
+                    goto __pyx_L35;
+                  }
+
+                  /* "_splitter_mt.pyx":789
+ *                                                     still_monotone=0
+ *                                         else: # classification - check for stochastic dominance on cum pdf
+ *                                             cum_weighted_n_left = 0.             # <<<<<<<<<<<<<<
+ *                                             cum_weighted_n_right = 0.
+ *                                             n_classes_=n_classes[k]
+ */
+                  /*else*/ {
+                    __pyx_v_cum_weighted_n_left = 0.;
+
+                    /* "_splitter_mt.pyx":790
+ *                                         else: # classification - check for stochastic dominance on cum pdf
+ *                                             cum_weighted_n_left = 0.
+ *                                             cum_weighted_n_right = 0.             # <<<<<<<<<<<<<<
+ *                                             n_classes_=n_classes[k]
+ *                                             c = 0
+ */
+                    __pyx_v_cum_weighted_n_right = 0.;
+
+                    /* "_splitter_mt.pyx":791
+ *                                             cum_weighted_n_left = 0.
+ *                                             cum_weighted_n_right = 0.
+ *                                             n_classes_=n_classes[k]             # <<<<<<<<<<<<<<
+ *                                             c = 0
+ *                                             while c < (n_classes[k]-1) and still_monotone==1:
+ */
+                    __pyx_v_n_classes_ = (__pyx_v_n_classes[__pyx_v_k]);
+
+                    /* "_splitter_mt.pyx":792
+ *                                             cum_weighted_n_right = 0.
+ *                                             n_classes_=n_classes[k]
+ *                                             c = 0             # <<<<<<<<<<<<<<
+ *                                             while c < (n_classes[k]-1) and still_monotone==1:
+ *                                                 cum_weighted_n_left += sum_left[c]
+ */
+                    __pyx_v_c = 0;
+
+                    /* "_splitter_mt.pyx":793
+ *                                             n_classes_=n_classes[k]
+ *                                             c = 0
+ *                                             while c < (n_classes[k]-1) and still_monotone==1:             # <<<<<<<<<<<<<<
+ *                                                 cum_weighted_n_left += sum_left[c]
+ *                                                 cum_weighted_n_right += sum_right[c]
+ */
+                    while (1) {
+                      __pyx_t_13 = ((__pyx_v_c < ((__pyx_v_n_classes[__pyx_v_k]) - 1)) != 0);
+                      if (__pyx_t_13) {
+                      } else {
+                        __pyx_t_10 = __pyx_t_13;
+                        goto __pyx_L41_bool_binop_done;
+                      }
+                      __pyx_t_13 = ((__pyx_v_still_monotone == 1) != 0);
+                      __pyx_t_10 = __pyx_t_13;
+                      __pyx_L41_bool_binop_done:;
+                      if (!__pyx_t_10) break;
+
+                      /* "_splitter_mt.pyx":794
+ *                                             c = 0
+ *                                             while c < (n_classes[k]-1) and still_monotone==1:
+ *                                                 cum_weighted_n_left += sum_left[c]             # <<<<<<<<<<<<<<
+ *                                                 cum_weighted_n_right += sum_right[c]
+ *                                                 if mt_feat_type==1: # increasing
+ */
+                      __pyx_v_cum_weighted_n_left = (__pyx_v_cum_weighted_n_left + (__pyx_v_sum_left[__pyx_v_c]));
+
+                      /* "_splitter_mt.pyx":795
+ *                                             while c < (n_classes[k]-1) and still_monotone==1:
+ *                                                 cum_weighted_n_left += sum_left[c]
+ *                                                 cum_weighted_n_right += sum_right[c]             # <<<<<<<<<<<<<<
+ *                                                 if mt_feat_type==1: # increasing
+ *                                                     if ((cum_weighted_n_left/weighted_n_left)<
+ */
+                      __pyx_v_cum_weighted_n_right = (__pyx_v_cum_weighted_n_right + (__pyx_v_sum_right[__pyx_v_c]));
+
+                      /* "_splitter_mt.pyx":796
+ *                                                 cum_weighted_n_left += sum_left[c]
+ *                                                 cum_weighted_n_right += sum_right[c]
+ *                                                 if mt_feat_type==1: # increasing             # <<<<<<<<<<<<<<
+ *                                                     if ((cum_weighted_n_left/weighted_n_left)<
+ *                                                         (cum_weighted_n_right/weighted_n_right)):
+ */
+                      __pyx_t_10 = ((__pyx_v_mt_feat_type == 1) != 0);
+                      if (__pyx_t_10) {
+
+                        /* "_splitter_mt.pyx":797
+ *                                                 cum_weighted_n_right += sum_right[c]
+ *                                                 if mt_feat_type==1: # increasing
+ *                                                     if ((cum_weighted_n_left/weighted_n_left)<             # <<<<<<<<<<<<<<
+ *                                                         (cum_weighted_n_right/weighted_n_right)):
+ *                                                         still_monotone=0
+ */
+                        __pyx_t_10 = (((__pyx_v_cum_weighted_n_left / __pyx_v_weighted_n_left) < (__pyx_v_cum_weighted_n_right / __pyx_v_weighted_n_right)) != 0);
+                        if (__pyx_t_10) {
+
+                          /* "_splitter_mt.pyx":799
+ *                                                     if ((cum_weighted_n_left/weighted_n_left)<
+ *                                                         (cum_weighted_n_right/weighted_n_right)):
+ *                                                         still_monotone=0             # <<<<<<<<<<<<<<
+ *                                                 else: # decreasing
+ *                                                     if ((cum_weighted_n_left/weighted_n_left)>
+ */
+                          __pyx_v_still_monotone = 0;
+
+                          /* "_splitter_mt.pyx":797
+ *                                                 cum_weighted_n_right += sum_right[c]
+ *                                                 if mt_feat_type==1: # increasing
+ *                                                     if ((cum_weighted_n_left/weighted_n_left)<             # <<<<<<<<<<<<<<
+ *                                                         (cum_weighted_n_right/weighted_n_right)):
+ *                                                         still_monotone=0
+ */
+                        }
+
+                        /* "_splitter_mt.pyx":796
+ *                                                 cum_weighted_n_left += sum_left[c]
+ *                                                 cum_weighted_n_right += sum_right[c]
+ *                                                 if mt_feat_type==1: # increasing             # <<<<<<<<<<<<<<
+ *                                                     if ((cum_weighted_n_left/weighted_n_left)<
+ *                                                         (cum_weighted_n_right/weighted_n_right)):
+ */
+                        goto __pyx_L43;
+                      }
+
+                      /* "_splitter_mt.pyx":801
+ *                                                         still_monotone=0
+ *                                                 else: # decreasing
+ *                                                     if ((cum_weighted_n_left/weighted_n_left)>             # <<<<<<<<<<<<<<
+ *                                                         (cum_weighted_n_right/weighted_n_right)):
+ *                                                         still_monotone=0
+ */
+                      /*else*/ {
+
+                        /* "_splitter_mt.pyx":802
+ *                                                 else: # decreasing
+ *                                                     if ((cum_weighted_n_left/weighted_n_left)>
+ *                                                         (cum_weighted_n_right/weighted_n_right)):             # <<<<<<<<<<<<<<
+ *                                                         still_monotone=0
+ *                                                 c=c+1
+ */
+                        __pyx_t_10 = (((__pyx_v_cum_weighted_n_left / __pyx_v_weighted_n_left) > (__pyx_v_cum_weighted_n_right / __pyx_v_weighted_n_right)) != 0);
+
+                        /* "_splitter_mt.pyx":801
+ *                                                         still_monotone=0
+ *                                                 else: # decreasing
+ *                                                     if ((cum_weighted_n_left/weighted_n_left)>             # <<<<<<<<<<<<<<
+ *                                                         (cum_weighted_n_right/weighted_n_right)):
+ *                                                         still_monotone=0
+ */
+                        if (__pyx_t_10) {
+
+                          /* "_splitter_mt.pyx":803
+ *                                                     if ((cum_weighted_n_left/weighted_n_left)>
+ *                                                         (cum_weighted_n_right/weighted_n_right)):
+ *                                                         still_monotone=0             # <<<<<<<<<<<<<<
+ *                                                 c=c+1
+ *                                             sum_right += self.crit_sum_stride
+ */
+                          __pyx_v_still_monotone = 0;
+
+                          /* "_splitter_mt.pyx":801
+ *                                                         still_monotone=0
+ *                                                 else: # decreasing
+ *                                                     if ((cum_weighted_n_left/weighted_n_left)>             # <<<<<<<<<<<<<<
+ *                                                         (cum_weighted_n_right/weighted_n_right)):
+ *                                                         still_monotone=0
+ */
+                        }
+                      }
+                      __pyx_L43:;
+
+                      /* "_splitter_mt.pyx":804
+ *                                                         (cum_weighted_n_right/weighted_n_right)):
+ *                                                         still_monotone=0
+ *                                                 c=c+1             # <<<<<<<<<<<<<<
+ *                                             sum_right += self.crit_sum_stride
+ *                                             sum_left += self.crit_sum_stride
+ */
+                      __pyx_v_c = (__pyx_v_c + 1);
+                    }
+
+                    /* "_splitter_mt.pyx":805
+ *                                                         still_monotone=0
+ *                                                 c=c+1
+ *                                             sum_right += self.crit_sum_stride             # <<<<<<<<<<<<<<
+ *                                             sum_left += self.crit_sum_stride
+ *                                             # criterion example loop:
+ */
+                    __pyx_v_sum_right = (__pyx_v_sum_right + __pyx_v_self->crit_sum_stride);
+
+                    /* "_splitter_mt.pyx":806
+ *                                                 c=c+1
+ *                                             sum_right += self.crit_sum_stride
+ *                                             sum_left += self.crit_sum_stride             # <<<<<<<<<<<<<<
+ *                                             # criterion example loop:
+ * #                                        for k in range(self.n_outputs):
+ */
+                    __pyx_v_sum_left = (__pyx_v_sum_left + __pyx_v_self->crit_sum_stride);
+                  }
+                  __pyx_L35:;
+
+                  /* "_splitter_mt.pyx":815
+ * #                                            sum_left += self.sum_stride
+ * #                                            sum_total += self.sum_stride
+ *                                         k = k + 1             # <<<<<<<<<<<<<<
+ *                                     if still_monotone==0:
+ *                                         continue
+ */
+                  __pyx_v_k = (__pyx_v_k + 1);
+                }
+
+                /* "_splitter_mt.pyx":816
+ * #                                            sum_total += self.sum_stride
+ *                                         k = k + 1
+ *                                     if still_monotone==0:             # <<<<<<<<<<<<<<
+ *                                         continue
+ * #
+ */
+                __pyx_t_10 = ((__pyx_v_still_monotone == 0) != 0);
+                if (__pyx_t_10) {
+
+                  /* "_splitter_mt.pyx":817
+ *                                         k = k + 1
+ *                                     if still_monotone==0:
+ *                                         continue             # <<<<<<<<<<<<<<
+ * #
+ * #                                    self.weighted_n_left += w
+ */
+                  goto __pyx_L19_continue;
+
+                  /* "_splitter_mt.pyx":816
+ * #                                            sum_total += self.sum_stride
+ *                                         k = k + 1
+ *                                     if still_monotone==0:             # <<<<<<<<<<<<<<
+ *                                         continue
+ * #
+ */
+                }
+
+                /* "_splitter_mt.pyx":773
+ *                                 sum_left = self.criterion.sum_left
+ *                                 sum_right = self.criterion.sum_right
+ *                                 if not mt_feat_type == 0:             # <<<<<<<<<<<<<<
+ *                                     #criterion= self.criterion
+ *                                     still_monotone = 1
+ */
+              }
+
+              /* "_splitter_mt.pyx":766
+ * 
+ *                             # MONOTONE ADDITIONAL CHECK
+ *                             if self.is_monotone == 1:             # <<<<<<<<<<<<<<
+ *                                 mt_feature_idx_offset = feat_mt_types_stride * current.feature
+ *                                 mt_feat_type = feat_mt_types[mt_feature_idx_offset]
+ */
+            }
+
+            /* "_splitter_mt.pyx":829
+ * #                                        cum_weighted_n_left=cum_weighted_n_left
  *                             # Reject if min_weight_leaf is not satisfied
  *                             if ((self.criterion.weighted_n_left < min_weight_leaf) or             # <<<<<<<<<<<<<<
  *                                     (self.criterion.weighted_n_right < min_weight_leaf)):
  *                                 continue
  */
-            __pyx_t_9 = ((__pyx_v_self->criterion->weighted_n_left < __pyx_v_min_weight_leaf) != 0);
-            if (!__pyx_t_9) {
+            __pyx_t_13 = ((__pyx_v_self->__pyx_base.criterion->weighted_n_left < __pyx_v_min_weight_leaf) != 0);
+            if (!__pyx_t_13) {
             } else {
-              __pyx_t_6 = __pyx_t_9;
-              goto __pyx_L30_bool_binop_done;
+              __pyx_t_10 = __pyx_t_13;
+              goto __pyx_L48_bool_binop_done;
             }
 
-            /* "_splitter_mt.pyx":775
+            /* "_splitter_mt.pyx":830
  *                             # Reject if min_weight_leaf is not satisfied
  *                             if ((self.criterion.weighted_n_left < min_weight_leaf) or
  *                                     (self.criterion.weighted_n_right < min_weight_leaf)):             # <<<<<<<<<<<<<<
  *                                 continue
  * 
  */
-            __pyx_t_9 = ((__pyx_v_self->criterion->weighted_n_right < __pyx_v_min_weight_leaf) != 0);
-            __pyx_t_6 = __pyx_t_9;
-            __pyx_L30_bool_binop_done:;
+            __pyx_t_13 = ((__pyx_v_self->__pyx_base.criterion->weighted_n_right < __pyx_v_min_weight_leaf) != 0);
+            __pyx_t_10 = __pyx_t_13;
+            __pyx_L48_bool_binop_done:;
 
-            /* "_splitter_mt.pyx":774
- * 
+            /* "_splitter_mt.pyx":829
+ * #                                        cum_weighted_n_left=cum_weighted_n_left
  *                             # Reject if min_weight_leaf is not satisfied
  *                             if ((self.criterion.weighted_n_left < min_weight_leaf) or             # <<<<<<<<<<<<<<
  *                                     (self.criterion.weighted_n_right < min_weight_leaf)):
  *                                 continue
  */
-            if (__pyx_t_6) {
+            if (__pyx_t_10) {
 
-              /* "_splitter_mt.pyx":776
+              /* "_splitter_mt.pyx":831
  *                             if ((self.criterion.weighted_n_left < min_weight_leaf) or
  *                                     (self.criterion.weighted_n_right < min_weight_leaf)):
  *                                 continue             # <<<<<<<<<<<<<<
@@ -5367,8 +6152,8 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
               goto __pyx_L19_continue;
 
-              /* "_splitter_mt.pyx":774
- * 
+              /* "_splitter_mt.pyx":829
+ * #                                        cum_weighted_n_left=cum_weighted_n_left
  *                             # Reject if min_weight_leaf is not satisfied
  *                             if ((self.criterion.weighted_n_left < min_weight_leaf) or             # <<<<<<<<<<<<<<
  *                                     (self.criterion.weighted_n_right < min_weight_leaf)):
@@ -5376,26 +6161,26 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
             }
 
-            /* "_splitter_mt.pyx":778
+            /* "_splitter_mt.pyx":833
  *                                 continue
  * 
  *                             current_proxy_improvement = self.criterion.proxy_impurity_improvement()             # <<<<<<<<<<<<<<
  * 
  *                             if current_proxy_improvement > best_proxy_improvement:
  */
-            __pyx_v_current_proxy_improvement = ((struct __pyx_vtabstruct_12_splitter_mt_Criterion *)__pyx_v_self->criterion->__pyx_vtab)->proxy_impurity_improvement(__pyx_v_self->criterion);
+            __pyx_v_current_proxy_improvement = ((struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion *)__pyx_v_self->__pyx_base.criterion->__pyx_vtab)->proxy_impurity_improvement(__pyx_v_self->__pyx_base.criterion);
 
-            /* "_splitter_mt.pyx":780
+            /* "_splitter_mt.pyx":835
  *                             current_proxy_improvement = self.criterion.proxy_impurity_improvement()
  * 
  *                             if current_proxy_improvement > best_proxy_improvement:             # <<<<<<<<<<<<<<
  *                                 best_proxy_improvement = current_proxy_improvement
  *                                 current.threshold = (Xf[p - 1] + Xf[p]) / 2.0
  */
-            __pyx_t_6 = ((__pyx_v_current_proxy_improvement > __pyx_v_best_proxy_improvement) != 0);
-            if (__pyx_t_6) {
+            __pyx_t_10 = ((__pyx_v_current_proxy_improvement > __pyx_v_best_proxy_improvement) != 0);
+            if (__pyx_t_10) {
 
-              /* "_splitter_mt.pyx":781
+              /* "_splitter_mt.pyx":836
  * 
  *                             if current_proxy_improvement > best_proxy_improvement:
  *                                 best_proxy_improvement = current_proxy_improvement             # <<<<<<<<<<<<<<
@@ -5404,7 +6189,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
               __pyx_v_best_proxy_improvement = __pyx_v_current_proxy_improvement;
 
-              /* "_splitter_mt.pyx":782
+              /* "_splitter_mt.pyx":837
  *                             if current_proxy_improvement > best_proxy_improvement:
  *                                 best_proxy_improvement = current_proxy_improvement
  *                                 current.threshold = (Xf[p - 1] + Xf[p]) / 2.0             # <<<<<<<<<<<<<<
@@ -5413,17 +6198,17 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
               __pyx_v_current.threshold = (((__pyx_v_Xf[(__pyx_v_p - 1)]) + (__pyx_v_Xf[__pyx_v_p])) / 2.0);
 
-              /* "_splitter_mt.pyx":784
+              /* "_splitter_mt.pyx":839
  *                                 current.threshold = (Xf[p - 1] + Xf[p]) / 2.0
  * 
  *                                 if current.threshold == Xf[p]:             # <<<<<<<<<<<<<<
  *                                     current.threshold = Xf[p - 1]
  * 
  */
-              __pyx_t_6 = ((__pyx_v_current.threshold == (__pyx_v_Xf[__pyx_v_p])) != 0);
-              if (__pyx_t_6) {
+              __pyx_t_10 = ((__pyx_v_current.threshold == (__pyx_v_Xf[__pyx_v_p])) != 0);
+              if (__pyx_t_10) {
 
-                /* "_splitter_mt.pyx":785
+                /* "_splitter_mt.pyx":840
  * 
  *                                 if current.threshold == Xf[p]:
  *                                     current.threshold = Xf[p - 1]             # <<<<<<<<<<<<<<
@@ -5432,7 +6217,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
                 __pyx_v_current.threshold = (__pyx_v_Xf[(__pyx_v_p - 1)]);
 
-                /* "_splitter_mt.pyx":784
+                /* "_splitter_mt.pyx":839
  *                                 current.threshold = (Xf[p - 1] + Xf[p]) / 2.0
  * 
  *                                 if current.threshold == Xf[p]:             # <<<<<<<<<<<<<<
@@ -5441,7 +6226,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
               }
 
-              /* "_splitter_mt.pyx":787
+              /* "_splitter_mt.pyx":842
  *                                     current.threshold = Xf[p - 1]
  * 
  *                                 best = current  # copy             # <<<<<<<<<<<<<<
@@ -5450,7 +6235,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
               __pyx_v_best = __pyx_v_current;
 
-              /* "_splitter_mt.pyx":780
+              /* "_splitter_mt.pyx":835
  *                             current_proxy_improvement = self.criterion.proxy_impurity_improvement()
  * 
  *                             if current_proxy_improvement > best_proxy_improvement:             # <<<<<<<<<<<<<<
@@ -5459,7 +6244,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
             }
 
-            /* "_splitter_mt.pyx":763
+            /* "_splitter_mt.pyx":755
  *                         #                X[samples[p - 1], current.feature])
  * 
  *                         if p < end:             # <<<<<<<<<<<<<<
@@ -5475,17 +6260,17 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
     __pyx_L11:;
   }
 
-  /* "_splitter_mt.pyx":790
+  /* "_splitter_mt.pyx":845
  * 
  *         # Reorganize into samples[start:best.pos] + samples[best.pos:end]
  *         if best.pos < end:             # <<<<<<<<<<<<<<
  *             feature_offset = X_feature_stride * best.feature
  *             partition_end = end
  */
-  __pyx_t_6 = ((__pyx_v_best.pos < __pyx_v_end) != 0);
-  if (__pyx_t_6) {
+  __pyx_t_10 = ((__pyx_v_best.pos < __pyx_v_end) != 0);
+  if (__pyx_t_10) {
 
-    /* "_splitter_mt.pyx":791
+    /* "_splitter_mt.pyx":846
  *         # Reorganize into samples[start:best.pos] + samples[best.pos:end]
  *         if best.pos < end:
  *             feature_offset = X_feature_stride * best.feature             # <<<<<<<<<<<<<<
@@ -5494,7 +6279,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
     __pyx_v_feature_offset = (__pyx_v_X_feature_stride * __pyx_v_best.feature);
 
-    /* "_splitter_mt.pyx":792
+    /* "_splitter_mt.pyx":847
  *         if best.pos < end:
  *             feature_offset = X_feature_stride * best.feature
  *             partition_end = end             # <<<<<<<<<<<<<<
@@ -5503,7 +6288,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
     __pyx_v_partition_end = __pyx_v_end;
 
-    /* "_splitter_mt.pyx":793
+    /* "_splitter_mt.pyx":848
  *             feature_offset = X_feature_stride * best.feature
  *             partition_end = end
  *             p = start             # <<<<<<<<<<<<<<
@@ -5512,7 +6297,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
     __pyx_v_p = __pyx_v_start;
 
-    /* "_splitter_mt.pyx":795
+    /* "_splitter_mt.pyx":850
  *             p = start
  * 
  *             while p < partition_end:             # <<<<<<<<<<<<<<
@@ -5520,20 +6305,20 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  *                     p += 1
  */
     while (1) {
-      __pyx_t_6 = ((__pyx_v_p < __pyx_v_partition_end) != 0);
-      if (!__pyx_t_6) break;
+      __pyx_t_10 = ((__pyx_v_p < __pyx_v_partition_end) != 0);
+      if (!__pyx_t_10) break;
 
-      /* "_splitter_mt.pyx":796
+      /* "_splitter_mt.pyx":851
  * 
  *             while p < partition_end:
  *                 if X[X_sample_stride * samples[p] + feature_offset] <= best.threshold:             # <<<<<<<<<<<<<<
  *                     p += 1
  * 
  */
-      __pyx_t_6 = (((__pyx_v_X[((__pyx_v_X_sample_stride * (__pyx_v_samples[__pyx_v_p])) + __pyx_v_feature_offset)]) <= __pyx_v_best.threshold) != 0);
-      if (__pyx_t_6) {
+      __pyx_t_10 = (((__pyx_v_X[((__pyx_v_X_sample_stride * (__pyx_v_samples[__pyx_v_p])) + __pyx_v_feature_offset)]) <= __pyx_v_best.threshold) != 0);
+      if (__pyx_t_10) {
 
-        /* "_splitter_mt.pyx":797
+        /* "_splitter_mt.pyx":852
  *             while p < partition_end:
  *                 if X[X_sample_stride * samples[p] + feature_offset] <= best.threshold:
  *                     p += 1             # <<<<<<<<<<<<<<
@@ -5542,17 +6327,17 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
         __pyx_v_p = (__pyx_v_p + 1);
 
-        /* "_splitter_mt.pyx":796
+        /* "_splitter_mt.pyx":851
  * 
  *             while p < partition_end:
  *                 if X[X_sample_stride * samples[p] + feature_offset] <= best.threshold:             # <<<<<<<<<<<<<<
  *                     p += 1
  * 
  */
-        goto __pyx_L37;
+        goto __pyx_L55;
       }
 
-      /* "_splitter_mt.pyx":800
+      /* "_splitter_mt.pyx":855
  * 
  *                 else:
  *                     partition_end -= 1             # <<<<<<<<<<<<<<
@@ -5562,7 +6347,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
       /*else*/ {
         __pyx_v_partition_end = (__pyx_v_partition_end - 1);
 
-        /* "_splitter_mt.pyx":802
+        /* "_splitter_mt.pyx":857
  *                     partition_end -= 1
  * 
  *                     tmp = samples[partition_end]             # <<<<<<<<<<<<<<
@@ -5571,7 +6356,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
         __pyx_v_tmp = (__pyx_v_samples[__pyx_v_partition_end]);
 
-        /* "_splitter_mt.pyx":803
+        /* "_splitter_mt.pyx":858
  * 
  *                     tmp = samples[partition_end]
  *                     samples[partition_end] = samples[p]             # <<<<<<<<<<<<<<
@@ -5580,7 +6365,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
         (__pyx_v_samples[__pyx_v_partition_end]) = (__pyx_v_samples[__pyx_v_p]);
 
-        /* "_splitter_mt.pyx":804
+        /* "_splitter_mt.pyx":859
  *                     tmp = samples[partition_end]
  *                     samples[partition_end] = samples[p]
  *                     samples[p] = tmp             # <<<<<<<<<<<<<<
@@ -5589,46 +6374,46 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
         (__pyx_v_samples[__pyx_v_p]) = __pyx_v_tmp;
       }
-      __pyx_L37:;
+      __pyx_L55:;
     }
 
-    /* "_splitter_mt.pyx":806
+    /* "_splitter_mt.pyx":861
  *                     samples[p] = tmp
  * 
  *             self.criterion.reset()             # <<<<<<<<<<<<<<
  *             self.criterion.update(best.pos)
  *             best.improvement = self.criterion.impurity_improvement(impurity)
  */
-    __pyx_t_10 = ((struct __pyx_vtabstruct_12_splitter_mt_Criterion *)__pyx_v_self->criterion->__pyx_vtab)->reset(__pyx_v_self->criterion); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 806, __pyx_L1_error)
+    __pyx_t_14 = ((struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion *)__pyx_v_self->__pyx_base.criterion->__pyx_vtab)->reset(__pyx_v_self->__pyx_base.criterion); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 861, __pyx_L1_error)
 
-    /* "_splitter_mt.pyx":807
+    /* "_splitter_mt.pyx":862
  * 
  *             self.criterion.reset()
  *             self.criterion.update(best.pos)             # <<<<<<<<<<<<<<
  *             best.improvement = self.criterion.impurity_improvement(impurity)
  *             self.criterion.children_impurity(&best.impurity_left,
  */
-    __pyx_t_10 = ((struct __pyx_vtabstruct_12_splitter_mt_Criterion *)__pyx_v_self->criterion->__pyx_vtab)->update(__pyx_v_self->criterion, __pyx_v_best.pos); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 807, __pyx_L1_error)
+    __pyx_t_14 = ((struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion *)__pyx_v_self->__pyx_base.criterion->__pyx_vtab)->update(__pyx_v_self->__pyx_base.criterion, __pyx_v_best.pos); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 862, __pyx_L1_error)
 
-    /* "_splitter_mt.pyx":808
+    /* "_splitter_mt.pyx":863
  *             self.criterion.reset()
  *             self.criterion.update(best.pos)
  *             best.improvement = self.criterion.impurity_improvement(impurity)             # <<<<<<<<<<<<<<
  *             self.criterion.children_impurity(&best.impurity_left,
  *                                              &best.impurity_right)
  */
-    __pyx_v_best.improvement = ((struct __pyx_vtabstruct_12_splitter_mt_Criterion *)__pyx_v_self->criterion->__pyx_vtab)->impurity_improvement(__pyx_v_self->criterion, __pyx_v_impurity);
+    __pyx_v_best.improvement = ((struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion *)__pyx_v_self->__pyx_base.criterion->__pyx_vtab)->impurity_improvement(__pyx_v_self->__pyx_base.criterion, __pyx_v_impurity);
 
-    /* "_splitter_mt.pyx":809
+    /* "_splitter_mt.pyx":864
  *             self.criterion.update(best.pos)
  *             best.improvement = self.criterion.impurity_improvement(impurity)
  *             self.criterion.children_impurity(&best.impurity_left,             # <<<<<<<<<<<<<<
  *                                              &best.impurity_right)
  * 
  */
-    ((struct __pyx_vtabstruct_12_splitter_mt_Criterion *)__pyx_v_self->criterion->__pyx_vtab)->children_impurity(__pyx_v_self->criterion, (&__pyx_v_best.impurity_left), (&__pyx_v_best.impurity_right));
+    ((struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion *)__pyx_v_self->__pyx_base.criterion->__pyx_vtab)->children_impurity(__pyx_v_self->__pyx_base.criterion, (&__pyx_v_best.impurity_left), (&__pyx_v_best.impurity_right));
 
-    /* "_splitter_mt.pyx":790
+    /* "_splitter_mt.pyx":845
  * 
  *         # Reorganize into samples[start:best.pos] + samples[best.pos:end]
  *         if best.pos < end:             # <<<<<<<<<<<<<<
@@ -5637,29 +6422,29 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   }
 
-  /* "_splitter_mt.pyx":813
+  /* "_splitter_mt.pyx":868
  * 
  *         # Reset sample mask
  *         if self.presort == 1:             # <<<<<<<<<<<<<<
  *             for p in range(start, end):
  *                 sample_mask[samples[p]] = 0
  */
-  __pyx_t_6 = ((__pyx_v_self->presort == 1) != 0);
-  if (__pyx_t_6) {
+  __pyx_t_10 = ((__pyx_v_self->__pyx_base.presort == 1) != 0);
+  if (__pyx_t_10) {
 
-    /* "_splitter_mt.pyx":814
+    /* "_splitter_mt.pyx":869
  *         # Reset sample mask
  *         if self.presort == 1:
  *             for p in range(start, end):             # <<<<<<<<<<<<<<
  *                 sample_mask[samples[p]] = 0
  * 
  */
-    __pyx_t_7 = __pyx_v_end;
-    __pyx_t_2 = __pyx_t_7;
-    for (__pyx_t_8 = __pyx_v_start; __pyx_t_8 < __pyx_t_2; __pyx_t_8+=1) {
-      __pyx_v_p = __pyx_t_8;
+    __pyx_t_11 = __pyx_v_end;
+    __pyx_t_5 = __pyx_t_11;
+    for (__pyx_t_12 = __pyx_v_start; __pyx_t_12 < __pyx_t_5; __pyx_t_12+=1) {
+      __pyx_v_p = __pyx_t_12;
 
-      /* "_splitter_mt.pyx":815
+      /* "_splitter_mt.pyx":870
  *         if self.presort == 1:
  *             for p in range(start, end):
  *                 sample_mask[samples[p]] = 0             # <<<<<<<<<<<<<<
@@ -5669,7 +6454,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
       (__pyx_v_sample_mask[(__pyx_v_samples[__pyx_v_p])]) = 0;
     }
 
-    /* "_splitter_mt.pyx":813
+    /* "_splitter_mt.pyx":868
  * 
  *         # Reset sample mask
  *         if self.presort == 1:             # <<<<<<<<<<<<<<
@@ -5678,7 +6463,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   }
 
-  /* "_splitter_mt.pyx":820
+  /* "_splitter_mt.pyx":875
  *         # element in features[:n_known_constants] must be preserved for sibling
  *         # and child nodes
  *         memcpy(features, constant_features, sizeof(SIZE_t) * n_known_constants)             # <<<<<<<<<<<<<<
@@ -5687,7 +6472,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   (void)(memcpy(__pyx_v_features, __pyx_v_constant_features, ((sizeof(__pyx_t_12_splitter_mt_SIZE_t)) * __pyx_v_n_known_constants)));
 
-  /* "_splitter_mt.pyx":823
+  /* "_splitter_mt.pyx":878
  * 
  *         # Copy newly found constant features
  *         memcpy(constant_features + n_known_constants,             # <<<<<<<<<<<<<<
@@ -5696,7 +6481,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   (void)(memcpy((__pyx_v_constant_features + __pyx_v_n_known_constants), (__pyx_v_features + __pyx_v_n_known_constants), ((sizeof(__pyx_t_12_splitter_mt_SIZE_t)) * __pyx_v_n_found_constants)));
 
-  /* "_splitter_mt.pyx":828
+  /* "_splitter_mt.pyx":883
  * 
  *         # Return values
  *         split[0] = best             # <<<<<<<<<<<<<<
@@ -5705,7 +6490,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   (__pyx_v_split[0]) = __pyx_v_best;
 
-  /* "_splitter_mt.pyx":829
+  /* "_splitter_mt.pyx":884
  *         # Return values
  *         split[0] = best
  *         n_constant_features[0] = n_total_constants             # <<<<<<<<<<<<<<
@@ -5714,7 +6499,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
  */
   (__pyx_v_n_constant_features[0]) = __pyx_v_n_total_constants;
 
-  /* "_splitter_mt.pyx":830
+  /* "_splitter_mt.pyx":885
  *         split[0] = best
  *         n_constant_features[0] = n_total_constants
  *         return 0             # <<<<<<<<<<<<<<
@@ -5724,7 +6509,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
   __pyx_r = 0;
   goto __pyx_L0;
 
-  /* "_splitter_mt.pyx":612
+  /* "_splitter_mt.pyx":584
  *         return 0
  * 
  *     cdef int node_split(self, double impurity, SplitRecord* split,             # <<<<<<<<<<<<<<
@@ -5748,7 +6533,7 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":832
+/* "_splitter_mt.pyx":887
  *         return 0
  * 
  *     cdef void node_value(self, double* dest) nogil:             # <<<<<<<<<<<<<<
@@ -5758,16 +6543,16 @@ static int __pyx_f_12_splitter_mt_14BestSplitterMT_node_split(struct __pyx_obj_1
 
 static void __pyx_f_12_splitter_mt_14BestSplitterMT_node_value(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, double *__pyx_v_dest) {
 
-  /* "_splitter_mt.pyx":835
+  /* "_splitter_mt.pyx":890
  *         """Copy the value of node samples[start:end] into dest."""
  * 
  *         self.criterion.node_value(dest)             # <<<<<<<<<<<<<<
  * 
  *     cdef double node_impurity(self) nogil:
  */
-  ((struct __pyx_vtabstruct_12_splitter_mt_Criterion *)__pyx_v_self->criterion->__pyx_vtab)->node_value(__pyx_v_self->criterion, __pyx_v_dest);
+  ((struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion *)__pyx_v_self->__pyx_base.criterion->__pyx_vtab)->node_value(__pyx_v_self->__pyx_base.criterion, __pyx_v_dest);
 
-  /* "_splitter_mt.pyx":832
+  /* "_splitter_mt.pyx":887
  *         return 0
  * 
  *     cdef void node_value(self, double* dest) nogil:             # <<<<<<<<<<<<<<
@@ -5778,7 +6563,7 @@ static void __pyx_f_12_splitter_mt_14BestSplitterMT_node_value(struct __pyx_obj_
   /* function exit code */
 }
 
-/* "_splitter_mt.pyx":837
+/* "_splitter_mt.pyx":892
  *         self.criterion.node_value(dest)
  * 
  *     cdef double node_impurity(self) nogil:             # <<<<<<<<<<<<<<
@@ -5789,17 +6574,17 @@ static void __pyx_f_12_splitter_mt_14BestSplitterMT_node_value(struct __pyx_obj_
 static double __pyx_f_12_splitter_mt_14BestSplitterMT_node_impurity(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self) {
   double __pyx_r;
 
-  /* "_splitter_mt.pyx":840
+  /* "_splitter_mt.pyx":895
  *         """Return the impurity of the current node."""
  * 
  *         return self.criterion.node_impurity()             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_r = ((struct __pyx_vtabstruct_12_splitter_mt_Criterion *)__pyx_v_self->criterion->__pyx_vtab)->node_impurity(__pyx_v_self->criterion);
+  __pyx_r = ((struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion *)__pyx_v_self->__pyx_base.criterion->__pyx_vtab)->node_impurity(__pyx_v_self->__pyx_base.criterion);
   goto __pyx_L0;
 
-  /* "_splitter_mt.pyx":837
+  /* "_splitter_mt.pyx":892
  *         self.criterion.node_value(dest)
  * 
  *     cdef double node_impurity(self) nogil:             # <<<<<<<<<<<<<<
@@ -5812,340 +6597,7 @@ static double __pyx_f_12_splitter_mt_14BestSplitterMT_node_impurity(struct __pyx
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":375
- * cdef class BestSplitterMT:
- *         # Internal structures
- *     cdef public Criterion criterion      # Impurity criterion             # <<<<<<<<<<<<<<
- *     cdef public SIZE_t max_features      # Number of features to test
- *     cdef public SIZE_t min_samples_leaf  # Min samples in a leaf
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_12_splitter_mt_14BestSplitterMT_9criterion_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_12_splitter_mt_14BestSplitterMT_9criterion_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_12_splitter_mt_14BestSplitterMT_9criterion___get__(((struct __pyx_obj_12_splitter_mt_BestSplitterMT *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_9criterion___get__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(((PyObject *)__pyx_v_self->criterion));
-  __pyx_r = ((PyObject *)__pyx_v_self->criterion);
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_12_splitter_mt_14BestSplitterMT_9criterion_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_12_splitter_mt_14BestSplitterMT_9criterion_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_12_splitter_mt_14BestSplitterMT_9criterion_2__set__(((struct __pyx_obj_12_splitter_mt_BestSplitterMT *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_12_splitter_mt_14BestSplitterMT_9criterion_2__set__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_12_splitter_mt_Criterion))))) __PYX_ERR(0, 375, __pyx_L1_error)
-  __pyx_t_1 = __pyx_v_value;
-  __Pyx_INCREF(__pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_1);
-  __Pyx_GOTREF(__pyx_v_self->criterion);
-  __Pyx_DECREF(((PyObject *)__pyx_v_self->criterion));
-  __pyx_v_self->criterion = ((struct __pyx_obj_12_splitter_mt_Criterion *)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("_splitter_mt.BestSplitterMT.criterion.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_12_splitter_mt_14BestSplitterMT_9criterion_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_12_splitter_mt_14BestSplitterMT_9criterion_5__del__(PyObject *__pyx_v_self) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_12_splitter_mt_14BestSplitterMT_9criterion_4__del__(((struct __pyx_obj_12_splitter_mt_BestSplitterMT *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_12_splitter_mt_14BestSplitterMT_9criterion_4__del__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__del__", 0);
-  __Pyx_INCREF(Py_None);
-  __Pyx_GIVEREF(Py_None);
-  __Pyx_GOTREF(__pyx_v_self->criterion);
-  __Pyx_DECREF(((PyObject *)__pyx_v_self->criterion));
-  __pyx_v_self->criterion = ((struct __pyx_obj_12_splitter_mt_Criterion *)Py_None);
-
-  /* function exit code */
-  __pyx_r = 0;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "_splitter_mt.pyx":376
- *         # Internal structures
- *     cdef public Criterion criterion      # Impurity criterion
- *     cdef public SIZE_t max_features      # Number of features to test             # <<<<<<<<<<<<<<
- *     cdef public SIZE_t min_samples_leaf  # Min samples in a leaf
- *     cdef public double min_weight_leaf   # Minimum weight in a leaf
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_12_splitter_mt_14BestSplitterMT_12max_features_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_12_splitter_mt_14BestSplitterMT_12max_features_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_12_splitter_mt_14BestSplitterMT_12max_features___get__(((struct __pyx_obj_12_splitter_mt_BestSplitterMT *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_12max_features___get__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_self->max_features); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 376, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("_splitter_mt.BestSplitterMT.max_features.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_12_splitter_mt_14BestSplitterMT_12max_features_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_12_splitter_mt_14BestSplitterMT_12max_features_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_12_splitter_mt_14BestSplitterMT_12max_features_2__set__(((struct __pyx_obj_12_splitter_mt_BestSplitterMT *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_12_splitter_mt_14BestSplitterMT_12max_features_2__set__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __pyx_t_12_splitter_mt_SIZE_t __pyx_t_1;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_Py_intptr_t(__pyx_v_value); if (unlikely((__pyx_t_1 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 376, __pyx_L1_error)
-  __pyx_v_self->max_features = __pyx_t_1;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("_splitter_mt.BestSplitterMT.max_features.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "_splitter_mt.pyx":377
- *     cdef public Criterion criterion      # Impurity criterion
- *     cdef public SIZE_t max_features      # Number of features to test
- *     cdef public SIZE_t min_samples_leaf  # Min samples in a leaf             # <<<<<<<<<<<<<<
- *     cdef public double min_weight_leaf   # Minimum weight in a leaf
- * 
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_12_splitter_mt_14BestSplitterMT_16min_samples_leaf_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_12_splitter_mt_14BestSplitterMT_16min_samples_leaf_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_12_splitter_mt_14BestSplitterMT_16min_samples_leaf___get__(((struct __pyx_obj_12_splitter_mt_BestSplitterMT *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_16min_samples_leaf___get__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_self->min_samples_leaf); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 377, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("_splitter_mt.BestSplitterMT.min_samples_leaf.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_12_splitter_mt_14BestSplitterMT_16min_samples_leaf_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_12_splitter_mt_14BestSplitterMT_16min_samples_leaf_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_12_splitter_mt_14BestSplitterMT_16min_samples_leaf_2__set__(((struct __pyx_obj_12_splitter_mt_BestSplitterMT *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_12_splitter_mt_14BestSplitterMT_16min_samples_leaf_2__set__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __pyx_t_12_splitter_mt_SIZE_t __pyx_t_1;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_Py_intptr_t(__pyx_v_value); if (unlikely((__pyx_t_1 == ((npy_intp)-1)) && PyErr_Occurred())) __PYX_ERR(0, 377, __pyx_L1_error)
-  __pyx_v_self->min_samples_leaf = __pyx_t_1;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("_splitter_mt.BestSplitterMT.min_samples_leaf.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "_splitter_mt.pyx":378
- *     cdef public SIZE_t max_features      # Number of features to test
- *     cdef public SIZE_t min_samples_leaf  # Min samples in a leaf
- *     cdef public double min_weight_leaf   # Minimum weight in a leaf             # <<<<<<<<<<<<<<
- * 
- *     cdef object random_state             # Random state
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_12_splitter_mt_14BestSplitterMT_15min_weight_leaf_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_12_splitter_mt_14BestSplitterMT_15min_weight_leaf_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_12_splitter_mt_14BestSplitterMT_15min_weight_leaf___get__(((struct __pyx_obj_12_splitter_mt_BestSplitterMT *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_12_splitter_mt_14BestSplitterMT_15min_weight_leaf___get__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->min_weight_leaf); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 378, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("_splitter_mt.BestSplitterMT.min_weight_leaf.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_12_splitter_mt_14BestSplitterMT_15min_weight_leaf_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_12_splitter_mt_14BestSplitterMT_15min_weight_leaf_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_12_splitter_mt_14BestSplitterMT_15min_weight_leaf_2__set__(((struct __pyx_obj_12_splitter_mt_BestSplitterMT *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_12_splitter_mt_14BestSplitterMT_15min_weight_leaf_2__set__(struct __pyx_obj_12_splitter_mt_BestSplitterMT *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  double __pyx_t_1;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 378, __pyx_L1_error)
-  __pyx_v_self->min_weight_leaf = __pyx_t_1;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("_splitter_mt.BestSplitterMT.min_weight_leaf.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "_splitter_mt.pyx":849
+/* "_splitter_mt.pyx":904
  * # Sort n-element arrays pointed to by Xf and samples, simultaneously,
  * # by the values in Xf. Algorithm: Introsort (Musser, SP&E, 1997).
  * cdef inline void sort(DTYPE_t* Xf, SIZE_t* samples, SIZE_t n) nogil:             # <<<<<<<<<<<<<<
@@ -6156,7 +6608,7 @@ static int __pyx_pf_12_splitter_mt_14BestSplitterMT_15min_weight_leaf_2__set__(s
 static CYTHON_INLINE void __pyx_f_12_splitter_mt_sort(__pyx_t_12_splitter_mt_DTYPE_t *__pyx_v_Xf, __pyx_t_12_splitter_mt_SIZE_t *__pyx_v_samples, __pyx_t_12_splitter_mt_SIZE_t __pyx_v_n) {
   int __pyx_v_maxd;
 
-  /* "_splitter_mt.pyx":850
+  /* "_splitter_mt.pyx":905
  * # by the values in Xf. Algorithm: Introsort (Musser, SP&E, 1997).
  * cdef inline void sort(DTYPE_t* Xf, SIZE_t* samples, SIZE_t n) nogil:
  *     cdef int maxd = 2 * <int>log(n)             # <<<<<<<<<<<<<<
@@ -6165,7 +6617,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sort(__pyx_t_12_splitter_mt_DTY
  */
   __pyx_v_maxd = (2 * ((int)__pyx_f_12_splitter_mt_log(__pyx_v_n)));
 
-  /* "_splitter_mt.pyx":851
+  /* "_splitter_mt.pyx":906
  * cdef inline void sort(DTYPE_t* Xf, SIZE_t* samples, SIZE_t n) nogil:
  *     cdef int maxd = 2 * <int>log(n)
  *     introsort(Xf, samples, n, maxd)             # <<<<<<<<<<<<<<
@@ -6174,7 +6626,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sort(__pyx_t_12_splitter_mt_DTY
  */
   __pyx_f_12_splitter_mt_introsort(__pyx_v_Xf, __pyx_v_samples, __pyx_v_n, __pyx_v_maxd);
 
-  /* "_splitter_mt.pyx":849
+  /* "_splitter_mt.pyx":904
  * # Sort n-element arrays pointed to by Xf and samples, simultaneously,
  * # by the values in Xf. Algorithm: Introsort (Musser, SP&E, 1997).
  * cdef inline void sort(DTYPE_t* Xf, SIZE_t* samples, SIZE_t n) nogil:             # <<<<<<<<<<<<<<
@@ -6185,7 +6637,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sort(__pyx_t_12_splitter_mt_DTY
   /* function exit code */
 }
 
-/* "_splitter_mt.pyx":854
+/* "_splitter_mt.pyx":909
  * 
  * 
  * cdef inline void swap(DTYPE_t* Xf, SIZE_t* samples,             # <<<<<<<<<<<<<<
@@ -6199,7 +6651,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_swap(__pyx_t_12_splitter_mt_DTY
   __pyx_t_12_splitter_mt_SIZE_t __pyx_t_3;
   __pyx_t_12_splitter_mt_SIZE_t __pyx_t_4;
 
-  /* "_splitter_mt.pyx":857
+  /* "_splitter_mt.pyx":912
  *         SIZE_t i, SIZE_t j) nogil:
  *     # Helper for sort
  *     Xf[i], Xf[j] = Xf[j], Xf[i]             # <<<<<<<<<<<<<<
@@ -6211,7 +6663,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_swap(__pyx_t_12_splitter_mt_DTY
   (__pyx_v_Xf[__pyx_v_i]) = __pyx_t_1;
   (__pyx_v_Xf[__pyx_v_j]) = __pyx_t_2;
 
-  /* "_splitter_mt.pyx":858
+  /* "_splitter_mt.pyx":913
  *     # Helper for sort
  *     Xf[i], Xf[j] = Xf[j], Xf[i]
  *     samples[i], samples[j] = samples[j], samples[i]             # <<<<<<<<<<<<<<
@@ -6223,7 +6675,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_swap(__pyx_t_12_splitter_mt_DTY
   (__pyx_v_samples[__pyx_v_i]) = __pyx_t_3;
   (__pyx_v_samples[__pyx_v_j]) = __pyx_t_4;
 
-  /* "_splitter_mt.pyx":854
+  /* "_splitter_mt.pyx":909
  * 
  * 
  * cdef inline void swap(DTYPE_t* Xf, SIZE_t* samples,             # <<<<<<<<<<<<<<
@@ -6234,7 +6686,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_swap(__pyx_t_12_splitter_mt_DTY
   /* function exit code */
 }
 
-/* "_splitter_mt.pyx":861
+/* "_splitter_mt.pyx":916
  * 
  * 
  * cdef inline DTYPE_t median3(DTYPE_t* Xf, SIZE_t n) nogil:             # <<<<<<<<<<<<<<
@@ -6249,7 +6701,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
   __pyx_t_12_splitter_mt_DTYPE_t __pyx_r;
   int __pyx_t_1;
 
-  /* "_splitter_mt.pyx":864
+  /* "_splitter_mt.pyx":919
  *     # Median of three pivot selection, after Bentley and McIlroy (1993).
  *     # Engineering a sort function. SP&E. Requires 8/3 comparisons on average.
  *     cdef DTYPE_t a = Xf[0], b = Xf[n / 2], c = Xf[n - 1]             # <<<<<<<<<<<<<<
@@ -6260,7 +6712,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
   __pyx_v_b = (__pyx_v_Xf[(__pyx_v_n / 2)]);
   __pyx_v_c = (__pyx_v_Xf[(__pyx_v_n - 1)]);
 
-  /* "_splitter_mt.pyx":865
+  /* "_splitter_mt.pyx":920
  *     # Engineering a sort function. SP&E. Requires 8/3 comparisons on average.
  *     cdef DTYPE_t a = Xf[0], b = Xf[n / 2], c = Xf[n - 1]
  *     if a < b:             # <<<<<<<<<<<<<<
@@ -6270,7 +6722,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
   __pyx_t_1 = ((__pyx_v_a < __pyx_v_b) != 0);
   if (__pyx_t_1) {
 
-    /* "_splitter_mt.pyx":866
+    /* "_splitter_mt.pyx":921
  *     cdef DTYPE_t a = Xf[0], b = Xf[n / 2], c = Xf[n - 1]
  *     if a < b:
  *         if b < c:             # <<<<<<<<<<<<<<
@@ -6280,7 +6732,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
     __pyx_t_1 = ((__pyx_v_b < __pyx_v_c) != 0);
     if (__pyx_t_1) {
 
-      /* "_splitter_mt.pyx":867
+      /* "_splitter_mt.pyx":922
  *     if a < b:
  *         if b < c:
  *             return b             # <<<<<<<<<<<<<<
@@ -6290,7 +6742,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
       __pyx_r = __pyx_v_b;
       goto __pyx_L0;
 
-      /* "_splitter_mt.pyx":866
+      /* "_splitter_mt.pyx":921
  *     cdef DTYPE_t a = Xf[0], b = Xf[n / 2], c = Xf[n - 1]
  *     if a < b:
  *         if b < c:             # <<<<<<<<<<<<<<
@@ -6299,7 +6751,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
  */
     }
 
-    /* "_splitter_mt.pyx":868
+    /* "_splitter_mt.pyx":923
  *         if b < c:
  *             return b
  *         elif a < c:             # <<<<<<<<<<<<<<
@@ -6309,7 +6761,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
     __pyx_t_1 = ((__pyx_v_a < __pyx_v_c) != 0);
     if (__pyx_t_1) {
 
-      /* "_splitter_mt.pyx":869
+      /* "_splitter_mt.pyx":924
  *             return b
  *         elif a < c:
  *             return c             # <<<<<<<<<<<<<<
@@ -6319,7 +6771,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
       __pyx_r = __pyx_v_c;
       goto __pyx_L0;
 
-      /* "_splitter_mt.pyx":868
+      /* "_splitter_mt.pyx":923
  *         if b < c:
  *             return b
  *         elif a < c:             # <<<<<<<<<<<<<<
@@ -6328,7 +6780,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
  */
     }
 
-    /* "_splitter_mt.pyx":871
+    /* "_splitter_mt.pyx":926
  *             return c
  *         else:
  *             return a             # <<<<<<<<<<<<<<
@@ -6340,7 +6792,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
       goto __pyx_L0;
     }
 
-    /* "_splitter_mt.pyx":865
+    /* "_splitter_mt.pyx":920
  *     # Engineering a sort function. SP&E. Requires 8/3 comparisons on average.
  *     cdef DTYPE_t a = Xf[0], b = Xf[n / 2], c = Xf[n - 1]
  *     if a < b:             # <<<<<<<<<<<<<<
@@ -6349,7 +6801,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
  */
   }
 
-  /* "_splitter_mt.pyx":872
+  /* "_splitter_mt.pyx":927
  *         else:
  *             return a
  *     elif b < c:             # <<<<<<<<<<<<<<
@@ -6359,7 +6811,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
   __pyx_t_1 = ((__pyx_v_b < __pyx_v_c) != 0);
   if (__pyx_t_1) {
 
-    /* "_splitter_mt.pyx":873
+    /* "_splitter_mt.pyx":928
  *             return a
  *     elif b < c:
  *         if a < c:             # <<<<<<<<<<<<<<
@@ -6369,7 +6821,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
     __pyx_t_1 = ((__pyx_v_a < __pyx_v_c) != 0);
     if (__pyx_t_1) {
 
-      /* "_splitter_mt.pyx":874
+      /* "_splitter_mt.pyx":929
  *     elif b < c:
  *         if a < c:
  *             return a             # <<<<<<<<<<<<<<
@@ -6379,7 +6831,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
       __pyx_r = __pyx_v_a;
       goto __pyx_L0;
 
-      /* "_splitter_mt.pyx":873
+      /* "_splitter_mt.pyx":928
  *             return a
  *     elif b < c:
  *         if a < c:             # <<<<<<<<<<<<<<
@@ -6388,7 +6840,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
  */
     }
 
-    /* "_splitter_mt.pyx":876
+    /* "_splitter_mt.pyx":931
  *             return a
  *         else:
  *             return c             # <<<<<<<<<<<<<<
@@ -6400,7 +6852,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
       goto __pyx_L0;
     }
 
-    /* "_splitter_mt.pyx":872
+    /* "_splitter_mt.pyx":927
  *         else:
  *             return a
  *     elif b < c:             # <<<<<<<<<<<<<<
@@ -6409,7 +6861,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
  */
   }
 
-  /* "_splitter_mt.pyx":878
+  /* "_splitter_mt.pyx":933
  *             return c
  *     else:
  *         return b             # <<<<<<<<<<<<<<
@@ -6421,7 +6873,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
     goto __pyx_L0;
   }
 
-  /* "_splitter_mt.pyx":861
+  /* "_splitter_mt.pyx":916
  * 
  * 
  * cdef inline DTYPE_t median3(DTYPE_t* Xf, SIZE_t n) nogil:             # <<<<<<<<<<<<<<
@@ -6434,7 +6886,7 @@ static CYTHON_INLINE __pyx_t_12_splitter_mt_DTYPE_t __pyx_f_12_splitter_mt_media
   return __pyx_r;
 }
 
-/* "_splitter_mt.pyx":883
+/* "_splitter_mt.pyx":938
  * # Introsort with median of 3 pivot selection and 3-way partition function
  * # (robust to repeated elements, e.g. lots of zero features).
  * cdef void introsort(DTYPE_t* Xf, SIZE_t *samples,             # <<<<<<<<<<<<<<
@@ -6449,7 +6901,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
   __pyx_t_12_splitter_mt_SIZE_t __pyx_v_r;
   int __pyx_t_1;
 
-  /* "_splitter_mt.pyx":888
+  /* "_splitter_mt.pyx":943
  *     cdef SIZE_t i, l, r
  * 
  *     while n > 1:             # <<<<<<<<<<<<<<
@@ -6460,7 +6912,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
     __pyx_t_1 = ((__pyx_v_n > 1) != 0);
     if (!__pyx_t_1) break;
 
-    /* "_splitter_mt.pyx":889
+    /* "_splitter_mt.pyx":944
  * 
  *     while n > 1:
  *         if maxd <= 0:   # max depth limit exceeded ("gone quadratic")             # <<<<<<<<<<<<<<
@@ -6470,7 +6922,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
     __pyx_t_1 = ((__pyx_v_maxd <= 0) != 0);
     if (__pyx_t_1) {
 
-      /* "_splitter_mt.pyx":890
+      /* "_splitter_mt.pyx":945
  *     while n > 1:
  *         if maxd <= 0:   # max depth limit exceeded ("gone quadratic")
  *             heapsort(Xf, samples, n)             # <<<<<<<<<<<<<<
@@ -6479,7 +6931,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
       __pyx_f_12_splitter_mt_heapsort(__pyx_v_Xf, __pyx_v_samples, __pyx_v_n);
 
-      /* "_splitter_mt.pyx":891
+      /* "_splitter_mt.pyx":946
  *         if maxd <= 0:   # max depth limit exceeded ("gone quadratic")
  *             heapsort(Xf, samples, n)
  *             return             # <<<<<<<<<<<<<<
@@ -6488,7 +6940,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
       goto __pyx_L0;
 
-      /* "_splitter_mt.pyx":889
+      /* "_splitter_mt.pyx":944
  * 
  *     while n > 1:
  *         if maxd <= 0:   # max depth limit exceeded ("gone quadratic")             # <<<<<<<<<<<<<<
@@ -6497,7 +6949,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
     }
 
-    /* "_splitter_mt.pyx":892
+    /* "_splitter_mt.pyx":947
  *             heapsort(Xf, samples, n)
  *             return
  *         maxd -= 1             # <<<<<<<<<<<<<<
@@ -6506,7 +6958,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
     __pyx_v_maxd = (__pyx_v_maxd - 1);
 
-    /* "_splitter_mt.pyx":894
+    /* "_splitter_mt.pyx":949
  *         maxd -= 1
  * 
  *         pivot = median3(Xf, n)             # <<<<<<<<<<<<<<
@@ -6515,7 +6967,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
     __pyx_v_pivot = __pyx_f_12_splitter_mt_median3(__pyx_v_Xf, __pyx_v_n);
 
-    /* "_splitter_mt.pyx":897
+    /* "_splitter_mt.pyx":952
  * 
  *         # Three-way partition.
  *         i = l = 0             # <<<<<<<<<<<<<<
@@ -6525,7 +6977,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
     __pyx_v_i = 0;
     __pyx_v_l = 0;
 
-    /* "_splitter_mt.pyx":898
+    /* "_splitter_mt.pyx":953
  *         # Three-way partition.
  *         i = l = 0
  *         r = n             # <<<<<<<<<<<<<<
@@ -6534,7 +6986,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
     __pyx_v_r = __pyx_v_n;
 
-    /* "_splitter_mt.pyx":899
+    /* "_splitter_mt.pyx":954
  *         i = l = 0
  *         r = n
  *         while i < r:             # <<<<<<<<<<<<<<
@@ -6545,7 +6997,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
       __pyx_t_1 = ((__pyx_v_i < __pyx_v_r) != 0);
       if (!__pyx_t_1) break;
 
-      /* "_splitter_mt.pyx":900
+      /* "_splitter_mt.pyx":955
  *         r = n
  *         while i < r:
  *             if Xf[i] < pivot:             # <<<<<<<<<<<<<<
@@ -6555,7 +7007,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
       __pyx_t_1 = (((__pyx_v_Xf[__pyx_v_i]) < __pyx_v_pivot) != 0);
       if (__pyx_t_1) {
 
-        /* "_splitter_mt.pyx":901
+        /* "_splitter_mt.pyx":956
  *         while i < r:
  *             if Xf[i] < pivot:
  *                 swap(Xf, samples, i, l)             # <<<<<<<<<<<<<<
@@ -6564,7 +7016,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
         __pyx_f_12_splitter_mt_swap(__pyx_v_Xf, __pyx_v_samples, __pyx_v_i, __pyx_v_l);
 
-        /* "_splitter_mt.pyx":902
+        /* "_splitter_mt.pyx":957
  *             if Xf[i] < pivot:
  *                 swap(Xf, samples, i, l)
  *                 i += 1             # <<<<<<<<<<<<<<
@@ -6573,7 +7025,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
         __pyx_v_i = (__pyx_v_i + 1);
 
-        /* "_splitter_mt.pyx":903
+        /* "_splitter_mt.pyx":958
  *                 swap(Xf, samples, i, l)
  *                 i += 1
  *                 l += 1             # <<<<<<<<<<<<<<
@@ -6582,7 +7034,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
         __pyx_v_l = (__pyx_v_l + 1);
 
-        /* "_splitter_mt.pyx":900
+        /* "_splitter_mt.pyx":955
  *         r = n
  *         while i < r:
  *             if Xf[i] < pivot:             # <<<<<<<<<<<<<<
@@ -6592,7 +7044,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
         goto __pyx_L8;
       }
 
-      /* "_splitter_mt.pyx":904
+      /* "_splitter_mt.pyx":959
  *                 i += 1
  *                 l += 1
  *             elif Xf[i] > pivot:             # <<<<<<<<<<<<<<
@@ -6602,7 +7054,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
       __pyx_t_1 = (((__pyx_v_Xf[__pyx_v_i]) > __pyx_v_pivot) != 0);
       if (__pyx_t_1) {
 
-        /* "_splitter_mt.pyx":905
+        /* "_splitter_mt.pyx":960
  *                 l += 1
  *             elif Xf[i] > pivot:
  *                 r -= 1             # <<<<<<<<<<<<<<
@@ -6611,7 +7063,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
         __pyx_v_r = (__pyx_v_r - 1);
 
-        /* "_splitter_mt.pyx":906
+        /* "_splitter_mt.pyx":961
  *             elif Xf[i] > pivot:
  *                 r -= 1
  *                 swap(Xf, samples, i, r)             # <<<<<<<<<<<<<<
@@ -6620,7 +7072,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
         __pyx_f_12_splitter_mt_swap(__pyx_v_Xf, __pyx_v_samples, __pyx_v_i, __pyx_v_r);
 
-        /* "_splitter_mt.pyx":904
+        /* "_splitter_mt.pyx":959
  *                 i += 1
  *                 l += 1
  *             elif Xf[i] > pivot:             # <<<<<<<<<<<<<<
@@ -6630,7 +7082,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
         goto __pyx_L8;
       }
 
-      /* "_splitter_mt.pyx":908
+      /* "_splitter_mt.pyx":963
  *                 swap(Xf, samples, i, r)
  *             else:
  *                 i += 1             # <<<<<<<<<<<<<<
@@ -6643,7 +7095,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
       __pyx_L8:;
     }
 
-    /* "_splitter_mt.pyx":910
+    /* "_splitter_mt.pyx":965
  *                 i += 1
  * 
  *         introsort(Xf, samples, l, maxd)             # <<<<<<<<<<<<<<
@@ -6652,7 +7104,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
     __pyx_f_12_splitter_mt_introsort(__pyx_v_Xf, __pyx_v_samples, __pyx_v_l, __pyx_v_maxd);
 
-    /* "_splitter_mt.pyx":911
+    /* "_splitter_mt.pyx":966
  * 
  *         introsort(Xf, samples, l, maxd)
  *         Xf += r             # <<<<<<<<<<<<<<
@@ -6661,7 +7113,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
     __pyx_v_Xf = (__pyx_v_Xf + __pyx_v_r);
 
-    /* "_splitter_mt.pyx":912
+    /* "_splitter_mt.pyx":967
  *         introsort(Xf, samples, l, maxd)
  *         Xf += r
  *         samples += r             # <<<<<<<<<<<<<<
@@ -6670,7 +7122,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
  */
     __pyx_v_samples = (__pyx_v_samples + __pyx_v_r);
 
-    /* "_splitter_mt.pyx":913
+    /* "_splitter_mt.pyx":968
  *         Xf += r
  *         samples += r
  *         n -= r             # <<<<<<<<<<<<<<
@@ -6680,7 +7132,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
     __pyx_v_n = (__pyx_v_n - __pyx_v_r);
   }
 
-  /* "_splitter_mt.pyx":883
+  /* "_splitter_mt.pyx":938
  * # Introsort with median of 3 pivot selection and 3-way partition function
  * # (robust to repeated elements, e.g. lots of zero features).
  * cdef void introsort(DTYPE_t* Xf, SIZE_t *samples,             # <<<<<<<<<<<<<<
@@ -6692,7 +7144,7 @@ static void __pyx_f_12_splitter_mt_introsort(__pyx_t_12_splitter_mt_DTYPE_t *__p
   __pyx_L0:;
 }
 
-/* "_splitter_mt.pyx":916
+/* "_splitter_mt.pyx":971
  * 
  * 
  * cdef inline void sift_down(DTYPE_t* Xf, SIZE_t* samples,             # <<<<<<<<<<<<<<
@@ -6707,7 +7159,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
   int __pyx_t_1;
   int __pyx_t_2;
 
-  /* "_splitter_mt.pyx":921
+  /* "_splitter_mt.pyx":976
  *     cdef SIZE_t child, maxind, root
  * 
  *     root = start             # <<<<<<<<<<<<<<
@@ -6716,7 +7168,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
  */
   __pyx_v_root = __pyx_v_start;
 
-  /* "_splitter_mt.pyx":922
+  /* "_splitter_mt.pyx":977
  * 
  *     root = start
  *     while True:             # <<<<<<<<<<<<<<
@@ -6725,7 +7177,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
  */
   while (1) {
 
-    /* "_splitter_mt.pyx":923
+    /* "_splitter_mt.pyx":978
  *     root = start
  *     while True:
  *         child = root * 2 + 1             # <<<<<<<<<<<<<<
@@ -6734,7 +7186,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
  */
     __pyx_v_child = ((__pyx_v_root * 2) + 1);
 
-    /* "_splitter_mt.pyx":926
+    /* "_splitter_mt.pyx":981
  * 
  *         # find max of root, left child, right child
  *         maxind = root             # <<<<<<<<<<<<<<
@@ -6743,7 +7195,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
  */
     __pyx_v_maxind = __pyx_v_root;
 
-    /* "_splitter_mt.pyx":927
+    /* "_splitter_mt.pyx":982
  *         # find max of root, left child, right child
  *         maxind = root
  *         if child < end and Xf[maxind] < Xf[child]:             # <<<<<<<<<<<<<<
@@ -6761,7 +7213,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "_splitter_mt.pyx":928
+      /* "_splitter_mt.pyx":983
  *         maxind = root
  *         if child < end and Xf[maxind] < Xf[child]:
  *             maxind = child             # <<<<<<<<<<<<<<
@@ -6770,7 +7222,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
  */
       __pyx_v_maxind = __pyx_v_child;
 
-      /* "_splitter_mt.pyx":927
+      /* "_splitter_mt.pyx":982
  *         # find max of root, left child, right child
  *         maxind = root
  *         if child < end and Xf[maxind] < Xf[child]:             # <<<<<<<<<<<<<<
@@ -6779,7 +7231,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
  */
     }
 
-    /* "_splitter_mt.pyx":929
+    /* "_splitter_mt.pyx":984
  *         if child < end and Xf[maxind] < Xf[child]:
  *             maxind = child
  *         if child + 1 < end and Xf[maxind] < Xf[child + 1]:             # <<<<<<<<<<<<<<
@@ -6797,7 +7249,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
     __pyx_L9_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "_splitter_mt.pyx":930
+      /* "_splitter_mt.pyx":985
  *             maxind = child
  *         if child + 1 < end and Xf[maxind] < Xf[child + 1]:
  *             maxind = child + 1             # <<<<<<<<<<<<<<
@@ -6806,7 +7258,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
  */
       __pyx_v_maxind = (__pyx_v_child + 1);
 
-      /* "_splitter_mt.pyx":929
+      /* "_splitter_mt.pyx":984
  *         if child < end and Xf[maxind] < Xf[child]:
  *             maxind = child
  *         if child + 1 < end and Xf[maxind] < Xf[child + 1]:             # <<<<<<<<<<<<<<
@@ -6815,7 +7267,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
  */
     }
 
-    /* "_splitter_mt.pyx":932
+    /* "_splitter_mt.pyx":987
  *             maxind = child + 1
  * 
  *         if maxind == root:             # <<<<<<<<<<<<<<
@@ -6825,7 +7277,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
     __pyx_t_1 = ((__pyx_v_maxind == __pyx_v_root) != 0);
     if (__pyx_t_1) {
 
-      /* "_splitter_mt.pyx":933
+      /* "_splitter_mt.pyx":988
  * 
  *         if maxind == root:
  *             break             # <<<<<<<<<<<<<<
@@ -6834,7 +7286,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
  */
       goto __pyx_L4_break;
 
-      /* "_splitter_mt.pyx":932
+      /* "_splitter_mt.pyx":987
  *             maxind = child + 1
  * 
  *         if maxind == root:             # <<<<<<<<<<<<<<
@@ -6843,7 +7295,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
  */
     }
 
-    /* "_splitter_mt.pyx":935
+    /* "_splitter_mt.pyx":990
  *             break
  *         else:
  *             swap(Xf, samples, root, maxind)             # <<<<<<<<<<<<<<
@@ -6853,7 +7305,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
     /*else*/ {
       __pyx_f_12_splitter_mt_swap(__pyx_v_Xf, __pyx_v_samples, __pyx_v_root, __pyx_v_maxind);
 
-      /* "_splitter_mt.pyx":936
+      /* "_splitter_mt.pyx":991
  *         else:
  *             swap(Xf, samples, root, maxind)
  *             root = maxind             # <<<<<<<<<<<<<<
@@ -6865,7 +7317,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
   }
   __pyx_L4_break:;
 
-  /* "_splitter_mt.pyx":916
+  /* "_splitter_mt.pyx":971
  * 
  * 
  * cdef inline void sift_down(DTYPE_t* Xf, SIZE_t* samples,             # <<<<<<<<<<<<<<
@@ -6876,7 +7328,7 @@ static CYTHON_INLINE void __pyx_f_12_splitter_mt_sift_down(__pyx_t_12_splitter_m
   /* function exit code */
 }
 
-/* "_splitter_mt.pyx":939
+/* "_splitter_mt.pyx":994
  * 
  * 
  * cdef void heapsort(DTYPE_t* Xf, SIZE_t* samples, SIZE_t n) nogil:             # <<<<<<<<<<<<<<
@@ -6889,7 +7341,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
   __pyx_t_12_splitter_mt_SIZE_t __pyx_v_end;
   int __pyx_t_1;
 
-  /* "_splitter_mt.pyx":943
+  /* "_splitter_mt.pyx":998
  * 
  *     # heapify
  *     start = (n - 2) / 2             # <<<<<<<<<<<<<<
@@ -6898,7 +7350,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
  */
   __pyx_v_start = ((__pyx_v_n - 2) / 2);
 
-  /* "_splitter_mt.pyx":944
+  /* "_splitter_mt.pyx":999
  *     # heapify
  *     start = (n - 2) / 2
  *     end = n             # <<<<<<<<<<<<<<
@@ -6907,7 +7359,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
  */
   __pyx_v_end = __pyx_v_n;
 
-  /* "_splitter_mt.pyx":945
+  /* "_splitter_mt.pyx":1000
  *     start = (n - 2) / 2
  *     end = n
  *     while True:             # <<<<<<<<<<<<<<
@@ -6916,7 +7368,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
  */
   while (1) {
 
-    /* "_splitter_mt.pyx":946
+    /* "_splitter_mt.pyx":1001
  *     end = n
  *     while True:
  *         sift_down(Xf, samples, start, end)             # <<<<<<<<<<<<<<
@@ -6925,7 +7377,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
  */
     __pyx_f_12_splitter_mt_sift_down(__pyx_v_Xf, __pyx_v_samples, __pyx_v_start, __pyx_v_end);
 
-    /* "_splitter_mt.pyx":947
+    /* "_splitter_mt.pyx":1002
  *     while True:
  *         sift_down(Xf, samples, start, end)
  *         if start == 0:             # <<<<<<<<<<<<<<
@@ -6935,7 +7387,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
     __pyx_t_1 = ((__pyx_v_start == 0) != 0);
     if (__pyx_t_1) {
 
-      /* "_splitter_mt.pyx":948
+      /* "_splitter_mt.pyx":1003
  *         sift_down(Xf, samples, start, end)
  *         if start == 0:
  *             break             # <<<<<<<<<<<<<<
@@ -6944,7 +7396,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
  */
       goto __pyx_L4_break;
 
-      /* "_splitter_mt.pyx":947
+      /* "_splitter_mt.pyx":1002
  *     while True:
  *         sift_down(Xf, samples, start, end)
  *         if start == 0:             # <<<<<<<<<<<<<<
@@ -6953,7 +7405,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
  */
     }
 
-    /* "_splitter_mt.pyx":949
+    /* "_splitter_mt.pyx":1004
  *         if start == 0:
  *             break
  *         start -= 1             # <<<<<<<<<<<<<<
@@ -6964,7 +7416,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
   }
   __pyx_L4_break:;
 
-  /* "_splitter_mt.pyx":952
+  /* "_splitter_mt.pyx":1007
  * 
  *     # sort by shrinking the heap, putting the max element immediately after it
  *     end = n - 1             # <<<<<<<<<<<<<<
@@ -6973,7 +7425,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
  */
   __pyx_v_end = (__pyx_v_n - 1);
 
-  /* "_splitter_mt.pyx":953
+  /* "_splitter_mt.pyx":1008
  *     # sort by shrinking the heap, putting the max element immediately after it
  *     end = n - 1
  *     while end > 0:             # <<<<<<<<<<<<<<
@@ -6984,7 +7436,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
     __pyx_t_1 = ((__pyx_v_end > 0) != 0);
     if (!__pyx_t_1) break;
 
-    /* "_splitter_mt.pyx":954
+    /* "_splitter_mt.pyx":1009
  *     end = n - 1
  *     while end > 0:
  *         swap(Xf, samples, 0, end)             # <<<<<<<<<<<<<<
@@ -6993,7 +7445,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
  */
     __pyx_f_12_splitter_mt_swap(__pyx_v_Xf, __pyx_v_samples, 0, __pyx_v_end);
 
-    /* "_splitter_mt.pyx":955
+    /* "_splitter_mt.pyx":1010
  *     while end > 0:
  *         swap(Xf, samples, 0, end)
  *         sift_down(Xf, samples, 0, end)             # <<<<<<<<<<<<<<
@@ -7002,7 +7454,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
  */
     __pyx_f_12_splitter_mt_sift_down(__pyx_v_Xf, __pyx_v_samples, 0, __pyx_v_end);
 
-    /* "_splitter_mt.pyx":956
+    /* "_splitter_mt.pyx":1011
  *         swap(Xf, samples, 0, end)
  *         sift_down(Xf, samples, 0, end)
  *         end = end - 1             # <<<<<<<<<<<<<<
@@ -7012,7 +7464,7 @@ static void __pyx_f_12_splitter_mt_heapsort(__pyx_t_12_splitter_mt_DTYPE_t *__py
     __pyx_v_end = (__pyx_v_end - 1);
   }
 
-  /* "_splitter_mt.pyx":939
+  /* "_splitter_mt.pyx":994
  * 
  * 
  * cdef void heapsort(DTYPE_t* Xf, SIZE_t* samples, SIZE_t n) nogil:             # <<<<<<<<<<<<<<
@@ -7139,11 +7591,11 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 229, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 229, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(2, 229, __pyx_L1_error)
+    __PYX_ERR(1, 229, __pyx_L1_error)
 
     /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":227
  *             ndim = PyArray_NDIM(self)
@@ -7195,11 +7647,11 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             info.buf = PyArray_DATA(self)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 233, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 233, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(2, 233, __pyx_L1_error)
+    __PYX_ERR(1, 233, __pyx_L1_error)
 
     /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":231
  *                 raise ValueError(u"ndarray is not C contiguous")
@@ -7452,11 +7904,11 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 263, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 263, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(2, 263, __pyx_L1_error)
+      __PYX_ERR(1, 263, __pyx_L1_error)
 
       /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":261
  *             if not PyDataType_HASFIELDS(descr):
@@ -7663,17 +8115,17 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  *                 info.format = f
  *                 return
  */
-      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 282, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 282, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = PyUnicode_Format(__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 282, __pyx_L1_error)
+      __pyx_t_7 = PyUnicode_Format(__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 282, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_ValueError, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 282, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_ValueError, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 282, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(2, 282, __pyx_L1_error)
+      __PYX_ERR(1, 282, __pyx_L1_error)
       break;
     }
 
@@ -7740,7 +8192,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  *                                       info.format + _buffer_format_string_len,
  *                                       &offset)
  */
-    __pyx_t_8 = __pyx_f_5numpy__util_dtypestring(__pyx_v_descr, (__pyx_v_info->format + 1), (__pyx_v_info->format + 0xFF), (&__pyx_v_offset)); if (unlikely(__pyx_t_8 == ((char *)NULL))) __PYX_ERR(2, 289, __pyx_L1_error)
+    __pyx_t_8 = __pyx_f_5numpy__util_dtypestring(__pyx_v_descr, (__pyx_v_info->format + 1), (__pyx_v_info->format + 0xFF), (&__pyx_v_offset)); if (unlikely(__pyx_t_8 == ((char *)NULL))) __PYX_ERR(1, 289, __pyx_L1_error)
     __pyx_v_f = __pyx_t_8;
 
     /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":292
@@ -7899,7 +8351,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
  * cdef inline object PyArray_MultiIterNew2(a, b):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(1, ((void *)__pyx_v_a)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 776, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(1, ((void *)__pyx_v_a)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 776, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7946,7 +8398,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
  * cdef inline object PyArray_MultiIterNew3(a, b, c):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(2, ((void *)__pyx_v_a), ((void *)__pyx_v_b)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 779, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(2, ((void *)__pyx_v_a), ((void *)__pyx_v_b)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 779, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7993,7 +8445,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
  * cdef inline object PyArray_MultiIterNew4(a, b, c, d):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(3, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 782, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(3, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 782, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8040,7 +8492,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
  * cdef inline object PyArray_MultiIterNew5(a, b, c, d, e):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(4, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 785, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(4, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 785, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8087,7 +8539,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
  * cdef inline tuple PyDataType_SHAPE(dtype d):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(5, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d), ((void *)__pyx_v_e)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 788, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(5, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d), ((void *)__pyx_v_e)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 788, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8242,15 +8694,15 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
   if (unlikely(__pyx_v_descr->names == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(2, 805, __pyx_L1_error)
+    __PYX_ERR(1, 805, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_descr->names; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(2, 805, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(1, 805, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 805, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 805, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_childname, __pyx_t_3);
@@ -8265,11 +8717,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
     if (unlikely(__pyx_v_descr->fields == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(2, 806, __pyx_L1_error)
+      __PYX_ERR(1, 806, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_descr->fields, __pyx_v_childname); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 806, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_descr->fields, __pyx_v_childname); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 806, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (!(likely(PyTuple_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(2, 806, __pyx_L1_error)
+    if (!(likely(PyTuple_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(1, 806, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_fields, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
@@ -8286,7 +8738,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(2, 807, __pyx_L1_error)
+        __PYX_ERR(1, 807, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       __pyx_t_3 = PyTuple_GET_ITEM(sequence, 0); 
@@ -8294,15 +8746,15 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(__pyx_t_4);
       #else
-      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 807, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 807, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 807, __pyx_L1_error)
+      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 807, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       #endif
     } else {
-      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(2, 807, __pyx_L1_error)
+      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(1, 807, __pyx_L1_error)
     }
-    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_dtype))))) __PYX_ERR(2, 807, __pyx_L1_error)
+    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_dtype))))) __PYX_ERR(1, 807, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_child, ((PyArray_Descr *)__pyx_t_3));
     __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_new_offset, __pyx_t_4);
@@ -8315,12 +8767,12 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")
  * 
  */
-    __pyx_t_4 = __Pyx_PyInt_From_int((__pyx_v_offset[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 809, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_From_int((__pyx_v_offset[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 809, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = PyNumber_Subtract(__pyx_v_new_offset, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 809, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Subtract(__pyx_v_new_offset, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 809, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 809, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 809, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_6 = ((((__pyx_v_end - __pyx_v_f) - ((int)__pyx_t_5)) < 15) != 0);
     if (unlikely(__pyx_t_6)) {
@@ -8332,11 +8784,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 810, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 810, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(2, 810, __pyx_L1_error)
+      __PYX_ERR(1, 810, __pyx_L1_error)
 
       /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":809
  *         child, new_offset = fields
@@ -8400,11 +8852,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 814, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 814, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(2, 814, __pyx_L1_error)
+      __PYX_ERR(1, 814, __pyx_L1_error)
 
       /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":812
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")
@@ -8423,11 +8875,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             f += 1
  */
     while (1) {
-      __pyx_t_3 = __Pyx_PyInt_From_int((__pyx_v_offset[0])); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 824, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_int((__pyx_v_offset[0])); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 824, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_t_3, __pyx_v_new_offset, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 824, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_t_3, __pyx_v_new_offset, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 824, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 824, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 824, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (!__pyx_t_6) break;
 
@@ -8487,7 +8939,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             if end - f < 5:
  *                 raise RuntimeError(u"Format string allocated too short.")
  */
-      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_child->type_num); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 832, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_child->type_num); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 832, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_XDECREF_SET(__pyx_v_t, __pyx_t_4);
       __pyx_t_4 = 0;
@@ -8509,11 +8961,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 834, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 834, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __PYX_ERR(2, 834, __pyx_L1_error)
+        __PYX_ERR(1, 834, __pyx_L1_error)
 
         /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":833
  *         if not PyDataType_HASFIELDS(child):
@@ -8531,11 +8983,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_UBYTE:       f[0] =  66 #"B"
  *             elif t == NPY_SHORT:       f[0] = 104 #"h"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_BYTE); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 837, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_BYTE); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 837, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 837, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 837, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 837, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 837, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 98;
@@ -8549,11 +9001,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_SHORT:       f[0] = 104 #"h"
  *             elif t == NPY_USHORT:      f[0] =  72 #"H"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_UBYTE); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 838, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_UBYTE); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 838, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 838, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 838, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 838, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 838, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 66;
@@ -8567,11 +9019,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_USHORT:      f[0] =  72 #"H"
  *             elif t == NPY_INT:         f[0] = 105 #"i"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_SHORT); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 839, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_SHORT); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 839, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 839, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 839, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 839, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 839, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x68;
@@ -8585,11 +9037,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_INT:         f[0] = 105 #"i"
  *             elif t == NPY_UINT:        f[0] =  73 #"I"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_USHORT); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 840, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_USHORT); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 840, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 840, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 840, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 840, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 840, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 72;
@@ -8603,11 +9055,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_UINT:        f[0] =  73 #"I"
  *             elif t == NPY_LONG:        f[0] = 108 #"l"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_INT); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 841, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_INT); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 841, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 841, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 841, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 841, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 841, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x69;
@@ -8621,11 +9073,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_LONG:        f[0] = 108 #"l"
  *             elif t == NPY_ULONG:       f[0] = 76  #"L"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_UINT); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 842, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_UINT); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 842, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 842, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 842, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 842, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 842, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 73;
@@ -8639,11 +9091,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_ULONG:       f[0] = 76  #"L"
  *             elif t == NPY_LONGLONG:    f[0] = 113 #"q"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONG); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 843, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONG); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 843, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 843, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 843, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 843, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 843, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x6C;
@@ -8657,11 +9109,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_LONGLONG:    f[0] = 113 #"q"
  *             elif t == NPY_ULONGLONG:   f[0] = 81  #"Q"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_ULONG); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 844, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_ULONG); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 844, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 844, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 844, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 844, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 844, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 76;
@@ -8675,11 +9127,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_ULONGLONG:   f[0] = 81  #"Q"
  *             elif t == NPY_FLOAT:       f[0] = 102 #"f"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONGLONG); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 845, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONGLONG); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 845, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 845, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 845, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 845, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 845, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x71;
@@ -8693,11 +9145,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_FLOAT:       f[0] = 102 #"f"
  *             elif t == NPY_DOUBLE:      f[0] = 100 #"d"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_ULONGLONG); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 846, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_ULONGLONG); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 846, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 846, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 846, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 846, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 846, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 81;
@@ -8711,11 +9163,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_DOUBLE:      f[0] = 100 #"d"
  *             elif t == NPY_LONGDOUBLE:  f[0] = 103 #"g"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_FLOAT); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 847, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_FLOAT); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 847, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 847, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 847, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 847, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 847, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x66;
@@ -8729,11 +9181,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_LONGDOUBLE:  f[0] = 103 #"g"
  *             elif t == NPY_CFLOAT:      f[0] = 90; f[1] = 102; f += 1 # Zf
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_DOUBLE); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 848, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_DOUBLE); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 848, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 848, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 848, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 848, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 848, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x64;
@@ -8747,11 +9199,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_CFLOAT:      f[0] = 90; f[1] = 102; f += 1 # Zf
  *             elif t == NPY_CDOUBLE:     f[0] = 90; f[1] = 100; f += 1 # Zd
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONGDOUBLE); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 849, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONGDOUBLE); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 849, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 849, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 849, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 849, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 849, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x67;
@@ -8765,11 +9217,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_CDOUBLE:     f[0] = 90; f[1] = 100; f += 1 # Zd
  *             elif t == NPY_CLONGDOUBLE: f[0] = 90; f[1] = 103; f += 1 # Zg
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CFLOAT); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 850, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CFLOAT); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 850, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 850, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 850, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 850, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 850, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 90;
@@ -8785,11 +9237,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_CLONGDOUBLE: f[0] = 90; f[1] = 103; f += 1 # Zg
  *             elif t == NPY_OBJECT:      f[0] = 79 #"O"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CDOUBLE); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 851, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CDOUBLE); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 851, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 851, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 851, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 851, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 851, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 90;
@@ -8805,11 +9257,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_OBJECT:      f[0] = 79 #"O"
  *             else:
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CLONGDOUBLE); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 852, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CLONGDOUBLE); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 852, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 852, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 852, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 852, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 852, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 90;
@@ -8825,11 +9277,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             else:
  *                 raise ValueError(u"unknown dtype code in numpy.pxd (%d)" % t)
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_OBJECT); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 853, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_OBJECT); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 853, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 853, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 853, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 853, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 853, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (likely(__pyx_t_6)) {
         (__pyx_v_f[0]) = 79;
@@ -8844,14 +9296,14 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *         else:
  */
       /*else*/ {
-        __pyx_t_3 = PyUnicode_Format(__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_v_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 855, __pyx_L1_error)
+        __pyx_t_3 = PyUnicode_Format(__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_v_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 855, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_ValueError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 855, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_ValueError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 855, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __PYX_ERR(2, 855, __pyx_L1_error)
+        __PYX_ERR(1, 855, __pyx_L1_error)
       }
       __pyx_L15:;
 
@@ -8882,7 +9334,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  */
     /*else*/ {
-      __pyx_t_9 = __pyx_f_5numpy__util_dtypestring(__pyx_v_child, __pyx_v_f, __pyx_v_end, __pyx_v_offset); if (unlikely(__pyx_t_9 == ((char *)NULL))) __PYX_ERR(2, 860, __pyx_L1_error)
+      __pyx_t_9 = __pyx_f_5numpy__util_dtypestring(__pyx_v_child, __pyx_v_f, __pyx_v_end, __pyx_v_offset); if (unlikely(__pyx_t_9 == ((char *)NULL))) __PYX_ERR(1, 860, __pyx_L1_error)
       __pyx_v_f = __pyx_t_9;
     }
     __pyx_L13:;
@@ -9145,7 +9597,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.multiarray failed to import")
  */
-      __pyx_t_4 = _import_array(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 998, __pyx_L3_error)
+      __pyx_t_4 = _import_array(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 998, __pyx_L3_error)
 
       /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":997
  * # Cython code.
@@ -9171,7 +9623,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
     __pyx_t_4 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
     if (__pyx_t_4) {
       __Pyx_AddTraceback("numpy.import_array", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(2, 999, __pyx_L5_except_error)
+      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(1, 999, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_7);
@@ -9183,11 +9635,11 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1000, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1000, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __PYX_ERR(2, 1000, __pyx_L5_except_error)
+      __PYX_ERR(1, 1000, __pyx_L5_except_error)
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
@@ -9274,7 +9726,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")
  */
-      __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 1004, __pyx_L3_error)
+      __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 1004, __pyx_L3_error)
 
       /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":1003
  * 
@@ -9300,7 +9752,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
     __pyx_t_4 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
     if (__pyx_t_4) {
       __Pyx_AddTraceback("numpy.import_umath", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(2, 1005, __pyx_L5_except_error)
+      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(1, 1005, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_7);
@@ -9312,11 +9764,11 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1006, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1006, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __PYX_ERR(2, 1006, __pyx_L5_except_error)
+      __PYX_ERR(1, 1006, __pyx_L5_except_error)
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
@@ -9403,7 +9855,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")
  */
-      __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 1010, __pyx_L3_error)
+      __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 1010, __pyx_L3_error)
 
       /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":1009
  * 
@@ -9428,7 +9880,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
     __pyx_t_4 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
     if (__pyx_t_4) {
       __Pyx_AddTraceback("numpy.import_ufunc", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(2, 1011, __pyx_L5_except_error)
+      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(1, 1011, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_7);
@@ -9438,11 +9890,11 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1012, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1012, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __PYX_ERR(2, 1012, __pyx_L5_except_error)
+      __PYX_ERR(1, 1012, __pyx_L5_except_error)
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
@@ -9484,110 +9936,16 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static struct __pyx_vtabstruct_12_splitter_mt_Criterion __pyx_vtable_12_splitter_mt_Criterion;
-
-static PyObject *__pyx_tp_new_12_splitter_mt_Criterion(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
-  struct __pyx_obj_12_splitter_mt_Criterion *p;
-  PyObject *o;
-  if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
-    o = (*t->tp_alloc)(t, 0);
-  } else {
-    o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
-  }
-  if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_12_splitter_mt_Criterion *)o);
-  p->__pyx_vtab = __pyx_vtabptr_12_splitter_mt_Criterion;
-  return o;
-}
-
-static void __pyx_tp_dealloc_12_splitter_mt_Criterion(PyObject *o) {
-  #if CYTHON_USE_TP_FINALIZE
-  if (unlikely(PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_HAVE_FINALIZE) && Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
-    if (PyObject_CallFinalizerFromDealloc(o)) return;
-  }
-  #endif
-  (*Py_TYPE(o)->tp_free)(o);
-}
-
-static PyMethodDef __pyx_methods_12_splitter_mt_Criterion[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_12_splitter_mt_9Criterion_1__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_12_splitter_mt_9Criterion_3__setstate_cython__, METH_O, 0},
-  {0, 0, 0, 0}
-};
-
-static PyTypeObject __pyx_type_12_splitter_mt_Criterion = {
-  PyVarObject_HEAD_INIT(0, 0)
-  "_splitter_mt.Criterion", /*tp_name*/
-  sizeof(struct __pyx_obj_12_splitter_mt_Criterion), /*tp_basicsize*/
-  0, /*tp_itemsize*/
-  __pyx_tp_dealloc_12_splitter_mt_Criterion, /*tp_dealloc*/
-  0, /*tp_print*/
-  0, /*tp_getattr*/
-  0, /*tp_setattr*/
-  #if PY_MAJOR_VERSION < 3
-  0, /*tp_compare*/
-  #endif
-  #if PY_MAJOR_VERSION >= 3
-  0, /*tp_as_async*/
-  #endif
-  0, /*tp_repr*/
-  0, /*tp_as_number*/
-  0, /*tp_as_sequence*/
-  0, /*tp_as_mapping*/
-  0, /*tp_hash*/
-  0, /*tp_call*/
-  0, /*tp_str*/
-  0, /*tp_getattro*/
-  0, /*tp_setattro*/
-  0, /*tp_as_buffer*/
-  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
-  0, /*tp_doc*/
-  0, /*tp_traverse*/
-  0, /*tp_clear*/
-  0, /*tp_richcompare*/
-  0, /*tp_weaklistoffset*/
-  0, /*tp_iter*/
-  0, /*tp_iternext*/
-  __pyx_methods_12_splitter_mt_Criterion, /*tp_methods*/
-  0, /*tp_members*/
-  0, /*tp_getset*/
-  0, /*tp_base*/
-  0, /*tp_dict*/
-  0, /*tp_descr_get*/
-  0, /*tp_descr_set*/
-  0, /*tp_dictoffset*/
-  0, /*tp_init*/
-  0, /*tp_alloc*/
-  __pyx_tp_new_12_splitter_mt_Criterion, /*tp_new*/
-  0, /*tp_free*/
-  0, /*tp_is_gc*/
-  0, /*tp_bases*/
-  0, /*tp_mro*/
-  0, /*tp_cache*/
-  0, /*tp_subclasses*/
-  0, /*tp_weaklist*/
-  0, /*tp_del*/
-  0, /*tp_version_tag*/
-  #if PY_VERSION_HEX >= 0x030400a1
-  0, /*tp_finalize*/
-  #endif
-};
 static struct __pyx_vtabstruct_12_splitter_mt_BestSplitterMT __pyx_vtable_12_splitter_mt_BestSplitterMT;
 
 static PyObject *__pyx_tp_new_12_splitter_mt_BestSplitterMT(PyTypeObject *t, PyObject *a, PyObject *k) {
   struct __pyx_obj_12_splitter_mt_BestSplitterMT *p;
-  PyObject *o;
-  if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
-    o = (*t->tp_alloc)(t, 0);
-  } else {
-    o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
-  }
+  PyObject *o = __pyx_ptype_7sklearn_4tree_9_splitter_Splitter->tp_new(t, a, k);
   if (unlikely(!o)) return 0;
   p = ((struct __pyx_obj_12_splitter_mt_BestSplitterMT *)o);
-  p->__pyx_vtab = __pyx_vtabptr_12_splitter_mt_BestSplitterMT;
-  p->criterion = ((struct __pyx_obj_12_splitter_mt_Criterion *)Py_None); Py_INCREF(Py_None);
-  p->random_state = Py_None; Py_INCREF(Py_None);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_7sklearn_4tree_9_splitter_Splitter*)__pyx_vtabptr_12_splitter_mt_BestSplitterMT;
   p->X_idx_sorted = ((PyArrayObject *)Py_None); Py_INCREF(Py_None);
+  p->feat_mt_types = ((PyArrayObject *)Py_None); Py_INCREF(Py_None);
   if (unlikely(__pyx_pw_12_splitter_mt_14BestSplitterMT_3__cinit__(o, a, k) < 0)) goto bad;
   return o;
   bad:
@@ -9611,23 +9969,21 @@ static void __pyx_tp_dealloc_12_splitter_mt_BestSplitterMT(PyObject *o) {
     --Py_REFCNT(o);
     PyErr_Restore(etype, eval, etb);
   }
-  Py_CLEAR(p->criterion);
-  Py_CLEAR(p->random_state);
   Py_CLEAR(p->X_idx_sorted);
-  (*Py_TYPE(o)->tp_free)(o);
+  Py_CLEAR(p->feat_mt_types);
+  PyObject_GC_Track(o);
+  if (likely(__pyx_ptype_7sklearn_4tree_9_splitter_Splitter)) __pyx_ptype_7sklearn_4tree_9_splitter_Splitter->tp_dealloc(o); else __Pyx_call_next_tp_dealloc(o, __pyx_tp_dealloc_12_splitter_mt_BestSplitterMT);
 }
 
 static int __pyx_tp_traverse_12_splitter_mt_BestSplitterMT(PyObject *o, visitproc v, void *a) {
   int e;
   struct __pyx_obj_12_splitter_mt_BestSplitterMT *p = (struct __pyx_obj_12_splitter_mt_BestSplitterMT *)o;
-  if (p->criterion) {
-    e = (*v)(((PyObject *)p->criterion), a); if (e) return e;
-  }
-  if (p->random_state) {
-    e = (*v)(p->random_state, a); if (e) return e;
-  }
+  e = ((likely(__pyx_ptype_7sklearn_4tree_9_splitter_Splitter)) ? ((__pyx_ptype_7sklearn_4tree_9_splitter_Splitter->tp_traverse) ? __pyx_ptype_7sklearn_4tree_9_splitter_Splitter->tp_traverse(o, v, a) : 0) : __Pyx_call_next_tp_traverse(o, v, a, __pyx_tp_traverse_12_splitter_mt_BestSplitterMT)); if (e) return e;
   if (p->X_idx_sorted) {
     e = (*v)(((PyObject *)p->X_idx_sorted), a); if (e) return e;
+  }
+  if (p->feat_mt_types) {
+    e = (*v)(((PyObject *)p->feat_mt_types), a); if (e) return e;
   }
   return 0;
 }
@@ -9635,86 +9991,23 @@ static int __pyx_tp_traverse_12_splitter_mt_BestSplitterMT(PyObject *o, visitpro
 static int __pyx_tp_clear_12_splitter_mt_BestSplitterMT(PyObject *o) {
   PyObject* tmp;
   struct __pyx_obj_12_splitter_mt_BestSplitterMT *p = (struct __pyx_obj_12_splitter_mt_BestSplitterMT *)o;
-  tmp = ((PyObject*)p->criterion);
-  p->criterion = ((struct __pyx_obj_12_splitter_mt_Criterion *)Py_None); Py_INCREF(Py_None);
-  Py_XDECREF(tmp);
-  tmp = ((PyObject*)p->random_state);
-  p->random_state = Py_None; Py_INCREF(Py_None);
-  Py_XDECREF(tmp);
+  if (likely(__pyx_ptype_7sklearn_4tree_9_splitter_Splitter)) { if (__pyx_ptype_7sklearn_4tree_9_splitter_Splitter->tp_clear) __pyx_ptype_7sklearn_4tree_9_splitter_Splitter->tp_clear(o); } else __Pyx_call_next_tp_clear(o, __pyx_tp_clear_12_splitter_mt_BestSplitterMT);
   tmp = ((PyObject*)p->X_idx_sorted);
   p->X_idx_sorted = ((PyArrayObject *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->feat_mt_types);
+  p->feat_mt_types = ((PyArrayObject *)Py_None); Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
   return 0;
-}
-
-static PyObject *__pyx_getprop_12_splitter_mt_14BestSplitterMT_criterion(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_12_splitter_mt_14BestSplitterMT_9criterion_1__get__(o);
-}
-
-static int __pyx_setprop_12_splitter_mt_14BestSplitterMT_criterion(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_12_splitter_mt_14BestSplitterMT_9criterion_3__set__(o, v);
-  }
-  else {
-    return __pyx_pw_12_splitter_mt_14BestSplitterMT_9criterion_5__del__(o);
-  }
-}
-
-static PyObject *__pyx_getprop_12_splitter_mt_14BestSplitterMT_max_features(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_12_splitter_mt_14BestSplitterMT_12max_features_1__get__(o);
-}
-
-static int __pyx_setprop_12_splitter_mt_14BestSplitterMT_max_features(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_12_splitter_mt_14BestSplitterMT_12max_features_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
-static PyObject *__pyx_getprop_12_splitter_mt_14BestSplitterMT_min_samples_leaf(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_12_splitter_mt_14BestSplitterMT_16min_samples_leaf_1__get__(o);
-}
-
-static int __pyx_setprop_12_splitter_mt_14BestSplitterMT_min_samples_leaf(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_12_splitter_mt_14BestSplitterMT_16min_samples_leaf_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
-static PyObject *__pyx_getprop_12_splitter_mt_14BestSplitterMT_min_weight_leaf(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_12_splitter_mt_14BestSplitterMT_15min_weight_leaf_1__get__(o);
-}
-
-static int __pyx_setprop_12_splitter_mt_14BestSplitterMT_min_weight_leaf(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_12_splitter_mt_14BestSplitterMT_15min_weight_leaf_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
 }
 
 static PyMethodDef __pyx_methods_12_splitter_mt_BestSplitterMT[] = {
   {"__reduce__", (PyCFunction)__pyx_pw_12_splitter_mt_14BestSplitterMT_1__reduce__, METH_NOARGS, 0},
   {"__getstate__", (PyCFunction)__pyx_pw_12_splitter_mt_14BestSplitterMT_7__getstate__, METH_NOARGS, 0},
   {"__setstate__", (PyCFunction)__pyx_pw_12_splitter_mt_14BestSplitterMT_9__setstate__, METH_O, 0},
+  {"init_monotone", (PyCFunction)__pyx_pw_12_splitter_mt_14BestSplitterMT_11init_monotone, METH_O, 0},
+  {"init_classification", (PyCFunction)__pyx_pw_12_splitter_mt_14BestSplitterMT_13init_classification, METH_O, 0},
   {0, 0, 0, 0}
-};
-
-static struct PyGetSetDef __pyx_getsets_12_splitter_mt_BestSplitterMT[] = {
-  {(char *)"criterion", __pyx_getprop_12_splitter_mt_14BestSplitterMT_criterion, __pyx_setprop_12_splitter_mt_14BestSplitterMT_criterion, (char *)0, 0},
-  {(char *)"max_features", __pyx_getprop_12_splitter_mt_14BestSplitterMT_max_features, __pyx_setprop_12_splitter_mt_14BestSplitterMT_max_features, (char *)0, 0},
-  {(char *)"min_samples_leaf", __pyx_getprop_12_splitter_mt_14BestSplitterMT_min_samples_leaf, __pyx_setprop_12_splitter_mt_14BestSplitterMT_min_samples_leaf, (char *)0, 0},
-  {(char *)"min_weight_leaf", __pyx_getprop_12_splitter_mt_14BestSplitterMT_min_weight_leaf, __pyx_setprop_12_splitter_mt_14BestSplitterMT_min_weight_leaf, (char *)0, 0},
-  {0, 0, 0, 0, 0}
 };
 
 static PyTypeObject __pyx_type_12_splitter_mt_BestSplitterMT = {
@@ -9752,7 +10045,7 @@ static PyTypeObject __pyx_type_12_splitter_mt_BestSplitterMT = {
   0, /*tp_iternext*/
   __pyx_methods_12_splitter_mt_BestSplitterMT, /*tp_methods*/
   0, /*tp_members*/
-  __pyx_getsets_12_splitter_mt_BestSplitterMT, /*tp_getset*/
+  0, /*tp_getset*/
   0, /*tp_base*/
   0, /*tp_dict*/
   0, /*tp_descr_get*/
@@ -9818,7 +10111,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_MemoryError, __pyx_k_MemoryError, sizeof(__pyx_k_MemoryError), 0, 0, 1, 1},
   {&__pyx_kp_u_Non_native_byte_order_not_suppor, __pyx_k_Non_native_byte_order_not_suppor, sizeof(__pyx_k_Non_native_byte_order_not_suppor), 0, 1, 0, 0},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
-  {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_kp_s_could_not_allocate_d_bytes, __pyx_k_could_not_allocate_d_bytes, sizeof(__pyx_k_could_not_allocate_d_bytes), 0, 0, 1, 0},
@@ -9833,7 +10125,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_max_features, __pyx_k_max_features, sizeof(__pyx_k_max_features), 0, 0, 1, 1},
   {&__pyx_n_s_min_samples_leaf, __pyx_k_min_samples_leaf, sizeof(__pyx_k_min_samples_leaf), 0, 0, 1, 1},
   {&__pyx_n_s_min_weight_leaf, __pyx_k_min_weight_leaf, sizeof(__pyx_k_min_weight_leaf), 0, 0, 1, 1},
-  {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_kp_u_ndarray_is_not_C_contiguous, __pyx_k_ndarray_is_not_C_contiguous, sizeof(__pyx_k_ndarray_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_kp_u_ndarray_is_not_Fortran_contiguou, __pyx_k_ndarray_is_not_Fortran_contiguou, sizeof(__pyx_k_ndarray_is_not_Fortran_contiguou), 0, 1, 0, 0},
   {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
@@ -9845,13 +10136,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_randint, __pyx_k_randint, sizeof(__pyx_k_randint), 0, 0, 1, 1},
   {&__pyx_n_s_random_state, __pyx_k_random_state, sizeof(__pyx_k_random_state), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
-  {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
-  {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
-  {&__pyx_n_s_reduce_ex, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
   {&__pyx_n_s_scipy_sparse, __pyx_k_scipy_sparse, sizeof(__pyx_k_scipy_sparse), 0, 0, 1, 1},
-  {&__pyx_kp_s_self_sample_weight_self_samples, __pyx_k_self_sample_weight_self_samples, sizeof(__pyx_k_self_sample_weight_self_samples), 0, 0, 1, 0},
-  {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
-  {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
   {&__pyx_n_s_shape, __pyx_k_shape, sizeof(__pyx_k_shape), 0, 0, 1, 1},
   {&__pyx_n_s_strides, __pyx_k_strides, sizeof(__pyx_k_strides), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
@@ -9859,12 +10144,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(0, 196, __pyx_L1_error)
-  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 530, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(2, 229, __pyx_L1_error)
-  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(2, 810, __pyx_L1_error)
-  __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 1000, __pyx_L1_error)
+  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 458, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 229, __pyx_L1_error)
+  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 810, __pyx_L1_error)
+  __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 1000, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -9874,25 +10158,6 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "(tree fragment)":2
- * def __reduce_cython__(self):
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")
- */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_self_sample_weight_self_samples); if (unlikely(!__pyx_tuple_)) __PYX_ERR(1, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple_);
-  __Pyx_GIVEREF(__pyx_tuple_);
-
-  /* "(tree fragment)":4
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")
- * def __setstate_cython__(self, __pyx_state):
- *     raise TypeError("self.sample_weight,self.samples,self.sum_left,self.sum_right,self.sum_total,self.y cannot be converted to a Python object for pickling")             # <<<<<<<<<<<<<<
- */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_self_sample_weight_self_samples); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(1, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
-
   /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":229
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_C_CONTIGUOUS)):
@@ -9900,9 +10165,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(2, 229, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__3);
-  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple_)) __PYX_ERR(1, 229, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple_);
+  __Pyx_GIVEREF(__pyx_tuple_);
 
   /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":233
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
@@ -9911,9 +10176,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             info.buf = PyArray_DATA(self)
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(2, 233, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(1, 233, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
 
   /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":263
  *                 if ((descr.byteorder == c'>' and little_endian) or
@@ -9922,9 +10187,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(2, 263, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(1, 263, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
 
   /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":810
  * 
@@ -9933,9 +10198,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(2, 810, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 810, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
 
   /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":814
  *         if ((child.byteorder == c'>' and little_endian) or
@@ -9944,9 +10209,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(2, 814, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 814, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
 
   /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":834
  *             t = child.type_num
@@ -9955,9 +10220,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(2, 834, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 834, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
 
   /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":1000
  *         _import_array()
@@ -9966,9 +10231,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(2, 1000, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 1000, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":1006
  *         _import_umath()
@@ -9977,18 +10242,18 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(2, 1006, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 1006, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
   /* "../../../../../../../Anaconda3/lib/site-packages/Cython/Includes/numpy/__init__.pxd":1012
  *         _import_umath()
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(2, 1012, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(1, 1012, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -10040,38 +10305,23 @@ static int __Pyx_modinit_type_init_code(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  __pyx_vtabptr_12_splitter_mt_Criterion = &__pyx_vtable_12_splitter_mt_Criterion;
-  __pyx_vtable_12_splitter_mt_Criterion.init = (int (*)(struct __pyx_obj_12_splitter_mt_Criterion *, __pyx_t_12_splitter_mt_DOUBLE_t *, __pyx_t_12_splitter_mt_SIZE_t, __pyx_t_12_splitter_mt_DOUBLE_t *, double, __pyx_t_12_splitter_mt_SIZE_t *, __pyx_t_12_splitter_mt_SIZE_t, __pyx_t_12_splitter_mt_SIZE_t))__pyx_f_12_splitter_mt_9Criterion_init;
-  __pyx_vtable_12_splitter_mt_Criterion.reset = (int (*)(struct __pyx_obj_12_splitter_mt_Criterion *))__pyx_f_12_splitter_mt_9Criterion_reset;
-  __pyx_vtable_12_splitter_mt_Criterion.reverse_reset = (int (*)(struct __pyx_obj_12_splitter_mt_Criterion *))__pyx_f_12_splitter_mt_9Criterion_reverse_reset;
-  __pyx_vtable_12_splitter_mt_Criterion.update = (int (*)(struct __pyx_obj_12_splitter_mt_Criterion *, __pyx_t_12_splitter_mt_SIZE_t))__pyx_f_12_splitter_mt_9Criterion_update;
-  __pyx_vtable_12_splitter_mt_Criterion.node_impurity = (double (*)(struct __pyx_obj_12_splitter_mt_Criterion *))__pyx_f_12_splitter_mt_9Criterion_node_impurity;
-  __pyx_vtable_12_splitter_mt_Criterion.children_impurity = (void (*)(struct __pyx_obj_12_splitter_mt_Criterion *, double *, double *))__pyx_f_12_splitter_mt_9Criterion_children_impurity;
-  __pyx_vtable_12_splitter_mt_Criterion.node_value = (void (*)(struct __pyx_obj_12_splitter_mt_Criterion *, double *))__pyx_f_12_splitter_mt_9Criterion_node_value;
-  __pyx_vtable_12_splitter_mt_Criterion.impurity_improvement = (double (*)(struct __pyx_obj_12_splitter_mt_Criterion *, double))__pyx_f_12_splitter_mt_9Criterion_impurity_improvement;
-  __pyx_vtable_12_splitter_mt_Criterion.proxy_impurity_improvement = (double (*)(struct __pyx_obj_12_splitter_mt_Criterion *))__pyx_f_12_splitter_mt_9Criterion_proxy_impurity_improvement;
-  if (PyType_Ready(&__pyx_type_12_splitter_mt_Criterion) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
-  __pyx_type_12_splitter_mt_Criterion.tp_print = 0;
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_12_splitter_mt_Criterion.tp_dictoffset && __pyx_type_12_splitter_mt_Criterion.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_12_splitter_mt_Criterion.tp_getattro = __Pyx_PyObject_GenericGetAttr;
-  }
-  if (__Pyx_SetVtable(__pyx_type_12_splitter_mt_Criterion.tp_dict, __pyx_vtabptr_12_splitter_mt_Criterion) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "Criterion", (PyObject *)&__pyx_type_12_splitter_mt_Criterion) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_12_splitter_mt_Criterion) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
-  __pyx_ptype_12_splitter_mt_Criterion = &__pyx_type_12_splitter_mt_Criterion;
+  __pyx_ptype_7sklearn_4tree_9_splitter_Splitter = __Pyx_ImportType("sklearn.tree._splitter", "Splitter", sizeof(struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter), 1); if (unlikely(!__pyx_ptype_7sklearn_4tree_9_splitter_Splitter)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_vtabptr_7sklearn_4tree_9_splitter_Splitter = (struct __pyx_vtabstruct_7sklearn_4tree_9_splitter_Splitter*)__Pyx_GetVtable(__pyx_ptype_7sklearn_4tree_9_splitter_Splitter->tp_dict); if (unlikely(!__pyx_vtabptr_7sklearn_4tree_9_splitter_Splitter)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_vtabptr_12_splitter_mt_BestSplitterMT = &__pyx_vtable_12_splitter_mt_BestSplitterMT;
-  __pyx_vtable_12_splitter_mt_BestSplitterMT.init = (int (*)(struct __pyx_obj_12_splitter_mt_BestSplitterMT *, PyObject *, PyArrayObject *, __pyx_t_12_splitter_mt_DOUBLE_t *, struct __pyx_opt_args_12_splitter_mt_14BestSplitterMT_init *__pyx_optional_args))__pyx_f_12_splitter_mt_14BestSplitterMT_init;
-  __pyx_vtable_12_splitter_mt_BestSplitterMT.node_reset = (int (*)(struct __pyx_obj_12_splitter_mt_BestSplitterMT *, __pyx_t_12_splitter_mt_SIZE_t, __pyx_t_12_splitter_mt_SIZE_t, double *))__pyx_f_12_splitter_mt_14BestSplitterMT_node_reset;
-  __pyx_vtable_12_splitter_mt_BestSplitterMT.node_split = (int (*)(struct __pyx_obj_12_splitter_mt_BestSplitterMT *, double, struct __pyx_t_12_splitter_mt_SplitRecord *, __pyx_t_12_splitter_mt_SIZE_t *))__pyx_f_12_splitter_mt_14BestSplitterMT_node_split;
-  __pyx_vtable_12_splitter_mt_BestSplitterMT.node_value = (void (*)(struct __pyx_obj_12_splitter_mt_BestSplitterMT *, double *))__pyx_f_12_splitter_mt_14BestSplitterMT_node_value;
-  __pyx_vtable_12_splitter_mt_BestSplitterMT.node_impurity = (double (*)(struct __pyx_obj_12_splitter_mt_BestSplitterMT *))__pyx_f_12_splitter_mt_14BestSplitterMT_node_impurity;
-  if (PyType_Ready(&__pyx_type_12_splitter_mt_BestSplitterMT) < 0) __PYX_ERR(0, 373, __pyx_L1_error)
+  __pyx_vtable_12_splitter_mt_BestSplitterMT.__pyx_base = *__pyx_vtabptr_7sklearn_4tree_9_splitter_Splitter;
+  __pyx_vtable_12_splitter_mt_BestSplitterMT.__pyx_base.init = (int (*)(struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter *, PyObject *, PyArrayObject *, __pyx_t_7sklearn_4tree_9_splitter_DOUBLE_t *, struct __pyx_opt_args_7sklearn_4tree_9_splitter_8Splitter_init *__pyx_optional_args))__pyx_f_12_splitter_mt_14BestSplitterMT_init;
+  __pyx_vtable_12_splitter_mt_BestSplitterMT.__pyx_base.node_reset = (int (*)(struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter *, __pyx_t_7sklearn_4tree_9_splitter_SIZE_t, __pyx_t_7sklearn_4tree_9_splitter_SIZE_t, double *))__pyx_f_12_splitter_mt_14BestSplitterMT_node_reset;
+  __pyx_vtable_12_splitter_mt_BestSplitterMT.__pyx_base.node_split = (int (*)(struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter *, double, struct __pyx_t_7sklearn_4tree_9_splitter_SplitRecord *, __pyx_t_7sklearn_4tree_9_splitter_SIZE_t *))__pyx_f_12_splitter_mt_14BestSplitterMT_node_split;
+  __pyx_vtable_12_splitter_mt_BestSplitterMT.__pyx_base.node_value = (void (*)(struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter *, double *))__pyx_f_12_splitter_mt_14BestSplitterMT_node_value;
+  __pyx_vtable_12_splitter_mt_BestSplitterMT.__pyx_base.node_impurity = (double (*)(struct __pyx_obj_7sklearn_4tree_9_splitter_Splitter *))__pyx_f_12_splitter_mt_14BestSplitterMT_node_impurity;
+  __pyx_type_12_splitter_mt_BestSplitterMT.tp_base = __pyx_ptype_7sklearn_4tree_9_splitter_Splitter;
+  if (PyType_Ready(&__pyx_type_12_splitter_mt_BestSplitterMT) < 0) __PYX_ERR(0, 303, __pyx_L1_error)
   __pyx_type_12_splitter_mt_BestSplitterMT.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_12_splitter_mt_BestSplitterMT.tp_dictoffset && __pyx_type_12_splitter_mt_BestSplitterMT.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_12_splitter_mt_BestSplitterMT.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_12_splitter_mt_BestSplitterMT.tp_dict, __pyx_vtabptr_12_splitter_mt_BestSplitterMT) < 0) __PYX_ERR(0, 373, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "BestSplitterMT", (PyObject *)&__pyx_type_12_splitter_mt_BestSplitterMT) < 0) __PYX_ERR(0, 373, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_12_splitter_mt_BestSplitterMT.tp_dict, __pyx_vtabptr_12_splitter_mt_BestSplitterMT) < 0) __PYX_ERR(0, 303, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "BestSplitterMT", (PyObject *)&__pyx_type_12_splitter_mt_BestSplitterMT) < 0) __PYX_ERR(0, 303, __pyx_L1_error)
   __pyx_ptype_12_splitter_mt_BestSplitterMT = &__pyx_type_12_splitter_mt_BestSplitterMT;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -10090,12 +10340,14 @@ static int __Pyx_modinit_type_import_code(void) {
   #else
   sizeof(PyHeapTypeObject),
   #endif
-  0); if (unlikely(!__pyx_ptype_7cpython_4type_type)) __PYX_ERR(3, 9, __pyx_L1_error)
-  __pyx_ptype_5numpy_dtype = __Pyx_ImportType("numpy", "dtype", sizeof(PyArray_Descr), 0); if (unlikely(!__pyx_ptype_5numpy_dtype)) __PYX_ERR(2, 164, __pyx_L1_error)
-  __pyx_ptype_5numpy_flatiter = __Pyx_ImportType("numpy", "flatiter", sizeof(PyArrayIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_flatiter)) __PYX_ERR(2, 186, __pyx_L1_error)
-  __pyx_ptype_5numpy_broadcast = __Pyx_ImportType("numpy", "broadcast", sizeof(PyArrayMultiIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_broadcast)) __PYX_ERR(2, 190, __pyx_L1_error)
-  __pyx_ptype_5numpy_ndarray = __Pyx_ImportType("numpy", "ndarray", sizeof(PyArrayObject), 0); if (unlikely(!__pyx_ptype_5numpy_ndarray)) __PYX_ERR(2, 199, __pyx_L1_error)
-  __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) __PYX_ERR(2, 872, __pyx_L1_error)
+  0); if (unlikely(!__pyx_ptype_7cpython_4type_type)) __PYX_ERR(2, 9, __pyx_L1_error)
+  __pyx_ptype_5numpy_dtype = __Pyx_ImportType("numpy", "dtype", sizeof(PyArray_Descr), 0); if (unlikely(!__pyx_ptype_5numpy_dtype)) __PYX_ERR(1, 164, __pyx_L1_error)
+  __pyx_ptype_5numpy_flatiter = __Pyx_ImportType("numpy", "flatiter", sizeof(PyArrayIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_flatiter)) __PYX_ERR(1, 186, __pyx_L1_error)
+  __pyx_ptype_5numpy_broadcast = __Pyx_ImportType("numpy", "broadcast", sizeof(PyArrayMultiIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_broadcast)) __PYX_ERR(1, 190, __pyx_L1_error)
+  __pyx_ptype_5numpy_ndarray = __Pyx_ImportType("numpy", "ndarray", sizeof(PyArrayObject), 0); if (unlikely(!__pyx_ptype_5numpy_ndarray)) __PYX_ERR(1, 199, __pyx_L1_error)
+  __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) __PYX_ERR(1, 872, __pyx_L1_error)
+  __pyx_ptype_7sklearn_4tree_10_criterion_Criterion = __Pyx_ImportType("sklearn.tree._criterion", "Criterion", sizeof(struct __pyx_obj_7sklearn_4tree_10_criterion_Criterion), 1); if (unlikely(!__pyx_ptype_7sklearn_4tree_10_criterion_Criterion)) __PYX_ERR(3, 21, __pyx_L1_error)
+  __pyx_vtabptr_7sklearn_4tree_10_criterion_Criterion = (struct __pyx_vtabstruct_7sklearn_4tree_10_criterion_Criterion*)__Pyx_GetVtable(__pyx_ptype_7sklearn_4tree_10_criterion_Criterion->tp_dict); if (unlikely(!__pyx_vtabptr_7sklearn_4tree_10_criterion_Criterion)) __PYX_ERR(3, 21, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -10295,65 +10547,65 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "_splitter_mt.pyx":28
- * from libc.math cimport log as ln
+  /* "_splitter_mt.pyx":34
+ * from sklearn.tree._splitter cimport Splitter
  * 
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np
  * np.import_array()
  */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "_splitter_mt.pyx":30
+  /* "_splitter_mt.pyx":36
  * import numpy as np
  * cimport numpy as np
  * np.import_array()             # <<<<<<<<<<<<<<
  * 
  * from scipy.sparse import csc_matrix
  */
-  __pyx_t_2 = __pyx_f_5numpy_import_array(); if (unlikely(__pyx_t_2 == ((int)-1))) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_5numpy_import_array(); if (unlikely(__pyx_t_2 == ((int)-1))) __PYX_ERR(0, 36, __pyx_L1_error)
 
-  /* "_splitter_mt.pyx":32
+  /* "_splitter_mt.pyx":38
  * np.import_array()
  * 
  * from scipy.sparse import csc_matrix             # <<<<<<<<<<<<<<
  * 
  * #from _utils cimport log
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_csc_matrix);
   __Pyx_GIVEREF(__pyx_n_s_csc_matrix);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_csc_matrix);
-  __pyx_t_3 = __Pyx_Import(__pyx_n_s_scipy_sparse, __pyx_t_1, -1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_Import(__pyx_n_s_scipy_sparse, __pyx_t_1, -1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_3, __pyx_n_s_csc_matrix); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_3, __pyx_n_s_csc_matrix); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_csc_matrix, __pyx_t_1) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_csc_matrix, __pyx_t_1) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "_splitter_mt.pyx":40
+  /* "_splitter_mt.pyx":46
  * #from _utils cimport safe_realloc
  * 
  * cdef double INFINITY = np.inf             # <<<<<<<<<<<<<<
  * 
  * ctypedef np.npy_float32 DTYPE_t          # Type of X
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_inf); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_inf); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_12_splitter_mt_INFINITY = __pyx_t_4;
 
-  /* "_splitter_mt.pyx":178
+  /* "_splitter_mt.pyx":184
  * 
  * # Mitigate precision differences between 32 bit and 64 bit
  * cdef DTYPE_t FEATURE_THRESHOLD = 1e-7             # <<<<<<<<<<<<<<
@@ -10362,7 +10614,7 @@ if (!__Pyx_RefNanny) {
  */
   __pyx_v_12_splitter_mt_FEATURE_THRESHOLD = 1e-7;
 
-  /* "_splitter_mt.pyx":182
+  /* "_splitter_mt.pyx":188
  * # Constant to switch between algorithm non zero value extract algorithm
  * # in SparseSplitter
  * cdef DTYPE_t EXTRACT_NNZ_SWITCH = 0.1             # <<<<<<<<<<<<<<
@@ -11042,6 +11294,93 @@ bad:
     return 0;
 }
 
+/* GetItemInt */
+  static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
+    PyObject *r;
+    if (!j) return NULL;
+    r = PyObject_GetItem(o, j);
+    Py_DECREF(j);
+    return r;
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyList_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely((0 <= wrapped_i) & (wrapped_i < PyList_GET_SIZE(o)))) {
+        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyTuple_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely((0 <= wrapped_i) & (wrapped_i < PyTuple_GET_SIZE(o)))) {
+        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
+                                                     CYTHON_NCP_UNUSED int wraparound,
+                                                     CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
+    if (is_list || PyList_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
+        if ((!boundscheck) || (likely((n >= 0) & (n < PyList_GET_SIZE(o))))) {
+            PyObject *r = PyList_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    }
+    else if (PyTuple_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
+        if ((!boundscheck) || likely((n >= 0) & (n < PyTuple_GET_SIZE(o)))) {
+            PyObject *r = PyTuple_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    } else {
+        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
+        if (likely(m && m->sq_item)) {
+            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
+                Py_ssize_t l = m->sq_length(o);
+                if (likely(l >= 0)) {
+                    i += l;
+                } else {
+                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
+                        return NULL;
+                    PyErr_Clear();
+                }
+            }
+            return m->sq_item(o, i);
+        }
+    }
+#else
+    if (is_list || PySequence_Check(o)) {
+        return PySequence_GetItem(o, i);
+    }
+#endif
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+}
+
 /* IsLittleEndian */
   static CYTHON_INLINE int __Pyx_Is_Little_Endian(void)
 {
@@ -11602,93 +11941,6 @@ fail:;
   return -1;
 }
 
-/* GetItemInt */
-    static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
-    PyObject *r;
-    if (!j) return NULL;
-    r = PyObject_GetItem(o, j);
-    Py_DECREF(j);
-    return r;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyList_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely((0 <= wrapped_i) & (wrapped_i < PyList_GET_SIZE(o)))) {
-        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyTuple_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely((0 <= wrapped_i) & (wrapped_i < PyTuple_GET_SIZE(o)))) {
-        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
-                                                     CYTHON_NCP_UNUSED int wraparound,
-                                                     CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
-        if ((!boundscheck) || (likely((n >= 0) & (n < PyList_GET_SIZE(o))))) {
-            PyObject *r = PyList_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    }
-    else if (PyTuple_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
-        if ((!boundscheck) || likely((n >= 0) & (n < PyTuple_GET_SIZE(o)))) {
-            PyObject *r = PyTuple_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    } else {
-        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
-        if (likely(m && m->sq_item)) {
-            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
-                Py_ssize_t l = m->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
-                        return NULL;
-                    PyErr_Clear();
-                }
-            }
-            return m->sq_item(o, i);
-        }
-    }
-#else
-    if (is_list || PySequence_Check(o)) {
-        return PySequence_GetItem(o, i);
-    }
-#endif
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-}
-
 /* DictGetItem */
     #if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
 static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
@@ -11860,6 +12112,60 @@ bad:
     return -1;
 }
 
+/* CallNextTpDealloc */
+      static void __Pyx_call_next_tp_dealloc(PyObject* obj, destructor current_tp_dealloc) {
+    PyTypeObject* type = Py_TYPE(obj);
+    while (type && type->tp_dealloc != current_tp_dealloc)
+        type = type->tp_base;
+    while (type && type->tp_dealloc == current_tp_dealloc)
+        type = type->tp_base;
+    if (type)
+        type->tp_dealloc(obj);
+}
+
+/* CallNextTpTraverse */
+      static int __Pyx_call_next_tp_traverse(PyObject* obj, visitproc v, void *a, traverseproc current_tp_traverse) {
+    PyTypeObject* type = Py_TYPE(obj);
+    while (type && type->tp_traverse != current_tp_traverse)
+        type = type->tp_base;
+    while (type && type->tp_traverse == current_tp_traverse)
+        type = type->tp_base;
+    if (type && type->tp_traverse)
+        return type->tp_traverse(obj, v, a);
+    return 0;
+}
+
+/* CallNextTpClear */
+      static void __Pyx_call_next_tp_clear(PyObject* obj, inquiry current_tp_clear) {
+    PyTypeObject* type = Py_TYPE(obj);
+    while (type && type->tp_clear != current_tp_clear)
+        type = type->tp_base;
+    while (type && type->tp_clear == current_tp_clear)
+        type = type->tp_base;
+    if (type && type->tp_clear)
+        type->tp_clear(obj);
+}
+
+/* GetVTable */
+      static void* __Pyx_GetVtable(PyObject *dict) {
+    void* ptr;
+    PyObject *ob = PyObject_GetItem(dict, __pyx_n_s_pyx_vtable);
+    if (!ob)
+        goto bad;
+#if PY_VERSION_HEX >= 0x02070000
+    ptr = PyCapsule_GetPointer(ob, 0);
+#else
+    ptr = PyCObject_AsVoidPtr(ob);
+#endif
+    if (!ptr && !PyErr_Occurred())
+        PyErr_SetString(PyExc_RuntimeError, "invalid vtable found for imported type");
+    Py_DECREF(ob);
+    return ptr;
+bad:
+    Py_XDECREF(ob);
+    return NULL;
+}
+
 /* PyObject_GenericGetAttrNoDict */
       #if CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP && PY_VERSION_HEX < 0x03070000
 static PyObject *__Pyx_RaiseGenericGetAttributeError(PyTypeObject *tp, PyObject *attr_name) {
@@ -11926,82 +12232,6 @@ static PyObject* __Pyx_PyObject_GenericGetAttr(PyObject* obj, PyObject* attr_nam
 bad:
     Py_XDECREF(ob);
     return -1;
-}
-
-/* SetupReduce */
-      static int __Pyx_setup_reduce_is_named(PyObject* meth, PyObject* name) {
-  int ret;
-  PyObject *name_attr;
-  name_attr = __Pyx_PyObject_GetAttrStr(meth, __pyx_n_s_name);
-  if (likely(name_attr)) {
-      ret = PyObject_RichCompareBool(name_attr, name, Py_EQ);
-  } else {
-      ret = -1;
-  }
-  if (unlikely(ret < 0)) {
-      PyErr_Clear();
-      ret = 0;
-  }
-  Py_XDECREF(name_attr);
-  return ret;
-}
-static int __Pyx_setup_reduce(PyObject* type_obj) {
-    int ret = 0;
-    PyObject *object_reduce = NULL;
-    PyObject *object_reduce_ex = NULL;
-    PyObject *reduce = NULL;
-    PyObject *reduce_ex = NULL;
-    PyObject *reduce_cython = NULL;
-    PyObject *setstate = NULL;
-    PyObject *setstate_cython = NULL;
-#if CYTHON_USE_PYTYPE_LOOKUP
-    if (_PyType_Lookup((PyTypeObject*)type_obj, __pyx_n_s_getstate)) goto GOOD;
-#else
-    if (PyObject_HasAttr(type_obj, __pyx_n_s_getstate)) goto GOOD;
-#endif
-#if CYTHON_USE_PYTYPE_LOOKUP
-    object_reduce_ex = _PyType_Lookup(&PyBaseObject_Type, __pyx_n_s_reduce_ex); if (!object_reduce_ex) goto BAD;
-#else
-    object_reduce_ex = __Pyx_PyObject_GetAttrStr((PyObject*)&PyBaseObject_Type, __pyx_n_s_reduce_ex); if (!object_reduce_ex) goto BAD;
-#endif
-    reduce_ex = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_reduce_ex); if (unlikely(!reduce_ex)) goto BAD;
-    if (reduce_ex == object_reduce_ex) {
-#if CYTHON_USE_PYTYPE_LOOKUP
-        object_reduce = _PyType_Lookup(&PyBaseObject_Type, __pyx_n_s_reduce); if (!object_reduce) goto BAD;
-#else
-        object_reduce = __Pyx_PyObject_GetAttrStr((PyObject*)&PyBaseObject_Type, __pyx_n_s_reduce); if (!object_reduce) goto BAD;
-#endif
-        reduce = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_reduce); if (unlikely(!reduce)) goto BAD;
-        if (reduce == object_reduce || __Pyx_setup_reduce_is_named(reduce, __pyx_n_s_reduce_cython)) {
-            reduce_cython = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_reduce_cython); if (unlikely(!reduce_cython)) goto BAD;
-            ret = PyDict_SetItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_reduce, reduce_cython); if (unlikely(ret < 0)) goto BAD;
-            ret = PyDict_DelItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_reduce_cython); if (unlikely(ret < 0)) goto BAD;
-            setstate = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_setstate);
-            if (!setstate) PyErr_Clear();
-            if (!setstate || __Pyx_setup_reduce_is_named(setstate, __pyx_n_s_setstate_cython)) {
-                setstate_cython = __Pyx_PyObject_GetAttrStr(type_obj, __pyx_n_s_setstate_cython); if (unlikely(!setstate_cython)) goto BAD;
-                ret = PyDict_SetItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_setstate, setstate_cython); if (unlikely(ret < 0)) goto BAD;
-                ret = PyDict_DelItem(((PyTypeObject*)type_obj)->tp_dict, __pyx_n_s_setstate_cython); if (unlikely(ret < 0)) goto BAD;
-            }
-            PyType_Modified((PyTypeObject*)type_obj);
-        }
-    }
-    goto GOOD;
-BAD:
-    if (!PyErr_Occurred())
-        PyErr_Format(PyExc_RuntimeError, "Unable to initialize pickling for %s", ((PyTypeObject*)type_obj)->tp_name);
-    ret = -1;
-GOOD:
-#if !CYTHON_USE_PYTYPE_LOOKUP
-    Py_XDECREF(object_reduce);
-    Py_XDECREF(object_reduce_ex);
-#endif
-    Py_XDECREF(reduce);
-    Py_XDECREF(reduce_ex);
-    Py_XDECREF(reduce_cython);
-    Py_XDECREF(setstate);
-    Py_XDECREF(setstate_cython);
-    return ret;
 }
 
 /* Import */

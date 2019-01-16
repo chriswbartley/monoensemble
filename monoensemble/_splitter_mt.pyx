@@ -15,6 +15,7 @@
 #
 # License: BSD 3 clause
 
+## NOTE: needs sklearn\tree to contain source _criterion.pxd file
 #from _criterion cimport Criterion
 
 from libc.stdlib cimport free
@@ -24,10 +25,15 @@ from libc.string cimport memset
 from libc.stdlib cimport malloc
 from libc.stdlib cimport realloc
 from libc.math cimport log as ln
+#from sklearn.tree._criterion cimport Criterion
+cimport sklearn.tree._criterion
+from sklearn.tree._criterion cimport Criterion
+cimport sklearn.tree._splitter
+from sklearn.tree._splitter cimport Splitter
 
 import numpy as np
 cimport numpy as np
-np.import_array()
+np.import_array() 
 
 from scipy.sparse import csc_matrix
 
@@ -45,7 +51,7 @@ ctypedef np.npy_intp SIZE_t              # Type for indices and counters
 ctypedef np.npy_int32 INT32_t            # Signed 32 bit integer
 ctypedef np.npy_uint32 UINT32_t          # Unsigned 32 bit integer
 
-# A record stored in the WeightedPQueue
+# A record stored in the WeightedPQueue 
 cdef struct WeightedPQueueRecord:
     DOUBLE_t data
     DOUBLE_t weight 
@@ -237,70 +243,71 @@ cdef inline void _init_split(SplitRecord* self, SIZE_t start_pos) nogil:
     self.threshold = 0.
     self.improvement = -INFINITY
 
-cdef class Criterion:
-    # The criterion computes the impurity of a node and the reduction of
-    # impurity of a split on that node. It also computes the output statistics
-    # such as the mean in regression and class probabilities in classification.
-
-    # Internal structures
-    cdef DOUBLE_t* y                     # Values of y
-    cdef SIZE_t y_stride                 # Stride in y (since n_outputs >= 1)
-    cdef DOUBLE_t* sample_weight         # Sample weights
-
-    cdef SIZE_t* samples                 # Sample indices in X, y
-    cdef SIZE_t start                    # samples[start:pos] are the samples in the left node
-    cdef SIZE_t pos                      # samples[pos:end] are the samples in the right node
-    cdef SIZE_t end
-
-    cdef SIZE_t n_outputs                # Number of outputs
-    cdef SIZE_t n_samples                # Number of samples
-    cdef SIZE_t n_node_samples           # Number of samples in the node (end-start)
-    cdef double weighted_n_samples       # Weighted number of samples (in total)
-    cdef double weighted_n_node_samples  # Weighted number of samples in the node
-    cdef double weighted_n_left          # Weighted number of samples in the left node
-    cdef double weighted_n_right         # Weighted number of samples in the right node
-
-    cdef double* sum_total          # For classification criteria, the sum of the
-                                    # weighted count of each label. For regression,
-                                    # the sum of w*y. sum_total[k] is equal to
-                                    # sum_{i=start}^{end-1} w[samples[i]]*y[samples[i], k],
-                                    # where k is output index.
-    cdef double* sum_left           # Same as above, but for the left side of the split
-    cdef double* sum_right          # same as above, but for the right side of the split
-
-    # The criterion object is maintained such that left and right collected
-    # statistics correspond to samples[start:pos] and samples[pos:end].
-
-    # Methods
-    cdef int init(self, DOUBLE_t* y, SIZE_t y_stride, DOUBLE_t* sample_weight,
-                  double weighted_n_samples, SIZE_t* samples, SIZE_t start,
-                  SIZE_t end) nogil except -1:
-        pass
-    cdef int reset(self) nogil except -1:
-        pass
-    cdef int reverse_reset(self) nogil except -1:
-        pass
-    cdef int update(self, SIZE_t new_pos) nogil except -1:
-        pass
-    cdef double node_impurity(self) nogil:
-        pass
-    cdef void children_impurity(self, double* impurity_left,
-                                double* impurity_right) nogil:
-        pass
-    cdef void node_value(self, double* dest) nogil:
-        pass
-    cdef double impurity_improvement(self, double impurity) nogil:
-        pass
-    cdef double proxy_impurity_improvement(self) nogil:
-        pass
-
-#cdef class BestSplitterMT:
-#    # The splitter searches in the input space for a feature and a threshold
-#    # to split the samples samples[start:end].
-#    #
-#    # The impurity computations are delegated to a criterion object.
+#cdef class Criterion:
+#    # The criterion computes the impurity of a node and the reduction of
+#    # impurity of a split on that node. It also computes the output statistics
+#    # such as the mean in regression and class probabilities in classification.
 #
 #    # Internal structures
+#    cdef DOUBLE_t* y                     # Values of y
+#    cdef SIZE_t y_stride                 # Stride in y (since n_outputs >= 1)
+#    cdef DOUBLE_t* sample_weight         # Sample weights
+#
+#    cdef SIZE_t* samples                 # Sample indices in X, y
+#    cdef SIZE_t start                    # samples[start:pos] are the samples in the left node
+#    cdef SIZE_t pos                      # samples[pos:end] are the samples in the right node
+#    cdef SIZE_t end
+#
+#    cdef SIZE_t n_outputs                # Number of outputs
+#    cdef SIZE_t n_samples                # Number of samples
+#    cdef SIZE_t n_node_samples           # Number of samples in the node (end-start)
+#    cdef double weighted_n_samples       # Weighted number of samples (in total)
+#    cdef double weighted_n_node_samples  # Weighted number of samples in the node
+#    cdef double weighted_n_left          # Weighted number of samples in the left node
+#    cdef double weighted_n_right         # Weighted number of samples in the right node
+#
+#    cdef double* sum_total          # For classification criteria, the sum of the
+#                                    # weighted count of each label. For regression,
+#                                    # the sum of w*y. sum_total[k] is equal to
+#                                    # sum_{i=start}^{end-1} w[samples[i]]*y[samples[i], k],
+#                                    # where k is output index.
+#    cdef double* sum_left           # Same as above, but for the left side of the split
+#    cdef double* sum_right          # same as above, but for the right side of the split
+#
+#    # The criterion object is maintained such that left and right collected
+#    # statistics correspond to samples[start:pos] and samples[pos:end].
+#
+#    # Methods
+#    cdef int init(self, DOUBLE_t* y, SIZE_t y_stride, DOUBLE_t* sample_weight,
+#                  double weighted_n_samples, SIZE_t* samples, SIZE_t start,
+#                  SIZE_t end) nogil except -1:
+#        pass
+#    cdef int reset(self) nogil except -1:
+#        pass
+#    cdef int reverse_reset(self) nogil except -1:
+#        pass
+#    cdef int update(self, SIZE_t new_pos) nogil except -1:
+#        pass
+#    cdef double node_impurity(self) nogil:
+#        pass
+#    cdef void children_impurity(self, double* impurity_left,
+#                                double* impurity_right) nogil:
+#        pass
+#    cdef void node_value(self, double* dest) nogil:
+#        pass
+#    cdef double impurity_improvement(self, double impurity) nogil:
+#        pass
+#    cdef double proxy_impurity_improvement(self) nogil:
+#        pass
+
+cdef class BestSplitterMT(Splitter):
+    # The splitter searches in the input space for a feature and a threshold
+    # to split the samples samples[start:end].
+    #
+    # The impurity computations are delegated to a criterion object.
+
+
+#        # Internal structures
 #    cdef public Criterion criterion      # Impurity criterion
 #    cdef public SIZE_t max_features      # Number of features to test
 #    cdef public SIZE_t min_samples_leaf  # Min samples in a leaf
@@ -319,84 +326,12 @@ cdef class Criterion:
 #
 #    cdef SIZE_t start                    # Start position for the current node
 #    cdef SIZE_t end                      # End position for the current node
-#
 #    cdef bint presort                    # Whether to use presorting, only
 #                                         # allowed on dense data
 #
 #    cdef DOUBLE_t* y
 #    cdef SIZE_t y_stride
 #    cdef DOUBLE_t* sample_weight
-#
-#    cdef DTYPE_t* X
-#    cdef SIZE_t X_sample_stride
-#    cdef SIZE_t X_feature_stride
-#
-#    cdef np.ndarray X_idx_sorted
-#    cdef INT32_t* X_idx_sorted_ptr
-#    cdef SIZE_t X_idx_sorted_stride
-#    cdef SIZE_t n_total_samples
-#    cdef SIZE_t* sample_mask
-#    
-#    # The samples vector `samples` is maintained by the Splitter object such
-#    # that the samples contained in a node are contiguous. With this setting,
-#    # `node_split` reorganizes the node samples `samples[start:end]` in two
-#    # subsets `samples[start:pos]` and `samples[pos:end]`.
-#
-#    # The 1-d  `features` array of size n_features contains the features
-#    # indices and allows fast sampling without replacement of features.
-#
-#    # The 1-d `constant_features` array of size n_features holds in
-#    # `constant_features[:n_constant_features]` the feature ids with
-#    # constant values for all the samples that reached a specific node.
-#    # The value `n_constant_features` is given by the parent node to its
-#    # child nodes.  The content of the range `[n_constant_features:]` is left
-#    # undefined, but preallocated for performance reasons
-#    # This allows optimization with depth-based tree building.
-#
-#    # Methods
-#    cdef int init(self, object X, np.ndarray y,
-#                  DOUBLE_t* sample_weight,
-#                  np.ndarray X_idx_sorted=NULL) except -1
-#
-#    cdef int node_reset(self, SIZE_t start, SIZE_t end,
-#                        double* weighted_n_node_samples) nogil except -1
-#
-#    cdef int node_split(self,
-#                        double impurity,   # Impurity of the node
-#                        SplitRecord* split,
-#                        SIZE_t* n_constant_features) nogil except -1
-#
-#    cdef void node_value(self, double* dest) nogil
-#
-#    cdef double node_impurity(self) nogil
-        
-cdef class BestSplitterMT: 
-        # Internal structures
-    cdef public Criterion criterion      # Impurity criterion
-    cdef public SIZE_t max_features      # Number of features to test
-    cdef public SIZE_t min_samples_leaf  # Min samples in a leaf
-    cdef public double min_weight_leaf   # Minimum weight in a leaf
-
-    cdef object random_state             # Random state
-    cdef UINT32_t rand_r_state           # sklearn_rand_r random number state
-
-    cdef SIZE_t* samples                 # Sample indices in X, y
-    cdef SIZE_t n_samples                # X.shape[0]
-    cdef double weighted_n_samples       # Weighted number of samples
-    cdef SIZE_t* features                # Feature indices in X
-    cdef SIZE_t* constant_features       # Constant features indices
-    cdef SIZE_t n_features               # X.shape[1]
-    cdef DTYPE_t* feature_values         # temp. array holding feature values
-
-    cdef SIZE_t start                    # Start position for the current node
-    cdef SIZE_t end                      # End position for the current node
-
-    cdef bint presort                    # Whether to use presorting, only
-                                         # allowed on dense data
-
-    cdef DOUBLE_t* y
-    cdef SIZE_t y_stride
-    cdef DOUBLE_t* sample_weight
 
     cdef DTYPE_t* X
     cdef SIZE_t X_sample_stride
@@ -407,6 +342,15 @@ cdef class BestSplitterMT:
     cdef SIZE_t X_idx_sorted_stride
     cdef SIZE_t n_total_samples
     cdef SIZE_t* sample_mask
+    
+    cdef bint is_monotone
+    cdef np.ndarray feat_mt_types
+    cdef INT32_t* feat_mt_types_ptr
+    cdef SIZE_t feat_mt_types_stride
+    cdef INT32_t is_classification
+    cdef INT32_t* n_classes
+    cdef SIZE_t n_classes_stride
+    cdef SIZE_t crit_sum_stride
     """Abstract splitter class.
 
     Splitters are called by tree builders to find the best splits on both
@@ -471,13 +415,16 @@ cdef class BestSplitterMT:
         self.sample_mask = NULL
         self.presort = presort
         
+        self.is_monotone = 0
+        self.feat_mt_types_ptr = NULL
+        self.feat_mt_types_stride = 0        
+        self.is_classification = 0
+        self.n_classes = NULL
+        self.n_classes_stride = 0
+        self.crit_sum_stride = 0
+        
     def __dealloc__(self):
         """Destructor."""
-
-        free(self.samples)
-        free(self.features)
-        free(self.constant_features)
-        free(self.feature_values)
         if self.presort == 1:
             free(self.sample_mask)
 
@@ -490,11 +437,36 @@ cdef class BestSplitterMT:
     def __setstate__(self, d):
         pass
 
+    def init_monotone(self,
+                   object feat_mt_types):
+        self.is_monotone = 1
+        self.feat_mt_types = feat_mt_types
+        self.feat_mt_types_ptr = <INT32_t*> self.feat_mt_types.data
+        self.feat_mt_types_stride = (<SIZE_t> self.feat_mt_types.strides[0] /
+                                    <SIZE_t> self.feat_mt_types.itemsize)
+        
+        return 0
+    
+    def init_classification(self,
+                   object n_classes):
+        self.is_classification = 1
+        self.n_classes = <INT32_t*> (<np.ndarray> n_classes).data
+        self.n_classes_stride = <SIZE_t> (<np.ndarray> n_classes).strides[0] / <SIZE_t> (<np.ndarray> n_classes).itemsize
+        
+        # duplicate code here to calculate criteiron sum_stride
+        # because cannot access ClassificatonCriterion from pxd reference.
+        for k in range(self.criterion.n_outputs):
+            #self.n_classes[k] = n_classes[k]
+            if n_classes[k] > self.crit_sum_stride:
+                self.crit_sum_stride = n_classes[k]
+        return 0
+        
     cdef int init(self,
                    object X,
                    np.ndarray[DOUBLE_t, ndim=2, mode="c"] y,
                    DOUBLE_t* sample_weight,
-                   np.ndarray X_idx_sorted=None) except -1:
+                   np.ndarray X_idx_sorted=None
+                   ) except -1:
         """Initialize the splitter.
 
         Take in the input data X, the target Y, and optional sample weights.
@@ -518,7 +490,6 @@ cdef class BestSplitterMT:
 
         self.rand_r_state = self.random_state.randint(0, RAND_R_MAX)
         cdef SIZE_t n_samples = X.shape[0]
-
         # Create a new array which will be used to store nonzero
         # samples from the feature of interest
         cdef SIZE_t* samples = safe_realloc(&self.samples, n_samples)
@@ -574,6 +545,7 @@ cdef class BestSplitterMT:
             self.n_total_samples = X.shape[0]
             safe_realloc(&self.sample_mask, self.n_total_samples)
             memset(self.sample_mask, 0, self.n_total_samples*sizeof(SIZE_t))
+        
         return 0
 
 
@@ -660,7 +632,27 @@ cdef class BestSplitterMT:
         cdef SIZE_t n_total_constants = n_known_constants
         cdef DTYPE_t current_feature_value
         cdef SIZE_t partition_end
-
+        
+        cdef INT32_t* feat_mt_types = self.feat_mt_types_ptr
+        cdef INT32_t mt_feat_type = 0
+        cdef SIZE_t mt_feature_idx_offset
+        cdef SIZE_t feat_mt_types_stride = self.feat_mt_types_stride
+        
+        cdef double weighted_n_left 
+        cdef double weighted_n_right  
+        cdef double cum_weighted_n_left
+        cdef double cum_weighted_n_right
+        cdef double* sum_left
+        cdef double* sum_right
+        cdef INT32_t still_monotone = 0
+        cdef SIZE_t k = 0
+        cdef SIZE_t c = 0
+        cdef INT32_t* n_classes = self.n_classes
+        cdef SIZE_t n_classes_stride = self.n_classes_stride
+        cdef SIZE_t n_classes_ = 0
+        cdef INT32_t is_classification = self.is_classification
+        cdef double count_k
+        #cdef Criterion criterion
         _init_split(&best, end)
 
         if self.presort == 1:
@@ -770,6 +762,69 @@ cdef class BestSplitterMT:
 
                             self.criterion.update(current.pos)
 
+                            # MONOTONE ADDITIONAL CHECK
+                            if self.is_monotone == 1:
+                                mt_feature_idx_offset = feat_mt_types_stride * current.feature
+                                mt_feat_type = feat_mt_types[mt_feature_idx_offset]
+                                weighted_n_left = self.criterion.weighted_n_left
+                                weighted_n_right  = self.criterion.weighted_n_right
+                                sum_left = self.criterion.sum_left
+                                sum_right = self.criterion.sum_right
+                                if not mt_feat_type == 0:
+                                    #criterion= self.criterion
+                                    still_monotone = 1
+                                    k = 0
+                                    #for k in range(self.n_outputs):
+                                    while k<self.criterion.n_outputs and still_monotone==1:
+                                        if is_classification==0: # regression
+                                            if mt_feat_type==1: # increasing
+                                                if ((sum_left[k]/weighted_n_left) >
+                                                    (sum_right[k]/weighted_n_right)):
+                                                    still_monotone=0
+                                            else:
+                                                if ((sum_left[k]/weighted_n_left) <
+                                                    (sum_right[k]/weighted_n_right)):
+                                                    still_monotone=0
+                                        else: # classification - check for stochastic dominance on cum pdf
+                                            cum_weighted_n_left = 0.
+                                            cum_weighted_n_right = 0.
+                                            n_classes_=n_classes[k]
+                                            c = 0
+                                            while c < (n_classes[k]-1) and still_monotone==1:
+                                                cum_weighted_n_left += sum_left[c]
+                                                cum_weighted_n_right += sum_right[c]
+                                                if mt_feat_type==1: # increasing
+                                                    if ((cum_weighted_n_left/weighted_n_left)<
+                                                        (cum_weighted_n_right/weighted_n_right)):
+                                                        still_monotone=0
+                                                else: # decreasing
+                                                    if ((cum_weighted_n_left/weighted_n_left)>
+                                                        (cum_weighted_n_right/weighted_n_right)):
+                                                        still_monotone=0
+                                                c=c+1
+                                            sum_right += self.crit_sum_stride
+                                            sum_left += self.crit_sum_stride
+                                            # criterion example loop:
+#                                        for k in range(self.n_outputs):
+#                                            for c in range(n_classes[k]):
+#                                                sum_right[c] = sum_total[c] - sum_left[c]
+#                                
+#                                            sum_right += self.sum_stride
+#                                            sum_left += self.sum_stride
+#                                            sum_total += self.sum_stride
+                                        k = k + 1
+                                    if still_monotone==0:
+                                        continue
+#                    
+#                                    self.weighted_n_left += w
+#                                    #weighted_n_left = self.criterion.weight_n_left
+#                                    #weighted_n_right = <double>self.criterion.weight_n_right
+#                                    cum_weighted_n_left = 0.
+#                                    cum_weighted_n_right = 0.
+#                                    
+#                                    i_class = 0
+#                                    while i_class < criterion.n_classes:
+#                                        cum_weighted_n_left=cum_weighted_n_left
                             # Reject if min_weight_leaf is not satisfied
                             if ((self.criterion.weighted_n_left < min_weight_leaf) or
                                     (self.criterion.weighted_n_right < min_weight_leaf)):

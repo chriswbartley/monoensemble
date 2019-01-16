@@ -49,11 +49,7 @@ from monoensemble import _random_sample_mask
 from monoensemble import get_node_map_and_rule_feats_c
 from monoensemble import apply_rules_rule_feat_cache_c
 from monoensemble import apply_rules_set_based_c
-from monoensemble import extract_rules_from_tree_c
-from monoensemble import apply_rules_from_tree_sorted_c
-from monoensemble import _log_logistic_sigmoid
-from monoensemble import  _custom_dot
-from monoensemble import  _custom_dot_multiply
+
 import numbers
 import numpy as np
 
@@ -89,7 +85,7 @@ from sklearn.utils.extmath import (log_logistic, safe_sparse_dot)
 RULE_LOWER_CONST = -1e9
 RULE_UPPER_CONST = 1e9
 
-MIN_NODE_SIZE_FOR_SORTING_=5
+
 class LogOddsEstimator(object):
     """An estimator predicting the log odds ratio."""
     scale = 1.0
@@ -706,36 +702,36 @@ def apply_rules_set_based(X,
 #        rule_lower_corners - RULE_LOWER_CONST, dtype=np.float64)
     # create output matrix
     rule_mask = np.zeros(
-        [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32,order='C')
-    sorted_feats=np.zeros(X.shape,dtype=np.float64,order='F')
-    sorted_indxs=np.zeros(X.shape,dtype=np.int32,order='F')
-    sorted_datapoint_posns=np.zeros(X.shape,dtype=np.int32,order='F')
+        [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32)
+    sorted_feats=np.zeros(X.shape,dtype=np.float64)
+    sorted_indxs=np.zeros(X.shape,dtype=np.int32)
+    sorted_datapoint_posns=np.zeros(X.shape,dtype=np.int32)
     for j in np.arange(X.shape[1]):
         sorted_indxs[:,j]= np.argsort(X[:,j], axis=-1, kind='quicksort')
-        sorted_feats[:,j]=X[sorted_indxs[:,j],j].copy()
-#        i=0
-#        for k in sorted_indxs[:,j]:
-#            sorted_datapoint_posns[k,j]=i
-#            i=i+1
-    apply_rules_set_based_c(
-        X.astype(
-            np.float64),
-        sorted_feats,
-        sorted_indxs,
-        sorted_datapoint_posns,
-        rule_lower_corners,
-        rule_upper_corners,
-        rule_mask)  
-#    typp='F'
-#    rule_mask=np.asarray(rule_mask,dtype=np.int32,order=typp) 
+        sorted_feats[:,j]=X[sorted_indxs[:,j],j]
+        i=0
+        for k in sorted_indxs[:,j]:
+            sorted_datapoint_posns[k,j]=i
+            i=i+1
 #    apply_rules_set_based_c(
-#        np.asarray(X,dtype=np.float64,order=typp),#X.astype(np.float64),
-#        np.asarray(sorted_feats,dtype=np.float64,order=typp),
-#        np.asarray(sorted_indxs,dtype=np.int32,order=typp),
-#        np.asarray(sorted_datapoint_posns,dtype=np.int32,order=typp),
-#        np.asarray(rule_lower_corners,dtype=np.float64,order=typp),
-#        np.asarray(rule_upper_corners,dtype=np.float64,order=typp),
+#        X.astype(
+#            np.float64),
+#        sorted_feats,
+#        sorted_indxs,
+#        sorted_datapoint_posns,
+#        rule_lower_corners,
+#        rule_upper_corners,
 #        rule_mask)   
+    typp='C'
+    apply_rules_set_based_c(
+        np.asarray(X,dtype=np.float64,order=typp),#X.astype(np.float64),
+        np.asarray(sorted_feats,dtype=np.float64,order=typp),
+        np.asarray(sorted_indxs,dtype=np.int32,order=typp),
+        np.asarray(sorted_datapoint_posns,dtype=np.int32,order=typp),
+        np.asarray(rule_lower_corners,dtype=np.float64,order=typp),
+        np.asarray(rule_upper_corners,dtype=np.float64,order=typp),
+        rule_mask)   
+        
     return np.asarray(rule_mask, dtype=bool)
         
 # set banaive approachon, about 3X slower than cython naive approach
@@ -931,514 +927,101 @@ def apply_rules_sets_2(X,
         if len(viable_pts_progressive)>0:
             rule_tx[viable_pts_progressive,r] = 1        
     return rule_tx
-
-
-def traverse_node_with_rule_c(node_id,
-                       num_feats,
-                       children_left,
-                       children_right,
-                       features,
-                       thresholds, 
-                       node_members,
-                       node_members_count,
-                       rule_id,
-                       rule_upper_corners,
-                       rule_lower_corners,
-                       X,
-                       out_rule_mask):
-    # recurse on children 
-    if children_left[node_id] != -1:
-        feature = features[node_id]
-        threshold = thresholds[node_id]
-        left_node_id = children_left[node_id]
-        right_node_id = children_right[node_id]
-        # check if rule goes right
-        if rule_upper_corners[feature]>threshold:
-            rule_lower_corners1=rule_lower_corners.copy()
-            if rule_lower_corners1[feature]<=threshold: # rule lower bound no longer needed
-                rule_lower_corners1[feature]=RULE_LOWER_CONST
-            traverse_node_with_rule_c(right_node_id, num_feats,
-                   children_left,children_right,features,thresholds, node_members,node_members_count,rule_id,
-                   rule_upper_corners.copy(),
-                   rule_lower_corners1,
-                   X,
-                   out_rule_mask)  
-        # check if rule goes left
-        if rule_lower_corners[feature]<threshold:
-            rule_upper_corners1=rule_upper_corners.copy()
-            if rule_upper_corners1[feature]>=threshold: # rule lower bound no longer needed
-                rule_upper_corners1[feature]=RULE_UPPER_CONST
-            traverse_node_with_rule_c(left_node_id, num_feats,
-                   children_left,children_right,features,thresholds, node_members,node_members_count,rule_id,
-                   rule_upper_corners1,
-                   rule_lower_corners.copy(),
-                   X,
-                   out_rule_mask)  
-#                       children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)  # ">"
-    else:  # a leaf node - check remaining rule
-        num_pts=node_members_count[node_id]
-        for j in np.arange(num_feats):
-            lower_bound=rule_lower_corners[j]
-            if lower_bound!=RULE_LOWER_CONST:
-                for i in np.arange(num_pts):
-                    if out_rule_mask[node_members[node_id,i],rule_id]!=2:
-                        if X[node_members[node_id,i],j]<=lower_bound:
-                            out_rule_mask[node_members[node_id,i],rule_id]=2
-            upper_bound=rule_upper_corners[j]
-            if upper_bound!=RULE_UPPER_CONST:
-                for i in np.arange(num_pts):
-                    if out_rule_mask[node_members[node_id,i],rule_id]!=2:
-                        if X[node_members[node_id,i],j]>upper_bound:
-                            out_rule_mask[node_members[node_id,i],rule_id]=2
-        for i in np.arange(num_pts):
-            if out_rule_mask[node_members[node_id,i],rule_id]==2:
-                out_rule_mask[node_members[node_id,i],rule_id]=0
-            else:
-                out_rule_mask[node_members[node_id,i],rule_id]=1
-
-def apply_rules_from_tree_c(X,
-                            children_left,
-                            children_right,
-                            features,
-                            thresholds,
-                            node_members,
-                            node_members_count, 
-                            num_feats,
-                            rule_upper_corners,
-                            rule_lower_corners,
-                            out_rule_mask):
-    #traverse_node_c(0,num_feats,children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)
-    for rule_id in np.arange(rule_upper_corners.shape[0]):
-        traverse_node_with_rule_c(0,
-                       num_feats,
-                       children_left,
-                       children_right,
-                       features,
-                       thresholds, 
-                       node_members,
-                       node_members_count,
-                       rule_id,
-                       rule_upper_corners[rule_id,:].copy(),
-                       rule_lower_corners[rule_id,:].copy(),
-                       X,
-                       out_rule_mask)
-    
-    
 def apply_rules_tree(   X,
                         rule_lower_corners,
                         rule_upper_corners,
-                        tree
+                        X_leaf_node_ids,
+                        leaf_ids,
+                        tree_
                         ):
-    X_leaf_node_ids = tree.apply(X, check_input=False).astype(np.int32)
-    # cache X_leaf_node_ids for each node
-    num_nodes=tree.tree_.node_count
-    node_members=np.zeros([num_nodes,X.shape[0]],dtype=np.int32)
-    node_member_count=np.zeros(num_nodes,dtype=np.int32)
-    for inode in np.unique(X_leaf_node_ids):
-        node_members_=np.where(X_leaf_node_ids==inode)[0]
-        node_members[inode,0:len(node_members_)]=node_members_
-        node_member_count[inode]=len(node_members_)
     rule_mask = np.zeros(
             [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32)
-    apply_rules_from_tree_c(X,
-                            tree.tree_.children_left,
-                            tree.tree_.children_right,
-                            tree.tree_.feature,
-                            tree.tree_.threshold,
-                            node_members,
-                            node_member_count,
-                            rule_upper_corners.shape[1],
-                            rule_upper_corners,
-                            rule_lower_corners,
-                            rule_mask)
-    return np.asarray(rule_mask, dtype=bool)
-#   
-#def _traverse_node_with_rule_sorted_c(node_id,
-#                       num_feats,
-#                       children_left,
-#                       children_right,
-#                       features,
-#                       thresholds, 
-#                       node_members,
-#                       node_members_count,
-#                       node_members_start,
-#                       rule_id,
-#                       rule_upper_corners,
-#                       rule_lower_corners,
-#                       rule_upper_feats_engaged,
-#                       rule_upper_feats_engaged_count,
-#                       rule_lower_feats_engaged,
-#                       rule_lower_feats_engaged_count,
-#                       X,
-#                       X_by_node_sorted,
-#                       X_by_node_sorted_idx,
-#                       X_by_node_sorted_idx_posns, 
-#                       out_rule_mask):
-#    # recurse on children 
-#    if children_left[node_id] != -1:
-#        feature = features[node_id]
-#        threshold = thresholds[node_id]
-#        left_node_id = children_left[node_id]
-#        right_node_id = children_right[node_id]
-#        # check if rule goes right
-#        if rule_upper_corners[feature]>threshold:
-#            rule_lower_corners1=rule_lower_corners.copy()
-#            if rule_lower_corners1[feature]<=threshold: # rule lower bound no longer needed
-#                rule_lower_corners1[feature]=RULE_LOWER_CONST
-#            _traverse_node_with_rule_sorted_c(right_node_id, num_feats,
-#                   children_left,children_right,features,thresholds, node_members,node_members_count,node_members_start,rule_id,
-#                   rule_upper_corners.copy(),
-#                   rule_lower_corners1,
-#                   rule_upper_feats_engaged,
-#                   rule_upper_feats_engaged_count,
-#                   rule_lower_feats_engaged,
-#                   rule_lower_feats_engaged_count,
-#                   X,
-#                   X_by_node_sorted,
-#                   X_by_node_sorted_idx,
-#                   X_by_node_sorted_idx_posns,
-#                   out_rule_mask)  
-#        # check if rule goes left
-#        if rule_lower_corners[feature]<threshold:
-#            rule_upper_corners1=rule_upper_corners.copy()
-#            if rule_upper_corners1[feature]>=threshold: # rule lower bound no longer needed
-#                rule_upper_corners1[feature]=RULE_UPPER_CONST
-#            _traverse_node_with_rule_sorted_c(left_node_id, num_feats,
-#                   children_left,children_right,features,thresholds, node_members,node_members_count,node_members_start,rule_id,
-#                   rule_upper_corners1,
-#                   rule_lower_corners.copy(),
-#                   rule_upper_feats_engaged,
-#                   rule_upper_feats_engaged_count,
-#                   rule_lower_feats_engaged,
-#                   rule_lower_feats_engaged_count,
-#                   X,
-#                   X_by_node_sorted,
-#                   X_by_node_sorted_idx,
-#                   X_by_node_sorted_idx_posns,
-#                   out_rule_mask)  
-##                       children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)  # ">"
-#    else:  # a leaf node - check remaining rule
-#        #if rule_id==0 and node_id==4:
-#        #    print('erher')
-#        
-#        
-#        n_samples=node_members_count[node_id]
-#        if n_samples>=MIN_NODE_SIZE_FOR_SORTING_:
-#            # SORTED FEATURE WAY OF DOING IT - 
-#            viable_set = np.empty(n_samples, dtype=np.int32)
-#            feat_sets=np.zeros([num_feats*2*4],dtype=np.int32)
-#            # apply each feature limit and store set descriptors
-#            i_f=0
-#            for j_ in range(rule_lower_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
-#                j=rule_lower_feats_engaged[j_]
-##            for j in np.arange(num_feats):
-#                if rule_lower_corners[j ]!=RULE_LOWER_CONST: #j + n_features * r
-#                    insert_pos=np.searchsorted(X_by_node_sorted[node_members_start[node_id]:node_members_start[node_id]+node_members_count[node_id],j],rule_lower_corners[j ],side='right') #, side='right'
-#                    #insert_pos=_search_sorted(sorted_feats,j*n_samples, n_samples,1,rule_lower_corners[j * n_rules + r]) #, side='right'
-#                    feat_sets[0*2*num_feats+ i_f]=j#[j,-1,insert_pos,n_samples-insert_pos]
-#                    feat_sets[1*2*num_feats+ i_f]=-1
-#                    feat_sets[2*2*num_feats+ i_f]=insert_pos
-#                    feat_sets[3*2*num_feats+ i_f]=node_members_count[node_id]-insert_pos
-#                    i_f=i_f+1
-#            for j_ in range(rule_upper_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
-#                j=rule_upper_feats_engaged[j_]
-#                if rule_upper_corners[j ]!=RULE_UPPER_CONST: 
-#                    insert_pos=np.searchsorted(X_by_node_sorted[node_members_start[node_id]:node_members_start[node_id]+node_members_count[node_id],j],rule_upper_corners[j ],side='right') #, side='right'
-#                    #insert_pos=_search_sorted(sorted_feats,j*n_samples, n_samples,1,rule_upper_corners[j * n_rules + r])
-#                    #feat_sets[i_f,:]=[j,1,insert_pos,insert_pos]
-#                    feat_sets[0*2*num_feats+ i_f]=j#[j,-1,insert_pos,n_samples-insert_pos]
-#                    feat_sets[1*2*num_feats+ i_f]=+1
-#                    feat_sets[2*2*num_feats+ i_f]=insert_pos
-#                    feat_sets[3*2*num_feats+ i_f]=insert_pos
-#                    i_f=i_f+1
-#            
-#            if i_f==0: # if no rules found, add all node members (shortcut exit)
-#                #for i in range(n_samples) :
-#                out_rule_mask[node_members[node_id,0:node_members_count[node_id]], rule_id]=1 
-#            else: # check for intersections:
-#                # intersect sets to build viable set
-#                min_viable_size=100000
-#                min_viable_index=-1
-#                min_viable_feat=-1
-#                for i_ff in range(i_f):
-#                    if feat_sets[3*2*num_feats+ i_ff]<min_viable_size:
-#                        min_viable_size=feat_sets[3*2*num_feats+ i_ff]
-#                        min_viable_index=i_ff
-#                        min_viable_feat=feat_sets[0*2*num_feats+ i_ff]
-#                i_ff=min_viable_index # start with minimum because the size of the first set is an upper bound on complexity for all subsequent interscetion operations
-#                j=feat_sets[0*2*num_feats+ i_ff]
-#                insert_pos=feat_sets[2*2*num_feats+ i_ff]
-#                dirn=feat_sets[1*2*num_feats+ i_ff]
-#                viable_set_size=feat_sets[3*2*num_feats+ i_ff]
-#                if viable_set_size>0:
-#                    if dirn==-1:
-#                        for i in range(viable_set_size):
-#                            viable_set[i]=X_by_node_sorted_idx[node_members_start[node_id]+insert_pos+i,min_viable_feat ]#j*n_samples + (insert_pos+i)  ] #(i+insert_pos)*n_features + j 
-#                        #viable_pts=sorted_indxs[insert_pos:,j]
-#                    else:
-#                        for i in range(viable_set_size):
-#                            viable_set[i]=X_by_node_sorted_idx[node_members_start[node_id]+i,min_viable_feat ]#j*n_samples + (i) ] #i*n_features + j
-#                        #viable_pts=sorted_indxs[0:insert_pos,j]
-#                        
-#                    for i_ff in range(0,i_f):
-#                        if i_ff !=min_viable_index and viable_set_size>0:
-#                            j=feat_sets[0*2*num_feats+ i_ff]
-#                            insert_pos=feat_sets[2*2*num_feats+ i_ff]
-#                            dirn=feat_sets[1*2*num_feats+ i_ff]
-#                            viable_set_size_this=feat_sets[3*2*num_feats+ i_ff]
-#                            if dirn==-1:
-#                                i_viable=0
-#                                for i in range(viable_set_size):
-#                                    if  X_by_node_sorted_idx_posns[viable_set[i],j]-node_members_start[node_id]>=insert_pos: # + j*n_samples]>=insert_pos: # viable_set[i]*n_features + j 
-#                                        viable_set[i_viable]=viable_set[i]
-#                                        i_viable=i_viable+1
-#                                viable_set_size=i_viable
-#                                #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]>=insert_pos]
-#                            else:
-#                                i_viable=0
-#                                for i in range(viable_set_size):
-#                                    if  X_by_node_sorted_idx_posns[viable_set[i] ,j]-node_members_start[node_id]<insert_pos: #+ j*n_samples ]<insert_pos: # viable_set[i] + j*n_samples
-#                                        viable_set[i_viable]=viable_set[i]
-#                                        i_viable=i_viable+1
-#                                viable_set_size=i_viable
-#                                #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]<insert_pos]
-#                
-#                if viable_set_size>0:
-#                    for i in range(viable_set_size) :
-#                        out_rule_mask[viable_set[i], rule_id]=1 #viable_set[i]*n_rules + r]=1
-#        else:
-#            # BASIC WAY OF CALCULATING
-#            num_pts=node_members_count[node_id]
-#            #for j in np.arange(num_feats):
-#            for j_ in range(rule_lower_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
-#                j=rule_lower_feats_engaged[j_]
-#                lower_bound=rule_lower_corners[j]
-#                if lower_bound!=RULE_LOWER_CONST:
-#                    for i in np.arange(num_pts):
-#                        if out_rule_mask[node_members[node_id,i],rule_id]!=2:
-#                            if X[node_members[node_id,i],j]<=lower_bound:
-#                                out_rule_mask[node_members[node_id,i],rule_id]=2
-#            for j_ in range(rule_upper_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
-#                j=rule_upper_feats_engaged[j_]
-#                upper_bound=rule_upper_corners[j]
-#                if upper_bound!=RULE_UPPER_CONST:
-#                    for i in np.arange(num_pts):
-#                        if out_rule_mask[node_members[node_id,i],rule_id]!=2:
-#                            if X[node_members[node_id,i],j]>upper_bound:
-#                                out_rule_mask[node_members[node_id,i],rule_id]=2
-#            for i in np.arange(num_pts):
-#                if out_rule_mask[node_members[node_id,i],rule_id]==2:
-#                    out_rule_mask[node_members[node_id,i],rule_id]=0
-#                else:
-#                    out_rule_mask[node_members[node_id,i],rule_id]=1
-#
-##        # TEST
-##        #if viable_set_size>0:
-##        viable_set=list(viable_set[0:viable_set_size])
-##        for kk in np.arange(num_pts):
-##            node_test=node_members[node_id,kk]
-##            if out_rule_mask[node_test,rule_id]==1:
-##                if node_test not in viable_set:
-##                    print ('err')
-##            else:
-##                if node_test  in viable_set:
-##                    print('err')
-#
-#def apply_rules_from_tree_sorted_c(X,
-#                            X_by_node_sorted,
-#                            X_by_node_sorted_idx,
-#                            X_by_node_sorted_idx_posns,
-#                            children_left,
-#                            children_right,
-#                            features,
-#                            thresholds,
-#                            node_members,
-#                            node_members_count, 
-#                            node_members_start, 
-#                            num_feats,
-#                            rule_upper_corners,
-#                            rule_lower_corners,
-#                            out_rule_mask):
-#    
-#    #traverse_node_c(0,num_feats,children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)
-#    for rule_id in np.arange(rule_upper_corners.shape[0]):
-#        rule_upper_feats_engaged=np.where(rule_upper_corners[rule_id,:]!=RULE_UPPER_CONST)[0]
-#        rule_lower_feats_engaged=np.where(rule_lower_corners[rule_id,:]!=RULE_LOWER_CONST)[0]
-#        _traverse_node_with_rule_sorted_c(0,
-#                       num_feats,
-#                       children_left,
-#                       children_right,
-#                       features,
-#                       thresholds, 
-#                       node_members,
-#                       node_members_count,
-#                       node_members_start,
-#                       rule_id,
-#                       rule_upper_corners[rule_id,:].copy(),
-#                       rule_lower_corners[rule_id,:].copy(),
-#                       rule_upper_feats_engaged,
-#                       len(rule_upper_feats_engaged),
-#                       rule_lower_feats_engaged,
-#                       len(rule_lower_feats_engaged),
-#                       X,
-#                       X_by_node_sorted,
-#                       X_by_node_sorted_idx,
-#                       X_by_node_sorted_idx_posns,
-#                       out_rule_mask)
-#    
-    
-def apply_rules_tree_sorted(   X,
-                        rule_lower_corners,
-                        rule_upper_corners,
-                        tree
-                        ):
+    for r in np.arange(rule_lower_corners.shape[0]):
+        nodes_visited=np.zeros(np.max(leaf_ids)+1,dtype=np.int32)
+        data_points_in_leaf=np.zeros(X.shape[0],dtype=np.int32)
+        data_points_in_leaf_size=np.zeros(1,dtype=np.int32)
+        leaf_id=leaf_ids[r]
+        # mark current nodes in the unmodified leaf/rule
+        nodes_visited[leaf_id]=1
+        leaf_data_pts=np.arange(X.shape[0])[X_leaf_node_ids==leaf_id]
+        data_points_in_leaf[data_points_in_leaf_size[0]:data_points_in_leaf_size[0]+len(leaf_data_pts)]=leaf_data_pts
+        data_points_in_leaf_size[0]=data_points_in_leaf_size[0]+len(leaf_data_pts)
+        # extract tree matrices
+        children_left=tree_.children_left
+        children_right=tree_.children_right
+        feature=tree_.feature
+        threshold=tree_.threshold
+        # drop rule down tree and get any additional datapoints
+        def drop_rule_down_tree(node_id=0,
+                           operator=None,
+                           threshold_=None,
+                           feature_=None,
+                           rule_lower=None,
+                           rule_upper=None):
+            if nodes_visited[node_id]==1:
+                return None
+            nodes_visited[node_id]=1
+            if node_id == 0:
+                pass
+#                new_lower = np.ones(num_feats) * RULE_LOWER_CONST
+#                new_upper = np.ones(num_feats) * RULE_UPPER_CONST
+            #if threshold_ is None or feature_ is None:
+            #else:
+            if operator is not None:
+                if operator == +1: # left child, <= threshold
+                    if rule_upper[feature_]>=threshold_: # rule is not needed anymore
+                        rule_upper[feature_]=RULE_UPPER_CONST
+                else: # right child, > threshold
+                    if rule_lower[feature_]<=threshold_: # rule is not needed anymore
+                        rule_lower[feature_]=RULE_LOWER_CONST            
+            # tree.feature[node_id] == -2:
+            if children_left[node_id] != TREE_LEAF:
+                feature_ = feature[node_id]
+                threshold_ = threshold[node_id]
 
-    X_leaf_node_ids = tree.apply(X, check_input=False).astype(np.int32)
-    # cache X_leaf_node_ids for each node
-    num_nodes=tree.tree_.node_count
-    node_members=np.zeros([num_nodes,X.shape[0]],dtype=np.int32,order='C')
-    node_member_count=np.zeros(num_nodes,dtype=np.int32,order='C')
-    node_member_start=np.zeros(num_nodes,dtype=np.int32,order='C')
-    X_by_node_sorted=np.zeros(X.shape,dtype=np.float64,order='C')
-    X_by_node_sorted_idx=np.zeros(X.shape,dtype=np.int32,order='C')
-    X_by_node_sorted_idx_posns=np.zeros(X.shape,dtype=np.int32,order='C')
-    node_member_start_=0
-    for inode in np.unique(X_leaf_node_ids):
-        node_members_=np.where(X_leaf_node_ids==inode)[0]
-        node_members_len=len(node_members_)
-        node_members[inode,0:node_members_len]=node_members_
-        node_member_count[inode]=node_members_len
-        node_member_start[inode]=node_member_start_
-        for j in np.arange(X.shape[1]):
-            if node_members_len>=MIN_NODE_SIZE_FOR_SORTING_:
-                X_by_node_sorted_idx[node_member_start_:node_member_start_+node_members_len,j]=node_members_[np.argsort(X[node_members_,j])]
-                #X_by_node_sorted[node_member_start_:node_member_start_+node_members_len,j]=X[X_by_node_sorted_idx[node_member_start_:node_member_start_+node_members_len,j],j]
-            else:
-                X_by_node_sorted_idx[node_member_start_:node_member_start_+node_members_len,j]=node_members_
-            X_by_node_sorted[node_member_start_:node_member_start_+node_members_len,j]=X[X_by_node_sorted_idx[node_member_start_:node_member_start_+node_members_len,j],j] 
-        node_member_start_=node_member_start_+node_members_len
-    for j in np.arange(X.shape[1]):    
-        X_by_node_sorted_idx_posns[X_by_node_sorted_idx[:,j],j]=np.arange(X.shape[0])
+                
+                if rule_lower[feature_]<=threshold_:
+                    left_node_id = children_left[node_id]
+                    drop_rule_down_tree(left_node_id, +1, threshold_, feature_,
+                                   rule_lower.copy(), rule_upper.copy())  # "<="
+                if rule_upper[feature_]>=threshold_:
+                    right_node_id = children_right[node_id]
+                    drop_rule_down_tree(right_node_id, -1, threshold_, feature_,
+                                   rule_lower.copy(), rule_upper.copy())  # ">"
+            else:  # a leaf node - get the points in this leaf that satisfy the rule
+                leaf_data_pts_this_node=np.arange(X.shape[0])[X_leaf_node_ids==node_id]
+                for j in np.arange(X.shape[1]):
+                    if rule_lower[j]!=RULE_LOWER_CONST:
+                        for i in np.arange(len(leaf_data_pts_this_node)):
+                            if X[leaf_data_pts_this_node[i],j]<=rule_lower[j]:
+                                leaf_data_pts_this_node[i]=-1
+                        leaf_data_pts_this_node=leaf_data_pts_this_node[leaf_data_pts_this_node>=0]
+                        
+                    if rule_upper[j]!=RULE_UPPER_CONST:
+                        for i in np.arange(len(leaf_data_pts_this_node)):
+                            if X[leaf_data_pts_this_node[i],j]>rule_upper[j]:
+                                leaf_data_pts_this_node[i]=-1
+                        leaf_data_pts_this_node=leaf_data_pts_this_node[leaf_data_pts_this_node>=0]
+                data_points_in_leaf[data_points_in_leaf_size[0]:data_points_in_leaf_size[0]+len(leaf_data_pts_this_node)]=leaf_data_pts_this_node
+                data_points_in_leaf_size[0]=data_points_in_leaf_size[0]+len(leaf_data_pts_this_node)
+               
+                
+#                if node_id != 0:
+#                    leaf_ids[node_id] = node_id
+#                    leaf_values[node_id] = tree.value[node_id][0][0]
+#                    rule_upper_corners[node_id, :] = new_upper
+#                    rule_lower_corners[node_id, :] = new_lower
+#                else:  # the base node (0) is the only node!
+#                    print('XXX')
+                return None
     
-    rule_mask = np.zeros(
-            [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32,order='C')
-    apply_rules_from_tree_sorted_c(X.astype(np.float64),
-                            X_by_node_sorted,
-                            X_by_node_sorted_idx,
-                            X_by_node_sorted_idx_posns,
-                            tree.tree_.children_left.astype(np.int32),
-                            tree.tree_.children_right.astype(np.int32),
-                            tree.tree_.feature.astype(np.int32),
-                            tree.tree_.threshold.astype(np.float64),
-                            node_members,
-                            node_member_count,
-                            node_member_start,
-                            np.int32(rule_upper_corners.shape[1]),
-                            np.ascontiguousarray(rule_upper_corners,dtype=np.float64),
-                            np.ascontiguousarray(rule_lower_corners,dtype=np.float64),
-                            rule_mask)
-#    (np.ndarray[float64, ndim=2] X,
-#                            np.ndarray[float64, ndim=2] X_by_node_sorted,
-#                            np.ndarray[int32, ndim=2] X_by_node_sorted_idx,
-#                            np.ndarray[int32, ndim=2] X_by_node_sorted_idx_posns,
-#                            np.ndarray[int32, ndim=1] children_left,
-#                            np.ndarray[int32, ndim=1] children_right,
-#                            np.ndarray[int32, ndim=1] features,
-#                            np.ndarray[float64, ndim=1] thresholds,
-#                            np.ndarray[int32, ndim=1] node_members,
-#                            np.ndarray[int32, ndim=1] node_members_count, 
-#                            np.ndarray[int32, ndim=1] node_members_start, 
-#                            int32 num_feats,
-#                            np.ndarray[float64, ndim=2] rule_upper_corners,
-#                            np.ndarray[float64, ndim=2] rule_lower_corners,
-#                            np.ndarray[int32, ndim=2] out_rule_mask):
+        drop_rule_down_tree(rule_lower=rule_lower_corners[r,:].copy(), rule_upper=rule_upper_corners[r,:].copy())        
+        # collate results
+        data_points_in_leaf=np.asarray(data_points_in_leaf)[0:data_points_in_leaf_size[0]]
+        rule_mask[data_points_in_leaf,r]=1
+        # drop rule down tree and add data points if also inside this rule
+    #print('t')
     return np.asarray(rule_mask, dtype=bool)
-#    for r in np.arange(rule_lower_corners.shape[0]):
-#        nodes_visited=np.zeros(np.max(leaf_ids)+1,dtype=np.int32)
-#        data_points_in_leaf=np.zeros(X.shape[0],dtype=np.int32)
-#        data_points_in_leaf_size=np.zeros(1,dtype=np.int32)
-#        leaf_id=leaf_ids[r]
-#        # mark current nodes in the unmodified leaf/rule
-#        nodes_visited[leaf_id]=1
-#        leaf_data_pts=np.arange(X.shape[0])[X_leaf_node_ids==leaf_id]
-#        data_points_in_leaf[data_points_in_leaf_size[0]:data_points_in_leaf_size[0]+len(leaf_data_pts)]=leaf_data_pts
-#        data_points_in_leaf_size[0]=data_points_in_leaf_size[0]+len(leaf_data_pts)
-#        # extract tree matrices
-#        children_left=tree_.children_left
-#        children_right=tree_.children_right
-#        feature=tree_.feature
-#        threshold=tree_.threshold
-#        # drop rule down tree and get any additional datapoints
-#        def drop_rule_down_tree(node_id=0,
-#                           operator=None,
-#                           threshold_=None,
-#                           feature_=None,
-#                           rule_lower=None,
-#                           rule_upper=None):
-#            if nodes_visited[node_id]==1:
-#                return None
-#            nodes_visited[node_id]=1
-#            if node_id == 0:
-#                pass
-##                new_lower = np.ones(num_feats) * RULE_LOWER_CONST
-##                new_upper = np.ones(num_feats) * RULE_UPPER_CONST
-#            #if threshold_ is None or feature_ is None:
-#            #else:
-#            if operator is not None:
-#                if operator == +1: # left child, <= threshold
-#                    if rule_upper[feature_]>=threshold_: # rule is not needed anymore
-#                        rule_upper[feature_]=RULE_UPPER_CONST
-#                else: # right child, > threshold
-#                    if rule_lower[feature_]<=threshold_: # rule is not needed anymore
-#                        rule_lower[feature_]=RULE_LOWER_CONST            
-#            # tree.feature[node_id] == -2:
-#            if children_left[node_id] != TREE_LEAF:
-#                feature_ = feature[node_id]
-#                threshold_ = threshold[node_id]
-#
-#                
-#                if rule_lower[feature_]<=threshold_:
-#                    left_node_id = children_left[node_id]
-#                    drop_rule_down_tree(left_node_id, +1, threshold_, feature_,
-#                                   rule_lower.copy(), rule_upper.copy())  # "<="
-#                if rule_upper[feature_]>=threshold_:
-#                    right_node_id = children_right[node_id]
-#                    drop_rule_down_tree(right_node_id, -1, threshold_, feature_,
-#                                   rule_lower.copy(), rule_upper.copy())  # ">"
-#            else:  # a leaf node - get the points in this leaf that satisfy the rule
-#                leaf_data_pts_this_node=np.arange(X.shape[0])[X_leaf_node_ids==node_id]
-#                for j in np.arange(X.shape[1]):
-#                    if rule_lower[j]!=RULE_LOWER_CONST:
-#                        for i in np.arange(len(leaf_data_pts_this_node)):
-#                            if X[leaf_data_pts_this_node[i],j]<=rule_lower[j]:
-#                                leaf_data_pts_this_node[i]=-1
-#                        leaf_data_pts_this_node=leaf_data_pts_this_node[leaf_data_pts_this_node>=0]
-#                        
-#                    if rule_upper[j]!=RULE_UPPER_CONST:
-#                        for i in np.arange(len(leaf_data_pts_this_node)):
-#                            if X[leaf_data_pts_this_node[i],j]>rule_upper[j]:
-#                                leaf_data_pts_this_node[i]=-1
-#                        leaf_data_pts_this_node=leaf_data_pts_this_node[leaf_data_pts_this_node>=0]
-#                data_points_in_leaf[data_points_in_leaf_size[0]:data_points_in_leaf_size[0]+len(leaf_data_pts_this_node)]=leaf_data_pts_this_node
-#                data_points_in_leaf_size[0]=data_points_in_leaf_size[0]+len(leaf_data_pts_this_node)
-#               
-#                
-##                if node_id != 0:
-##                    leaf_ids[node_id] = node_id
-##                    leaf_values[node_id] = tree.value[node_id][0][0]
-##                    rule_upper_corners[node_id, :] = new_upper
-##                    rule_lower_corners[node_id, :] = new_lower
-##                else:  # the base node (0) is the only node!
-##                    print('XXX')
-#                return None
-#    
-#        drop_rule_down_tree(rule_lower=rule_lower_corners[r,:].copy(), rule_upper=rule_upper_corners[r,:].copy())        
-#        # collate results
-#        data_points_in_leaf=np.asarray(data_points_in_leaf)[0:data_points_in_leaf_size[0]]
-#        rule_mask[data_points_in_leaf,r]=1
-#        # drop rule down tree and add data points if also inside this rule
-#    #print('t')
-#    return np.asarray(rule_mask, dtype=bool)
     
 def apply_rules(
         X,
@@ -1471,40 +1054,35 @@ def apply_rules(
             rule_mask)
         rule_mask = np.asarray(rule_mask, dtype=bool)
     else:
-#        rule_upper_corners_sparse = csr_matrix(
-#            rule_upper_corners - RULE_UPPER_CONST, dtype=np.float64)
-#        rule_lower_corners_sparse = csr_matrix(
-#            rule_lower_corners - RULE_LOWER_CONST, dtype=np.float64)
-#        rule_mask = np.zeros(
-#            [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32)
-#        apply_rules_c(
-#            X.astype(
-#                np.float64),
-#            rule_lower_corners_sparse,
-#            rule_upper_corners_sparse,
-#            X_leaf_node_ids,
-#            node_rule_map,
-#            rule_mask)   
+        rule_upper_corners_sparse = csr_matrix(
+            rule_upper_corners - RULE_UPPER_CONST, dtype=np.float64)
+        rule_lower_corners_sparse = csr_matrix(
+            rule_lower_corners - RULE_LOWER_CONST, dtype=np.float64)
+        rule_mask = np.zeros(
+            [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32)
+        apply_rules_c(
+            X.astype(
+                np.float64),
+            rule_lower_corners_sparse,
+            rule_upper_corners_sparse,
+            X_leaf_node_ids,
+            node_rule_map,
+            rule_mask)   
+        rule_mask = np.asarray(rule_mask, dtype=bool)
         # comparative set approach - 
+#        rule_mask_test=apply_rules_sets_sorted(X,
+#            rule_lower_corners,
+#            rule_upper_corners,
+#            X_leaf_node_ids,
+#            node_rule_map)   
 
-
-        rule_mask=apply_rules_set_based(X,
+        rule_mask_test=apply_rules_set_based(X,
             rule_lower_corners,
             rule_upper_corners)
-        
-#        rule_mask = np.zeros(
-#            [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32)
-#        apply_rules_c(
-#            X.astype(
-#                np.float64),
-#            rule_lower_corners_sparse,
-#            rule_upper_corners_sparse,
-#            X_leaf_node_ids,
-#            node_rule_map,
-#            rule_mask)   
-#        comp=np.sum(np.abs(rule_mask.astype(bool)!=rule_mask_test.astype(bool)))
-#        print(comp)
-    return np.asarray(rule_mask, dtype=bool)
+        rule_mask_test = np.asarray(rule_mask_test, dtype=bool)
+        comp=np.sum(np.abs(rule_mask!=rule_mask_test))
+        print(comp)
+    return rule_mask
 
 # SLOW - KILL IT
 # def build_training_rule_mask(
@@ -1637,122 +1215,6 @@ def build_node_rule_map(
         map_c_)
     return map_c_
 
-#def traverse_node_c(node_id,num_feats,
-#                       children_left,
-#                       children_right,
-#                       features,
-#                       thresholds, 
-#                       out_leaf_ids,
-#                       out_rule_upper_corners,
-#                       out_rule_lower_corners):
-#    # recurse on children 
-#    if children_left[node_id] != TREE_LEAF:
-#        feature = features[node_id]
-#        threshold = thresholds[node_id]
-#        left_node_id = children_left[node_id]
-#        right_node_id = children_right[node_id]
-#        # update limit arrays
-#        out_rule_upper_corners[left_node_id,:] = out_rule_upper_corners[node_id,:]
-#        out_rule_lower_corners[left_node_id,:] = out_rule_lower_corners[node_id,:]
-#        out_rule_upper_corners[right_node_id,:] = out_rule_upper_corners[node_id,:]
-#        out_rule_lower_corners[right_node_id,:] = out_rule_lower_corners[node_id,:]
-#        # for c
-##        for j in np.arange(num_feats):
-##            out_rule_upper_corners[left_node_id,j] = out_rule_upper_corners[node_id,j]
-##            out_rule_lower_corners[left_node_id,j] = out_rule_lower_corners[node_id,j]
-##            out_rule_upper_corners[right_node_id,j] = out_rule_upper_corners[node_id,j]
-##            out_rule_lower_corners[right_node_id,j] = out_rule_lower_corners[node_id,j]
-#        out_rule_upper_corners[left_node_id,feature] = threshold
-#        out_rule_lower_corners[right_node_id,feature] = threshold
-#        # recurse
-#        traverse_node_c(left_node_id, num_feats,
-#                       children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)  # "<="
-#
-#        
-#        traverse_node_c(right_node_id,num_feats,
-#                       children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)  # ">"
-#    else:  # a leaf node
-#        out_leaf_ids[node_id] = node_id
-#        if node_id == 0:# the base node (0) is the only node!
-#            pass
-#            #print('Warning: Tree only has one node! (i.e. the root node)')
-#
-#def extract_rules_from_tree_c(children_left,children_right,features,thresholds, num_feats, incr_feats, decr_feats,out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners):
-#    traverse_node_c(0,num_feats,children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)
-#    
-def extract_rules_from_tree_cython(tree, num_feats, incr_feats, decr_feats):
-    """Helper to turn a tree into as set of rules
-    """
-    num_nodes = tree.node_count
-    leaf_ids = np.zeros([num_nodes], dtype=np.int32)-99
-    leaf_values = np.zeros([num_nodes], dtype=np.float64)
-    rule_upper_corners = np.ones(
-        [num_nodes, num_feats], dtype=np.float64,order='C') * RULE_UPPER_CONST
-    rule_lower_corners = np.ones(
-        [num_nodes, num_feats], dtype=np.float64,order='C') * RULE_LOWER_CONST
-
-    extract_rules_from_tree_c(tree.children_left.astype(np.int32),tree.children_right.astype(np.int32),tree.feature.astype(np.int32),tree.threshold.astype(np.float64), np.int32(num_feats), leaf_ids,rule_upper_corners,rule_lower_corners)
-    for node_id in np.arange(num_nodes):
-        leaf_values[node_id] = tree.value[node_id][0][0]
-    # filter unused rules
-    idx = leaf_ids != -99
-
-    leaf_ids = leaf_ids[idx]
-    leaf_values = leaf_values[idx]
-    rule_upper_corners = rule_upper_corners[idx, :]
-    rule_lower_corners = rule_lower_corners[idx, :]
-    # store leaf definitions before montonising
-    leaf_upper_corners = rule_upper_corners.copy()
-    leaf_lower_corners = rule_lower_corners.copy()
-    # monotonise if required
-    if len(incr_feats) > 0:
-        for i_mt in incr_feats - 1:
-            rule_lower_corners[leaf_values < 0, i_mt] = RULE_LOWER_CONST
-            rule_upper_corners[leaf_values > 0, i_mt] = RULE_UPPER_CONST
-    if len(decr_feats) > 0:
-        for i_mt in decr_feats - 1:
-            rule_lower_corners[leaf_values > 0, i_mt] = RULE_LOWER_CONST
-            rule_upper_corners[leaf_values < 0, i_mt] = RULE_UPPER_CONST
-#    # remove any rules that have been transformed into an intercept
-#    # XXX This makes absolutely no difference to results, need to work out why.
-#    # It DOES SLOW IT DOWN THOUGH +5to10% time, so commented out.
-#    rule_mask=np.ones(rule_lower_corners.shape[0],dtype=np.bool)
-#    found_one=False
-#    for r in np.arange(rule_lower_corners.shape[0]):
-#        if np.all(rule_lower_corners[r,:]==RULE_LOWER_CONST
-#            ) and np.all(rule_upper_corners[r,:]==RULE_UPPER_CONST):
-#            rule_mask[r]=False
-#            found_one=True
-#    if found_one:
-#        rule_lower_corners=rule_lower_corners[rule_mask,:]
-#        rule_upper_corners=rule_upper_corners[rule_mask,:]
-#        leaf_values=leaf_values[rule_mask]
-#        print('removed ' + str(np.sum(rule_mask==False)) + ' rules')
-            
-    # filter unused features
-#    feats = np.any(np.vstack([rule_lower_corners != RULE_LOWER_CONST,
-#                              rule_upper_corners != RULE_UPPER_CONST]), axis=0)
-#    feats_idx = np.where(feats)[0]#np.arange(num_feats)#
-#    rule_upper_corners = rule_upper_corners[:, feats]
-#    rule_lower_corners = rule_lower_corners[:, feats]
-#    leaf_upper_corners = leaf_upper_corners[:, feats]
-#    leaf_lower_corners = leaf_lower_corners[:, feats]
-    # XXX eliminate this dist_feats usage, not needed or useful (too confusing)
-    feats_idx =np.arange(rule_lower_corners.shape[1],dtype=np.int64)
-    # XXX NEEDS TIDY UP: this re-allocation is needed to moves arrays from C-major to F-major. Fix the subsequent cython calls to always use C-major
-    rule_upper_corners = rule_upper_corners[:, feats_idx]
-    rule_lower_corners = rule_lower_corners[:, feats_idx]
-    leaf_upper_corners = leaf_upper_corners[:, feats_idx]
-    leaf_lower_corners = leaf_lower_corners[:, feats_idx]    
-    return [
-        leaf_ids,
-        leaf_values,
-        leaf_lower_corners,
-        leaf_upper_corners,
-        rule_upper_corners,
-        rule_lower_corners,
-        feats_idx]
-    
 
 def extract_rules_from_tree(tree, num_feats, incr_feats, decr_feats):
     """Helper to turn a tree into as set of rules
@@ -1879,7 +1341,9 @@ class RuleEnsemble(BaseEnsemble):
         X = self._validate_X_predict(X, check_input=True)
         res = np.zeros(X.shape[0]) + self.intercept_
         if self.tree is not None:
-            X_leaf_node_ids = None # no longer used self.tree.apply(X, check_input=False).astype(np.int32)
+            X_leaf_node_ids = self.tree.apply(
+                X, check_input=False).astype(
+                np.int32)
             if self.node_rule_feats_upper is not None:
                 rule_mask = apply_rules(
                         X[:, self.dist_feats],
@@ -1898,7 +1362,6 @@ class RuleEnsemble(BaseEnsemble):
                                         X_leaf_node_ids=X_leaf_node_ids,
                                         node_rule_map=self.node_rule_map)
         else:
-
             rule_mask = apply_rules(X[:, self.dist_feats],
                                     self.rule_lower_corners,
                                     self.rule_upper_corners)
@@ -2059,7 +1522,8 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                 
             X_use = X_csr if X_csr is not None else X
 
-            X_leaf_node_ids = None # no longer used under set regime tree.apply(X_use, check_input=False).astype(np.int32)
+            X_leaf_node_ids = tree.apply(X_use, check_input=False).astype(
+                np.int32)
             
             if self.mt_type=='local': # monotonicity was applied locally, this is standard GB
                 [leaf_ids,
@@ -2081,23 +1545,10 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                  leaf_upper_corners,
                  rule_upper_corners,
                  rule_lower_corners,
-                 dist_feats] = extract_rules_from_tree_cython(tree.tree_,
+                 dist_feats] = extract_rules_from_tree(tree.tree_,
                                                        X.shape[1],
                                                        self.incr_feats,
                                                        self.decr_feats)
-#                [leaf_ids2,
-#                 leaf_values2,
-#                 leaf_lower_corners2,
-#                 leaf_upper_corners2,
-#                 rule_upper_corners2,
-#                 rule_lower_corners2,
-#                 dist_feats2] = extract_rules_from_tree_cython(tree.tree_,
-#                                                       X.shape[1],
-#                                                       self.incr_feats,
-#                                                       self.decr_feats)
-#                
-            X_leaf_node_ids = None # no longer used under set regime tree.apply(X_use, check_input=False).astype(np.int32)
-            
             # build node rule map
             if len(leaf_ids) > 0:
                 if self.rule_feat_caching:
@@ -2110,14 +1561,13 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                         rule_lower_corners,
                         rule_upper_corners)
                 else:
-                    node_rule_map=None
-#                    node_rule_map = build_node_rule_map(
-#                        leaf_ids,
-#                        leaf_values,
-#                        leaf_lower_corners,
-#                        leaf_upper_corners,
-#                        rule_lower_corners,
-#                        rule_upper_corners)
+                    node_rule_map = build_node_rule_map(
+                        leaf_ids,
+                        leaf_values,
+                        leaf_lower_corners,
+                        leaf_upper_corners,
+                        rule_lower_corners,
+                        rule_upper_corners)
                     node_rule_feats_upper = None
                     node_rule_feats_lower = None
             else:
@@ -2133,27 +1583,29 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             if self.mt_type=='global':
                 
                 if node_rule_feats_upper is None:
-                    # certified version of apply_rules
+                    
                     rule_mask = apply_rules(
                         X_use[:, dist_feats],
                         rule_lower_corners,
                         rule_upper_corners,
                         X_leaf_node_ids,
                         node_rule_map)
-#                    # UTH XXX trial tree version
-#                    rule_mask2 = apply_rules_tree_sorted( #apply_rules_tree_sorted apply_rules_tree
+#                    rule_lower_corners_=np.ones([rule_lower_corners.shape[0],X.shape[1]])*RULE_LOWER_CONST
+#                    rule_lower_corners_[:,dist_feats]=rule_lower_corners
+#                    rule_upper_corners_=np.ones([rule_lower_corners.shape[0],X.shape[1]])*RULE_UPPER_CONST
+#                    rule_upper_corners_[:,dist_feats]=rule_upper_corners
+#                    rule_mask = apply_rules_tree(
 #                        X_use,
-#                        rule_lower_corners,
-#                        rule_upper_corners,
-#                        tree)    
-#
-##
+#                        rule_lower_corners_,
+#                        rule_upper_corners_,
+#                        X_leaf_node_ids,
+#                        leaf_ids,
+#                        tree.tree_)
 #                    gg=np.sum(rule_mask!=rule_mask2)
-#                    print('really: ' + str(gg))
+#                    print(gg)
 
                 else:
-                    X_leaf_node_ids = tree.apply(X_use, check_input=False).astype(np.int32)
-            
+
                     rule_mask = apply_rules(
                         X_use[:, dist_feats],
                         rule_lower_corners,
@@ -2189,7 +1641,6 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                                                   intercept_,
                                                   node_rule_feats_upper,
                                                   node_rule_feats_lower)
-            
         return y_pred
 
     def _check_params(self):
@@ -3438,20 +2889,9 @@ def _logistic_loss(
     if sample_weight is None:
         sample_weight = np.ones(y.shape[0])
 
-    
-#    out = -np.sum(sample_weight * log_logistic(yz + y * offset)) + .5 * \
-#        alpha * (np.dot(w, w) + intercept**2)  # (1/X.shape[0])*
-#    
-#    return out
-    #X_=yz + y * offset#np.atleast_2d(yz + y * offset)
-    n_samples=len(y)
-    
-    out = -np.sum(sample_weight * _log_logistic_sigmoid(n_samples,  yz + y * offset)) + .5 * \
-        alpha * (np.dot(w, w) + intercept**2)
-    
-   
-    
-
+    # Logistic loss is the negative of the log of the logistic function.
+    out = -np.sum(sample_weight * log_logistic(yz + y * offset)) + .5 * \
+        alpha * (np.dot(w, w) + intercept**2)  # (1/X.shape[0])*
     return out
 
 
@@ -3477,20 +2917,12 @@ def _intercept_dot(w, X, y):
         y * np.dot(X, w).
     """
     c = 0.
-    if w.size == X.shape[1] + 1: # has intercept
+    if w.size == X.shape[1] + 1:
         c = w[-1]
         w = w[:-1]
-        #z = safe_sparse_dot(X, w[:-1]) + c
-        #yz = y * z
-        #return w[:-1], c, yz
-    #else:
+
     z = safe_sparse_dot(X, w) + c
     yz = y * z
-    #return w, c, yz
-#    yz =(safe_sparse_dot(X, w) + c)*y
-    #z= _custom_dot(X, w) +c
-    #yz=_custom_dot_multiply(X, w,y,c)# +c
-    
     return w, c, yz
 
 

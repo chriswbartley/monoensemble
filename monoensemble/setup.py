@@ -70,7 +70,7 @@ build_src.build_src.generate_a_pyrex_source = generate_a_pyrex_source
 def configuration(parent_package="", top_path=None):
     config = Configuration("monoensemble", parent_package, top_path)
     libraries=[]
-    config.add_extension("monoensemble._mono_gradient_boosting",
+    config.add_extension("_mono_gradient_boosting",
                          sources=["_mono_gradient_boosting.pyx"],
                          include_dirs=[numpy.get_include()],
                          extra_compile_args = ["-ffast-math"])
@@ -81,7 +81,7 @@ def configuration(parent_package="", top_path=None):
 #                         extra_compile_args=["-O3"])
     config.add_extension("_splitter_mt",
                          sources=["_splitter_mt.pyx"],
-                         include_dirs=[numpy.get_include()],
+                         include_dirs=[numpy.get_include()],#
                          libraries=libraries,
                          extra_compile_args=["-O3"])
 #    config.add_extension("_criterion",

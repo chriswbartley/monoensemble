@@ -44,8 +44,10 @@ from sklearn.tree._tree import BestFirstTreeBuilder
 from sklearn.tree._tree import Tree
 from sklearn.tree import _tree, _splitter, _criterion
 
-from _splitter_MT import BestSplitterMT
 
+from monoensemble._splitter_MT import BestSplitterMT
+#from monoensemble._splitter_MT import BestSplitterMT
+#from ._splitter_MT import _splitter_MT
 __all__ = ["DecisionTreeClassifier",
            "DecisionTreeRegressor",
            "ExtraTreeClassifier",
@@ -95,7 +97,8 @@ class BaseDecisionTree(six.with_metaclass(ABCMeta, BaseEstimator)):
                  min_impurity_decrease,
                  min_impurity_split,
                  class_weight=None,
-                 presort=False):
+                 presort=False,
+                 mt_feat_types=None):
         self.criterion = criterion
         self.splitter = splitter
         self.max_depth = max_depth
@@ -109,6 +112,14 @@ class BaseDecisionTree(six.with_metaclass(ABCMeta, BaseEstimator)):
         self.min_impurity_split = min_impurity_split
         self.class_weight = class_weight
         self.presort = presort
+        self.mt_feat_types=mt_feat_types
+        if mt_feat_types is not None:
+            self.mt_feat_types=np.asarray(self.mt_feat_types,dtype=np.int32)
+            if np.all (mt_feat_types==0):
+                self.mt_feat_types=None
+            
+                
+        
 
     def fit(self, X, y, sample_weight=None, check_input=True,
             X_idx_sorted=None):
@@ -335,18 +346,23 @@ class BaseDecisionTree(six.with_metaclass(ABCMeta, BaseEstimator)):
 
         splitter = self.splitter
         if not isinstance(self.splitter, Splitter):
-            splitter = BestSplitterMT(criterion,
+            if self.mt_feat_types is None: # standard tree
+                splitter = SPLITTERS[self.splitter](criterion,
                                                 self.max_features_,
                                                 min_samples_leaf,
                                                 min_weight_leaf,
                                                 random_state,
                                                 self.presort)
-#            splitter = SPLITTERS[self.splitter](criterion,
-#                                                self.max_features_,
-#                                                min_samples_leaf,
-#                                                min_weight_leaf,
-#                                                random_state,
-#                                                self.presort)
+            else: # monotone
+                splitter = BestSplitterMT(criterion,
+                                    self.max_features_,
+                                    min_samples_leaf,
+                                    min_weight_leaf,
+                                    random_state,
+                                    self.presort)
+                splitter.init_monotone(self.mt_feat_types)
+                if is_classification:
+                    splitter.init_classification(self.n_classes_)
 
         self.tree_ = Tree(self.n_features_, self.n_classes_, self.n_outputs_)
 
@@ -738,7 +754,8 @@ class DecisionTreeClassifier(BaseDecisionTree, ClassifierMixin):
                  min_impurity_decrease=0.,
                  min_impurity_split=None,
                  class_weight=None,
-                 presort=False):
+                 presort=False,
+                 mt_feat_types=None):
         super(DecisionTreeClassifier, self).__init__(
             criterion=criterion,
             splitter=splitter,
@@ -752,7 +769,8 @@ class DecisionTreeClassifier(BaseDecisionTree, ClassifierMixin):
             random_state=random_state,
             min_impurity_decrease=min_impurity_decrease,
             min_impurity_split=min_impurity_split,
-            presort=presort)
+            presort=presort,
+            mt_feat_types=mt_feat_types)
 
     def fit(self, X, y, sample_weight=None, check_input=True,
             X_idx_sorted=None):
@@ -1074,7 +1092,8 @@ class DecisionTreeRegressor(BaseDecisionTree, RegressorMixin):
                  max_leaf_nodes=None,
                  min_impurity_decrease=0.,
                  min_impurity_split=None,
-                 presort=False):
+                 presort=False,
+                 mt_feat_types=None):
         super(DecisionTreeRegressor, self).__init__(
             criterion=criterion,
             splitter=splitter,
@@ -1087,7 +1106,8 @@ class DecisionTreeRegressor(BaseDecisionTree, RegressorMixin):
             random_state=random_state,
             min_impurity_decrease=min_impurity_decrease,
             min_impurity_split=min_impurity_split,
-            presort=presort)
+            presort=presort,
+            mt_feat_types=mt_feat_types)
 
     def fit(self, X, y, sample_weight=None, check_input=True,
             X_idx_sorted=None):
@@ -1295,7 +1315,8 @@ class ExtraTreeClassifier(DecisionTreeClassifier):
                  max_leaf_nodes=None,
                  min_impurity_decrease=0.,
                  min_impurity_split=None,
-                 class_weight=None):
+                 class_weight=None,
+                 mt_feat_types=None):
         super(ExtraTreeClassifier, self).__init__(
             criterion=criterion,
             splitter=splitter,
@@ -1308,7 +1329,8 @@ class ExtraTreeClassifier(DecisionTreeClassifier):
             class_weight=class_weight,
             min_impurity_decrease=min_impurity_decrease,
             min_impurity_split=min_impurity_split,
-            random_state=random_state)
+            random_state=random_state,
+            mt_feat_types=mt_feat_types)
 
 
 class ExtraTreeRegressor(DecisionTreeRegressor):
@@ -1457,7 +1479,8 @@ class ExtraTreeRegressor(DecisionTreeRegressor):
                  random_state=None,
                  min_impurity_decrease=0.,
                  min_impurity_split=None,
-                 max_leaf_nodes=None):
+                 max_leaf_nodes=None,
+                 mt_feat_types=None):
         super(ExtraTreeRegressor, self).__init__(
             criterion=criterion,
             splitter=splitter,
@@ -1469,4 +1492,5 @@ class ExtraTreeRegressor(DecisionTreeRegressor):
             max_leaf_nodes=max_leaf_nodes,
             min_impurity_decrease=min_impurity_decrease,
             min_impurity_split=min_impurity_split,
-            random_state=random_state)
+            random_state=random_state,
+            mt_feat_types=mt_feat_types)

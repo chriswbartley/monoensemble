@@ -1,20 +1,15 @@
-﻿#cython: boundscheck=False
-#cython: cdivision=True
-#cython: wraparound=False
-#cython: nonecheck=False
-# Author: Chris Bartley
+﻿# cython: cdivision=True, boundscheck=False, wraparound=False, nonecheck=False
+# Author: Peter Prettenhofer
 #
 # License: BSD 3 clause
 
-# NOTE: for some strange reason all the arrays coming from numpy are order='F'
-# (Fortran) COLUMN major rather than row major. I've gone with it.
 cimport cython
 
 from libc.stdlib cimport free
 from libc.string cimport memset
 from libcpp cimport bool
-#from libc.math cimport exp
-#from libc.math cimport log
+from libc.math cimport exp
+from libc.math cimport log
 import numpy as np
 cimport numpy as np
 np.import_array()
@@ -45,117 +40,12 @@ from numpy import ones as np_ones
 from numpy import bool as np_bool
 from numpy import float32 as np_float32
 from numpy import float64 as np_float64
-from libc.math cimport log, exp
+
 
 # constant to mark tree leafs
 cdef SIZE_t TREE_LEAF = -1
 cdef float64 RULE_LOWER_CONST=-1e9
 cdef float64 RULE_UPPER_CONST=1e9
-cdef int32 MIN_NODE_SIZE_FOR_SORTING_=5
-
-
-
-
-
-#ctypedef np.float64_t DTYPE_t
-
-cdef _log_logistic_sigmoid_(int32 n_samples, 
-                            float64 *X,
-                            float64 * out):
-    cdef int32 i=0
-    
-    for i in range(n_samples):
-        if X[i]>0.:
-            out[i]=-log(1.+exp(-X[i]))
-        else:
-            out[i]=X[i]-log(1.+exp(X[i]))
-    return
-#cdef DOUBLE_t _inner_log_logistic_sigmoid(DOUBLE_t x):
-#    """Log of the logistic sigmoid function log(1 / (1 + e ** -x))"""
-#    if x > 0:
-#        return -np.log1p(exp(-x))
-#    else:
-#        return x - np.log1p(exp(x))
-
-
-def _log_logistic_sigmoid(int32 n_samples,  
-                           np.ndarray[DOUBLE_t, ndim=1] X):
-#    for i in range(n_samples):
-#        for j in range(n_features):
-#            out[i, j] = _inner_log_logistic_sigmoid(X[i, j])
-    out=np.empty_like(X)
-    _log_logistic_sigmoid_( n_samples, 
-                            <float64*> (<np.ndarray> X).data  ,
-                            <float64*> (<np.ndarray> out).data  
-                            )
-    return out
-
-cdef _custom_dot_(float64 *X,
-                  float64 *w,
-                  int32 n_rows, 
-                  int32 n_cols, 
-                  float64 *out):
-    cdef int32 i=0
-    cdef int32 j=0
-    cdef float64 ttl=0.
-    for i in range(n_rows):
-        ttl=0.
-        for j in range(n_cols):
-            ttl=ttl+X[i*n_cols+j]*w[j]
-        out[i]=ttl
-    return
-
-def _custom_dot(np.ndarray[float64, ndim=2] X,
-                np.ndarray[float64, ndim=1] w):
-#    for i in range(n_samples):
-#        for j in range(n_features):
-#            out[i, j] = _inner_log_logistic_sigmoid(X[i, j])
-    out=np.zeros(X.shape[0],dtype=np.float64)
-    _custom_dot_(
-                            <float64*> (<np.ndarray> X).data  ,
-                            <float64*> (<np.ndarray> w).data  ,
-                            X.shape[0],
-                            X.shape[1],
-                            <float64*> (<np.ndarray> out).data  
-                            )
-    return out
-
-cdef _custom_dot_multiply_(float64 *X,
-                  float64 *w,
-                  float64 *y,
-                  float64 c,
-                  int32 n_rows, 
-                  int32 n_cols, 
-                  float64 *out):
-    cdef int32 i=0
-    cdef int32 j=0
-    cdef float64 ttl=0.
-    for i in range(n_rows):
-        ttl=0.
-        for j in range(n_cols):
-            ttl=ttl+X[i*n_cols+j]*w[j]
-        out[i]=y[i]*(ttl+c)
-    return
-
-def _custom_dot_multiply(np.ndarray[float64, ndim=2] X,
-                np.ndarray[float64, ndim=1] w,
-                np.ndarray[float64, ndim=1] y,
-                float64 c):
-#    for i in range(n_samples):
-#        for j in range(n_features):
-#            out[i, j] = _inner_log_logistic_sigmoid(X[i, j])
-    out=np.zeros(X.shape[0],dtype=np.float64)
-    _custom_dot_multiply_(
-                            <float64*> (<np.ndarray> X).data  ,
-                            <float64*> (<np.ndarray> w).data  ,
-                            <float64*> (<np.ndarray> y).data  ,
-                            c,
-                            X.shape[0],
-                            X.shape[1],
-                            <float64*> (<np.ndarray> out).data  
-                            )
-    return out
-
 
 #cdef void _predict_regression_tree_inplace_fast_dense(DTYPE_t *X,
 #                                                      Node* root_node,
@@ -364,7 +254,7 @@ cdef void _apply_rules_with_map_sparse(float64 *X,
             else:
                 cont=1 if node_rule_map[leaf_id * n_rules +i_r]!=-99 else 0
 
-cdef int32 _search_sorted(float64 *arr, int32 arr_start_idx,int32 arr_len,int32 stride, float64 val):
+cdef int32 _search_sorted(float64 *arr, int32 arr_len, float64 val):
     cdef int32 first
     cdef int32 last 
     cdef int32 found
@@ -377,99 +267,22 @@ cdef int32 _search_sorted(float64 *arr, int32 arr_start_idx,int32 arr_len,int32 
     while first<=last and  found !=1:
         midpoint = (first + last)//2
         if midpoint<(arr_len-1) :
-            if arr[arr_start_idx+midpoint*stride] <= val and arr[arr_start_idx+(midpoint+1)*stride] > val:
+            if arr[midpoint] <= val and arr[midpoint+1] > val:
                 found=1
         else: # midpt at the end
-            if arr[arr_start_idx+midpoint*stride] <= val:
+            if arr[midpoint] <= val:
                 found=1
         # otherwise move mid point
-        if val < arr[arr_start_idx+midpoint*stride]:
+        if val < arr[midpoint]:
             last = midpoint-1
         else:
             first = midpoint+1
             
     return midpoint+1
-
-@cython.boundscheck(False)       
-cdef void _update_sorted_datapoint_posns(
-                           float64 *sorted_feats,
-                          int32 *sorted_indxs,
-                          int32 *sorted_datapoint_posns,
-                          int32 n_samples,
-                          int32 n_features):
-    cdef int32 i
-    cdef int32 k
-    cdef int32 j
-    for j in range(n_features):
-        i=0
-        for k in range(n_samples):
-            sorted_datapoint_posns[sorted_indxs[k+j*n_samples]+j*n_samples]=i
-            i=i+1 
-
-@cython.boundscheck(False) 
-cdef _traverse_node_c(int32 node_id,
-                    int32 num_feats,
-                       int32 *children_left,
-                       int32 *children_right,
-                       int32 *features,
-                       float64 *thresholds, 
-                       int32 *out_leaf_ids,
-                       float64 *out_rule_upper_corners,
-                       float64 *out_rule_lower_corners):
-    cdef int32 feature
-    cdef float64 threshold
-    cdef int32 left_node_id
-    cdef int32 right_node_id
-    cdef int32 j
-    # recurse on children 
-    if children_left[node_id] != -1: #TREE_LEAF:
-        feature = features[node_id]
-        threshold = thresholds[node_id]
-        left_node_id = children_left[node_id]
-        right_node_id = children_right[node_id]
-        # update limit arrays
-        for j in range(num_feats):
-            out_rule_upper_corners[left_node_id*num_feats+j] = out_rule_upper_corners[node_id*num_feats+j]
-            out_rule_lower_corners[left_node_id*num_feats+j] = out_rule_lower_corners[node_id*num_feats+j]
-            out_rule_upper_corners[ right_node_id*num_feats+j] = out_rule_upper_corners[node_id*num_feats+j]
-            out_rule_lower_corners[right_node_id*num_feats+j] = out_rule_lower_corners[node_id*num_feats+j]
-        out_rule_upper_corners[left_node_id*num_feats+feature] = threshold
-        out_rule_lower_corners[right_node_id*num_feats+feature] = threshold
-        # recurse
-        _traverse_node_c(left_node_id, num_feats,
-                       children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)  # "<="
-        _traverse_node_c(right_node_id,num_feats,
-                       children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)  # ">"
-    else:  # a leaf node
-        out_leaf_ids[node_id] = node_id
-        if node_id == 0:# the base node (0) is the only node!
-            pass
-            #print('Warning: Tree only has one node! (i.e. the root node)')
-
-def extract_rules_from_tree_c(np.ndarray[int32, ndim=1] children_left,
-                              np.ndarray[int32, ndim=1] children_right,
-                              np.ndarray[int32, ndim=1] features,
-                              np.ndarray[float64, ndim=1] thresholds, 
-                              int32 num_feats, 
-                              np.ndarray[int32, ndim=1] out_leaf_ids,
-                              np.ndarray[float64, ndim=2] out_rule_upper_corners,
-                              np.ndarray[float64, ndim=2] out_rule_lower_corners):
-    _traverse_node_c(np.int32(0),
-                     num_feats,
-                     <int32*> (<np.ndarray> children_left).data ,
-                     <int32*> (<np.ndarray> children_right).data ,
-                     <int32*> (<np.ndarray> features).data ,
-                     <float64*> (<np.ndarray> thresholds).data,
-                     <int32*> (<np.ndarray> out_leaf_ids).data ,
-                     <float64*> (<np.ndarray> out_rule_upper_corners).data,
-                     <float64*> (<np.ndarray> out_rule_lower_corners).data
-                     )
-  
             
-@cython.boundscheck(False)       
 cdef void _apply_rules_set_based(float64 *X,
-                       float64 *rule_lower_corners,
-                           float64 *rule_upper_corners,
+                       object rule_lower_corners,
+                           object rule_upper_corners,
                            float64 *sorted_feats,
                           int32 *sorted_indxs,
                           int32 *sorted_datapoint_posns,
@@ -479,12 +292,12 @@ cdef void _apply_rules_set_based(float64 *X,
                           int32 *out):
     """   """
     #DTYPE_t 
-#    cdef float64* lower_data = <float64*>(<np.ndarray> rule_lower_corners.data).data
-#    cdef INT32_t* lower_indices = <INT32_t*>(<np.ndarray> rule_lower_corners.indices).data
-#    cdef INT32_t* lower_indptr = <INT32_t*>(<np.ndarray> rule_lower_corners.indptr).data
-#    cdef float64* upper_data = <float64*>(<np.ndarray> rule_upper_corners.data).data
-#    cdef INT32_t* upper_indices = <INT32_t*>(<np.ndarray> rule_upper_corners.indices).data
-#    cdef INT32_t* upper_indptr = <INT32_t*>(<np.ndarray> rule_upper_corners.indptr).data
+    cdef float64* lower_data = <float64*>(<np.ndarray> rule_lower_corners.data).data
+    cdef INT32_t* lower_indices = <INT32_t*>(<np.ndarray> rule_lower_corners.indices).data
+    cdef INT32_t* lower_indptr = <INT32_t*>(<np.ndarray> rule_lower_corners.indptr).data
+    cdef float64* upper_data = <float64*>(<np.ndarray> rule_upper_corners.data).data
+    cdef INT32_t* upper_indices = <INT32_t*>(<np.ndarray> rule_upper_corners.indices).data
+    cdef INT32_t* upper_indptr = <INT32_t*>(<np.ndarray> rule_upper_corners.indptr).data
     cdef int32 res
     cdef int32 rule_start
     cdef int32 rule_end
@@ -497,28 +310,26 @@ cdef void _apply_rules_set_based(float64 *X,
     cdef int32 insert_pos
     cdef int32 dirn
     cdef np.ndarray[np.int32_t, ndim=1] viable_set = np.empty(n_samples, dtype=np.int32)
-    cdef np.ndarray[np.int32_t, ndim=1] feat_sets=np.zeros([n_features*2*4],dtype=np.int32)
-        
     #cdef int32 viable_set[n_samples]
     cdef int32 viable_set_size
     cdef int32 viable_set_size_this
     cdef int32 i_viable
     cdef int32 min_viable_size
     cdef int32  min_viable_index
-    
     # apply each rule
     for r in range(n_rules):
+        feat_sets=np.zeros([n_features*2,4],dtype=np.int32)
         i_f=0
         for j in range(n_features): #np.arange(X.shape[1],dtype=np.int32):
-            if rule_lower_corners[j * n_rules + r]!=RULE_LOWER_CONST: #j + n_features * r
-                insert_pos=_search_sorted(sorted_feats,j*n_samples, n_samples,1,rule_lower_corners[j * n_rules + r]) #, side='right'
+            if rule_lower_corners[j * n_rules + r]!=RULE_LOWER_CONST:
+                insert_pos=_search_sorted(sorted_feats[j*n_samples+0], n_samples,rule_lower_corners[j * n_rules + r]) #, side='right'
                 feat_sets[0*2*n_features+ i_f]=j#[j,-1,insert_pos,n_samples-insert_pos]
                 feat_sets[1*2*n_features+ i_f]=-1
                 feat_sets[2*2*n_features+ i_f]=insert_pos
                 feat_sets[3*2*n_features+ i_f]=n_samples-insert_pos
                 i_f=i_f+1
-            if rule_upper_corners[j * n_rules + r]!=RULE_UPPER_CONST: 
-                insert_pos=_search_sorted(sorted_feats,j*n_samples, n_samples,1,rule_upper_corners[j * n_rules + r])
+            if rule_upper_corners[j * n_rules + r]!=RULE_UPPER_CONST:
+                insert_pos=_search_sorted(sorted_feats[j*n_samples+0], n_samples,rule_upper_corners[j * n_rules + r])
                 #feat_sets[i_f,:]=[j,1,insert_pos,insert_pos]
                 feat_sets[0*2*n_features+ i_f]=j#[j,-1,insert_pos,n_samples-insert_pos]
                 feat_sets[1*2*n_features+ i_f]=1
@@ -527,12 +338,12 @@ cdef void _apply_rules_set_based(float64 *X,
                 i_f=i_f+1
         if i_f==0:
             for i in range(n_samples):
-                out[r +  i*n_rules]=1 #i * n_rules + r
+                out[i * n_rules + r]=1
             #viable_pts=np.arange(n_samples,dtype=np.int32)
         else:
             #feat_sets=feat_sets[0:i_f,:]
             #feat_sets=feat_sets[feat_sets[:,3].argsort(),:]
-            min_viable_size=100000
+            min_viable_size=1e6
             min_viable_index=-1
             for i_ff in range(i_f):
                 if feat_sets[3*2*n_features+ i_ff]<min_viable_size:
@@ -543,347 +354,44 @@ cdef void _apply_rules_set_based(float64 *X,
             insert_pos=feat_sets[2*2*n_features+ i_ff]
             dirn=feat_sets[1*2*n_features+ i_ff]
             viable_set_size=feat_sets[3*2*n_features+ i_ff]
-            if viable_set_size>0:
-                if dirn==-1:
-                    for i in range(viable_set_size):
-                        viable_set[i]=sorted_indxs[j*n_samples + (insert_pos+i)  ] #(i+insert_pos)*n_features + j 
-                    #viable_pts=sorted_indxs[insert_pos:,j]
-                else:
-                    for i in range(viable_set_size):
-                        viable_set[i]=sorted_indxs[j*n_samples + (i) ] #i*n_features + j
-                    #viable_pts=sorted_indxs[0:insert_pos,j]
-                    
-                for i_ff in range(0,i_f):
-                    if i_ff !=min_viable_index  and viable_set_size>0:
-                        j=feat_sets[0*2*n_features+ i_ff]
-                        insert_pos=feat_sets[2*2*n_features+ i_ff]
-                        dirn=feat_sets[1*2*n_features+ i_ff]
-                        viable_set_size_this=feat_sets[3*2*n_features+ i_ff]
-                        if dirn==-1:
-                            i_viable=0
-                            for i in range(viable_set_size):
-                                if  sorted_datapoint_posns[viable_set[i] + j*n_samples]>=insert_pos: # viable_set[i]*n_features + j 
-                                    viable_set[i_viable]=viable_set[i]
-                                    i_viable=i_viable+1
-                            viable_set_size=i_viable
-                            #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]>=insert_pos]
-                        else:
-                            i_viable=0
-                            for i in range(viable_set_size):
-                                if  sorted_datapoint_posns[viable_set[i] + j*n_samples ]<insert_pos: # viable_set[i] + j*n_samples
-                                    viable_set[i_viable]=viable_set[i]
-                                    i_viable=i_viable+1
-                            viable_set_size=i_viable
-                            #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]<insert_pos]
             
-                if viable_set_size>0:
-                    for i in range(viable_set_size) :
-                        out[viable_set[i]*n_rules + r]=1 #viable_set[i] + n_samples * r
-                    
-cdef _traverse_node_with_rule_sorted_c(int32 node_id,
-                       int32 num_feats,
-                       int32 num_rules,
-                       int32 num_samples,
-                       int32 *children_left,
-                       int32 *children_right,
-                       int32 *features,
-                       float64 *thresholds, 
-                       int32 *node_members,
-                       int32 *node_members_count,
-                       int32 *node_members_start,
-                       int32 rule_id,
-                       float64 *rule_upper_corners,
-                       float64 *rule_lower_corners,
-                       int32 *rule_upper_feats_engaged,
-                       int32 rule_upper_feats_engaged_count,
-                       int32 *rule_lower_feats_engaged,
-                       int32 rule_lower_feats_engaged_count,
-                       float64 *X,
-                       float64 *X_by_node_sorted,
-                       int32 *X_by_node_sorted_idx,
-                       int32 *X_by_node_sorted_idx_posns, 
-                       int32 *out_rule_mask):
-    cdef int32 feature
-    cdef float64 threshold
-    cdef int32 left_node_id
-    cdef int32 right_node_id
-    cdef int32 n_samples_in_node
-    cdef Py_ssize_t i
-    cdef Py_ssize_t j
-    cdef Py_ssize_t r
-    cdef int32 j_
-    cdef int32 j_test
-    cdef int32 i_f
-    cdef int32 i_ff
-    cdef int32 insert_pos
-    cdef int32 dirn
-    cdef int32 num_pts
-    cdef np.ndarray[np.int32_t, ndim=1] viable_set # = np.empty(n_samples, dtype=np.int32)
-    cdef np.ndarray[np.int32_t, ndim=1] feat_sets #=np.zeros([n_features*2*4],dtype=np.int32)
-    
-#    cdef np.ndarray[float64, ndim=1] rule_lower_corners1
-#    cdef np.ndarray[float64, ndim=1] rule_upper_corners1
-#    cdef np.ndarray[float64, ndim=1] rule_lower_corners2
-#    cdef np.ndarray[float64, ndim=1] rule_upper_corners2
-    cdef float64 rule_lower_corners1[200]# num_feats
-    cdef float64 rule_upper_corners1[200]# num_feats
-    #cdef int32 rule_upper_changed
-    cdef float64 lower_bound=0.
-    cdef float64 upper_bound=0.
-    #cdef int32 viable_set[n_samples]
-    cdef int32 viable_set_size
-    cdef int32 viable_set_size_this
-    cdef int32 i_viable
-    cdef int32 min_viable_size
-    cdef int32  min_viable_index
-    # recurse on children 
-    if children_left[node_id] != -1:
-        feature = features[node_id]
-        threshold = thresholds[node_id]
-        left_node_id = children_left[node_id]
-        right_node_id = children_right[node_id]
-        # check if rule goes right
-        if rule_upper_corners[feature]>threshold:
-            for j in range(num_feats):
-                rule_upper_corners1[j]=rule_upper_corners[j]
-                rule_lower_corners1[j]=rule_lower_corners[j]
-            #rule_upper_changed=0
-            if rule_lower_corners1[feature]<=threshold: # rule lower bound no longer needed
-                rule_lower_corners1[feature]=RULE_LOWER_CONST
-                rule_upper_changed=1
-            _traverse_node_with_rule_sorted_c(right_node_id, num_feats,num_rules,num_samples,
-                   children_left,children_right,features,thresholds, node_members,node_members_count,node_members_start,rule_id,
-                   rule_upper_corners1,
-                   rule_lower_corners1,
-                   rule_upper_feats_engaged,
-                   rule_upper_feats_engaged_count,
-                   rule_lower_feats_engaged,
-                   rule_lower_feats_engaged_count,
-                   X,
-                   X_by_node_sorted,
-                   X_by_node_sorted_idx,
-                   X_by_node_sorted_idx_posns,
-                   out_rule_mask)  
-        # check if rule goes left
-        if rule_lower_corners[feature]<threshold:
-
-            for j in range(num_feats):
-                rule_upper_corners1[j]=rule_upper_corners[j]
-                rule_lower_corners1[j]=rule_lower_corners[j]
-            if rule_upper_corners1[feature]>=threshold: # rule lower bound no longer needed
-                rule_upper_corners1[feature]=RULE_UPPER_CONST
-            _traverse_node_with_rule_sorted_c(left_node_id, num_feats,num_rules,num_samples,
-                   children_left,children_right,features,thresholds, node_members,node_members_count,node_members_start,rule_id,
-                   rule_upper_corners1,
-                   rule_lower_corners1,
-                   rule_upper_feats_engaged,
-                   rule_upper_feats_engaged_count,
-                   rule_lower_feats_engaged,
-                   rule_lower_feats_engaged_count,
-                   X,
-                   X_by_node_sorted,
-                   X_by_node_sorted_idx,
-                   X_by_node_sorted_idx_posns,
-                   out_rule_mask)  
-#                       children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)  # ">"
-    else:  # a leaf node - check remaining rule
-        #if rule_id==0 and node_id==4:
-        #    print('erher')
-        
-        
-        n_samples_in_node=node_members_count[node_id]
-        if n_samples_in_node>=MIN_NODE_SIZE_FOR_SORTING_:
-            # SORTED FEATURE WAY OF DOING IT - 
-            viable_set = np.empty(n_samples_in_node, dtype=np.int32)
-            feat_sets=np.zeros([num_feats*2*4],dtype=np.int32)
-            # apply each feature limit and store set descriptors
-            i_f=0
-            for j_ in range(rule_lower_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
-                j=rule_lower_feats_engaged[j_]
-#            for j in np.arange(num_feats):
-                if rule_lower_corners[j ]!=RULE_LOWER_CONST: #j + n_features * r
-                    #insert_pos=np.searchsorted(X_by_node_sorted[node_members_start[node_id]:node_members_start[node_id]+node_members_count[node_id],j],rule_lower_corners[j ],side='right') #, side='right'
-                    insert_pos=_search_sorted(X_by_node_sorted,node_members_start[node_id]*num_feats, node_members_count[node_id],num_feats,rule_lower_corners[j ]) #, side='right'
-                    feat_sets[0*2*num_feats+ i_f]=j#[j,-1,insert_pos,n_samples-insert_pos]
-                    feat_sets[1*2*num_feats+ i_f]=-1
-                    feat_sets[2*2*num_feats+ i_f]=insert_pos
-                    feat_sets[3*2*num_feats+ i_f]=node_members_count[node_id]-insert_pos
-                    i_f=i_f+1
-            for j_ in range(rule_upper_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
-                j=rule_upper_feats_engaged[j_]
-                if rule_upper_corners[j ]!=RULE_UPPER_CONST: 
-                    #insert_pos=np.searchsorted(X_by_node_sorted[node_members_start[node_id]:node_members_start[node_id]+node_members_count[node_id],j],rule_upper_corners[j ],side='right') #, side='right'
-                    insert_pos=_search_sorted(X_by_node_sorted,node_members_start[node_id]*num_feats, node_members_count[node_id],num_feats,rule_upper_corners[j ]) #, side='right'
-                    #insert_pos=_search_sorted(sorted_feats,j*n_samples, n_samples,1,rule_upper_corners[j * n_rules + r])
-                    #feat_sets[i_f,:]=[j,1,insert_pos,insert_pos]
-                    feat_sets[0*2*num_feats+ i_f]=j#[j,-1,insert_pos,n_samples-insert_pos]
-                    feat_sets[1*2*num_feats+ i_f]=+1
-                    feat_sets[2*2*num_feats+ i_f]=insert_pos
-                    feat_sets[3*2*num_feats+ i_f]=insert_pos
-                    i_f=i_f+1
-            
-            if i_f==0: # if no rules found, add all node members (shortcut exit)
-                for i in range(n_samples_in_node) :
-                    out_rule_mask[node_members[node_id*num_samples+i]*num_rules + rule_id]=1 
-            else: # check for intersections:
-                # intersect sets to build viable set
-                min_viable_size=100000
-                min_viable_index=-1
-                min_viable_feat=-1
-                for i_ff in range(i_f):
-                    if feat_sets[3*2*num_feats+ i_ff]<min_viable_size:
-                        min_viable_size=feat_sets[3*2*num_feats+ i_ff]
-                        min_viable_index=i_ff
-                        min_viable_feat=feat_sets[0*2*num_feats+ i_ff]
-                i_ff=min_viable_index # start with minimum because the size of the first set is an upper bound on complexity for all subsequent interscetion operations
-                j=feat_sets[0*2*num_feats+ i_ff]
-                insert_pos=feat_sets[2*2*num_feats+ i_ff]
-                dirn=feat_sets[1*2*num_feats+ i_ff]
-                viable_set_size=feat_sets[3*2*num_feats+ i_ff]
-                if viable_set_size>0:
-                    if dirn==-1:
-                        for i in range(viable_set_size):
-                            viable_set[i]=X_by_node_sorted_idx[(node_members_start[node_id]+insert_pos+i)*num_feats+min_viable_feat ]#j*n_samples + (insert_pos+i)  ] #(i+insert_pos)*n_features + j 
-                        #viable_pts=sorted_indxs[insert_pos:,j]
-                    else:
-                        for i in range(viable_set_size):
-                            viable_set[i]=X_by_node_sorted_idx[(node_members_start[node_id]+i)*num_feats+min_viable_feat ]#j*n_samples + (i) ] #i*n_features + j
-                        #viable_pts=sorted_indxs[0:insert_pos,j]
-                        
-                    for i_ff in range(0,i_f):
-                        if i_ff !=min_viable_index and viable_set_size>0:
-                            j=feat_sets[0*2*num_feats+ i_ff]
-                            insert_pos=feat_sets[2*2*num_feats+ i_ff]
-                            dirn=feat_sets[1*2*num_feats+ i_ff]
-                            viable_set_size_this=feat_sets[3*2*num_feats+ i_ff]
-                            if dirn==-1:
-                                i_viable=0
-                                for i in range(viable_set_size):
-                                    if  X_by_node_sorted_idx_posns[viable_set[i]*num_feats+j]-node_members_start[node_id]>=insert_pos: # + j*n_samples]>=insert_pos: # viable_set[i]*n_features + j 
-                                        viable_set[i_viable]=viable_set[i]
-                                        i_viable=i_viable+1
-                                viable_set_size=i_viable
-                                #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]>=insert_pos]
-                            else:
-                                i_viable=0
-                                for i in range(viable_set_size):
-                                    if  X_by_node_sorted_idx_posns[viable_set[i]*num_feats+j]-node_members_start[node_id]<insert_pos: #+ j*n_samples ]<insert_pos: # viable_set[i] + j*n_samples
-                                        viable_set[i_viable]=viable_set[i]
-                                        i_viable=i_viable+1
-                                viable_set_size=i_viable
-                                #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]<insert_pos]
+            if dirn==-1:
+                for i in range(viable_set_size):
+                    viable_set[i]=sorted_indxs[j*n_samples + (insert_pos+i) ]
+                #viable_pts=sorted_indxs[insert_pos:,j]
+            else:
+                for i in range(viable_set_size):
+                    viable_set[i]=sorted_indxs[j*n_samples + (i) ]
+                #viable_pts=sorted_indxs[0:insert_pos,j]
                 
-                if viable_set_size>0:
-                    for i in range(viable_set_size) :
-                        out_rule_mask[viable_set[i]*num_rules+ rule_id]=1 #viable_set[i]*n_rules + r]=1
-        else:
-            # BASIC WAY OF CALCULATING
-            num_pts=node_members_count[node_id]
-            for i in range(num_pts):
-                out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]=1
-            #for j in np.arange(num_feats):
-            for j_ in range(rule_lower_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
-                j=rule_lower_feats_engaged[j_]
-                lower_bound=rule_lower_corners[j]
-                if lower_bound!=RULE_LOWER_CONST:
-                    for i in range(num_pts):
-                        #if out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]!=2:
-                        if X[node_members[node_id*num_samples+i]*num_feats+j]<=lower_bound:
-                            out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]=0
-            for j_ in range(rule_upper_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
-                j=rule_upper_feats_engaged[j_]
-                upper_bound=rule_upper_corners[j]
-                if upper_bound!=RULE_UPPER_CONST:
-                    for i in range(num_pts):
-                        #if out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]!=2:
-                        if X[node_members[node_id*num_samples+i]*num_feats+j]>upper_bound:
-                            out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]=0
-#            for i in range(num_pts):
-#                if out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]==2:
-#                    out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]=0
-#                else:
-#                    out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]=1
+            for i_ff in range(0,i_f):
+                if i_ff !=min_viable_index:
+                    j=feat_sets[0*2*n_features+ i_ff]
+                    insert_pos=feat_sets[2*2*n_features+ i_ff]
+                    dirn=feat_sets[1*2*n_features+ i_ff]
+                    viable_set_size_this=feat_sets[3*2*n_features+ i_ff]
+                    if dirn==-1:
+                        i_viable=0
+                        for i in range(viable_set_size):
+                            if  sorted_datapoint_posns[viable_set[i] + j*n_samples ]>=insert_pos:
+                                viable_set[i_viable]=viable_set[i]
+                                i_viable=i_viable+1
+                        viable_set_size=i_viable
+                        #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]>=insert_pos]
+                    else:
+                        i_viable=0
+                        for i in range(viable_set_size):
+                            if  sorted_datapoint_posns[viable_set[i] + j*n_samples ]<insert_pos:
+                                viable_set[i_viable]=viable_set[i]
+                                i_viable=i_viable+1
+                        viable_set_size=i_viable
+                        #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]<insert_pos]
+        
+            if viable_set_size>0:
+                for i in range(viable_set_size) :
+                    out[viable_pts[i] * n_rules + r]=1
+                    
 
-#        # TEST
-#        #if viable_set_size>0:
-#        viable_set=list(viable_set[0:viable_set_size])
-#        for kk in np.arange(num_pts):
-#            node_test=node_members[node_id,kk]
-#            if out_rule_mask[node_test,rule_id]==1:
-#                if node_test not in viable_set:
-#                    print ('err')
-#            else:
-#                if node_test  in viable_set:
-#                    print('err')
-
-def apply_rules_from_tree_sorted_c(np.ndarray[float64, ndim=2] X,
-                            np.ndarray[float64, ndim=2] X_by_node_sorted,
-                            np.ndarray[int32, ndim=2] X_by_node_sorted_idx,
-                            np.ndarray[int32, ndim=2] X_by_node_sorted_idx_posns,
-                            np.ndarray[int32, ndim=1] children_left,
-                            np.ndarray[int32, ndim=1] children_right,
-                            np.ndarray[int32, ndim=1] features,
-                            np.ndarray[float64, ndim=1] thresholds,
-                            np.ndarray[int32, ndim=2] node_members,
-                            np.ndarray[int32, ndim=1] node_members_count, 
-                            np.ndarray[int32, ndim=1] node_members_start, 
-                            int32 num_feats,
-                            np.ndarray[float64, ndim=2] rule_upper_corners,
-                            np.ndarray[float64, ndim=2] rule_lower_corners,
-                            np.ndarray[int32, ndim=2] out_rule_mask):
-    
-    #traverse_node_c(0,num_feats,children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)
-    cdef np.ndarray[int32, ndim=1] rule_upper_feats_engaged = np.zeros([num_feats],dtype=np.int32,order='C')
-    cdef np.ndarray[int32, ndim=1] rule_lower_feats_engaged = np.zeros([num_feats],dtype=np.int32,order='C')
-    cdef int32 rule_id
-    cdef int32 j
-    cdef int32 j_
-    cdef int32 upper_feats_cnt
-    cdef int32 lower_feats_cnt
-    cdef int32 num_rules =rule_upper_corners.shape[0]
-    for rule_id in range(num_rules): #np.arange(rule_upper_corners.shape[0]):
-        #rule_upper_feats_engaged[:]=-1
-        #rule_lower_feats_engaged[:]=-1
-        j_=0
-        for j in range(num_feats):
-            if rule_upper_corners[rule_id,j]!=RULE_UPPER_CONST:
-                rule_upper_feats_engaged[j_]=j
-                j_=j_+1
-        upper_feats_cnt=j_
-        j_=0
-        for j in range(num_feats):
-            if rule_lower_corners[rule_id,j]!=RULE_LOWER_CONST:
-                rule_lower_feats_engaged[j_]=j
-                j_=j_+1
-        lower_feats_cnt=j_
-        #print(rule_upper_feats_engaged)
-        #print(rule_upper_corners[rule_id,:])
-        #rule_upper_feats_engaged=np.where(rule_upper_corners[rule_id,:]!=RULE_UPPER_CONST)[0]
-        #rule_lower_feats_engaged=np.where(rule_lower_corners[rule_id,:]!=RULE_LOWER_CONST)[0]
-        _traverse_node_with_rule_sorted_c(<int32> 0,
-                       <int32> num_feats,
-                       <int32> num_rules,
-                       <int32> X.shape[0],
-                       <int32*> (<np.ndarray> children_left).data ,
-                       <int32*> (<np.ndarray> children_right).data ,
-                       <int32*> (<np.ndarray> features).data ,
-                       <float64*> (<np.ndarray> thresholds).data , 
-                       <int32*> (<np.ndarray> node_members).data ,
-                       <int32*> (<np.ndarray> node_members_count).data ,
-                       <int32*> (<np.ndarray> node_members_start).data ,
-                       <int32> rule_id,
-                       <float64*> (<np.ndarray> rule_upper_corners[rule_id,:].copy()).data ,
-                       <float64*> (<np.ndarray> rule_lower_corners[rule_id,:].copy()).data ,
-                       <int32*> (<np.ndarray> rule_upper_feats_engaged).data ,
-                       <int32> upper_feats_cnt,
-                       <int32*> (<np.ndarray> rule_lower_feats_engaged).data ,
-                       <int32> lower_feats_cnt,
-                       <float64*> (<np.ndarray> X).data ,
-                       <float64*> (<np.ndarray> X_by_node_sorted).data ,
-                       <int32*> (<np.ndarray> X_by_node_sorted_idx).data ,
-                       <int32*> (<np.ndarray> X_by_node_sorted_idx_posns).data ,
-                       <int32*> (<np.ndarray> out_rule_mask).data )
-    
 
 cdef void _apply_rules_sparse(float64 *X,
                        object rule_lower_corners,
@@ -954,7 +462,6 @@ cdef void _get_node_map_and_rules_sparse(int32 *leaf_ids,
     cdef Py_ssize_t j
     cdef Py_ssize_t r
     cdef int32 j_test
-    cdef int32 leaf_id =0
     cdef int32 r_to_add
     cdef int32 f_upper_to_add
     cdef int32 f_lower_to_add
@@ -1026,8 +533,6 @@ cdef void _get_node_map_sparse(int32 *leaf_ids,
     cdef Py_ssize_t j
     cdef Py_ssize_t r
     cdef int32 j_test
-    cdef int32 leaf_id =0
-    cdef int32 r_to_add =0
     for i in range(n_leaves):
         leaf_id=leaf_ids[i]
         out[leaf_id * n_rules +0]=i # base rule always applies
@@ -1269,37 +774,29 @@ def apply_rules_c(np.ndarray[float64, ndim=2] X,object rule_lower_corners, objec
                  <int32*> (<np.ndarray> out).data)
 
 def apply_rules_set_based_c(np.ndarray[float64, ndim=2] X,
-                np.ndarray[float64, ndim=2] sorted_feats,
-                np.ndarray[int32, ndim=2] sorted_indxs,
-                np.ndarray[int32, ndim=2] sorted_datapoint_posns,
                 object rule_lower_corners,
                 object rule_upper_corners,
                 np.ndarray[int32, ndim=2] out):
     # sort X feats
-#    cdef np.ndarray[float64, ndim=2] sorted_feats
-#    sorted_feats=np.zeros(X.shape)#,dtype=float64)
-#    cdef np.ndarray[int32, ndim=2] sorted_indxs=np.zeros(X.shape)#,dtype=int32)
-#    cdef np.ndarray[int32, ndim=2] sorted_datapoint_posns=np.zeros(X.shape)#,dtype=int32)
-#    for j in np.arange(X.shape[1]):
-#        sorted_indxs[:,j]= np.argsort(X[:,j], axis=-1, kind='quicksort')
-#        sorted_feats[:,j]=X[sorted_indxs[:,j],j]
-#        i=0
-#        for k in sorted_indxs[:,j]:
-#            sorted_datapoint_posns[k,j]=i
-#            i=i+1
+    cdef np.ndarray[np.float64_t, ndim=2, mode='c'] sorted_feats
+    sorted_feats=np.zeros(X.shape,dtype=np.float64)
+    #cdef np.ndarray[np.int_t, ndim=1] myarr = np.empty(N, dtype=np.int)
+    cdef np.ndarray[np.int32_t, ndim=2, mode='c'] sorted_indxs=np.zeros(X.shape,dtype=np.int32)
+    cdef np.ndarray[np.int32_t, ndim=2, mode='c'] sorted_datapoint_posns=np.zeros(X.shape,dtype=np.int32)
+    for j in np.arange(X.shape[1]):
+        sorted_indxs[:,j]= np.argsort(X[:,j], axis=-1, kind='quicksort')
+        sorted_feats[:,j]=X[sorted_indxs[:,j],j]
+        i=0
+        for k in sorted_indxs[:,j]:
+            sorted_datapoint_posns[k,j]=i
+            i=i+1
     if issparse(rule_lower_corners):
         pass # DENSE NOT IMPLEMENTED
 
     else:
-        _update_sorted_datapoint_posns(
-                           <float64*> (<np.ndarray> sorted_feats).data,
-                          <int32*> (<np.ndarray> sorted_indxs).data ,
-                          <int32*> (<np.ndarray> sorted_datapoint_posns).data ,
-                         X.shape[0],
-                         X.shape[1])
         _apply_rules_set_based(<float64*> (<np.ndarray> X).data, 
-              <float64*> (<np.ndarray> rule_lower_corners).data , 
-              <float64*> (<np.ndarray> rule_upper_corners).data ,
+              rule_lower_corners, 
+              rule_upper_corners,
               <float64*> (<np.ndarray> sorted_feats).data,
               <int32*> (<np.ndarray> sorted_indxs).data ,
               <int32*> (<np.ndarray> sorted_datapoint_posns).data ,
