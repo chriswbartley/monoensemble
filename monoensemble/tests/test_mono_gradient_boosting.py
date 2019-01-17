@@ -71,7 +71,7 @@ def test_model_fit_gb():
             print(acc)
             #print('time: ' +  str(durn))
             # print(acc - insample_correct[i_test])
-            npt.assert_almost_equal(0 if np.abs(acc - insample_correct[i_test]) <= 0.002
+            npt.assert_almost_equal(0 if np.abs(acc - insample_correct[i_test]) <= 0.005
                                     else 1, 0)
 
 # import time
