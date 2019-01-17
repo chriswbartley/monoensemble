@@ -3,4 +3,3 @@ sphinx_gallery
 scipy
 sklearn
 cython
-py.test
