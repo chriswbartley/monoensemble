@@ -21,7 +21,8 @@ install:
   # sklearn needs numpy with MKL hich amazingly needs a custom wheel
   # from http://www.lfd.uci.edu/~gohlke/pythonlibs/ , we store a copy
   # on dropbox:
-  - pip install --upgrade --force-reinstall "https://dl.dropboxusercontent.com/s/ot5tj14jhrqfbvj/numpy-1.13.3%2Bmkl-cp35-cp35m-win32.whl?dl=0"
+#  - pip install --upgrade --force-reinstall #"https://dl.dropboxusercontent.com/s/ot5tj14jhrqfbvj/numpy-1.13.3%2Bmkl-cp35-cp35m-#win32.whl?dl=0"
+  - pip install --upgrade --force-reinstall "https://dl.dropboxusercontent.com/s/7rjlptisi14a0ro/numpy-1.15.4%2Bmkl-cp36-cp36m-win32.whl?dl=0"
   - python setup.py install
 #  - python setup.py install build_ext --inplace
 
