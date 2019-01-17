@@ -1,9 +1,10 @@
 ## monoensemble
+<!---
 [![Build Status](https://travis-ci.org/chriswbartley/monoensemble.svg?branch=master)](https://travis-ci.org/chriswbartley/monoensemble)
 [![Appveyor Status](https://ci.appveyor.com/api/projects/status/github/chriswbartley/monoensemble)](https://ci.appveyor.com/project/chriswbartley/monoensemble)
 [![RTD Status](https://readthedocs.org/projects/monoensemble/badge/?version=latest
 )](https://readthedocs.org/projects/monoensemble/badge/?version=latest)
-
+-->
 
 This package implements monotone versions of the Random Forest and Gradient Boosting classification algorithms. The two provided algorithms (MonoRandomForestClassifier and MonoGradientBoostingClassifier) are fast, achieve perfect monotonicity, and have multi-class capability. In addition, as well as *partial* monotonicity capability (i.e. the ability to specify both monotone and non-monotone features), they are based on the corresponding `scit-kit learn` classifiers and provide all the associated functionality (such as e.g. out-of-box performance estimates). The theory is described in Bartley C., Liu W., Reynolds M., 2017, *Fast & Perfect Monotone Random Forest
 Classication.* prepub, available [here](http://staffhome.ecm.uwa.edu.au/~19514733/). 
