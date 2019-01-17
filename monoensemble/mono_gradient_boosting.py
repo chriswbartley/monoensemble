@@ -64,7 +64,7 @@ from scipy.special import expit
 
 from time import time
 from sklearn.tree.tree import DecisionTreeRegressor as DecisionTreeRegressorSklearn
-from monoensemble.tree import DecisionTreeRegressor as DecisionTreeRegressorLocalMono
+#from monoensemble.tree import DecisionTreeRegressor as DecisionTreeRegressorLocalMono
 
 from sklearn.tree._tree import DTYPE
 from sklearn.tree._tree import TREE_LEAF
@@ -1940,7 +1940,6 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             max_leaf_nodes=None,
             warm_start=False,
             presort='auto',
-            mt_type='global', # 'global' or 'local'
             incr_feats=[],
             decr_feats=[],
             coef_calc_type='bayes',
@@ -1969,7 +1968,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
         self.decr_feats = decr_feats
         self.coef_calc_type = coef_calc_type
         self.rule_feat_caching = rule_feat_caching
-        self.mt_type = mt_type
+#        self.mt_type = mt_type
 
     @property
     def mt_feats(self):
@@ -2015,37 +2014,37 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             residual = loss.negative_gradient(y, y_pred, k=k,
                                               sample_weight=sample_weight)
 
-            mt_type=None if self.mt_type=='global' else self.mt_feat_types
+#            mt_type=None if self.mt_type=='global' else self.mt_feat_types
             # induce regression tree on residuals
-            if self.mt_type=='global':
-                tree = DecisionTreeRegressorSklearn(
-                    criterion=self.criterion,
-                    splitter='best',
-                    max_depth=self.max_depth,
-                    min_samples_split=self.min_samples_split,
-                    min_samples_leaf=self.min_samples_leaf,
-                    min_weight_fraction_leaf=self.min_weight_fraction_leaf,
-                    min_impurity_decrease=self.min_impurity_decrease,
-                    min_impurity_split=self.min_impurity_split,
-                    max_features=self.max_features,
-                    max_leaf_nodes=self.max_leaf_nodes,
-                    random_state=random_state,
-                    presort=self.presort)  
-            else:
-                tree = DecisionTreeRegressorLocalMono(
-                    criterion=self.criterion,
-                    splitter='best',
-                    max_depth=self.max_depth,
-                    min_samples_split=self.min_samples_split,
-                    min_samples_leaf=self.min_samples_leaf,
-                    min_weight_fraction_leaf=self.min_weight_fraction_leaf,
-                    min_impurity_decrease=self.min_impurity_decrease,
-                    min_impurity_split=self.min_impurity_split,
-                    max_features=self.max_features,
-                    max_leaf_nodes=self.max_leaf_nodes,
-                    random_state=random_state,
-                    presort=self.presort,
-                    mt_feat_types=mt_type)  
+#            if self.mt_type=='global':
+            tree = DecisionTreeRegressorSklearn(
+                criterion=self.criterion,
+                splitter='best',
+                max_depth=self.max_depth,
+                min_samples_split=self.min_samples_split,
+                min_samples_leaf=self.min_samples_leaf,
+                min_weight_fraction_leaf=self.min_weight_fraction_leaf,
+                min_impurity_decrease=self.min_impurity_decrease,
+                min_impurity_split=self.min_impurity_split,
+                max_features=self.max_features,
+                max_leaf_nodes=self.max_leaf_nodes,
+                random_state=random_state,
+                presort=self.presort)  
+#            else:
+#                tree = DecisionTreeRegressorLocalMono(
+#                    criterion=self.criterion,
+#                    splitter='best',
+#                    max_depth=self.max_depth,
+#                    min_samples_split=self.min_samples_split,
+#                    min_samples_leaf=self.min_samples_leaf,
+#                    min_weight_fraction_leaf=self.min_weight_fraction_leaf,
+#                    min_impurity_decrease=self.min_impurity_decrease,
+#                    min_impurity_split=self.min_impurity_split,
+#                    max_features=self.max_features,
+#                    max_leaf_nodes=self.max_leaf_nodes,
+#                    random_state=random_state,
+#                    presort=self.presort,
+#                    mt_feat_types=mt_type)  
             if self.subsample < 1.0:
                 # no inplace multiplication!
                 sample_weight = sample_weight * sample_mask.astype(np.float64)
@@ -2061,30 +2060,30 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
 
             X_leaf_node_ids = None # no longer used under set regime tree.apply(X_use, check_input=False).astype(np.int32)
             
-            if self.mt_type=='local': # monotonicity was applied locally, this is standard GB
-                [leaf_ids,
-                 leaf_values,
-                 leaf_lower_corners,
-                 leaf_upper_corners,
-                 rule_upper_corners,
-                 rule_lower_corners,
-                 dist_feats] = extract_rules_from_tree(tree.tree_,
-                                                       X.shape[1],
-                                                       np.asarray([]),
-                                                       np.asarray([]))
-            else: # global, extract and monotonise rules
+#            if self.mt_type=='local': # monotonicity was applied locally, this is standard GB
+#                [leaf_ids,
+#                 leaf_values,
+#                 leaf_lower_corners,
+#                 leaf_upper_corners,
+#                 rule_upper_corners,
+#                 rule_lower_corners,
+#                 dist_feats] = extract_rules_from_tree(tree.tree_,
+#                                                       X.shape[1],
+#                                                       np.asarray([]),
+#                                                       np.asarray([]))
+#            else: # global, extract and monotonise rules
                     
-                # extract monotone rules
-                [leaf_ids,
-                 leaf_values,
-                 leaf_lower_corners,
-                 leaf_upper_corners,
-                 rule_upper_corners,
-                 rule_lower_corners,
-                 dist_feats] = extract_rules_from_tree_cython(tree.tree_,
-                                                       X.shape[1],
-                                                       self.incr_feats,
-                                                       self.decr_feats)
+            # extract monotone rules
+            [leaf_ids,
+             leaf_values,
+             leaf_lower_corners,
+             leaf_upper_corners,
+             rule_upper_corners,
+             rule_lower_corners,
+             dist_feats] = extract_rules_from_tree_cython(tree.tree_,
+                                                   X.shape[1],
+                                                   self.incr_feats,
+                                                   self.decr_feats)
 #                [leaf_ids2,
 #                 leaf_values2,
 #                 leaf_lower_corners2,
@@ -2130,16 +2129,16 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             intercept = (self.coef_calc_type ==
                          'logistic' and self.n_estimators == 1)
             
-            if self.mt_type=='global':
+            #if self.mt_type=='global':
                 
-                if node_rule_feats_upper is None:
-                    # certified version of apply_rules
-                    rule_mask = apply_rules(
-                        X_use[:, dist_feats],
-                        rule_lower_corners,
-                        rule_upper_corners,
-                        X_leaf_node_ids,
-                        node_rule_map)
+            if node_rule_feats_upper is None:
+                # certified version of apply_rules
+                rule_mask = apply_rules(
+                    X_use[:, dist_feats],
+                    rule_lower_corners,
+                    rule_upper_corners,
+                    X_leaf_node_ids,
+                    node_rule_map)
 #                    # UTH XXX trial tree version
 #                    rule_mask2 = apply_rules_tree_sorted( #apply_rules_tree_sorted apply_rules_tree
 #                        X_use,
@@ -2151,21 +2150,21 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
 #                    gg=np.sum(rule_mask!=rule_mask2)
 #                    print('really: ' + str(gg))
 
-                else:
-                    X_leaf_node_ids = tree.apply(X_use, check_input=False).astype(np.int32)
-            
-                    rule_mask = apply_rules(
-                        X_use[:, dist_feats],
-                        rule_lower_corners,
-                        rule_upper_corners,
-                        X_leaf_node_ids,
-                        node_rule_map,
-                        node_rule_feats_upper,
-                        node_rule_feats_lower)
-            else: # local monotonicity type, quicker to calculate rule mask as follows                
-                rule_mask=np.zeros([X_use.shape[0],len(leaf_ids)],dtype=np.bool)
-                for r in np.arange(len(leaf_ids)):
-                    rule_mask[:,r]=X_leaf_node_ids==leaf_ids[r]
+            else:
+                X_leaf_node_ids = tree.apply(X_use, check_input=False).astype(np.int32)
+        
+                rule_mask = apply_rules(
+                    X_use[:, dist_feats],
+                    rule_lower_corners,
+                    rule_upper_corners,
+                    X_leaf_node_ids,
+                    node_rule_map,
+                    node_rule_feats_upper,
+                    node_rule_feats_lower)
+#            else: # local monotonicity type, quicker to calculate rule mask as follows                
+#                rule_mask=np.zeros([X_use.shape[0],len(leaf_ids)],dtype=np.bool)
+#                for r in np.arange(len(leaf_ids)):
+#                    rule_mask[:,r]=X_leaf_node_ids==leaf_ids[r]
             
             # if np.sum(np.abs(rule_mask2-rule_mask))>0.01:
             #    print('prob houston')
@@ -2902,7 +2901,7 @@ class MonoGradientBoostingClassifier(
 
     _SUPPORTED_LOSS = ('deviance')  # , 'exponential')
 
-    def __init__(self, mt_type='global', incr_feats=[], decr_feats=[], coef_calc_type='bayes',
+    def __init__(self, incr_feats=[], decr_feats=[], coef_calc_type='bayes',
                  rule_feat_caching=False,
                  loss='deviance', learning_rate=0.1, n_estimators=100,
                  subsample=1.0, criterion='friedman_mse', min_samples_split=2,
@@ -2928,8 +2927,7 @@ class MonoGradientBoostingClassifier(
             presort=presort,
             incr_feats=incr_feats,
             decr_feats=decr_feats,
-            coef_calc_type=coef_calc_type,
-            mt_type=mt_type)
+            coef_calc_type=coef_calc_type)
 
     def _validate_y(self, y):
         check_classification_targets(y)

@@ -1,1 +1,6 @@
-{}
+{
+  "monoensemble/tests/test_mono_forest.py": true,
+  "monoensemble/tests/test_mono_forest_fsd.py": true,
+  "monoensemble/tests/test_mono_gradient_boosting (ECM-DTC-418's conflicted copy 2018-05-07).py": true,
+  "monoensemble/tests/test_mono_gradient_boosting.py": true
+}

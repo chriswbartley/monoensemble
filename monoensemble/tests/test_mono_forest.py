@@ -44,13 +44,13 @@ def load_data_set():
 X, y, incr_feats, decr_feats = load_data_set()
 
 
-def test_model_fit():
+def test_model_fit_rf():
     # Specify hyperparams for model solution
-    n_estimators = 200
+    n_estimators = 100
     mtry = 3
-    coef_calc_types = [ 'logistic']#'boost', 'bayes', 'logistic']
-    oob_correct = [0.8649999999999, 0.85999999999, 0.86499999999999]
-    insample_correct = [0.949999999999, 0.9649999999999, 0.98499999999]
+    coef_calc_types = [ 'bayes','logistic']#, 'boost', 
+    oob_correct = [0.873333333333, 0.866666666667]
+    insample_correct = [0.96, 0.98666666666]
     #for rule_feat_caching in [False, True]:
     rule_feat_caching=False
     for i_test in np.arange(len(coef_calc_types)):
@@ -69,14 +69,14 @@ def test_model_fit():
         # Assess fit
         y_pred = clf.predict(X)
         acc = np.sum(y == y_pred) / len(y)
-        # print(clf.oob_score_- oob_correct[i_test])
-        # print(acc - insample_correct[i_test])
+        #print(clf.oob_score_)#- oob_correct[i_test])
+        #print(acc)# - insample_correct[i_test])
         npt.assert_almost_equal(clf.oob_score_, oob_correct[i_test])
         npt.assert_almost_equal(acc, insample_correct[i_test])
         
 # import time
 # start=time.time()
-test_model_fit()
+#test_model_fit()
 # end=time.time()
 # print('time: ' + str(np.round(end-start,2)))
 

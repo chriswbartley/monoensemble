@@ -43,15 +43,14 @@ def load_data_set():
 X, y, incr_feats, decr_feats = load_data_set()
 
 
-def test_model_fit():
+def test_model_fit_gb():
     # Specify hyperparams for model solution
-    n_estimators = 200#200#100
+    n_estimators = 50#200#100
     subsample = 1.0
     learning_rate = 0.1
     max_depth = None#3
-    coef_calc_types = ['boost']#, 'bayes', 'logistic']
-    insample_correct = [0.93999999999, 0.974999999, 0.9849999999]
-    mt_type='global' #global local
+    coef_calc_types = ['boost', 'bayes', 'logistic']
+    insample_correct = [0.996, 0.99, 1.0]
     for rule_feat_caching in [False]:#, True]:
         for i_test in np.arange(len(coef_calc_types)):
             coef_calc_type = coef_calc_types[i_test]
@@ -59,7 +58,6 @@ def test_model_fit():
             start=time.time()
             clf = MonoGradientBoostingClassifier(
                 learning_rate=learning_rate, max_depth=max_depth,
-                mt_type=mt_type,
                 coef_calc_type=coef_calc_type, incr_feats=incr_feats,
                 decr_feats=decr_feats, n_estimators=n_estimators,
                 subsample=subsample, random_state=11,
@@ -67,17 +65,17 @@ def test_model_fit():
             clf.fit(X, y)
             durn=time.time()-start
             # Assess fit
-            print(' ******** PREDICT ***********')
+            #print(' ******** PREDICT ***********')
             y_pred = clf.predict(X)
             acc = np.sum(y == y_pred) / len(y)
-            print(acc)
-            print('time: ' +  str(durn))
+            #print(acc)
+            #print('time: ' +  str(durn))
             # print(acc - insample_correct[i_test])
-            #npt.assert_almost_equal(0 if np.abs(acc - insample_correct[i_test]) <= 0.02
-            #                        else 1, 0)
+            npt.assert_almost_equal(0 if np.abs(acc - insample_correct[i_test]) <= 0.002
+                                    else 1, 0)
 
 # import time
 # start=time.time()
-test_model_fit()
+test_model_fit_gb()
 # end=time.time()
 # print('time: ' + str(np.round(end-start,2)))
