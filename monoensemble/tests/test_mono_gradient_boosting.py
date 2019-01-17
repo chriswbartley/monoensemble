@@ -68,7 +68,7 @@ def test_model_fit_gb():
             #print(' ******** PREDICT ***********')
             y_pred = clf.predict(X)
             acc = np.sum(y == y_pred) / len(y)
-            #print(acc)
+            print(acc)
             #print('time: ' +  str(durn))
             # print(acc - insample_correct[i_test])
             npt.assert_almost_equal(0 if np.abs(acc - insample_correct[i_test]) <= 0.002
