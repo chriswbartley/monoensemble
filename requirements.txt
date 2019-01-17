@@ -3,3 +3,4 @@ sphinx_gallery
 scipy
 sklearn
 cython
+pytest>=3.6
