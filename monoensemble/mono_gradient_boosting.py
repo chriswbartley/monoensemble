@@ -64,7 +64,6 @@ from scipy.special import expit
 
 from time import time
 from sklearn.tree.tree import DecisionTreeRegressor as DecisionTreeRegressorSklearn
-#from monoensemble.tree import DecisionTreeRegressor as DecisionTreeRegressorLocalMono
 
 from sklearn.tree._tree import DTYPE
 from sklearn.tree._tree import TREE_LEAF
@@ -699,11 +698,7 @@ class VerboseReporter(object):
 def apply_rules_set_based(X,
         rule_lower_corners,
         rule_upper_corners):                
-    # store sparse rules
-#    rule_upper_corners_sparse = csr_matrix(
-#        rule_upper_corners - RULE_UPPER_CONST, dtype=np.float64)
-#    rule_lower_corners_sparse = csr_matrix(
-#        rule_lower_corners - RULE_LOWER_CONST, dtype=np.float64)
+
     # create output matrix
     rule_mask = np.zeros(
         [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32,order='C')
@@ -713,10 +708,6 @@ def apply_rules_set_based(X,
     for j in np.arange(X.shape[1]):
         sorted_indxs[:,j]= np.argsort(X[:,j], axis=-1, kind='quicksort')
         sorted_feats[:,j]=X[sorted_indxs[:,j],j].copy()
-#        i=0
-#        for k in sorted_indxs[:,j]:
-#            sorted_datapoint_posns[k,j]=i
-#            i=i+1
     apply_rules_set_based_c(
         X.astype(
             np.float64),
@@ -726,16 +717,6 @@ def apply_rules_set_based(X,
         rule_lower_corners,
         rule_upper_corners,
         rule_mask)  
-#    typp='F'
-#    rule_mask=np.asarray(rule_mask,dtype=np.int32,order=typp) 
-#    apply_rules_set_based_c(
-#        np.asarray(X,dtype=np.float64,order=typp),#X.astype(np.float64),
-#        np.asarray(sorted_feats,dtype=np.float64,order=typp),
-#        np.asarray(sorted_indxs,dtype=np.int32,order=typp),
-#        np.asarray(sorted_datapoint_posns,dtype=np.int32,order=typp),
-#        np.asarray(rule_lower_corners,dtype=np.float64,order=typp),
-#        np.asarray(rule_upper_corners,dtype=np.float64,order=typp),
-#        rule_mask)   
     return np.asarray(rule_mask, dtype=bool)
         
 # set banaive approachon, about 3X slower than cython naive approach
@@ -764,11 +745,15 @@ def apply_rules_sets_sorted(X,
         i_f=0
         for j in np.arange(X.shape[1],dtype=np.int32):
             if rule_lower_corners[r,j]!=RULE_LOWER_CONST:
-                insert_pos=np.searchsorted(sorted_feats[:,j], rule_lower_corners[r,j], side='right')
+                insert_pos=np.searchsorted(sorted_feats[:,j], 
+                                           rule_lower_corners[r,j], 
+                                           side='right')
                 feat_sets[i_f,:]=[j,-1,insert_pos,n-insert_pos]
                 i_f=i_f+1
             if rule_upper_corners[r,j]!=RULE_UPPER_CONST:
-                insert_pos=np.searchsorted(sorted_feats[:,j], rule_upper_corners[r,j], side='right')
+                insert_pos=np.searchsorted(sorted_feats[:,j], 
+                                           rule_upper_corners[r,j], 
+                                           side='right')
                 feat_sets[i_f,:]=[j,1,insert_pos,insert_pos]
                 i_f=i_f+1
         if i_f==0:
@@ -818,31 +803,18 @@ def apply_rules_sets(X,
     # apply each rule
     rule_tx=np.zeros([X.shape[0],rule_lower_corners.shape[0]],dtype=np.int32)
     for r in np.arange(rule_lower_corners.shape[0]):
-#        viable_pts_dict=dict()
-#        viable_pts_dict[0]=set(np.arange(X.shape[0]))
-#        viable_pts_keys=[0]
-#        viable_pts_lens=[len(viable_pts_dict[0])]
         viable_pts=np.arange(X.shape[0])
         for j in np.arange(X.shape[1]):
             if rule_lower_corners[r,j]!=RULE_LOWER_CONST:
-                insert_pos=np.searchsorted(sorted_feats[j], rule_lower_corners[r,j], side='right')
+                insert_pos=np.searchsorted(sorted_feats[j], 
+                                           rule_lower_corners[r,j], side='right')
                 #viable_pts_dict[j]=set(sorted_indxs[j][insert_pos:])
                 viable_pts_this_feat=sorted_indxs[j][insert_pos:]
-                viable_pts=viable_pts[sorted_datapoint_posns[j][viable_pts]>=insert_pos]  #np.intersect1d(viable_pts,viable_pts_this_feat,assume_unique =True)
-                
-#                if len(viable_pts_this_feat)>len(viable_pts):
-#                    viable_pts=viable_pts[sorted_datapoint_posns[j][viable_pts]>=insert_pos]  #np.intersect1d(viable_pts,viable_pts_this_feat,assume_unique =True)
-#                else:
-#                    viable_pts=np.intersect1d(viable_pts_this_feat,viable_pts,assume_unique =True)
+                viable_pts=viable_pts[sorted_datapoint_posns[j][viable_pts]>=insert_pos]  
             if rule_upper_corners[r,j]!=RULE_UPPER_CONST:
                 insert_pos=np.searchsorted(sorted_feats[j], rule_upper_corners[r,j], side='right')
-                #viable_pts_dict[j]=set(sorted_indxs[j][insert_pos:])
                 viable_pts_this_feat=sorted_indxs[j][0:insert_pos]
                 viable_pts=viable_pts[sorted_datapoint_posns[j][viable_pts]<insert_pos]
-#                if len(viable_pts_this_feat)>len(viable_pts):
-#                    viable_pts=np.intersect1d(viable_pts,viable_pts_this_feat,assume_unique =True)
-#                else:
-#                    viable_pts=np.intersect1d(viable_pts_this_feat,viable_pts,assume_unique =True)    
         if len(viable_pts)>0:
             rule_tx[viable_pts,r] = 1
     return rule_tx
@@ -860,28 +832,22 @@ def apply_rules_sets_hybrid(X,
     # apply each rule
     rule_tx=np.zeros([X.shape[0],rule_lower_corners.shape[0]],dtype=np.int32)
     for r in np.arange(rule_lower_corners.shape[0]):
-#        viable_pts_dict=dict()
-#        viable_pts_dict[0]=set(np.arange(X.shape[0]))
-#        viable_pts_keys=[0]
-#        viable_pts_lens=[len(viable_pts_dict[0])]
         viable_pts=set(np.arange(X.shape[0]))
         for j in np.arange(X.shape[1]):
             if rule_lower_corners[r,j]!=RULE_LOWER_CONST:
                 insert_pos=np.searchsorted(sorted_feats[j], rule_lower_corners[r,j], side='right')
-                #viable_pts_dict[j]=set(sorted_indxs[j][insert_pos:])
                 viable_pts_this_feat=sorted_indxs[j][insert_pos:]
                 if len(viable_pts_this_feat)>len(viable_pts):
-                    viable_pts=viable_pts & set(viable_pts_this_feat) #np.intersect1d(viable_pts,viable_pts_this_feat,assume_unique =True)
+                    viable_pts=viable_pts & set(viable_pts_this_feat) 
                 else:
-                    viable_pts=viable_pts & set(viable_pts_this_feat) #np.intersect1d(viable_pts_this_feat,viable_pts,assume_unique =True)
+                    viable_pts=viable_pts & set(viable_pts_this_feat) 
             if rule_upper_corners[r,j]!=RULE_UPPER_CONST:
                 insert_pos=np.searchsorted(sorted_feats[j], rule_upper_corners[r,j], side='right')
-                #viable_pts_dict[j]=set(sorted_indxs[j][insert_pos:])
                 viable_pts_this_feat=sorted_indxs[j][0:insert_pos]
                 if len(viable_pts_this_feat)>len(viable_pts):
-                    viable_pts=viable_pts & set(viable_pts_this_feat) #np.intersect1d(viable_pts,viable_pts_this_feat,assume_unique =True)
+                    viable_pts=viable_pts & set(viable_pts_this_feat) 
                 else:
-                    viable_pts=viable_pts & set(viable_pts_this_feat) #np.intersect1d(viable_pts_this_feat,viable_pts,assume_unique =True)    
+                    viable_pts=viable_pts & set(viable_pts_this_feat)   
         if len(viable_pts)>0:
             rule_tx[np.asarray(list(viable_pts)),r] = 1
     return rule_tx
@@ -911,10 +877,6 @@ def apply_rules_sets_2(X,
                 viable_pts_dict[-j]=sorted_indxs[j][insert_pos:]
                 viable_pts_keys=viable_pts_keys+[-j]
                 viable_pts_lens=viable_pts_lens+[len(viable_pts_dict[-j])]
-#                if len(viable_pts_this_feat)>len(viable_pts):
-#                    viable_pts=np.intersect1d(viable_pts,viable_pts_this_feat,assume_unique =True)
-#                else:
-#                    viable_pts=np.intersect1d(viable_pts_this_feat,viable_pts,assume_unique =True)
             if rule_upper_corners[r,j]!=RULE_UPPER_CONST:
                 insert_pos=np.searchsorted(sorted_feats[j], rule_upper_corners[r,j], side='right')
                 viable_pts_dict[j]=sorted_indxs[j][0:insert_pos]
@@ -974,7 +936,6 @@ def traverse_node_with_rule_c(node_id,
                    rule_lower_corners.copy(),
                    X,
                    out_rule_mask)  
-#                       children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)  # ">"
     else:  # a leaf node - check remaining rule
         num_pts=node_members_count[node_id]
         for j in np.arange(num_feats):
@@ -1007,7 +968,6 @@ def apply_rules_from_tree_c(X,
                             rule_upper_corners,
                             rule_lower_corners,
                             out_rule_mask):
-    #traverse_node_c(0,num_feats,children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)
     for rule_id in np.arange(rule_upper_corners.shape[0]):
         traverse_node_with_rule_c(0,
                        num_feats,
@@ -1052,240 +1012,7 @@ def apply_rules_tree(   X,
                             rule_lower_corners,
                             rule_mask)
     return np.asarray(rule_mask, dtype=bool)
-#   
-#def _traverse_node_with_rule_sorted_c(node_id,
-#                       num_feats,
-#                       children_left,
-#                       children_right,
-#                       features,
-#                       thresholds, 
-#                       node_members,
-#                       node_members_count,
-#                       node_members_start,
-#                       rule_id,
-#                       rule_upper_corners,
-#                       rule_lower_corners,
-#                       rule_upper_feats_engaged,
-#                       rule_upper_feats_engaged_count,
-#                       rule_lower_feats_engaged,
-#                       rule_lower_feats_engaged_count,
-#                       X,
-#                       X_by_node_sorted,
-#                       X_by_node_sorted_idx,
-#                       X_by_node_sorted_idx_posns, 
-#                       out_rule_mask):
-#    # recurse on children 
-#    if children_left[node_id] != -1:
-#        feature = features[node_id]
-#        threshold = thresholds[node_id]
-#        left_node_id = children_left[node_id]
-#        right_node_id = children_right[node_id]
-#        # check if rule goes right
-#        if rule_upper_corners[feature]>threshold:
-#            rule_lower_corners1=rule_lower_corners.copy()
-#            if rule_lower_corners1[feature]<=threshold: # rule lower bound no longer needed
-#                rule_lower_corners1[feature]=RULE_LOWER_CONST
-#            _traverse_node_with_rule_sorted_c(right_node_id, num_feats,
-#                   children_left,children_right,features,thresholds, node_members,node_members_count,node_members_start,rule_id,
-#                   rule_upper_corners.copy(),
-#                   rule_lower_corners1,
-#                   rule_upper_feats_engaged,
-#                   rule_upper_feats_engaged_count,
-#                   rule_lower_feats_engaged,
-#                   rule_lower_feats_engaged_count,
-#                   X,
-#                   X_by_node_sorted,
-#                   X_by_node_sorted_idx,
-#                   X_by_node_sorted_idx_posns,
-#                   out_rule_mask)  
-#        # check if rule goes left
-#        if rule_lower_corners[feature]<threshold:
-#            rule_upper_corners1=rule_upper_corners.copy()
-#            if rule_upper_corners1[feature]>=threshold: # rule lower bound no longer needed
-#                rule_upper_corners1[feature]=RULE_UPPER_CONST
-#            _traverse_node_with_rule_sorted_c(left_node_id, num_feats,
-#                   children_left,children_right,features,thresholds, node_members,node_members_count,node_members_start,rule_id,
-#                   rule_upper_corners1,
-#                   rule_lower_corners.copy(),
-#                   rule_upper_feats_engaged,
-#                   rule_upper_feats_engaged_count,
-#                   rule_lower_feats_engaged,
-#                   rule_lower_feats_engaged_count,
-#                   X,
-#                   X_by_node_sorted,
-#                   X_by_node_sorted_idx,
-#                   X_by_node_sorted_idx_posns,
-#                   out_rule_mask)  
-##                       children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)  # ">"
-#    else:  # a leaf node - check remaining rule
-#        #if rule_id==0 and node_id==4:
-#        #    print('erher')
-#        
-#        
-#        n_samples=node_members_count[node_id]
-#        if n_samples>=MIN_NODE_SIZE_FOR_SORTING_:
-#            # SORTED FEATURE WAY OF DOING IT - 
-#            viable_set = np.empty(n_samples, dtype=np.int32)
-#            feat_sets=np.zeros([num_feats*2*4],dtype=np.int32)
-#            # apply each feature limit and store set descriptors
-#            i_f=0
-#            for j_ in range(rule_lower_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
-#                j=rule_lower_feats_engaged[j_]
-##            for j in np.arange(num_feats):
-#                if rule_lower_corners[j ]!=RULE_LOWER_CONST: #j + n_features * r
-#                    insert_pos=np.searchsorted(X_by_node_sorted[node_members_start[node_id]:node_members_start[node_id]+node_members_count[node_id],j],rule_lower_corners[j ],side='right') #, side='right'
-#                    #insert_pos=_search_sorted(sorted_feats,j*n_samples, n_samples,1,rule_lower_corners[j * n_rules + r]) #, side='right'
-#                    feat_sets[0*2*num_feats+ i_f]=j#[j,-1,insert_pos,n_samples-insert_pos]
-#                    feat_sets[1*2*num_feats+ i_f]=-1
-#                    feat_sets[2*2*num_feats+ i_f]=insert_pos
-#                    feat_sets[3*2*num_feats+ i_f]=node_members_count[node_id]-insert_pos
-#                    i_f=i_f+1
-#            for j_ in range(rule_upper_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
-#                j=rule_upper_feats_engaged[j_]
-#                if rule_upper_corners[j ]!=RULE_UPPER_CONST: 
-#                    insert_pos=np.searchsorted(X_by_node_sorted[node_members_start[node_id]:node_members_start[node_id]+node_members_count[node_id],j],rule_upper_corners[j ],side='right') #, side='right'
-#                    #insert_pos=_search_sorted(sorted_feats,j*n_samples, n_samples,1,rule_upper_corners[j * n_rules + r])
-#                    #feat_sets[i_f,:]=[j,1,insert_pos,insert_pos]
-#                    feat_sets[0*2*num_feats+ i_f]=j#[j,-1,insert_pos,n_samples-insert_pos]
-#                    feat_sets[1*2*num_feats+ i_f]=+1
-#                    feat_sets[2*2*num_feats+ i_f]=insert_pos
-#                    feat_sets[3*2*num_feats+ i_f]=insert_pos
-#                    i_f=i_f+1
-#            
-#            if i_f==0: # if no rules found, add all node members (shortcut exit)
-#                #for i in range(n_samples) :
-#                out_rule_mask[node_members[node_id,0:node_members_count[node_id]], rule_id]=1 
-#            else: # check for intersections:
-#                # intersect sets to build viable set
-#                min_viable_size=100000
-#                min_viable_index=-1
-#                min_viable_feat=-1
-#                for i_ff in range(i_f):
-#                    if feat_sets[3*2*num_feats+ i_ff]<min_viable_size:
-#                        min_viable_size=feat_sets[3*2*num_feats+ i_ff]
-#                        min_viable_index=i_ff
-#                        min_viable_feat=feat_sets[0*2*num_feats+ i_ff]
-#                i_ff=min_viable_index # start with minimum because the size of the first set is an upper bound on complexity for all subsequent interscetion operations
-#                j=feat_sets[0*2*num_feats+ i_ff]
-#                insert_pos=feat_sets[2*2*num_feats+ i_ff]
-#                dirn=feat_sets[1*2*num_feats+ i_ff]
-#                viable_set_size=feat_sets[3*2*num_feats+ i_ff]
-#                if viable_set_size>0:
-#                    if dirn==-1:
-#                        for i in range(viable_set_size):
-#                            viable_set[i]=X_by_node_sorted_idx[node_members_start[node_id]+insert_pos+i,min_viable_feat ]#j*n_samples + (insert_pos+i)  ] #(i+insert_pos)*n_features + j 
-#                        #viable_pts=sorted_indxs[insert_pos:,j]
-#                    else:
-#                        for i in range(viable_set_size):
-#                            viable_set[i]=X_by_node_sorted_idx[node_members_start[node_id]+i,min_viable_feat ]#j*n_samples + (i) ] #i*n_features + j
-#                        #viable_pts=sorted_indxs[0:insert_pos,j]
-#                        
-#                    for i_ff in range(0,i_f):
-#                        if i_ff !=min_viable_index and viable_set_size>0:
-#                            j=feat_sets[0*2*num_feats+ i_ff]
-#                            insert_pos=feat_sets[2*2*num_feats+ i_ff]
-#                            dirn=feat_sets[1*2*num_feats+ i_ff]
-#                            viable_set_size_this=feat_sets[3*2*num_feats+ i_ff]
-#                            if dirn==-1:
-#                                i_viable=0
-#                                for i in range(viable_set_size):
-#                                    if  X_by_node_sorted_idx_posns[viable_set[i],j]-node_members_start[node_id]>=insert_pos: # + j*n_samples]>=insert_pos: # viable_set[i]*n_features + j 
-#                                        viable_set[i_viable]=viable_set[i]
-#                                        i_viable=i_viable+1
-#                                viable_set_size=i_viable
-#                                #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]>=insert_pos]
-#                            else:
-#                                i_viable=0
-#                                for i in range(viable_set_size):
-#                                    if  X_by_node_sorted_idx_posns[viable_set[i] ,j]-node_members_start[node_id]<insert_pos: #+ j*n_samples ]<insert_pos: # viable_set[i] + j*n_samples
-#                                        viable_set[i_viable]=viable_set[i]
-#                                        i_viable=i_viable+1
-#                                viable_set_size=i_viable
-#                                #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]<insert_pos]
-#                
-#                if viable_set_size>0:
-#                    for i in range(viable_set_size) :
-#                        out_rule_mask[viable_set[i], rule_id]=1 #viable_set[i]*n_rules + r]=1
-#        else:
-#            # BASIC WAY OF CALCULATING
-#            num_pts=node_members_count[node_id]
-#            #for j in np.arange(num_feats):
-#            for j_ in range(rule_lower_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
-#                j=rule_lower_feats_engaged[j_]
-#                lower_bound=rule_lower_corners[j]
-#                if lower_bound!=RULE_LOWER_CONST:
-#                    for i in np.arange(num_pts):
-#                        if out_rule_mask[node_members[node_id,i],rule_id]!=2:
-#                            if X[node_members[node_id,i],j]<=lower_bound:
-#                                out_rule_mask[node_members[node_id,i],rule_id]=2
-#            for j_ in range(rule_upper_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
-#                j=rule_upper_feats_engaged[j_]
-#                upper_bound=rule_upper_corners[j]
-#                if upper_bound!=RULE_UPPER_CONST:
-#                    for i in np.arange(num_pts):
-#                        if out_rule_mask[node_members[node_id,i],rule_id]!=2:
-#                            if X[node_members[node_id,i],j]>upper_bound:
-#                                out_rule_mask[node_members[node_id,i],rule_id]=2
-#            for i in np.arange(num_pts):
-#                if out_rule_mask[node_members[node_id,i],rule_id]==2:
-#                    out_rule_mask[node_members[node_id,i],rule_id]=0
-#                else:
-#                    out_rule_mask[node_members[node_id,i],rule_id]=1
-#
-##        # TEST
-##        #if viable_set_size>0:
-##        viable_set=list(viable_set[0:viable_set_size])
-##        for kk in np.arange(num_pts):
-##            node_test=node_members[node_id,kk]
-##            if out_rule_mask[node_test,rule_id]==1:
-##                if node_test not in viable_set:
-##                    print ('err')
-##            else:
-##                if node_test  in viable_set:
-##                    print('err')
-#
-#def apply_rules_from_tree_sorted_c(X,
-#                            X_by_node_sorted,
-#                            X_by_node_sorted_idx,
-#                            X_by_node_sorted_idx_posns,
-#                            children_left,
-#                            children_right,
-#                            features,
-#                            thresholds,
-#                            node_members,
-#                            node_members_count, 
-#                            node_members_start, 
-#                            num_feats,
-#                            rule_upper_corners,
-#                            rule_lower_corners,
-#                            out_rule_mask):
-#    
-#    #traverse_node_c(0,num_feats,children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)
-#    for rule_id in np.arange(rule_upper_corners.shape[0]):
-#        rule_upper_feats_engaged=np.where(rule_upper_corners[rule_id,:]!=RULE_UPPER_CONST)[0]
-#        rule_lower_feats_engaged=np.where(rule_lower_corners[rule_id,:]!=RULE_LOWER_CONST)[0]
-#        _traverse_node_with_rule_sorted_c(0,
-#                       num_feats,
-#                       children_left,
-#                       children_right,
-#                       features,
-#                       thresholds, 
-#                       node_members,
-#                       node_members_count,
-#                       node_members_start,
-#                       rule_id,
-#                       rule_upper_corners[rule_id,:].copy(),
-#                       rule_lower_corners[rule_id,:].copy(),
-#                       rule_upper_feats_engaged,
-#                       len(rule_upper_feats_engaged),
-#                       rule_lower_feats_engaged,
-#                       len(rule_lower_feats_engaged),
-#                       X,
-#                       X_by_node_sorted,
-#                       X_by_node_sorted_idx,
-#                       X_by_node_sorted_idx_posns,
-#                       out_rule_mask)
-#    
+
     
 def apply_rules_tree_sorted(   X,
                         rule_lower_corners,
@@ -1312,7 +1039,6 @@ def apply_rules_tree_sorted(   X,
         for j in np.arange(X.shape[1]):
             if node_members_len>=MIN_NODE_SIZE_FOR_SORTING_:
                 X_by_node_sorted_idx[node_member_start_:node_member_start_+node_members_len,j]=node_members_[np.argsort(X[node_members_,j])]
-                #X_by_node_sorted[node_member_start_:node_member_start_+node_members_len,j]=X[X_by_node_sorted_idx[node_member_start_:node_member_start_+node_members_len,j],j]
             else:
                 X_by_node_sorted_idx[node_member_start_:node_member_start_+node_members_len,j]=node_members_
             X_by_node_sorted[node_member_start_:node_member_start_+node_members_len,j]=X[X_by_node_sorted_idx[node_member_start_:node_member_start_+node_members_len,j],j] 
@@ -1337,108 +1063,9 @@ def apply_rules_tree_sorted(   X,
                             np.ascontiguousarray(rule_upper_corners,dtype=np.float64),
                             np.ascontiguousarray(rule_lower_corners,dtype=np.float64),
                             rule_mask)
-#    (np.ndarray[float64, ndim=2] X,
-#                            np.ndarray[float64, ndim=2] X_by_node_sorted,
-#                            np.ndarray[int32, ndim=2] X_by_node_sorted_idx,
-#                            np.ndarray[int32, ndim=2] X_by_node_sorted_idx_posns,
-#                            np.ndarray[int32, ndim=1] children_left,
-#                            np.ndarray[int32, ndim=1] children_right,
-#                            np.ndarray[int32, ndim=1] features,
-#                            np.ndarray[float64, ndim=1] thresholds,
-#                            np.ndarray[int32, ndim=1] node_members,
-#                            np.ndarray[int32, ndim=1] node_members_count, 
-#                            np.ndarray[int32, ndim=1] node_members_start, 
-#                            int32 num_feats,
-#                            np.ndarray[float64, ndim=2] rule_upper_corners,
-#                            np.ndarray[float64, ndim=2] rule_lower_corners,
-#                            np.ndarray[int32, ndim=2] out_rule_mask):
+
     return np.asarray(rule_mask, dtype=bool)
-#    for r in np.arange(rule_lower_corners.shape[0]):
-#        nodes_visited=np.zeros(np.max(leaf_ids)+1,dtype=np.int32)
-#        data_points_in_leaf=np.zeros(X.shape[0],dtype=np.int32)
-#        data_points_in_leaf_size=np.zeros(1,dtype=np.int32)
-#        leaf_id=leaf_ids[r]
-#        # mark current nodes in the unmodified leaf/rule
-#        nodes_visited[leaf_id]=1
-#        leaf_data_pts=np.arange(X.shape[0])[X_leaf_node_ids==leaf_id]
-#        data_points_in_leaf[data_points_in_leaf_size[0]:data_points_in_leaf_size[0]+len(leaf_data_pts)]=leaf_data_pts
-#        data_points_in_leaf_size[0]=data_points_in_leaf_size[0]+len(leaf_data_pts)
-#        # extract tree matrices
-#        children_left=tree_.children_left
-#        children_right=tree_.children_right
-#        feature=tree_.feature
-#        threshold=tree_.threshold
-#        # drop rule down tree and get any additional datapoints
-#        def drop_rule_down_tree(node_id=0,
-#                           operator=None,
-#                           threshold_=None,
-#                           feature_=None,
-#                           rule_lower=None,
-#                           rule_upper=None):
-#            if nodes_visited[node_id]==1:
-#                return None
-#            nodes_visited[node_id]=1
-#            if node_id == 0:
-#                pass
-##                new_lower = np.ones(num_feats) * RULE_LOWER_CONST
-##                new_upper = np.ones(num_feats) * RULE_UPPER_CONST
-#            #if threshold_ is None or feature_ is None:
-#            #else:
-#            if operator is not None:
-#                if operator == +1: # left child, <= threshold
-#                    if rule_upper[feature_]>=threshold_: # rule is not needed anymore
-#                        rule_upper[feature_]=RULE_UPPER_CONST
-#                else: # right child, > threshold
-#                    if rule_lower[feature_]<=threshold_: # rule is not needed anymore
-#                        rule_lower[feature_]=RULE_LOWER_CONST            
-#            # tree.feature[node_id] == -2:
-#            if children_left[node_id] != TREE_LEAF:
-#                feature_ = feature[node_id]
-#                threshold_ = threshold[node_id]
-#
-#                
-#                if rule_lower[feature_]<=threshold_:
-#                    left_node_id = children_left[node_id]
-#                    drop_rule_down_tree(left_node_id, +1, threshold_, feature_,
-#                                   rule_lower.copy(), rule_upper.copy())  # "<="
-#                if rule_upper[feature_]>=threshold_:
-#                    right_node_id = children_right[node_id]
-#                    drop_rule_down_tree(right_node_id, -1, threshold_, feature_,
-#                                   rule_lower.copy(), rule_upper.copy())  # ">"
-#            else:  # a leaf node - get the points in this leaf that satisfy the rule
-#                leaf_data_pts_this_node=np.arange(X.shape[0])[X_leaf_node_ids==node_id]
-#                for j in np.arange(X.shape[1]):
-#                    if rule_lower[j]!=RULE_LOWER_CONST:
-#                        for i in np.arange(len(leaf_data_pts_this_node)):
-#                            if X[leaf_data_pts_this_node[i],j]<=rule_lower[j]:
-#                                leaf_data_pts_this_node[i]=-1
-#                        leaf_data_pts_this_node=leaf_data_pts_this_node[leaf_data_pts_this_node>=0]
-#                        
-#                    if rule_upper[j]!=RULE_UPPER_CONST:
-#                        for i in np.arange(len(leaf_data_pts_this_node)):
-#                            if X[leaf_data_pts_this_node[i],j]>rule_upper[j]:
-#                                leaf_data_pts_this_node[i]=-1
-#                        leaf_data_pts_this_node=leaf_data_pts_this_node[leaf_data_pts_this_node>=0]
-#                data_points_in_leaf[data_points_in_leaf_size[0]:data_points_in_leaf_size[0]+len(leaf_data_pts_this_node)]=leaf_data_pts_this_node
-#                data_points_in_leaf_size[0]=data_points_in_leaf_size[0]+len(leaf_data_pts_this_node)
-#               
-#                
-##                if node_id != 0:
-##                    leaf_ids[node_id] = node_id
-##                    leaf_values[node_id] = tree.value[node_id][0][0]
-##                    rule_upper_corners[node_id, :] = new_upper
-##                    rule_lower_corners[node_id, :] = new_lower
-##                else:  # the base node (0) is the only node!
-##                    print('XXX')
-#                return None
-#    
-#        drop_rule_down_tree(rule_lower=rule_lower_corners[r,:].copy(), rule_upper=rule_upper_corners[r,:].copy())        
-#        # collate results
-#        data_points_in_leaf=np.asarray(data_points_in_leaf)[0:data_points_in_leaf_size[0]]
-#        rule_mask[data_points_in_leaf,r]=1
-#        # drop rule down tree and add data points if also inside this rule
-#    #print('t')
-#    return np.asarray(rule_mask, dtype=bool)
+
     
 def apply_rules(
         X,
@@ -1471,78 +1098,11 @@ def apply_rules(
             rule_mask)
         rule_mask = np.asarray(rule_mask, dtype=bool)
     else:
-#        rule_upper_corners_sparse = csr_matrix(
-#            rule_upper_corners - RULE_UPPER_CONST, dtype=np.float64)
-#        rule_lower_corners_sparse = csr_matrix(
-#            rule_lower_corners - RULE_LOWER_CONST, dtype=np.float64)
-#        rule_mask = np.zeros(
-#            [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32)
-#        apply_rules_c(
-#            X.astype(
-#                np.float64),
-#            rule_lower_corners_sparse,
-#            rule_upper_corners_sparse,
-#            X_leaf_node_ids,
-#            node_rule_map,
-#            rule_mask)   
-        # comparative set approach - 
-
-
         rule_mask=apply_rules_set_based(X,
             rule_lower_corners,
             rule_upper_corners)
-        
-#        rule_mask = np.zeros(
-#            [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32)
-#        apply_rules_c(
-#            X.astype(
-#                np.float64),
-#            rule_lower_corners_sparse,
-#            rule_upper_corners_sparse,
-#            X_leaf_node_ids,
-#            node_rule_map,
-#            rule_mask)   
-#        comp=np.sum(np.abs(rule_mask.astype(bool)!=rule_mask_test.astype(bool)))
-#        print(comp)
     return np.asarray(rule_mask, dtype=bool)
 
-# SLOW - KILL IT
-# def build_training_rule_mask(
-#    leaf_ids,
-#    leaf_lower_corners,
-#    leaf_upper_corners,
-#    rule_lower_corners,
-#    rule_upper_corners,
-#    X,
-#    X_leaf_node_ids):
-#    training_rule_mask_=np.zeros([X.shape[0],len(leaf_ids)],dtype=np.int8)
-#
-#    rule_mask=np.zeros([X.shape[0]],dtype=np.int8)
-#    for i_leaf in np.arange(len(leaf_ids)):
-#        leaf_id=leaf_ids[i_leaf]
-#        leaf_mask=X_leaf_node_ids==leaf_id
-#        leaf_n=np.sum(leaf_mask)
-#        #leaf_id=leaf_ids[i_leaf]
-#        X_leaf=X[leaf_mask,:]
-#        for i_rule in np.arange(len(leaf_ids)):
-#            # initialise assuming all training points from this leaf
-#            # are in the rule
-#            rule_mask_=rule_mask[0:leaf_n]
-#            rule_mask_[:]=1
-#            #rule_mask[leaf_ids==leaf_id]=1
-#            # rule out datapoints by feature
-#            for i_feat in np.arange(rule_upper_corners.shape[1]):
-#                if rule_upper_corners[i_rule,i_feat]<
-#                           leaf_upper_corners[i_leaf,i_feat]:
-#                    rule_mask_[X_leaf[:,i_feat]>
-#                           rule_upper_corners[i_rule,i_feat]]=0
-#                if rule_lower_corners[i_rule,i_feat]>
-#                           leaf_lower_corners[i_leaf,i_feat]:
-#                    rule_mask_[X_leaf[:,i_feat]<=
-#                           rule_lower_corners[i_rule,i_feat]]=0
-#            training_rule_mask_[leaf_mask,i_rule]=rule_mask_
-#
-#    return training_rule_mask_
 
 
 def build_node_map_rule_feats(
@@ -1637,49 +1197,7 @@ def build_node_rule_map(
         map_c_)
     return map_c_
 
-#def traverse_node_c(node_id,num_feats,
-#                       children_left,
-#                       children_right,
-#                       features,
-#                       thresholds, 
-#                       out_leaf_ids,
-#                       out_rule_upper_corners,
-#                       out_rule_lower_corners):
-#    # recurse on children 
-#    if children_left[node_id] != TREE_LEAF:
-#        feature = features[node_id]
-#        threshold = thresholds[node_id]
-#        left_node_id = children_left[node_id]
-#        right_node_id = children_right[node_id]
-#        # update limit arrays
-#        out_rule_upper_corners[left_node_id,:] = out_rule_upper_corners[node_id,:]
-#        out_rule_lower_corners[left_node_id,:] = out_rule_lower_corners[node_id,:]
-#        out_rule_upper_corners[right_node_id,:] = out_rule_upper_corners[node_id,:]
-#        out_rule_lower_corners[right_node_id,:] = out_rule_lower_corners[node_id,:]
-#        # for c
-##        for j in np.arange(num_feats):
-##            out_rule_upper_corners[left_node_id,j] = out_rule_upper_corners[node_id,j]
-##            out_rule_lower_corners[left_node_id,j] = out_rule_lower_corners[node_id,j]
-##            out_rule_upper_corners[right_node_id,j] = out_rule_upper_corners[node_id,j]
-##            out_rule_lower_corners[right_node_id,j] = out_rule_lower_corners[node_id,j]
-#        out_rule_upper_corners[left_node_id,feature] = threshold
-#        out_rule_lower_corners[right_node_id,feature] = threshold
-#        # recurse
-#        traverse_node_c(left_node_id, num_feats,
-#                       children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)  # "<="
-#
-#        
-#        traverse_node_c(right_node_id,num_feats,
-#                       children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)  # ">"
-#    else:  # a leaf node
-#        out_leaf_ids[node_id] = node_id
-#        if node_id == 0:# the base node (0) is the only node!
-#            pass
-#            #print('Warning: Tree only has one node! (i.e. the root node)')
-#
-#def extract_rules_from_tree_c(children_left,children_right,features,thresholds, num_feats, incr_feats, decr_feats,out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners):
-#    traverse_node_c(0,num_feats,children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)
-#    
+ 
 def extract_rules_from_tree_cython(tree, num_feats, incr_feats, decr_feats):
     """Helper to turn a tree into as set of rules
     """
@@ -1713,33 +1231,11 @@ def extract_rules_from_tree_cython(tree, num_feats, incr_feats, decr_feats):
         for i_mt in decr_feats - 1:
             rule_lower_corners[leaf_values > 0, i_mt] = RULE_LOWER_CONST
             rule_upper_corners[leaf_values < 0, i_mt] = RULE_UPPER_CONST
-#    # remove any rules that have been transformed into an intercept
-#    # XXX This makes absolutely no difference to results, need to work out why.
-#    # It DOES SLOW IT DOWN THOUGH +5to10% time, so commented out.
-#    rule_mask=np.ones(rule_lower_corners.shape[0],dtype=np.bool)
-#    found_one=False
-#    for r in np.arange(rule_lower_corners.shape[0]):
-#        if np.all(rule_lower_corners[r,:]==RULE_LOWER_CONST
-#            ) and np.all(rule_upper_corners[r,:]==RULE_UPPER_CONST):
-#            rule_mask[r]=False
-#            found_one=True
-#    if found_one:
-#        rule_lower_corners=rule_lower_corners[rule_mask,:]
-#        rule_upper_corners=rule_upper_corners[rule_mask,:]
-#        leaf_values=leaf_values[rule_mask]
-#        print('removed ' + str(np.sum(rule_mask==False)) + ' rules')
-            
-    # filter unused features
-#    feats = np.any(np.vstack([rule_lower_corners != RULE_LOWER_CONST,
-#                              rule_upper_corners != RULE_UPPER_CONST]), axis=0)
-#    feats_idx = np.where(feats)[0]#np.arange(num_feats)#
-#    rule_upper_corners = rule_upper_corners[:, feats]
-#    rule_lower_corners = rule_lower_corners[:, feats]
-#    leaf_upper_corners = leaf_upper_corners[:, feats]
-#    leaf_lower_corners = leaf_lower_corners[:, feats]
+
     # XXX eliminate this dist_feats usage, not needed or useful (too confusing)
     feats_idx =np.arange(rule_lower_corners.shape[1],dtype=np.int64)
-    # XXX NEEDS TIDY UP: this re-allocation is needed to moves arrays from C-major to F-major. Fix the subsequent cython calls to always use C-major
+    # XXX NEEDS TIDY UP: this re-allocation is needed to moves arrays from 
+    # C-major to F-major. Fix the subsequent cython calls to always use C-major
     rule_upper_corners = rule_upper_corners[:, feats_idx]
     rule_lower_corners = rule_lower_corners[:, feats_idx]
     leaf_upper_corners = leaf_upper_corners[:, feats_idx]
@@ -1779,8 +1275,6 @@ def extract_rules_from_tree(tree, num_feats, incr_feats, decr_feats):
                 new_upper[feature] = threshold
             else:
                 new_lower[feature] = threshold
-        # tree.children_left[node_id] != tree.children_right[node_id]: #not
-        # tree.feature[node_id] == -2:
         if tree.children_left[node_id] != TREE_LEAF:
             feature = tree.feature[node_id]
             threshold = tree.threshold[node_id]
@@ -1879,7 +1373,7 @@ class RuleEnsemble(BaseEnsemble):
         X = self._validate_X_predict(X, check_input=True)
         res = np.zeros(X.shape[0]) + self.intercept_
         if self.tree is not None:
-            X_leaf_node_ids = None # no longer used self.tree.apply(X, check_input=False).astype(np.int32)
+            X_leaf_node_ids = None # no longer used 
             if self.node_rule_feats_upper is not None:
                 rule_mask = apply_rules(
                         X[:, self.dist_feats],
@@ -1968,7 +1462,6 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
         self.decr_feats = decr_feats
         self.coef_calc_type = coef_calc_type
         self.rule_feat_caching = rule_feat_caching
-#        self.mt_type = mt_type
 
     @property
     def mt_feats(self):
@@ -2014,9 +1507,6 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             residual = loss.negative_gradient(y, y_pred, k=k,
                                               sample_weight=sample_weight)
 
-#            mt_type=None if self.mt_type=='global' else self.mt_feat_types
-            # induce regression tree on residuals
-#            if self.mt_type=='global':
             tree = DecisionTreeRegressorSklearn(
                 criterion=self.criterion,
                 splitter='best',
@@ -2030,21 +1520,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                 max_leaf_nodes=self.max_leaf_nodes,
                 random_state=random_state,
                 presort=self.presort)  
-#            else:
-#                tree = DecisionTreeRegressorLocalMono(
-#                    criterion=self.criterion,
-#                    splitter='best',
-#                    max_depth=self.max_depth,
-#                    min_samples_split=self.min_samples_split,
-#                    min_samples_leaf=self.min_samples_leaf,
-#                    min_weight_fraction_leaf=self.min_weight_fraction_leaf,
-#                    min_impurity_decrease=self.min_impurity_decrease,
-#                    min_impurity_split=self.min_impurity_split,
-#                    max_features=self.max_features,
-#                    max_leaf_nodes=self.max_leaf_nodes,
-#                    random_state=random_state,
-#                    presort=self.presort,
-#                    mt_feat_types=mt_type)  
+
             if self.subsample < 1.0:
                 # no inplace multiplication!
                 sample_weight = sample_weight * sample_mask.astype(np.float64)
@@ -2059,20 +1535,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             X_use = X_csr if X_csr is not None else X
 
             X_leaf_node_ids = None # no longer used under set regime tree.apply(X_use, check_input=False).astype(np.int32)
-            
-#            if self.mt_type=='local': # monotonicity was applied locally, this is standard GB
-#                [leaf_ids,
-#                 leaf_values,
-#                 leaf_lower_corners,
-#                 leaf_upper_corners,
-#                 rule_upper_corners,
-#                 rule_lower_corners,
-#                 dist_feats] = extract_rules_from_tree(tree.tree_,
-#                                                       X.shape[1],
-#                                                       np.asarray([]),
-#                                                       np.asarray([]))
-#            else: # global, extract and monotonise rules
-                    
+
             # extract monotone rules
             [leaf_ids,
              leaf_values,
@@ -2084,18 +1547,8 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                                                    X.shape[1],
                                                    self.incr_feats,
                                                    self.decr_feats)
-#                [leaf_ids2,
-#                 leaf_values2,
-#                 leaf_lower_corners2,
-#                 leaf_upper_corners2,
-#                 rule_upper_corners2,
-#                 rule_lower_corners2,
-#                 dist_feats2] = extract_rules_from_tree_cython(tree.tree_,
-#                                                       X.shape[1],
-#                                                       self.incr_feats,
-#                                                       self.decr_feats)
-#                
-            X_leaf_node_ids = None # no longer used under set regime tree.apply(X_use, check_input=False).astype(np.int32)
+     
+            X_leaf_node_ids = None # no longer used under set regime 
             
             # build node rule map
             if len(leaf_ids) > 0:
@@ -2110,13 +1563,6 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                         rule_upper_corners)
                 else:
                     node_rule_map=None
-#                    node_rule_map = build_node_rule_map(
-#                        leaf_ids,
-#                        leaf_values,
-#                        leaf_lower_corners,
-#                        leaf_upper_corners,
-#                        rule_lower_corners,
-#                        rule_upper_corners)
                     node_rule_feats_upper = None
                     node_rule_feats_lower = None
             else:
@@ -2139,17 +1585,6 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                     rule_upper_corners,
                     X_leaf_node_ids,
                     node_rule_map)
-#                    # UTH XXX trial tree version
-#                    rule_mask2 = apply_rules_tree_sorted( #apply_rules_tree_sorted apply_rules_tree
-#                        X_use,
-#                        rule_lower_corners,
-#                        rule_upper_corners,
-#                        tree)    
-#
-##
-#                    gg=np.sum(rule_mask!=rule_mask2)
-#                    print('really: ' + str(gg))
-
             else:
                 X_leaf_node_ids = tree.apply(X_use, check_input=False).astype(np.int32)
         
@@ -2161,13 +1596,6 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                     node_rule_map,
                     node_rule_feats_upper,
                     node_rule_feats_lower)
-#            else: # local monotonicity type, quicker to calculate rule mask as follows                
-#                rule_mask=np.zeros([X_use.shape[0],len(leaf_ids)],dtype=np.bool)
-#                for r in np.arange(len(leaf_ids)):
-#                    rule_mask[:,r]=X_leaf_node_ids==leaf_ids[r]
-            
-            # if np.sum(np.abs(rule_mask2-rule_mask))>0.01:
-            #    print('prob houston')
             intercept_ = loss.update_terminal_rules(
                 rule_mask,
                 leaf_values,
@@ -2552,33 +1980,6 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                     self.estimators_[i, k].decision_function(X)
         return score
 
-
-#    def _staged_decision_function(self, X):
-#        """Compute decision function of ``X`` for each iteration.
-#
-#        This method allows monitoring (i.e. determine error on testing set)
-#        after each stage.
-#
-#        Parameters
-#        ----------
-#        X : array-like or sparse matrix, shape = [n_samples, n_features]
-#            The input samples. Internally, it will be converted to
-#            ``dtype=np.float32`` and if a sparse matrix is provided
-#            to a sparse ``csr_matrix``.
-#
-#        Returns
-#        -------
-#        score : generator of array, shape = [n_samples, k]
-#            The decision function of the input samples. The order of the
-#            classes corresponds to that in the attribute `classes_`.
-#            Regression and binary classification are special cases with
-#            ``k == 1``, otherwise ``k==n_classes``.
-#        """
-#        X = check_array(X, dtype=DTYPE, order="C",  accept_sparse='csr')
-#        score = self._init_decision_function(X)
-#        for i in range(self.estimators_.shape[0]):
-#            predict_stage(self.estimators_, i, X, self.learning_rate, score)
-#            yield score.copy()
 
     @property
     def feature_importances_(self):
@@ -3277,7 +2678,6 @@ class ConstrainedLogisticRegression:
             The predicted classes, or the predict values.
         """
 
-        # X = self._validate_X_predict(X, check_input)
         proba = self.predict_proba(X)
 
         return self.classes_.take(np.argmax(proba, axis=1), axis=0)
@@ -3436,12 +2836,6 @@ def _logistic_loss(
     if sample_weight is None:
         sample_weight = np.ones(y.shape[0])
 
-    
-#    out = -np.sum(sample_weight * log_logistic(yz + y * offset)) + .5 * \
-#        alpha * (np.dot(w, w) + intercept**2)  # (1/X.shape[0])*
-#    
-#    return out
-    #X_=yz + y * offset#np.atleast_2d(yz + y * offset)
     n_samples=len(y)
     
     out = -np.sum(sample_weight * _log_logistic_sigmoid(n_samples,  yz + y * offset)) + .5 * \
@@ -3478,16 +2872,8 @@ def _intercept_dot(w, X, y):
     if w.size == X.shape[1] + 1: # has intercept
         c = w[-1]
         w = w[:-1]
-        #z = safe_sparse_dot(X, w[:-1]) + c
-        #yz = y * z
-        #return w[:-1], c, yz
-    #else:
     z = safe_sparse_dot(X, w) + c
     yz = y * z
-    #return w, c, yz
-#    yz =(safe_sparse_dot(X, w) + c)*y
-    #z= _custom_dot(X, w) +c
-    #yz=_custom_dot_multiply(X, w,y,c)# +c
     
     return w, c, yz
 
@@ -3524,536 +2910,4 @@ def nnlr(X, y, sample_weight, C, coef_limits, regularise_intercept, alpha,
 #   END CONSTRAINED LOGISTIC REGRESSION CODE   #
 ################################################
 
-############################################################
-#  START SAVED REGRESSION RELATED CODE FOR MODIFICATION    #
-############################################################
 
-# class QuantileEstimator(object):
-#    """An estimator predicting the alpha-quantile of the training targets."""
-#    def __init__(self, alpha=0.9):
-#        if not 0 < alpha < 1.0:
-#            raise ValueError("`alpha` must be in (0, 1.0) but was %r" % alpha)
-#        self.alpha = alpha
-#
-#    def fit(self, X, y, sample_weight=None):
-#        if sample_weight is None:
-#            self.quantile = stats.scoreatpercentile(y, self.alpha * 100.0)
-#        else:
-#            self.quantile = _weighted_percentile(y, sample_weight,
-#                                                 self.alpha * 100.0)
-#
-#    def predict(self, X):
-#        check_is_fitted(self, 'quantile')
-#
-#        y = np.empty((X.shape[0], 1), dtype=np.float64)
-#        y.fill(self.quantile)
-#        return y
-#
-#
-# class MeanEstimator(object):
-#    """An estimator predicting the mean of the training targets."""
-#    def fit(self, X, y, sample_weight=None):
-#        if sample_weight is None:
-#            self.mean = np.mean(y)
-#        else:
-#            self.mean = np.average(y, weights=sample_weight)
-#
-#    def predict(self, X):
-#        check_is_fitted(self, 'mean')
-#
-#        y = np.empty((X.shape[0], 1), dtype=np.float64)
-#        y.fill(self.mean)
-#        return y
-# class RegressionLossFunction(six.with_metaclass(ABCMeta, LossFunction)):
-#    """Base class for regression loss functions. """
-#
-#    def __init__(self, n_classes):
-#        if n_classes != 1:
-#            raise ValueError("``n_classes`` must be 1 for regression but "
-#                             "was %r" % n_classes)
-#        super(RegressionLossFunction, self).__init__(n_classes)
-#
-#
-# class LeastSquaresError(RegressionLossFunction):
-#    """Loss function for least squares (LS) estimation.
-#    Terminal regions need not to be updated for least squares. """
-#    def init_estimator(self):
-#        return MeanEstimator()
-#
-#    def __call__(self, y, pred, sample_weight=None):
-#        if sample_weight is None:
-#            return np.mean((y - pred.ravel()) ** 2.0)
-#        else:
-#            return (1.0 / sample_weight.sum() *
-#                    np.sum(sample_weight * ((y - pred.ravel()) ** 2.0)))
-#
-#    def negative_gradient(self, y, pred, **kargs):
-#        return y - pred.ravel()
-#
-#    def update_terminal_regions(self, tree, X, y, residual, y_pred,
-#                                sample_weight, sample_mask,
-#                                learning_rate=1.0, k=0):
-#        """Least squares does not need to update terminal regions.
-#
-#        But it has to update the predictions.
-#        """
-#        # update predictions
-#        y_pred[:, k] += learning_rate * tree.predict(X).ravel()
-#
-#    def _update_terminal_region(self, tree, terminal_regions, leaf, X, y,
-#                                residual, pred, sample_weight):
-#        pass
-#
-#
-# class LeastAbsoluteError(RegressionLossFunction):
-#    """Loss function for least absolute deviation (LAD) regression. """
-#    def init_estimator(self):
-#        return QuantileEstimator(alpha=0.5)
-#
-#    def __call__(self, y, pred, sample_weight=None):
-#        if sample_weight is None:
-#            return np.abs(y - pred.ravel()).mean()
-#        else:
-#            return (1.0 / sample_weight.sum() *
-#                    np.sum(sample_weight * np.abs(y - pred.ravel())))
-#
-#    def negative_gradient(self, y, pred, **kargs):
-#        """1.0 if y - pred > 0.0 else -1.0"""
-#        pred = pred.ravel()
-#        return 2.0 * (y - pred > 0.0) - 1.0
-#
-#    def _update_terminal_region(self, tree, terminal_regions, leaf, X, y,
-#                                residual, pred, sample_weight):
-#        """LAD updates terminal regions to median estimates. """
-#        terminal_region = np.where(terminal_regions == leaf)[0]
-#        sample_weight = sample_weight.take(terminal_region, axis=0)
-#        diff = y.take(terminal_region, axis=0) - pred.take(terminal_region,
-#                       axis=0)
-#        tree.value[leaf, 0, 0] = _weighted_percentile(diff, sample_weight,
-#                                                       percentile=50)
-#
-#
-# class HuberLossFunction(RegressionLossFunction):
-#    """Huber loss function for robust regression.
-#
-#    M-Regression proposed in Friedman 2001.
-#
-#    References
-#    ----------
-#    J. Friedman, Greedy Function Approximation: A Gradient Boosting
-#    Machine, The Annals of Statistics, Vol. 29, No. 5, 2001.
-#    """
-#
-#    def __init__(self, n_classes, alpha=0.9):
-#        super(HuberLossFunction, self).__init__(n_classes)
-#        self.alpha = alpha
-#        self.gamma = None
-#
-#    def init_estimator(self):
-#        return QuantileEstimator(alpha=0.5)
-#
-#    def __call__(self, y, pred, sample_weight=None):
-#        pred = pred.ravel()
-#        diff = y - pred
-#        gamma = self.gamma
-#        if gamma is None:
-#            if sample_weight is None:
-#                gamma = stats.scoreatpercentile(np.abs(diff), self.alpha *
-#                                                100)
-#            else:
-#                gamma = _weighted_percentile(np.abs(diff), sample_weight,
-#                                               self.alpha * 100)
-#
-#        gamma_mask = np.abs(diff) <= gamma
-#        if sample_weight is None:
-#            sq_loss = np.sum(0.5 * diff[gamma_mask] ** 2.0)
-#            lin_loss = np.sum(gamma * (np.abs(diff[~gamma_mask]) - gamma
-#                                       / 2.0))
-#            loss = (sq_loss + lin_loss) / y.shape[0]
-#        else:
-#            sq_loss = np.sum(0.5 * sample_weight[gamma_mask] *
-#                               diff[gamma_mask] ** 2.0)
-#            lin_loss = np.sum(gamma * sample_weight[~gamma_mask] *
-#                              (np.abs(diff[~gamma_mask]) - gamma / 2.0))
-#            loss = (sq_loss + lin_loss) / sample_weight.sum()
-#        return loss
-#
-#    def negative_gradient(self, y, pred, sample_weight=None, **kargs):
-#        pred = pred.ravel()
-#        diff = y - pred
-#        if sample_weight is None:
-#            gamma = stats.scoreatpercentile(np.abs(diff), self.alpha * 100)
-#        else:
-#            gamma = _weighted_percentile(np.abs(diff), sample_weight,
-#                                           self.alpha * 100)
-#        gamma_mask = np.abs(diff) <= gamma
-#        residual = np.zeros((y.shape[0],), dtype=np.float64)
-#        residual[gamma_mask] = diff[gamma_mask]
-#        residual[~gamma_mask] = gamma * np.sign(diff[~gamma_mask])
-#        self.gamma = gamma
-#        return residual
-#
-#    def _update_terminal_region(self, tree, terminal_regions, leaf, X, y,
-#                                residual, pred, sample_weight):
-#        terminal_region = np.where(terminal_regions == leaf)[0]
-#        sample_weight = sample_weight.take(terminal_region, axis=0)
-#        gamma = self.gamma
-#        diff = (y.take(terminal_region, axis=0)
-#                - pred.take(terminal_region, axis=0))
-#        median = _weighted_percentile(diff, sample_weight, percentile=50)
-#        diff_minus_median = diff - median
-#        tree.value[leaf, 0] = median + np.mean(
-#            np.sign(diff_minus_median) *
-#            np.minimum(np.abs(diff_minus_median), gamma))
-#
-#
-# class QuantileLossFunction(RegressionLossFunction):
-#    """Loss function for quantile regression.
-#
-#    Quantile regression allows to estimate the percentiles
-#    of the conditional distribution of the target.
-#    """
-#
-#    def __init__(self, n_classes, alpha=0.9):
-#        super(QuantileLossFunction, self).__init__(n_classes)
-#        assert 0 < alpha < 1.0
-#        self.alpha = alpha
-#        self.percentile = alpha * 100.0
-#
-#    def init_estimator(self):
-#        return QuantileEstimator(self.alpha)
-#
-#    def __call__(self, y, pred, sample_weight=None):
-#        pred = pred.ravel()
-#        diff = y - pred
-#        alpha = self.alpha
-#
-#        mask = y > pred
-#        if sample_weight is None:
-#            loss = (alpha * diff[mask].sum() -
-#                    (1.0 - alpha) * diff[~mask].sum()) / y.shape[0]
-#        else:
-#            loss = ((alpha * np.sum(sample_weight[mask] * diff[mask]) -
-#                    (1.0 - alpha) * np.sum(sample_weight[~mask] *
-#                                           diff[~mask])) /
-#                    sample_weight.sum())
-#        return loss
-#
-#    def negative_gradient(self, y, pred, **kargs):
-#        alpha = self.alpha
-#        pred = pred.ravel()
-#        mask = y > pred
-#        return (alpha * mask) - ((1.0 - alpha) * ~mask)
-#
-#    def _update_terminal_region(self, tree, terminal_regions, leaf, X, y,
-#                                residual, pred, sample_weight):
-#        terminal_region = np.where(terminal_regions == leaf)[0]
-#        diff = (y.take(terminal_region, axis=0)
-#                - pred.take(terminal_region, axis=0))
-#        sample_weight = sample_weight.take(terminal_region, axis=0)
-#
-#        val = _weighted_percentile(diff, sample_weight, self.percentile)
-#        tree.value[leaf, 0] = val
-
-# class MonoGradientBoostingRegressor(BaseMonoGradientBoosting,
-#                                       RegressorMixin):
-#    """Gradient Boosting for regression.
-#
-#    GB builds an additive model in a forward stage-wise fashion;
-#    it allows for the optimization of arbitrary differentiable loss functions.
-#    In each stage a regression tree is fit on the negative gradient of the
-#    given loss function.
-#
-#    Read more in the :ref:`User Guide <gradient_boosting>`.
-#
-#    Parameters
-#    ----------
-#    loss : {'ls', 'lad', 'huber', 'quantile'}, optional (default='ls')
-#        loss function to be optimized. 'ls' refers to least squares
-#        regression. 'lad' (least absolute deviation) is a highly robust
-#        loss function solely based on order information of the input
-#        variables. 'huber' is a combination of the two. 'quantile'
-#        allows quantile regression (use `alpha` to specify the quantile).
-#
-#    learning_rate : float, optional (default=0.1)
-#        learning rate shrinks the contribution of each tree by `learning_rate`
-#        There is a trade-off between learning_rate and n_estimators.
-#
-#    n_estimators : int (default=100)
-#        The number of boosting stages to perform. Gradient boosting
-#        is fairly robust to over-fitting so a large number usually
-#        results in better performance.
-#
-#    max_depth : integer, optional (default=3)
-#        maximum depth of the individual regression estimators. The maximum
-#        depth limits the number of nodes in the tree. Tune this parameter
-#        for best performance; the best value depends on the interaction
-#        of the input variables.
-#
-#    criterion : string, optional (default="friedman_mse")
-#        The function to measure the quality of a split. Supported criteria
-#        are "friedman_mse" for the mean squared error with improvement
-#        score by Friedman, "mse" for mean squared error, and "mae" for
-#        the mean absolute error. The default value of "friedman_mse" is
-#        generally the best as it can provide a better approximation in
-#        some cases.
-#
-#        .. versionadded:: 0.18
-#
-#    min_samples_split : int, float, optional (default=2)
-#        The minimum number of samples required to split an internal node:
-#
-#        - If int, then consider `min_samples_split` as the minimum number.
-#        - If float, then `min_samples_split` is a percentage and
-#          `ceil(min_samples_split * n_samples)` are the minimum
-#          number of samples for each split.
-#
-#        .. versionchanged:: 0.18
-#           Added float values for percentages.
-#
-#    min_samples_leaf : int, float, optional (default=1)
-#        The minimum number of samples required to be at a leaf node:
-#
-#        - If int, then consider `min_samples_leaf` as the minimum number.
-#        - If float, then `min_samples_leaf` is a percentage and
-#          `ceil(min_samples_leaf * n_samples)` are the minimum
-#          number of samples for each node.
-#
-#        .. versionchanged:: 0.18
-#           Added float values for percentages.
-#
-#    min_weight_fraction_leaf : float, optional (default=0.)
-#        The minimum weighted fraction of the sum total of weights (of all
-#        the input samples) required to be at a leaf node. Samples have
-#        equal weight when sample_weight is not provided.
-#
-#    subsample : float, optional (default=1.0)
-#        The fraction of samples to be used for fitting the individual base
-#        learners. If smaller than 1.0 this results in Stochastic Gradient
-#        Boosting. `subsample` interacts with the parameter `n_estimators`.
-#        Choosing `subsample < 1.0` leads to a reduction of variance
-#        and an increase in bias.
-#
-#    max_features : int, float, string or None, optional (default=None)
-#        The number of features to consider when looking for the best split:
-#
-#        - If int, then consider `max_features` features at each split.
-#        - If float, then `max_features` is a percentage and
-#          `int(max_features * n_features)` features are considered at each
-#          split.
-#        - If "auto", then `max_features=n_features`.
-#        - If "sqrt", then `max_features=sqrt(n_features)`.
-#        - If "log2", then `max_features=log2(n_features)`.
-#        - If None, then `max_features=n_features`.
-#
-#        Choosing `max_features < n_features` leads to a reduction of variance
-#        and an increase in bias.
-#
-#        Note: the search for a split does not stop until at least one
-#        valid partition of the node samples is found, even if it requires to
-#        effectively inspect more than ``max_features`` features.
-#
-#    max_leaf_nodes : int or None, optional (default=None)
-#        Grow trees with ``max_leaf_nodes`` in best-first fashion.
-#        Best nodes are defined as relative reduction in impurity.
-#        If None then unlimited number of leaf nodes.
-#
-#    min_impurity_split : float,
-#        Threshold for early stopping in tree growth. A node will split
-#        if its impurity is above the threshold, otherwise it is a leaf.
-#
-#        .. deprecated:: 0.19
-#           ``min_impurity_split`` has been deprecated in favor of
-#           ``min_impurity_decrease`` in 0.19 and will be removed in 0.21.
-#           Use ``min_impurity_decrease`` instead.
-#
-#    min_impurity_decrease : float, optional (default=0.)
-#        A node will be split if this split induces a decrease of the impurity
-#        greater than or equal to this value.
-#
-#        The weighted impurity decrease equation is the following::
-#
-#            N_t / N * (impurity - N_t_R / N_t * right_impurity
-#                                - N_t_L / N_t * left_impurity)
-#
-#        where ``N`` is the total number of samples, ``N_t`` is the number of
-#        samples at the current node, ``N_t_L`` is the number of samples in the
-#        left child, and ``N_t_R`` is the number of samples in the right child.
-#
-#        ``N``, ``N_t``, ``N_t_R`` and ``N_t_L`` all refer to the weighted sum,
-#        if ``sample_weight`` is passed.
-#
-#        .. versionadded:: 0.19
-#
-#    alpha : float (default=0.9)
-#        The alpha-quantile of the huber loss function and the quantile
-#        loss function. Only if ``loss='huber'`` or ``loss='quantile'``.
-#
-#    init : BaseEstimator, None, optional (default=None)
-#        An estimator object that is used to compute the initial
-#        predictions. ``init`` has to provide ``fit`` and ``predict``.
-#        If None it uses ``loss.init_estimator``.
-#
-#    verbose : int, default: 0
-#        Enable verbose output. If 1 then it prints progress and performance
-#        once in a while (the more trees the lower the frequency). If greater
-#        than 1 then it prints progress and performance for every tree.
-#
-#    warm_start : bool, default: False
-#        When set to ``True``, reuse the solution of the previous call to fit
-#        and add more estimators to the ensemble, otherwise, just erase the
-#        previous solution.
-#
-#    random_state : int, RandomState instance or None, optional (default=None)
-#        If int, random_state is the seed used by the random number generator;
-#        If RandomState instance, random_state is the random number generator;
-#        If None, the random number generator is the RandomState instance used
-#        by `np.random`.
-#
-#    presort : bool or 'auto', optional (default='auto')
-#        Whether to presort the data to speed up the finding of best splits in
-#        fitting. Auto mode by default will use presorting on dense data and
-#        default to normal sorting on sparse data. Setting presort to true on
-#        sparse data will raise an error.
-#
-#        .. versionadded:: 0.17
-#           optional parameter *presort*.
-#
-#    Attributes
-#    ----------
-#    feature_importances_ : array, shape = [n_features]
-#        The feature importances (the higher, the more important the feature).
-#
-#    oob_improvement_ : array, shape = [n_estimators]
-#        The improvement in loss (= deviance) on the out-of-bag samples
-#        relative to the previous iteration.
-#        ``oob_improvement_[0]`` is the improvement in
-#        loss of the first stage over the ``init`` estimator.
-#
-#    train_score_ : array, shape = [n_estimators]
-#        The i-th score ``train_score_[i]`` is the deviance (= loss) of the
-#        model at iteration ``i`` on the in-bag sample.
-#        If ``subsample == 1`` this is the deviance on the training data.
-#
-#    loss_ : LossFunction
-#        The concrete ``LossFunction`` object.
-#
-#    init : BaseEstimator
-#        The estimator that provides the initial predictions.
-#        Set via the ``init`` argument or ``loss.init_estimator``.
-#
-#    estimators_ : ndarray of DecisionTreeRegressor, shape = [n_estimators, 1]
-#        The collection of fitted sub-estimators.
-#
-#    Notes
-#    -----
-#    The features are always randomly permuted at each split. Therefore,
-#    the best found split may vary, even with the same training data and
-#    ``max_features=n_features``, if the improvement of the criterion is
-#    identical for several splits enumerated during the search of the best
-#    split. To obtain a deterministic behaviour during fitting,
-#    ``random_state`` has to be fixed.
-#
-#    See also
-#    --------
-#    DecisionTreeRegressor, RandomForestRegressor
-#
-#    References
-#    ----------
-#    J. Friedman, Greedy Function Approximation: A Gradient Boosting
-#    Machine, The Annals of Statistics, Vol. 29, No. 5, 2001.
-#
-#    J. Friedman, Stochastic Gradient Boosting, 1999
-#
-#    T. Hastie, R. Tibshirani and J. Friedman.
-#    Elements of Statistical Learning Ed. 2, Springer, 2009.
-#    """
-#
-#    _SUPPORTED_LOSS = ('ls', 'lad', 'huber', 'quantile')
-#
-#    def __init__(self, loss='ls', learning_rate=0.1, n_estimators=100,
-#                 subsample=1.0, criterion='friedman_mse', min_samples_split=2,
-#                 min_samples_leaf=1, min_weight_fraction_leaf=0.,
-#                 max_depth=3, min_impurity_decrease=0.,
-#                 min_impurity_split=None, init=None, random_state=None,
-#                 max_features=None, alpha=0.9, verbose=0, max_leaf_nodes=None,
-#                 warm_start=False, presort='auto'):
-#
-#        super(MonoGradientBoostingRegressor, self).__init__(
-#            loss=loss, learning_rate=learning_rate, n_estimators=n_estimators,
-#            criterion=criterion, min_samples_split=min_samples_split,
-#            min_samples_leaf=min_samples_leaf,
-#            min_weight_fraction_leaf=min_weight_fraction_leaf,
-#            max_depth=max_depth, init=init, subsample=subsample,
-#            max_features=max_features,
-#            min_impurity_decrease=min_impurity_decrease,
-#            min_impurity_split=min_impurity_split,
-#            random_state=random_state, alpha=alpha, verbose=verbose,
-#            max_leaf_nodes=max_leaf_nodes, warm_start=warm_start,
-#            presort=presort)
-#
-#    def predict(self, X):
-#        """Predict regression target for X.
-#
-#        Parameters
-#        ----------
-#        X : array-like or sparse matrix, shape = [n_samples, n_features]
-#            The input samples. Internally, it will be converted to
-#            ``dtype=np.float32`` and if a sparse matrix is provided
-#            to a sparse ``csr_matrix``.
-#
-#        Returns
-#        -------
-#        y : array of shape = [n_samples]
-#            The predicted values.
-#        """
-#        X = check_array(X, dtype=DTYPE, order="C",  accept_sparse='csr')
-#        return self._decision_function(X).ravel()
-#
-#    def staged_predict(self, X):
-#        """Predict regression target at each stage for X.
-#
-#        This method allows monitoring (i.e. determine error on testing set)
-#        after each stage.
-#
-#        Parameters
-#        ----------
-#        X : array-like or sparse matrix, shape = [n_samples, n_features]
-#            The input samples. Internally, it will be converted to
-#            ``dtype=np.float32`` and if a sparse matrix is provided
-#            to a sparse ``csr_matrix``.
-#
-#        Returns
-#        -------
-#        y : generator of array of shape = [n_samples]
-#            The predicted value of the input samples.
-#        """
-#        for y in self._staged_decision_function(X):
-#            yield y.ravel()
-#
-#    def apply(self, X):
-#        """Apply trees in the ensemble to X, return leaf indices.
-#
-#        .. versionadded:: 0.17
-#
-#        Parameters
-#        ----------
-#        X : array-like or sparse matrix, shape = [n_samples, n_features]
-#            The input samples. Internally, its dtype will be converted to
-#            ``dtype=np.float32``. If a sparse matrix is provided, it will
-#            be converted to a sparse ``csr_matrix``.
-#
-#        Returns
-#        -------
-#        X_leaves : array_like, shape = [n_samples, n_estimators]
-#            For each datapoint x in X and for each tree in the ensemble,
-#            return the index of the leaf x ends up in each estimator.
-#        """
-#
-#        leaves = super(MonoGradientBoostingRegressor, self).apply(X)
-#        leaves = leaves.reshape(X.shape[0], self.estimators_.shape[0])
-#        return leaves
-
-############################################################
-#   END SAVED REGRESSION RELATED CODE FOR MODIFICATION     #
-############################################################

@@ -13,8 +13,6 @@ cimport cython
 from libc.stdlib cimport free
 from libc.string cimport memset
 from libcpp cimport bool
-#from libc.math cimport exp
-#from libc.math cimport log
 import numpy as np
 cimport numpy as np
 np.import_array()
@@ -22,12 +20,6 @@ np.import_array()
 from scipy.sparse import issparse
 from scipy.sparse import csr_matrix
 
-#from sklearn.tree._tree cimport Node
-#from sklearn.tree._tree cimport Tree
-#from sklearn.tree._tree cimport DTYPE_t
-#from sklearn.tree._tree cimport SIZE_t
-#from sklearn.tree._tree cimport INT32_t
-#from sklearn.tree._utils cimport safe_realloc
 ctypedef np.npy_float32 DTYPE_t          # Type of X
 ctypedef np.npy_float64 DOUBLE_t         # Type of y, sample_weight
 ctypedef np.npy_intp SIZE_t              # Type for indices and counters
@@ -52,37 +44,20 @@ cdef SIZE_t TREE_LEAF = -1
 cdef float64 RULE_LOWER_CONST=-1e9
 cdef float64 RULE_UPPER_CONST=1e9
 cdef int32 MIN_NODE_SIZE_FOR_SORTING_=5
-
-
-
-
-
-#ctypedef np.float64_t DTYPE_t
-
 cdef _log_logistic_sigmoid_(int32 n_samples, 
                             float64 *X,
                             float64 * out):
     cdef int32 i=0
-    
     for i in range(n_samples):
         if X[i]>0.:
             out[i]=-log(1.+exp(-X[i]))
         else:
             out[i]=X[i]-log(1.+exp(X[i]))
     return
-#cdef DOUBLE_t _inner_log_logistic_sigmoid(DOUBLE_t x):
-#    """Log of the logistic sigmoid function log(1 / (1 + e ** -x))"""
-#    if x > 0:
-#        return -np.log1p(exp(-x))
-#    else:
-#        return x - np.log1p(exp(x))
 
 
 def _log_logistic_sigmoid(int32 n_samples,  
                            np.ndarray[DOUBLE_t, ndim=1] X):
-#    for i in range(n_samples):
-#        for j in range(n_features):
-#            out[i, j] = _inner_log_logistic_sigmoid(X[i, j])
     out=np.empty_like(X)
     _log_logistic_sigmoid_( n_samples, 
                             <float64*> (<np.ndarray> X).data  ,
@@ -107,9 +82,6 @@ cdef _custom_dot_(float64 *X,
 
 def _custom_dot(np.ndarray[float64, ndim=2] X,
                 np.ndarray[float64, ndim=1] w):
-#    for i in range(n_samples):
-#        for j in range(n_features):
-#            out[i, j] = _inner_log_logistic_sigmoid(X[i, j])
     out=np.zeros(X.shape[0],dtype=np.float64)
     _custom_dot_(
                             <float64*> (<np.ndarray> X).data  ,
@@ -141,9 +113,6 @@ def _custom_dot_multiply(np.ndarray[float64, ndim=2] X,
                 np.ndarray[float64, ndim=1] w,
                 np.ndarray[float64, ndim=1] y,
                 float64 c):
-#    for i in range(n_samples):
-#        for j in range(n_features):
-#            out[i, j] = _inner_log_logistic_sigmoid(X[i, j])
     out=np.zeros(X.shape[0],dtype=np.float64)
     _custom_dot_multiply_(
                             <float64*> (<np.ndarray> X).data  ,
@@ -157,88 +126,6 @@ def _custom_dot_multiply(np.ndarray[float64, ndim=2] X,
     return out
 
 
-#cdef void _predict_regression_tree_inplace_fast_dense(DTYPE_t *X,
-#                                                      Node* root_node,
-#                                                      double *value,
-#                                                      double scale,
-#                                                      Py_ssize_t k,
-#                                                      Py_ssize_t K,
-#                                                      Py_ssize_t n_samples,
-#                                                      Py_ssize_t n_features,
-#                                                      float64 *out):
-#    """Predicts output for regression tree and stores it in ``out[i, k]``.
-#
-#    This function operates directly on the data arrays of the tree
-#    data structures. This is 5x faster than the variant above because
-#    it allows us to avoid buffer validation.
-#
-#    The function assumes that the ndarray that wraps ``X`` is
-#    c-continuous.
-#
-#    Parameters
-#    ----------
-#    X : DTYPE_t pointer
-#        The pointer to the data array of the input ``X``.
-#        Assumes that the array is c-continuous.
-#    root_node : tree Node pointer
-#        Pointer to the main node array of the :class:``sklearn.tree.Tree``.
-#    value : np.float64_t pointer
-#        The pointer to the data array of the ``value`` array attribute
-#        of the :class:``sklearn.tree.Tree``.
-#    scale : double
-#        A constant to scale the predictions.
-#    k : int
-#        The index of the tree output to be predicted. Must satisfy
-#        0 <= ``k`` < ``K``.
-#    K : int
-#        The number of regression tree outputs. For regression and
-#        binary classification ``K == 1``, for multi-class
-#        classification ``K == n_classes``.
-#    n_samples : int
-#        The number of samples in the input array ``X``;
-#        ``n_samples == X.shape[0]``.
-#    n_features : int
-#        The number of features; ``n_samples == X.shape[1]``.
-#    out : np.float64_t pointer
-#        The pointer to the data array where the predictions are stored.
-#        ``out`` is assumed to be a two-dimensional array of
-#        shape ``(n_samples, K)``.
-#    """
-#    cdef Py_ssize_t i
-#    cdef Node *node
-#    for i in range(n_samples):
-#        node = root_node
-#        # While node not a leaf
-#        while node.left_child != TREE_LEAF:
-#            if X[i * n_features + node.feature] <= node.threshold:
-#                node = root_node + node.left_child
-#            else:
-#                node = root_node + node.right_child
-#        out[i * K + k] += scale * value[node - root_node]
-#
-
-#cdef void _apply_rulesXXX(float64 *X,
-#                       float64 *rule_lower_corners,
-#                           float64 *rule_upper_corners,
-#                           Py_ssize_t n_samples,
-#                          Py_ssize_t n_features,
-#                          Py_ssize_t n_rules,
-#                          int32 *out):
-#    cdef int32 res 
-#    cdef Py_ssize_t i
-#    cdef Py_ssize_t j
-#    cdef Py_ssize_t r
-#    for i in range(n_samples):
-#        for r in range(n_rules):
-#            res=1
-#            j=0
-#            while res==1 and j<n_features:
-#                if X[j * n_samples + i] > rule_upper_corners[j * n_rules + r]:
-#                    res=0
-#                if X[j * n_samples + i] <= rule_lower_corners[j * n_rules +  r]:
-#                    res=0
-#                j=j+1
-#            out[i * n_rules + r]=res   
 cdef void _apply_rules_with_map_and_feat_cache(float64 *X,
                        float64 *rule_lower_corners,
                            float64 *rule_upper_corners,
@@ -312,7 +199,7 @@ cdef void _apply_rules_with_map_sparse(float64 *X,
                           int32 *node_rule_map,
                           int32 *out):
     """   """
-    #DTYPE_t
+
     cdef float64* lower_data = <float64*>(<np.ndarray> rule_lower_corners.data).data
     cdef INT32_t* lower_indices = <INT32_t*>(<np.ndarray> rule_lower_corners.indices).data
     cdef INT32_t* lower_indptr = <INT32_t*>(<np.ndarray> rule_lower_corners.indptr).data
@@ -369,7 +256,6 @@ cdef int32 _search_sorted(float64 *arr, int32 arr_start_idx,int32 arr_len,int32 
     cdef int32 last 
     cdef int32 found
     cdef int32 midpoint
-    #cdef int32 midpoint_plus_one
     first = 0
     last=arr_len-1
     found = 0
@@ -478,13 +364,6 @@ cdef void _apply_rules_set_based(float64 *X,
                           Py_ssize_t n_rules,
                           int32 *out):
     """   """
-    #DTYPE_t 
-#    cdef float64* lower_data = <float64*>(<np.ndarray> rule_lower_corners.data).data
-#    cdef INT32_t* lower_indices = <INT32_t*>(<np.ndarray> rule_lower_corners.indices).data
-#    cdef INT32_t* lower_indptr = <INT32_t*>(<np.ndarray> rule_lower_corners.indptr).data
-#    cdef float64* upper_data = <float64*>(<np.ndarray> rule_upper_corners.data).data
-#    cdef INT32_t* upper_indices = <INT32_t*>(<np.ndarray> rule_upper_corners.indices).data
-#    cdef INT32_t* upper_indptr = <INT32_t*>(<np.ndarray> rule_upper_corners.indptr).data
     cdef int32 res
     cdef int32 rule_start
     cdef int32 rule_end
@@ -498,8 +377,6 @@ cdef void _apply_rules_set_based(float64 *X,
     cdef int32 dirn
     cdef np.ndarray[np.int32_t, ndim=1] viable_set = np.empty(n_samples, dtype=np.int32)
     cdef np.ndarray[np.int32_t, ndim=1] feat_sets=np.zeros([n_features*2*4],dtype=np.int32)
-        
-    #cdef int32 viable_set[n_samples]
     cdef int32 viable_set_size
     cdef int32 viable_set_size_this
     cdef int32 i_viable
@@ -509,29 +386,25 @@ cdef void _apply_rules_set_based(float64 *X,
     # apply each rule
     for r in range(n_rules):
         i_f=0
-        for j in range(n_features): #np.arange(X.shape[1],dtype=np.int32):
-            if rule_lower_corners[j * n_rules + r]!=RULE_LOWER_CONST: #j + n_features * r
-                insert_pos=_search_sorted(sorted_feats,j*n_samples, n_samples,1,rule_lower_corners[j * n_rules + r]) #, side='right'
-                feat_sets[0*2*n_features+ i_f]=j#[j,-1,insert_pos,n_samples-insert_pos]
+        for j in range(n_features):
+            if rule_lower_corners[j * n_rules + r]!=RULE_LOWER_CONST: 
+                insert_pos=_search_sorted(sorted_feats,j*n_samples, n_samples,1,rule_lower_corners[j * n_rules + r]) 
+                feat_sets[0*2*n_features+ i_f]=j
                 feat_sets[1*2*n_features+ i_f]=-1
                 feat_sets[2*2*n_features+ i_f]=insert_pos
                 feat_sets[3*2*n_features+ i_f]=n_samples-insert_pos
                 i_f=i_f+1
             if rule_upper_corners[j * n_rules + r]!=RULE_UPPER_CONST: 
                 insert_pos=_search_sorted(sorted_feats,j*n_samples, n_samples,1,rule_upper_corners[j * n_rules + r])
-                #feat_sets[i_f,:]=[j,1,insert_pos,insert_pos]
-                feat_sets[0*2*n_features+ i_f]=j#[j,-1,insert_pos,n_samples-insert_pos]
+                feat_sets[0*2*n_features+ i_f]=j
                 feat_sets[1*2*n_features+ i_f]=1
                 feat_sets[2*2*n_features+ i_f]=insert_pos
                 feat_sets[3*2*n_features+ i_f]=insert_pos
                 i_f=i_f+1
         if i_f==0:
             for i in range(n_samples):
-                out[r +  i*n_rules]=1 #i * n_rules + r
-            #viable_pts=np.arange(n_samples,dtype=np.int32)
+                out[r +  i*n_rules]=1 
         else:
-            #feat_sets=feat_sets[0:i_f,:]
-            #feat_sets=feat_sets[feat_sets[:,3].argsort(),:]
             min_viable_size=100000
             min_viable_index=-1
             for i_ff in range(i_f):
@@ -546,12 +419,10 @@ cdef void _apply_rules_set_based(float64 *X,
             if viable_set_size>0:
                 if dirn==-1:
                     for i in range(viable_set_size):
-                        viable_set[i]=sorted_indxs[j*n_samples + (insert_pos+i)  ] #(i+insert_pos)*n_features + j 
-                    #viable_pts=sorted_indxs[insert_pos:,j]
+                        viable_set[i]=sorted_indxs[j*n_samples + (insert_pos+i)  ] 
                 else:
                     for i in range(viable_set_size):
-                        viable_set[i]=sorted_indxs[j*n_samples + (i) ] #i*n_features + j
-                    #viable_pts=sorted_indxs[0:insert_pos,j]
+                        viable_set[i]=sorted_indxs[j*n_samples + (i) ] 
                     
                 for i_ff in range(0,i_f):
                     if i_ff !=min_viable_index  and viable_set_size>0:
@@ -562,23 +433,21 @@ cdef void _apply_rules_set_based(float64 *X,
                         if dirn==-1:
                             i_viable=0
                             for i in range(viable_set_size):
-                                if  sorted_datapoint_posns[viable_set[i] + j*n_samples]>=insert_pos: # viable_set[i]*n_features + j 
+                                if  sorted_datapoint_posns[viable_set[i] + j*n_samples]>=insert_pos: 
                                     viable_set[i_viable]=viable_set[i]
                                     i_viable=i_viable+1
                             viable_set_size=i_viable
-                            #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]>=insert_pos]
                         else:
                             i_viable=0
                             for i in range(viable_set_size):
-                                if  sorted_datapoint_posns[viable_set[i] + j*n_samples ]<insert_pos: # viable_set[i] + j*n_samples
+                                if  sorted_datapoint_posns[viable_set[i] + j*n_samples ]<insert_pos: 
                                     viable_set[i_viable]=viable_set[i]
                                     i_viable=i_viable+1
                             viable_set_size=i_viable
-                            #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]<insert_pos]
             
                 if viable_set_size>0:
                     for i in range(viable_set_size) :
-                        out[viable_set[i]*n_rules + r]=1 #viable_set[i] + n_samples * r
+                        out[viable_set[i]*n_rules + r]=1 
                     
 cdef _traverse_node_with_rule_sorted_c(int32 node_id,
                        int32 num_feats,
@@ -618,19 +487,12 @@ cdef _traverse_node_with_rule_sorted_c(int32 node_id,
     cdef int32 insert_pos
     cdef int32 dirn
     cdef int32 num_pts
-    cdef np.ndarray[np.int32_t, ndim=1] viable_set # = np.empty(n_samples, dtype=np.int32)
-    cdef np.ndarray[np.int32_t, ndim=1] feat_sets #=np.zeros([n_features*2*4],dtype=np.int32)
-    
-#    cdef np.ndarray[float64, ndim=1] rule_lower_corners1
-#    cdef np.ndarray[float64, ndim=1] rule_upper_corners1
-#    cdef np.ndarray[float64, ndim=1] rule_lower_corners2
-#    cdef np.ndarray[float64, ndim=1] rule_upper_corners2
+    cdef np.ndarray[np.int32_t, ndim=1] viable_set 
+    cdef np.ndarray[np.int32_t, ndim=1] feat_sets 
     cdef float64 rule_lower_corners1[200]# num_feats
     cdef float64 rule_upper_corners1[200]# num_feats
-    #cdef int32 rule_upper_changed
     cdef float64 lower_bound=0.
     cdef float64 upper_bound=0.
-    #cdef int32 viable_set[n_samples]
     cdef int32 viable_set_size
     cdef int32 viable_set_size_this
     cdef int32 i_viable
@@ -685,12 +547,7 @@ cdef _traverse_node_with_rule_sorted_c(int32 node_id,
                    X_by_node_sorted_idx,
                    X_by_node_sorted_idx_posns,
                    out_rule_mask)  
-#                       children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)  # ">"
     else:  # a leaf node - check remaining rule
-        #if rule_id==0 and node_id==4:
-        #    print('erher')
-        
-        
         n_samples_in_node=node_members_count[node_id]
         if n_samples_in_node>=MIN_NODE_SIZE_FOR_SORTING_:
             # SORTED FEATURE WAY OF DOING IT - 
@@ -698,25 +555,20 @@ cdef _traverse_node_with_rule_sorted_c(int32 node_id,
             feat_sets=np.zeros([num_feats*2*4],dtype=np.int32)
             # apply each feature limit and store set descriptors
             i_f=0
-            for j_ in range(rule_lower_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
+            for j_ in range(rule_lower_feats_engaged_count): 
                 j=rule_lower_feats_engaged[j_]
-#            for j in np.arange(num_feats):
-                if rule_lower_corners[j ]!=RULE_LOWER_CONST: #j + n_features * r
-                    #insert_pos=np.searchsorted(X_by_node_sorted[node_members_start[node_id]:node_members_start[node_id]+node_members_count[node_id],j],rule_lower_corners[j ],side='right') #, side='right'
+                if rule_lower_corners[j ]!=RULE_LOWER_CONST: 
                     insert_pos=_search_sorted(X_by_node_sorted,node_members_start[node_id]*num_feats, node_members_count[node_id],num_feats,rule_lower_corners[j ]) #, side='right'
-                    feat_sets[0*2*num_feats+ i_f]=j#[j,-1,insert_pos,n_samples-insert_pos]
+                    feat_sets[0*2*num_feats+ i_f]=j
                     feat_sets[1*2*num_feats+ i_f]=-1
                     feat_sets[2*2*num_feats+ i_f]=insert_pos
                     feat_sets[3*2*num_feats+ i_f]=node_members_count[node_id]-insert_pos
                     i_f=i_f+1
-            for j_ in range(rule_upper_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
+            for j_ in range(rule_upper_feats_engaged_count): 
                 j=rule_upper_feats_engaged[j_]
                 if rule_upper_corners[j ]!=RULE_UPPER_CONST: 
-                    #insert_pos=np.searchsorted(X_by_node_sorted[node_members_start[node_id]:node_members_start[node_id]+node_members_count[node_id],j],rule_upper_corners[j ],side='right') #, side='right'
                     insert_pos=_search_sorted(X_by_node_sorted,node_members_start[node_id]*num_feats, node_members_count[node_id],num_feats,rule_upper_corners[j ]) #, side='right'
-                    #insert_pos=_search_sorted(sorted_feats,j*n_samples, n_samples,1,rule_upper_corners[j * n_rules + r])
-                    #feat_sets[i_f,:]=[j,1,insert_pos,insert_pos]
-                    feat_sets[0*2*num_feats+ i_f]=j#[j,-1,insert_pos,n_samples-insert_pos]
+                    feat_sets[0*2*num_feats+ i_f]=j
                     feat_sets[1*2*num_feats+ i_f]=+1
                     feat_sets[2*2*num_feats+ i_f]=insert_pos
                     feat_sets[3*2*num_feats+ i_f]=insert_pos
@@ -743,12 +595,10 @@ cdef _traverse_node_with_rule_sorted_c(int32 node_id,
                 if viable_set_size>0:
                     if dirn==-1:
                         for i in range(viable_set_size):
-                            viable_set[i]=X_by_node_sorted_idx[(node_members_start[node_id]+insert_pos+i)*num_feats+min_viable_feat ]#j*n_samples + (insert_pos+i)  ] #(i+insert_pos)*n_features + j 
-                        #viable_pts=sorted_indxs[insert_pos:,j]
+                            viable_set[i]=X_by_node_sorted_idx[(node_members_start[node_id]+insert_pos+i)*num_feats+min_viable_feat ]
                     else:
                         for i in range(viable_set_size):
-                            viable_set[i]=X_by_node_sorted_idx[(node_members_start[node_id]+i)*num_feats+min_viable_feat ]#j*n_samples + (i) ] #i*n_features + j
-                        #viable_pts=sorted_indxs[0:insert_pos,j]
+                            viable_set[i]=X_by_node_sorted_idx[(node_members_start[node_id]+i)*num_feats+min_viable_feat ]
                         
                     for i_ff in range(0,i_f):
                         if i_ff !=min_viable_index and viable_set_size>0:
@@ -763,7 +613,6 @@ cdef _traverse_node_with_rule_sorted_c(int32 node_id,
                                         viable_set[i_viable]=viable_set[i]
                                         i_viable=i_viable+1
                                 viable_set_size=i_viable
-                                #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]>=insert_pos]
                             else:
                                 i_viable=0
                                 for i in range(viable_set_size):
@@ -771,50 +620,29 @@ cdef _traverse_node_with_rule_sorted_c(int32 node_id,
                                         viable_set[i_viable]=viable_set[i]
                                         i_viable=i_viable+1
                                 viable_set_size=i_viable
-                                #viable_pts=viable_pts[sorted_datapoint_posns[viable_pts,j]<insert_pos]
                 
                 if viable_set_size>0:
                     for i in range(viable_set_size) :
-                        out_rule_mask[viable_set[i]*num_rules+ rule_id]=1 #viable_set[i]*n_rules + r]=1
+                        out_rule_mask[viable_set[i]*num_rules+ rule_id]=1 
         else:
             # BASIC WAY OF CALCULATING
             num_pts=node_members_count[node_id]
             for i in range(num_pts):
                 out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]=1
-            #for j in np.arange(num_feats):
-            for j_ in range(rule_lower_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
+            for j_ in range(rule_lower_feats_engaged_count):
                 j=rule_lower_feats_engaged[j_]
                 lower_bound=rule_lower_corners[j]
                 if lower_bound!=RULE_LOWER_CONST:
                     for i in range(num_pts):
-                        #if out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]!=2:
                         if X[node_members[node_id*num_samples+i]*num_feats+j]<=lower_bound:
                             out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]=0
-            for j_ in range(rule_upper_feats_engaged_count): #np.arange(X.shape[1],dtype=np.int32):
+            for j_ in range(rule_upper_feats_engaged_count): 
                 j=rule_upper_feats_engaged[j_]
                 upper_bound=rule_upper_corners[j]
                 if upper_bound!=RULE_UPPER_CONST:
                     for i in range(num_pts):
-                        #if out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]!=2:
                         if X[node_members[node_id*num_samples+i]*num_feats+j]>upper_bound:
                             out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]=0
-#            for i in range(num_pts):
-#                if out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]==2:
-#                    out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]=0
-#                else:
-#                    out_rule_mask[node_members[node_id*num_samples+i]*num_rules+rule_id]=1
-
-#        # TEST
-#        #if viable_set_size>0:
-#        viable_set=list(viable_set[0:viable_set_size])
-#        for kk in np.arange(num_pts):
-#            node_test=node_members[node_id,kk]
-#            if out_rule_mask[node_test,rule_id]==1:
-#                if node_test not in viable_set:
-#                    print ('err')
-#            else:
-#                if node_test  in viable_set:
-#                    print('err')
 
 def apply_rules_from_tree_sorted_c(np.ndarray[float64, ndim=2] X,
                             np.ndarray[float64, ndim=2] X_by_node_sorted,
@@ -832,7 +660,6 @@ def apply_rules_from_tree_sorted_c(np.ndarray[float64, ndim=2] X,
                             np.ndarray[float64, ndim=2] rule_lower_corners,
                             np.ndarray[int32, ndim=2] out_rule_mask):
     
-    #traverse_node_c(0,num_feats,children_left,children_right,features,thresholds, out_leaf_ids,out_rule_upper_corners,out_rule_lower_corners)
     cdef np.ndarray[int32, ndim=1] rule_upper_feats_engaged = np.zeros([num_feats],dtype=np.int32,order='C')
     cdef np.ndarray[int32, ndim=1] rule_lower_feats_engaged = np.zeros([num_feats],dtype=np.int32,order='C')
     cdef int32 rule_id
@@ -841,9 +668,7 @@ def apply_rules_from_tree_sorted_c(np.ndarray[float64, ndim=2] X,
     cdef int32 upper_feats_cnt
     cdef int32 lower_feats_cnt
     cdef int32 num_rules =rule_upper_corners.shape[0]
-    for rule_id in range(num_rules): #np.arange(rule_upper_corners.shape[0]):
-        #rule_upper_feats_engaged[:]=-1
-        #rule_lower_feats_engaged[:]=-1
+    for rule_id in range(num_rules): 
         j_=0
         for j in range(num_feats):
             if rule_upper_corners[rule_id,j]!=RULE_UPPER_CONST:
@@ -856,10 +681,6 @@ def apply_rules_from_tree_sorted_c(np.ndarray[float64, ndim=2] X,
                 rule_lower_feats_engaged[j_]=j
                 j_=j_+1
         lower_feats_cnt=j_
-        #print(rule_upper_feats_engaged)
-        #print(rule_upper_corners[rule_id,:])
-        #rule_upper_feats_engaged=np.where(rule_upper_corners[rule_id,:]!=RULE_UPPER_CONST)[0]
-        #rule_lower_feats_engaged=np.where(rule_lower_corners[rule_id,:]!=RULE_LOWER_CONST)[0]
         _traverse_node_with_rule_sorted_c(<int32> 0,
                        <int32> num_feats,
                        <int32> num_rules,
@@ -893,7 +714,6 @@ cdef void _apply_rules_sparse(float64 *X,
                           Py_ssize_t n_rules,
                           int32 *out):
     """   """
-    #DTYPE_t 
     cdef float64* lower_data = <float64*>(<np.ndarray> rule_lower_corners.data).data
     cdef INT32_t* lower_indices = <INT32_t*>(<np.ndarray> rule_lower_corners.indices).data
     cdef INT32_t* lower_indptr = <INT32_t*>(<np.ndarray> rule_lower_corners.indptr).data
@@ -940,7 +760,6 @@ cdef void _get_node_map_and_rules_sparse(int32 *leaf_ids,
                           int32 *out_rule_feats_upper,
                           int32 *out_rule_feats_lower):
     """   """
-    #DTYPE_t
     cdef float64* lower_data = <float64*>(<np.ndarray> rule_lower_corners.data).data
     cdef INT32_t* lower_indices = <INT32_t*>(<np.ndarray> rule_lower_corners.indices).data
     cdef INT32_t* lower_indptr = <INT32_t*>(<np.ndarray> rule_lower_corners.indptr).data
@@ -1012,7 +831,6 @@ cdef void _get_node_map_sparse(int32 *leaf_ids,
                           Py_ssize_t n_rules,
                           int32 *out):
     """   """
-    #DTYPE_t
     cdef float64* lower_data = <float64*>(<np.ndarray> rule_lower_corners.data).data
     cdef INT32_t* lower_indices = <INT32_t*>(<np.ndarray> rule_lower_corners.indices).data
     cdef INT32_t* lower_indptr = <INT32_t*>(<np.ndarray> rule_lower_corners.indptr).data
@@ -1099,7 +917,7 @@ def get_node_map_and_rule_feats_c(np.ndarray[int32, ndim=1] leaf_ids,
          rule_upper_corners,
          leaf_lower_corners.shape[0],
          leaf_lower_corners.shape[1],
-         n_rules, #rule_lower_corners.shape[0],
+         n_rules, 
          <int32*> (<np.ndarray> out).data,
          <int32*> (<np.ndarray> out_rules_upper).data,
          <int32*> (<np.ndarray> out_rules_lower).data)
@@ -1152,11 +970,11 @@ cdef _update_rule_coefs(int32 *rule_mask,
                 sum_swt_ttl=sum_swt_ttl+sample_weight[i]
                 if y[i]==1:
                     sum_swt_one=sum_swt_one+sample_weight[i]
-                sum_swt_pred=sum_swt_pred+sample_weight[i]/(1.+exp(-y_pred[i]))   # expit(y_pred[i])*sample_weight[i]
+                sum_swt_pred=sum_swt_pred+sample_weight[i]/(1.+exp(-y_pred[i]))
         prob1=(sum_swt_one+lidstone_alpha)/(sum_swt_ttl+2*lidstone_alpha)
         prob1_pred=(sum_swt_pred+lidstone_alpha)/(sum_swt_ttl+2*lidstone_alpha)
         out[r]   =  log(prob1*(1-prob1_pred)/((1-prob1)*prob1_pred)) 
-        # log(prob1/(1-prob1))-log(prob1_pred/(1-prob1_pred))    
+
 
     
 def update_rule_coefs(object rule_mask,
@@ -1188,10 +1006,9 @@ cdef _update_rule_coefs_newton_step(int32 *rule_mask,
     cdef Py_ssize_t r
     cdef float64 sum_numerator
     cdef float64 sum_denominator
-    #cdef float64 *y_float
     cdef float64 y_
     cdef float64 coef_
-    #y_float =<float64*>y
+
     for r in range(n_rules):
         sum_numerator=0.
         sum_denominator=0.
@@ -1275,18 +1092,7 @@ def apply_rules_set_based_c(np.ndarray[float64, ndim=2] X,
                 object rule_lower_corners,
                 object rule_upper_corners,
                 np.ndarray[int32, ndim=2] out):
-    # sort X feats
-#    cdef np.ndarray[float64, ndim=2] sorted_feats
-#    sorted_feats=np.zeros(X.shape)#,dtype=float64)
-#    cdef np.ndarray[int32, ndim=2] sorted_indxs=np.zeros(X.shape)#,dtype=int32)
-#    cdef np.ndarray[int32, ndim=2] sorted_datapoint_posns=np.zeros(X.shape)#,dtype=int32)
-#    for j in np.arange(X.shape[1]):
-#        sorted_indxs[:,j]= np.argsort(X[:,j], axis=-1, kind='quicksort')
-#        sorted_feats[:,j]=X[sorted_indxs[:,j],j]
-#        i=0
-#        for k in sorted_indxs[:,j]:
-#            sorted_datapoint_posns[k,j]=i
-#            i=i+1
+
     if issparse(rule_lower_corners):
         pass # DENSE NOT IMPLEMENTED
 
@@ -1349,266 +1155,4 @@ def _random_sample_mask(np.npy_intp n_total_samples,
     
     
 
-#def _predict_regression_tree_stages_sparse(np.ndarray[object, ndim=2] estimators,
-#                                           object X, double scale,
-#                                           np.ndarray[float64, ndim=2] out):
-#    """Predicts output for regression tree inplace and adds scaled value to ``out[i, k]``.
-#
-#    The function assumes that the ndarray that wraps ``X`` is csr_matrix.
-#    """
-#    cdef DTYPE_t* X_data = <DTYPE_t*>(<np.ndarray> X.data).data
-#    cdef INT32_t* X_indices = <INT32_t*>(<np.ndarray> X.indices).data
-#    cdef INT32_t* X_indptr = <INT32_t*>(<np.ndarray> X.indptr).data
-#
-#    cdef SIZE_t n_samples = X.shape[0]
-#    cdef SIZE_t n_features = X.shape[1]
-#    cdef SIZE_t n_stages = estimators.shape[0]
-#    cdef SIZE_t n_outputs = estimators.shape[1]
-#
-#    # Initialize output
-#    cdef float64* out_ptr = <float64*> out.data
-#
-#    # Indices and temporary variables
-#    cdef SIZE_t sample_i
-#    cdef SIZE_t feature_i
-#    cdef SIZE_t stage_i
-#    cdef SIZE_t output_i
-#    cdef Node *root_node = NULL
-#    cdef Node *node = NULL
-#    cdef double *value = NULL
-#
-#    cdef Tree tree
-#    cdef Node** nodes = NULL
-#    cdef double** values = NULL
-#    safe_realloc(&nodes, n_stages * n_outputs)
-#    safe_realloc(&values, n_stages * n_outputs)
-#    for stage_i in range(n_stages):
-#        for output_i in range(n_outputs):
-#            tree = estimators[stage_i, output_i].tree_
-#            nodes[stage_i * n_outputs + output_i] = tree.nodes
-#            values[stage_i * n_outputs + output_i] = tree.value
-#
-#    # Initialize auxiliary data-structure
-#    cdef DTYPE_t feature_value = 0.
-#    cdef DTYPE_t* X_sample = NULL
-#
-#    # feature_to_sample as a data structure records the last seen sample
-#    # for each feature; functionally, it is an efficient way to identify
-#    # which features are nonzero in the present sample.
-#    cdef SIZE_t* feature_to_sample = NULL
-#
-#    safe_realloc(&X_sample, n_features)
-#    safe_realloc(&feature_to_sample, n_features)
-#
-#    memset(feature_to_sample, -1, n_features * sizeof(SIZE_t))
-#
-#    # Cycle through all samples
-#    for sample_i in range(n_samples):
-#        for feature_i in range(X_indptr[sample_i], X_indptr[sample_i + 1]):
-#            feature_to_sample[X_indices[feature_i]] = sample_i
-#            X_sample[X_indices[feature_i]] = X_data[feature_i]
-#
-#        # Cycle through all stages
-#        for stage_i in range(n_stages):
-#            # Cycle through all trees
-#            for output_i in range(n_outputs):
-#                root_node = nodes[stage_i * n_outputs + output_i]
-#                value = values[stage_i * n_outputs + output_i]
-#                node = root_node
-#
-#                # While node not a leaf
-#                while node.left_child != TREE_LEAF:
-#                    # ... and node.right_child != TREE_LEAF:
-#                    if feature_to_sample[node.feature] == sample_i:
-#                        feature_value = X_sample[node.feature]
-#                    else:
-#                        feature_value = 0.
-#
-#                    if feature_value <= node.threshold:
-#                        node = root_node + node.left_child
-#                    else:
-#                        node = root_node + node.right_child
-#                out_ptr[sample_i * n_outputs + output_i] += (scale
-#                    * value[node - root_node])
-#
-#    # Free auxiliary arrays
-#    free(X_sample)
-#    free(feature_to_sample)
-#    free(nodes)
-#    free(values)
-#    
-#
-#
-#
-#def predict_stages(np.ndarray[object, ndim=2] estimators,
-#                   object X, double scale,
-#                   np.ndarray[float64, ndim=2] out):
-#    """Add predictions of ``estimators`` to ``out``.
-#
-#    Each estimator is scaled by ``scale`` before its prediction
-#    is added to ``out``.
-#    """
-#    cdef Py_ssize_t i
-#    cdef Py_ssize_t k
-#    cdef Py_ssize_t n_estimators = estimators.shape[0]
-#    cdef Py_ssize_t K = estimators.shape[1]
-#    cdef Tree tree
-#
-#    if issparse(X):
-#        _predict_regression_tree_stages_sparse(estimators, X, scale, out)
-#    else:
-#        if not isinstance(X, np.ndarray):
-#            raise ValueError("X should be in np.ndarray or csr_matrix format,"
-#                             "got %s" % type(X))
-#
-#        for i in range(n_estimators):
-#            for k in range(K):
-#                tree = estimators[i, k].tree_
-#
-#                # avoid buffer validation by casting to ndarray
-#                # and get data pointer
-#                # need brackets because of casting operator priority
-#                _predict_regression_tree_inplace_fast_dense(
-#                    <DTYPE_t*> (<np.ndarray> X).data,
-#                    tree.nodes, tree.value,
-#                    scale, k, K, X.shape[0], X.shape[1],
-#                    <float64 *> (<np.ndarray> out).data)
-#                ## out += scale * tree.predict(X).reshape((X.shape[0], 1))
-#
-#
-#def predict_stage(np.ndarray[object, ndim=2] estimators,
-#                  int stage,
-#                  object X, double scale,
-#                  np.ndarray[float64, ndim=2] out):
-#    """Add predictions of ``estimators[stage]`` to ``out``.
-#
-#    Each estimator in the stage is scaled by ``scale`` before
-#    its prediction is added to ``out``.
-#    """
-#    return predict_stages(estimators[stage:stage + 1], X, scale, out)
-
-
-#cdef inline int array_index(int32 val, int32[::1] arr):
-#    """Find index of ``val`` in array ``arr``. """
-#    cdef int32 res = -1
-#    cdef int32 i = 0
-#    cdef int32 n = arr.shape[0]
-#    for i in range(n):
-#        if arr[i] == val:
-#            res = i
-#            break
-#    return res
-#
-#
-#cpdef _partial_dependence_tree(Tree tree, DTYPE_t[:, ::1] X,
-#                               int32[::1] target_feature,
-#                               double learn_rate,
-#                               double[::1] out):
-#    """Partial dependence of the response on the ``target_feature`` set.
-#
-#    For each row in ``X`` a tree traversal is performed.
-#    Each traversal starts from the root with weight 1.0.
-#
-#    At each non-terminal node that splits on a target variable either
-#    the left child or the right child is visited based on the feature
-#    value of the current sample and the weight is not modified.
-#    At each non-terminal node that splits on a complementary feature
-#    both children are visited and the weight is multiplied by the fraction
-#    of training samples which went to each child.
-#
-#    At each terminal node the value of the node is multiplied by the
-#    current weight (weights sum to 1 for all visited terminal nodes).
-#
-#    Parameters
-#    ----------
-#    tree : sklearn.tree.Tree
-#        A regression tree; tree.values.shape[1] == 1
-#    X : memory view on 2d ndarray
-#        The grid points on which the partial dependence
-#        should be evaluated. X.shape[1] == target_feature.shape[0].
-#    target_feature : memory view on 1d ndarray
-#        The set of target features for which the partial dependence
-#        should be evaluated. X.shape[1] == target_feature.shape[0].
-#    learn_rate : double
-#        Constant scaling factor for the leaf predictions.
-#    out : memory view on 1d ndarray
-#        The value of the partial dependence function on each grid
-#        point.
-#    """
-#    cdef Py_ssize_t i = 0
-#    cdef Py_ssize_t n_features = X.shape[1]
-#    cdef Node* root_node = tree.nodes
-#    cdef double *value = tree.value
-#    cdef SIZE_t node_count = tree.node_count
-#
-#    cdef SIZE_t stack_capacity = node_count * 2
-#    cdef Node **node_stack
-#    cdef double[::1] weight_stack = np_ones((stack_capacity,), dtype=np_float64)
-#    cdef SIZE_t stack_size = 1
-#    cdef double left_sample_frac
-#    cdef double current_weight
-#    cdef double total_weight = 0.0
-#    cdef Node *current_node
-#    underlying_stack = np_zeros((stack_capacity,), dtype=np.intp)
-#    node_stack = <Node **>(<np.ndarray> underlying_stack).data
-#
-#    for i in range(X.shape[0]):
-#        # init stacks for new example
-#        stack_size = 1
-#        node_stack[0] = root_node
-#        weight_stack[0] = 1.0
-#        total_weight = 0.0
-#
-#        while stack_size > 0:
-#            # get top node on stack
-#            stack_size -= 1
-#            current_node = node_stack[stack_size]
-#
-#            if current_node.left_child == TREE_LEAF:
-#                out[i] += weight_stack[stack_size] * value[current_node - root_node] * \
-#                          learn_rate
-#                total_weight += weight_stack[stack_size]
-#            else:
-#                # non-terminal node
-#                feature_index = array_index(current_node.feature, target_feature)
-#                if feature_index != -1:
-#                    # split feature in target set
-#                    # push left or right child on stack
-#                    if X[i, feature_index] <= current_node.threshold:
-#                        # left
-#                        node_stack[stack_size] = (root_node +
-#                                                  current_node.left_child)
-#                    else:
-#                        # right
-#                        node_stack[stack_size] = (root_node +
-#                                                  current_node.right_child)
-#                    stack_size += 1
-#                else:
-#                    # split feature in complement set
-#                    # push both children onto stack
-#
-#                    # push left child
-#                    node_stack[stack_size] = root_node + current_node.left_child
-#                    current_weight = weight_stack[stack_size]
-#                    left_sample_frac = root_node[current_node.left_child].n_node_samples / \
-#                                       <double>current_node.n_node_samples
-#                    if left_sample_frac <= 0.0 or left_sample_frac >= 1.0:
-#                        raise ValueError("left_sample_frac:%f, "
-#                                         "n_samples current: %d, "
-#                                         "n_samples left: %d"
-#                                         % (left_sample_frac,
-#                                            current_node.n_node_samples,
-#                                            root_node[current_node.left_child].n_node_samples))
-#                    weight_stack[stack_size] = current_weight * left_sample_frac
-#                    stack_size +=1
-#
-#                    # push right child
-#                    node_stack[stack_size] = root_node + current_node.right_child
-#                    weight_stack[stack_size] = current_weight * \
-#                                               (1.0 - left_sample_frac)
-#                    stack_size +=1
-#
-#        if not (0.999 < total_weight < 1.001):
-#            raise ValueError("Total weight should be 1.0 but was %.9f" %
-#                             total_weight)
 

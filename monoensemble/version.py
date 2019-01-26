@@ -3,7 +3,7 @@ from os.path import join as pjoin
 
 # Format expected by setup.py and doc/source/conf.py: string of form "X.Y.Z"
 _version_major = 1
-_version_minor = 1
+_version_minor = 3
 _version_micro = 0  # use '' for first of series, number for 1 and above
 _version_extra = 'dev'
 _version_extra = ''  # Uncomment this for full releases
@@ -37,9 +37,10 @@ monoensemble
 This package contains high performance implementations of 
 MonoGradientBoostingClassifier and MonoRandomForestClassifier. These monotone
 classifiers use the fast and scaleable monotone rule approach described
-in Bartley C., Liu W., and Reynolds M. 2017, Fast & Perfect Monotone Random 
-Forest Classification, prepub, PAKDD submission, available 
-here_(http://staffhome.ecm.uwa.edu.au/~19514733/).
+in Bartley C., Liu W., and Reynolds M. \Enhanced Random Forest Algorithms for
+Partially Monotone Ordinal Classication". In: Proceedings of the Thirty-Third AAAI Conference on
+Articial Intelligence (AAAI-2019), Honolulu, Hawaii, USA, Jan 27 - Feb 1 PREPRESS. ed. by
+AAAI Press. AAAI. 2019.
 
 To get started, please go to the repository README_.
 
