@@ -50,7 +50,7 @@ def test_model_fit_gb():
     learning_rate = 0.1
     max_depth = None#3
     coef_calc_types = ['boost', 'bayes', 'logistic']
-    insample_correct = [0.996, 0.99, 1.0]
+    insample_correct = [0.8996, 0.99, 1.0]
     for rule_feat_caching in [False]:#, True]:
         for i_test in np.arange(len(coef_calc_types)):
             coef_calc_type = coef_calc_types[i_test]
