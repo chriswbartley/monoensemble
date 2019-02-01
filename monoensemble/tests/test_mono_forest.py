@@ -77,6 +77,7 @@ def test_model_fit_rf():
                                     else clf.oob_score_, oob_correct[i_test])
         npt.assert_almost_equal( insample_correct[i_test] if np.abs(acc - insample_correct[i_test]) <= 0.005
                                     else acc , insample_correct[i_test])
+#test_model_fit_rf()
 # import time
 # start=time.time()
 #test_model_fit()
