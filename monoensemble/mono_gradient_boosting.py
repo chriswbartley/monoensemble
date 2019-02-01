@@ -54,6 +54,7 @@ from monoensemble import apply_rules_from_tree_sorted_c
 from monoensemble import _log_logistic_sigmoid
 from monoensemble import  _custom_dot
 from monoensemble import  _custom_dot_multiply
+from monoensemble import calc_newton_step_c
 import numbers
 import numpy as np
 
@@ -161,15 +162,17 @@ class PriorProbabilityEstimator(object):
 
 class ZeroEstimator(object):
     """An estimator that simply predicts zero. """
-
+    def __init__(self, n_classes=None):
+        self.n_classes = n_classes
     def fit(self, X, y, sample_weight=None):
         if np.issubdtype(y.dtype, np.signedinteger):
             # classification
-            n_classes = np.unique(y).shape[0]
-            if n_classes == 2:
+            if self.n_classes is None:
+                self.n_classes = np.unique(y).shape[0]
+            if self.n_classes == 2:
                 self.n_classes = 1
             else:
-                self.n_classes = n_classes
+                self.n_classes = self.n_classes
         else:
             # regression
             self.n_classes = 1
@@ -449,7 +452,8 @@ class BinomialDeviance(ClassificationLossFunction):
             sample_weight,
             learning_rate=1.0,
             k=0,
-            logistic_intercept=True):
+            logistic_intercept=True,
+            adjust_intercept_=False):
 
         intercept_ = 0.
         if self.coef_calc_type == 3:  # 'logistic'
@@ -515,7 +519,9 @@ class BinomialDeviance(ClassificationLossFunction):
                 intercept_ = logistic_conjug.intercept_[0]
                 coef_ = logistic_conjug.coef_[0]
                 rule_values[:] = coef_
+            #y_pred[:, k] += learning_rate * intercept_
         elif self.coef_calc_type == 2:  # 'bayes'
+            
             lidstone_alpha = 0.01
             coefs = np.zeros(rule_mask.shape[1], dtype=np.float64)
             update_rule_coefs(rule_mask.astype(np.int32),
@@ -524,6 +530,8 @@ class BinomialDeviance(ClassificationLossFunction):
                               sample_weight.astype(np.float64),
                               lidstone_alpha, coefs)
             rule_values[:] = np.where(rule_values * coefs >= 0, coefs, 0)
+            if adjust_intercept_: # for bayes x 1 estimator optimisation
+                intercept_=y_pred[0, k]
         elif self.coef_calc_type == 0:  # 'boost'
             coefs = np.zeros(rule_mask.shape[1], dtype=np.float64)
             update_rule_coefs_newton_step(
@@ -533,6 +541,7 @@ class BinomialDeviance(ClassificationLossFunction):
                     np.int32), sample_weight.astype(
                     np.float64), coefs)
             rule_values[:] = np.where(rule_values * coefs >= 0, coefs, 0)
+            
 # NO LONGER USED, USE CYTHON VERSION FOR SPEED
 #        else:
 #            # update rule coefs
@@ -543,12 +552,20 @@ class BinomialDeviance(ClassificationLossFunction):
 #                                       y_pred[:, k], sample_weight)
 
         # update predictions (both in-bag and out-of-bag)
-        y_pred[:, k] += learning_rate * intercept_
+        
         for i_rule in np.arange(rule_mask.shape[1]):
             y_pred[:, k] += (learning_rate *
                              rule_mask[:, i_rule].astype(float) *
                              rule_values[i_rule])
 
+        if adjust_intercept_: # for bayes approx optimisation
+            y_pred[:, k] -= learning_rate * intercept_ # subject old intercept
+            intercept_=adjust_intercept(intercept_,                                    
+                      y_pred[:, k].astype(np.float64),
+                      y.astype(np.int32),
+                      sample_weight.astype(np.float64),
+                      coefs)    
+        y_pred[:, k] += learning_rate * intercept_
         return intercept_
 
     def _score_to_proba(self, score):
@@ -1371,6 +1388,7 @@ class RuleEnsemble(BaseEnsemble):
 
     def decision_function(self, X):
         X = self._validate_X_predict(X, check_input=True)
+        #print(self.intercept_)
         res = np.zeros(X.shape[0]) + self.intercept_
         if self.tree is not None:
             X_leaf_node_ids = None # no longer used 
@@ -1574,7 +1592,8 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             # only use intercept for single trees and logistic solve
             intercept = (self.coef_calc_type ==
                          'logistic' and self.n_estimators == 1)
-            
+            adjust_intercept=(self.coef_calc_type ==
+                         'bayes' and self.n_estimators == 1)
             #if self.mt_type=='global':
                 
             if node_rule_feats_upper is None:
@@ -1605,8 +1624,11 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                 sample_weight,
                 learning_rate=self.learning_rate,
                 k=k,
-                logistic_intercept=intercept)
-
+                logistic_intercept=intercept,
+                adjust_intercept_=adjust_intercept)
+            if self.coef_calc_type=='bayes' and self.n_estimators==1:
+                self.init_ = ZeroEstimator(n_classes=2 if self.loss_.K <= 2 else self.loss_.K) # use recalculated adjusted intercept
+                self.init_.fit(X, y.astype(np.int32), sample_weight)
             self.estimators_[i, k] = RuleEnsemble(rule_lower_corners,
                                                   rule_upper_corners,
                                                   leaf_values,
@@ -2752,6 +2774,55 @@ class ConstrainedLogisticRegression:
         """
         return np.log(self.predict_proba(X))
 
+
+#def calc_deriv(y,f):
+#    np.seterr(all='raise')
+#    try:
+#        res=-2*y/(np.exp(2*y*f)+1)
+#    except FloatingPointError as err:
+#        print('here')
+#    if np.any(np.isnan(res)):
+#        print('sdfffsdf')
+#    return res
+#
+#def calc_deriv_2(y,f):
+#    try:
+#        return 4*y**2*np.exp(2*y*f)/(1+np.exp(2*y*f))**2
+#    except FloatingPointError as err:
+#        print('here')
+#
+#def calc_newton_step(y,f,sample_weight):
+#    return np.sum(sample_weight*calc_deriv(y,f))/np.sum(sample_weight*calc_deriv_2(y,f))
+
+def adjust_intercept(intercept_,
+                          y_pred,
+                          y,
+                          sample_weight,
+                          coefs):
+    y_=np.asarray(np.where(y==1,1,-1),dtype=np.float64)
+    y_min=np.min(np.where(sample_weight>0,y_,100))
+    if y_min==np.max(np.where(sample_weight>0,y_,-100)): # all the same class!
+        return -1. if y_min<0 else +1.
+    else:
+        intercept_old=99
+        intercept_new=intercept_
+        f_base=y_pred-intercept_
+        mx_=50.
+        f_base=np.where(f_base>mx_,mx_,f_base)
+        f_base=np.where(f_base<-mx_,-mx_,f_base)
+        
+        iters_=0
+        while np.abs(intercept_old-intercept_new)>1e-3 and iters_<15:
+            #incr=calc_newton_step(y_,f_base+intercept_new,sample_weight)
+            incr=calc_newton_step_c(y_,f_base+intercept_new,sample_weight)
+            if incr>1e0: # for stability under near floating point overflow errors
+                incr=1e0
+            elif incr<-1e0:
+                incr=-1e0
+            intercept_old=intercept_new
+            intercept_new=intercept_new-incr
+            iters_=iters_+1
+        return intercept_new
 
 def _logistic_grad(
         w,

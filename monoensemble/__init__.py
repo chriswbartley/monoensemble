@@ -4,6 +4,7 @@ from ._mono_gradient_boosting import _random_sample_mask
 from ._mono_gradient_boosting import get_node_map_and_rule_feats_c
 from ._mono_gradient_boosting import apply_rules_rule_feat_cache_c
 from ._mono_gradient_boosting import apply_rules_set_based_c
+from ._mono_gradient_boosting import calc_newton_step_c
 from ._mono_gradient_boosting import extract_rules_from_tree_c
 from ._mono_gradient_boosting import apply_rules_from_tree_sorted_c
 from ._mono_gradient_boosting import _log_logistic_sigmoid, _custom_dot,_custom_dot_multiply

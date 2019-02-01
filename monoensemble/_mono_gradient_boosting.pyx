@@ -332,6 +332,42 @@ cdef _traverse_node_c(int32 node_id,
             pass
             #print('Warning: Tree only has one node! (i.e. the root node)')
 
+cdef float64 _calc_deriv(float64 *y,
+               float64 *f,
+               float64 *sample_weight,
+               int32 n):
+    cdef float64 ttl=0.
+    cdef int32 i =0
+    for i in range(n):
+        if sample_weight[i]>0:
+            ttl=ttl-2*sample_weight[i]*y[i]/(exp(2*y[i]*f[i])+1)
+    return ttl
+
+cdef float64 _calc_deriv_2(float64 *y,
+               float64 *f,
+               float64 *sample_weight,
+               int32 n):
+    cdef float64 ttl=0.
+    cdef int32 i =0
+    for i in range(n):
+        if sample_weight[i]>0:
+            ttl=ttl+sample_weight[i]*4*y[i]**2*exp(2*y[i]*f[i])/(1+exp(2*y[i]*f[i]))**2
+    return ttl
+
+def calc_newton_step_c(np.ndarray[float64, ndim=1] y,
+                     np.ndarray[float64, ndim=1] f,
+                     np.ndarray[float64, ndim=1] sample_weight):
+    d=_calc_deriv(<float64*> (<np.ndarray> y).data,
+                  <float64*> (<np.ndarray> f).data,
+                  <float64*> (<np.ndarray> sample_weight).data,
+                  len(y))
+    d2=_calc_deriv_2(<float64*> (<np.ndarray> y).data,
+                  <float64*> (<np.ndarray> f).data,
+                  <float64*> (<np.ndarray> sample_weight).data,
+                  len(y))
+    return d/d2
+
+
 def extract_rules_from_tree_c(np.ndarray[int32, ndim=1] children_left,
                               np.ndarray[int32, ndim=1] children_right,
                               np.ndarray[int32, ndim=1] features,
