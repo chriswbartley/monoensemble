@@ -50,7 +50,7 @@ def test_model_fit_rf():
     mtry = 3
     coef_calc_types = [ 'bayes','logistic']#, 'boost', 
     oob_correct = [0.873333333333, 0.866666666667]
-    insample_correct = [0.96, 0.98666666666]
+    insample_correct = [0.968, 0.98666666666]
     #for rule_feat_caching in [False, True]:
     rule_feat_caching=False
     for i_test in np.arange(len(coef_calc_types)):
@@ -77,7 +77,7 @@ def test_model_fit_rf():
                                     else clf.oob_score_, oob_correct[i_test])
         npt.assert_almost_equal( insample_correct[i_test] if np.abs(acc - insample_correct[i_test]) <= 0.005
                                     else acc , insample_correct[i_test])
-#test_model_fit_rf()
+test_model_fit_rf()
 # import time
 # start=time.time()
 #test_model_fit()
