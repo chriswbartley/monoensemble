@@ -25,8 +25,8 @@ dependent on (and inherits from) sci-kit learn's ``ForestClassifier``.
 #
 # License: BSD 3 clause
 
-from sklearn.ensemble.forest import ForestClassifier, check_array
-from sklearn.ensemble.forest import _generate_unsampled_indices, DTYPE, warn
+from sklearn.ensemble._forest import ForestClassifier, check_array
+from sklearn.ensemble._forest import _generate_unsampled_indices, DTYPE, warn
 from monoensemble import MonoGradientBoostingClassifier
 import numpy as np
 

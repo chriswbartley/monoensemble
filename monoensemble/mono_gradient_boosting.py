@@ -38,7 +38,7 @@ from abc import abstractmethod
 from sklearn.ensemble import BaseEnsemble
 from sklearn.base import ClassifierMixin
 # from sklearn.base import RegressorMixin
-from sklearn.externals import six
+import six
 
 
 from monoensemble import apply_rules_c
@@ -64,7 +64,7 @@ from scipy.sparse import issparse
 from scipy.special import expit
 
 from time import time
-from sklearn.tree.tree import DecisionTreeRegressor as DecisionTreeRegressorSklearn
+from sklearn.tree import DecisionTreeRegressor as DecisionTreeRegressorSklearn
 
 from sklearn.tree._tree import DTYPE
 from sklearn.tree._tree import TREE_LEAF
@@ -1008,7 +1008,7 @@ def apply_rules_tree(   X,
                         ):
     X_leaf_node_ids = tree.apply(X, check_input=False).astype(np.int32)
     # cache X_leaf_node_ids for each node
-    num_nodes=tree.tree_.node_count
+    num_nodes=tree_.node_count
     node_members=np.zeros([num_nodes,X.shape[0]],dtype=np.int32)
     node_member_count=np.zeros(num_nodes,dtype=np.int32)
     for inode in np.unique(X_leaf_node_ids):
@@ -1018,10 +1018,10 @@ def apply_rules_tree(   X,
     rule_mask = np.zeros(
             [X.shape[0], rule_lower_corners.shape[0]], dtype=np.int32)
     apply_rules_from_tree_c(X,
-                            tree.tree_.children_left,
-                            tree.tree_.children_right,
-                            tree.tree_.feature,
-                            tree.tree_.threshold,
+                            tree_.children_left,
+                            tree_.children_right,
+                            tree_.feature,
+                            tree_.threshold,
                             node_members,
                             node_member_count,
                             rule_upper_corners.shape[1],
@@ -1039,7 +1039,7 @@ def apply_rules_tree_sorted(   X,
 
     X_leaf_node_ids = tree.apply(X, check_input=False).astype(np.int32)
     # cache X_leaf_node_ids for each node
-    num_nodes=tree.tree_.node_count
+    num_nodes=tree_.node_count
     node_members=np.zeros([num_nodes,X.shape[0]],dtype=np.int32,order='C')
     node_member_count=np.zeros(num_nodes,dtype=np.int32,order='C')
     node_member_start=np.zeros(num_nodes,dtype=np.int32,order='C')
@@ -1069,10 +1069,10 @@ def apply_rules_tree_sorted(   X,
                             X_by_node_sorted,
                             X_by_node_sorted_idx,
                             X_by_node_sorted_idx_posns,
-                            tree.tree_.children_left.astype(np.int32),
-                            tree.tree_.children_right.astype(np.int32),
-                            tree.tree_.feature.astype(np.int32),
-                            tree.tree_.threshold.astype(np.float64),
+                            tree_.children_left.astype(np.int32),
+                            tree_.children_right.astype(np.int32),
+                            tree_.feature.astype(np.int32),
+                            tree_.threshold.astype(np.float64),
                             node_members,
                             node_member_count,
                             node_member_start,
@@ -1561,7 +1561,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
              leaf_upper_corners,
              rule_upper_corners,
              rule_lower_corners,
-             dist_feats] = extract_rules_from_tree_cython(tree.tree_,
+             dist_feats] = extract_rules_from_tree_cython(tree_,
                                                    X.shape[1],
                                                    self.incr_feats,
                                                    self.decr_feats)
