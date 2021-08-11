@@ -2445,13 +2445,61 @@ class MonoGradientBoostingClassifier(
 
         score = self.decision_function(X)
         try:
+            probs =  self.loss_._score_to_proba(score)
+            if self.n_classes_ > 2:
+                proba_cum = probs #self.predict_cum_proba(X)
+                proba = np.zeros([X.shape[0], self.n_classes_])
+                for i in range(self.n_classes_):
+                    if i==0:
+                        proba[:,i] = 1.-proba_cum[:,i]
+                    elif i==self.n_classes_-1:
+                        proba[:,i] = proba_cum[:,i-1]
+                    else:
+                        proba[:,i] = proba_cum[:,i-1]-proba_cum[:,i]
+            else: # binary
+                proba = probs #super().predict_proba(X)
+            return proba
+        except NotFittedError:
+            raise
+        except AttributeError:
+            raise AttributeError('loss=%r does not support predict_proba' %
+                                 self.loss)
+    def predict_cum_proba(self, X, check_input=False):
+        """Predict class probabilities for X.
+        
+        This function should be used with care, as it returns the binary 
+        classifier ensemble component probabilities:
+            - e.g. for y in {1,2,3,4} the returned probabilities are [P(y>1), 
+            P(y>2), P(y>3)]
+            
+        Parameters
+        ----------
+        X : array-like or sparse matrix, shape = [n_samples, n_features]
+            The input samples. Internally, it will be converted to
+            ``dtype=np.float32`` and if a sparse matrix is provided
+            to a sparse ``csr_matrix``.
+
+        Raises
+        ------
+        AttributeError
+            If the ``loss`` does not support probabilities.
+
+        Returns
+        -------
+        p : array of shape = [n_samples]
+            The class probabilities of the input samples. The order of the
+            classes corresponds to that in the attribute `classes_`.
+        """
+        # Reverse deccreasing features here for simplicity
+
+        score = self.decision_function(X)
+        try:
             return self.loss_._score_to_proba(score)
         except NotFittedError:
             raise
         except AttributeError:
             raise AttributeError('loss=%r does not support predict_proba' %
                                  self.loss)
-
     def predict_log_proba(self, X, check_input=False):
         """Predict class log-probabilities for X.
 

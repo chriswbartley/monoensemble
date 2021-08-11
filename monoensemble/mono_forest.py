@@ -26,10 +26,13 @@ dependent on (and inherits from) sci-kit learn's ``ForestClassifier``.
 # License: BSD 3 clause
 
 from sklearn.ensemble._forest import ForestClassifier, check_array
-from sklearn.ensemble._forest import _generate_unsampled_indices, DTYPE, warn, _get_n_samples_bootstrap
+from sklearn.ensemble._forest import _generate_unsampled_indices, DTYPE, warn 
+from sklearn.ensemble._forest import _get_n_samples_bootstrap
+from sklearn.ensemble._forest import _partition_estimators, _joblib_parallel_args, _accumulate_prediction
 from monoensemble import MonoGradientBoostingClassifier
 import numpy as np
-
+import threading
+from joblib import Parallel, delayed
 
 class MonoRandomForestClassifier(ForestClassifier):
     """A fast and perfect monotone random forest classifier.
@@ -322,12 +325,14 @@ class MonoRandomForestClassifier(ForestClassifier):
         y : array of shape = [n_samples] or [n_samples, n_outputs]
             The predicted classes.
         """
-        proba = self.predict_proba(X)
+        
 
         if self.n_outputs_ == 1:
             if self.n_classes_ <= 2:
+                proba = self.predict_proba(X)
                 return self.classes_.take(np.argmax(proba, axis=1), axis=0)
             else:
+                proba = self.predict_cum_proba(X)
                 class_index = np.sum((proba > 0.5).astype(np.int), axis=1)
                 return self.classes_.take(class_index, axis=0)
 
@@ -337,9 +342,11 @@ class MonoRandomForestClassifier(ForestClassifier):
 
             for k in range(self.n_outputs_):
                 if self.n_classes_ <= 2:
+                    proba = self.predict_proba(X)
                     predictions[:, k] = self.classes_[k].take(
                         np.argmax(proba[k], axis=1), axis=0)
                 else:
+                    proba = self.predict_cum_proba(X)
                     class_index = np.sum(
                         (proba[k] > 0.5).astype(
                             np.int), axis=1)
@@ -354,6 +361,8 @@ class MonoRandomForestClassifier(ForestClassifier):
         NOTE: We need to override parent method's predict() so we can
         allow for Kotlowski and Slowinski style monotone ensembling.
 
+        NOTE: because these probabilities are calculated from the component
+        binary classifiers, sometimes small negative numbers can result.
         The predicted class probabilities of an input sample are computed as
         the mean predicted class probabilities of the trees in the forest. The
         class probability of a single tree is the fraction of samples of the
@@ -373,15 +382,114 @@ class MonoRandomForestClassifier(ForestClassifier):
             The class probabilities of the input samples. The order of the
             classes corresponds to that in the attribute `classes_`.
         """
-        n_classes = self.n_classes_
-        if self.n_classes_ > 2:
-            # need to do this to allow for Kotloski and Slowinski style
-            # monotone ensembling which has has k-1 estimators rather than k
-            self.n_classes_ = n_classes - 1
         proba = super().predict_proba(X)
-        self.n_classes_ = n_classes  # return to normal
-        return proba
+        # if self.n_classes_ > 2:
+        #     proba_cum = self.predict_cum_proba(X)
+        #     proba = np.zeros([X.shape[0], self.n_classes_])
+        #     for i in range(self.n_classes_):
+        #         if i==0:
+        #             proba[:,i] = 1.-proba_cum[:,i]
+        #         elif i==self.n_classes_-1:
+        #             proba[:,i] = proba_cum[:,i-1]
+        #         else:
+        #             proba[:,i] = proba_cum[:,i-1]-proba_cum[:,i]
+        # else: # binary
+        #     proba = super().predict_proba(X)
 
+        return proba
+    
+    def predict_cum_proba(self, X):
+        """
+        Predict cumulative class probabilities for X.
+        
+        NOTE: This function should be used with care, as it returns the binary 
+        classifier ensemble component probabilities:
+            - e.g. for y in {1,2,3,4} the returned probabilities are [P(y>1), P(y>2), P(y>3)]
+    
+        The predicted class probabilities of an input sample are computed as
+        the mean predicted class probabilities of the trees in the forest.
+        The class probability of a single tree is the fraction of samples of
+        the same class in a leaf.
+        Parameters
+        ----------
+        X : {array-like, sparse matrix} of shape (n_samples, n_features)
+            The input samples. Internally, its dtype will be converted to
+            ``dtype=np.float32``. If a sparse matrix is provided, it will be
+            converted into a sparse ``csr_matrix``.
+        Returns
+        -------
+        p : ndarray of shape (n_samples, n_classes), or a list of n_outputs
+            such arrays if n_outputs > 1.
+            The class probabilities of the input samples. The order of the
+            classes corresponds to that in the attribute :term:`classes_`.
+        """
+        # check_is_fitted(self)
+        # Check data
+        X = self._validate_X_predict(X)
+
+        # Assign chunk of trees to jobs
+        n_jobs, _, _ = _partition_estimators(self.n_estimators, self.n_jobs)
+
+        # avoid storing the output of every estimator by summing them here
+        all_proba = [np.zeros((X.shape[0], j-1), dtype=np.float64)
+                     for j in np.atleast_1d(self.n_classes_)]
+        lock = threading.Lock()
+        # for e in self.estimators_:
+        #     print((e.predict_cum_proba(X)).shape[1])
+        # print(all_proba)
+        Parallel(n_jobs=n_jobs, verbose=self.verbose,
+                 **_joblib_parallel_args(require="sharedmem"))(
+            delayed(_accumulate_prediction)(e.predict_cum_proba, X, all_proba,
+                                            lock)
+            for e in self.estimators_)
+
+        for proba in all_proba:
+            proba /= len(self.estimators_)
+
+        if len(all_proba) == 1:
+            return all_proba[0]
+        else:
+            return all_proba
+        
+    # def predict_cum_proba(self, X):
+    #     """Predict cumulative class probabilities for X.
+
+    #     NOTE: We need to override parent method's predict() so we can
+    #     allow for Kotlowski and Slowinski style monotone ensembling.
+
+    #     This function should be used with care, as it returns the binary 
+    #     classifier ensemble component probabilities:
+    #         - e..g for y in {1,2,3,4} the returned probabilities are [P(y>1), P(y>2), P(y>3)]
+
+    #     Parameters
+    #     ----------
+    #     X : array-like or sparse matrix of shape = [n_samples, n_features]
+    #         The input samples. Internally, its dtype will be converted to
+    #         ``dtype=np.float32``. If a sparse matrix is provided, it will be
+    #         converted into a sparse ``csr_matrix``.
+
+    #     Returns
+    #     -------
+    #     p : array of shape = [n_samples, n_classes], or a list of n_outputs
+    #         such arrays if n_outputs > 1.
+    #         The class probabilities of the input samples. The order of the
+    #         classes corresponds to that in the attribute `classes_`.
+    #     """
+        
+    #     if self.n_classes_ > 2:
+    #         # need to do this to allow for Kotloski and Slowinski style
+    #         # monotone ensembling which has has k-1 estimators rather than k
+    #         n_classes = self.n_classes_
+    #         self.n_classes_ = n_classes - 1
+    #         proba = super().predict_proba(X)
+    #         self.n_classes_ = n_classes  # return to normal
+    #     else: # binary
+    #         proba_raw = super().predict_proba(X)
+    #         proba = np.zeros([proba_raw.shape[0],1])# proba_raw.copy()
+    #         proba[:,0] = proba_raw[:,1]
+    #         # proba[:,1] = 0.0
+    #     return proba
+    
     def get_leaf_counts(self, only_count_non_zero=True):
         numtrees = np.int(self.get_params()['n_estimators'])
         num_leaves = np.zeros(numtrees, dtype='float')
@@ -440,7 +548,7 @@ class MonoRandomForestClassifier(ForestClassifier):
         for estimator in self.estimators_:
             unsampled_indices = _generate_unsampled_indices(
                 estimator.random_state, n_samples, n_samples_bootstrap)
-            p_estimator = estimator.predict_proba(X[unsampled_indices, :],
+            p_estimator = estimator.predict_cum_proba(X[unsampled_indices, :],
                                                   check_input=False)
 
             if self.n_outputs_ == 1:

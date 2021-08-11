@@ -53,7 +53,7 @@ def test_model_fit_rf():
     insample_correct = [0.968, 0.98666666666]
     #for rule_feat_caching in [False, True]:
     rule_feat_caching=False
-    
+
     for i_test in np.arange(len(coef_calc_types)):
         coef_calc_type = coef_calc_types[i_test]
         # Solve model
@@ -69,6 +69,9 @@ def test_model_fit_rf():
         clf.fit(X, y)
         # Assess fit
         y_pred = clf.predict(X)
+        print(clf.predict_proba(X)[-10:,:])
+        # print(clf.predict_cum_proba(X)[-5:,:])
+        
         acc = np.sum(y == y_pred) / len(y)
 
         npt.assert_almost_equal(oob_correct[i_test] if np.abs(clf.oob_score_ - oob_correct[i_test]) <= 0.005
@@ -76,6 +79,7 @@ def test_model_fit_rf():
         # print(clf.oob_score_)
         npt.assert_almost_equal( insample_correct[i_test] if np.abs(acc - insample_correct[i_test]) <= 0.005
                                     else acc , insample_correct[i_test])
+    print('finished testing!')
 test_model_fit_rf()
 
 

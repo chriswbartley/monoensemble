@@ -41,7 +41,8 @@ def load_data_set():
 
 # Load data
 X, y, incr_feats, decr_feats = load_data_set()
-
+# y[:100] = -2
+print(np.unique(y))
 
 def test_model_fit_gb():
     # Specify hyperparams for model solution
@@ -67,10 +68,12 @@ def test_model_fit_gb():
             durn=time.time()-start
             # Assess fit
             #print(' ******** PREDICT ***********')
+            print(clf.predict_proba(X))
             y_pred = clf.predict(X)
             acc = np.sum(y == y_pred) / len(y)
             npt.assert_almost_equal(insample_correct[i_test] if np.abs(acc - insample_correct[i_test]) <= 0.003
                                     else acc, insample_correct[i_test])
+    print('finished testing')
 
 
 test_model_fit_gb()

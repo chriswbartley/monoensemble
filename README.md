@@ -37,17 +37,9 @@ For more examples see [the documentation](http://monoensemble.readthedocs.io/en/
 
 ### Installation
 
-Linux:
+To use, clone this repo, then run setup.py with 'build_ext --inplace' arguments to build for your machine.
 
-```
-pip install monoensemble
-```
-
-Windows:
-
-```
-conda install -c chriswbartley monoensemble
-```
+(pip and conda versions are not compatible with current sklearn versions).
 
 ### Documentation
 
