@@ -75,8 +75,6 @@ from sklearn.utils import check_X_y
 from sklearn.utils import column_or_1d
 from sklearn.utils import check_consistent_length
 from sklearn.utils import deprecated
-# from sklearn.utils.fixes import logsumexp
-# from sklearn.utils.stats import _weighted_percentile
 from sklearn.utils.validation import check_is_fitted
 from sklearn.utils.multiclass import check_classification_targets
 from sklearn.exceptions import NotFittedError
@@ -1451,7 +1449,6 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             verbose=0,
             max_leaf_nodes=None,
             warm_start=False,
-            presort='auto',
             incr_feats=[],
             decr_feats=[],
             coef_calc_type='bayes',
@@ -1475,7 +1472,6 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
         self.verbose = verbose
         self.max_leaf_nodes = max_leaf_nodes
         self.warm_start = warm_start
-        self.presort = presort
         self.incr_feats = incr_feats
         self.decr_feats = decr_feats
         self.coef_calc_type = coef_calc_type
@@ -1510,7 +1506,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
         return X
 
     def _fit_stage(self, i, X, y, y_pred, sample_weight, sample_mask,
-                   random_state, X_idx_sorted, X_csc=None, X_csr=None):
+                   random_state, X_csc=None, X_csr=None):
         """Fit another stage of ``n_classes_`` trees to the boosting model. """
 
         assert sample_mask.dtype == np.bool
@@ -1537,7 +1533,6 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
                 max_features=self.max_features,
                 max_leaf_nodes=self.max_leaf_nodes,
                 random_state=random_state)
-                #presort=self.presort)  
 
             if self.subsample < 1.0:
                 # no inplace multiplication!
@@ -1545,10 +1540,10 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
 
             if X_csc is not None:
                 tree.fit(X_csc, residual, sample_weight=sample_weight,
-                         check_input=False, X_idx_sorted=X_idx_sorted)
+                         check_input=False)
             else:
                 tree.fit(X, residual, sample_weight=sample_weight,
-                         check_input=False, X_idx_sorted=X_idx_sorted)
+                         check_input=False)
                 
             X_use = X_csr if X_csr is not None else X
 
@@ -1871,23 +1866,6 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
             y_pred = self._decision_function(X)
             self._resize_state()
 
-        X_idx_sorted = None
-        presort = self.presort
-        # Allow presort to be 'auto', which means True if the dataset is dense,
-        # otherwise it will be False.
-        if presort == 'auto' and issparse(X):
-            presort = False
-        elif presort == 'auto':
-            presort = True
-
-        if presort:
-            if issparse(X):
-                raise ValueError(
-                    "Presorting is not supported for sparse matrices.")
-            else:
-                X_idx_sorted = np.asfortranarray(np.argsort(X, axis=0),
-                                                 dtype=np.int32)
-
         # create mt_feat_types
         self.mt_feat_types = np.zeros(X.shape[1],dtype=np.int32)
         if len(self.incr_feats)>0:
@@ -1897,7 +1875,8 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
         
         # fit the boosting stages
         n_stages = self._fit_stages(X, y, y_pred, sample_weight, random_state,
-                                    begin_at_stage, monitor, X_idx_sorted)
+                                    begin_at_stage, monitor,
+                                    )
         # change shape of arrays after fit (early-stopping or additional ests)
         if n_stages != self.estimators_.shape[0]:
             self.estimators_ = self.estimators_[:n_stages]
@@ -1908,7 +1887,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
         return self
 
     def _fit_stages(self, X, y, y_pred, sample_weight, random_state,
-                    begin_at_stage=0, monitor=None, X_idx_sorted=None):
+                    begin_at_stage=0, monitor=None):
         """Iteratively fits the stages.
 
         For each stage it computes the progress (OOB, train score)
@@ -1951,7 +1930,7 @@ class BaseMonoGradientBoosting(six.with_metaclass(ABCMeta, BaseEnsemble)):
 
             # fit next stage of trees
             y_pred = self._fit_stage(i, X, y, y_pred, sample_weight,
-                                     sample_mask, random_state, X_idx_sorted,
+                                     sample_mask, random_state, 
                                      X_csc, X_csr)
 
             # track deviance (= loss)
@@ -2253,14 +2232,7 @@ class MonoGradientBoostingClassifier(
         If None, the random number generator is the RandomState instance used
         by `np.random`.
 
-    presort : bool or 'auto', optional (default='auto')
-        Whether to presort the data to speed up the finding of best splits in
-        fitting. Auto mode by default will use presorting on dense data and
-        default to normal sorting on sparse data. Setting presort to true on
-        sparse data will raise an error.
 
-        .. versionadded:: 0.17
-           *presort* parameter.
 
     Attributes
     ----------
@@ -2333,7 +2305,7 @@ class MonoGradientBoostingClassifier(
                  min_impurity_split=None, init=None,
                  random_state=None, max_features=None, verbose=0,
                  max_leaf_nodes=None, warm_start=False,
-                 presort='auto'):
+                 ):
 
         super(MonoGradientBoostingClassifier, self).__init__(
             loss=loss, learning_rate=learning_rate, n_estimators=n_estimators,
@@ -2347,7 +2319,6 @@ class MonoGradientBoostingClassifier(
             min_impurity_decrease=min_impurity_decrease,
             min_impurity_split=min_impurity_split,
             warm_start=warm_start,
-            presort=presort,
             incr_feats=incr_feats,
             decr_feats=decr_feats,
             coef_calc_type=coef_calc_type)

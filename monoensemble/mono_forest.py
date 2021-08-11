@@ -26,7 +26,7 @@ dependent on (and inherits from) sci-kit learn's ``ForestClassifier``.
 # License: BSD 3 clause
 
 from sklearn.ensemble._forest import ForestClassifier, check_array
-from sklearn.ensemble._forest import _generate_unsampled_indices, DTYPE, warn
+from sklearn.ensemble._forest import _generate_unsampled_indices, DTYPE, warn, _get_n_samples_bootstrap
 from monoensemble import MonoGradientBoostingClassifier
 import numpy as np
 
@@ -255,7 +255,8 @@ class MonoRandomForestClassifier(ForestClassifier):
                  random_state=None,
                  verbose=0,
                  warm_start=False,
-                 class_weight=None
+                 class_weight=None,
+                 max_samples=None
                  ):
         super(
             MonoRandomForestClassifier,
@@ -283,7 +284,8 @@ class MonoRandomForestClassifier(ForestClassifier):
             random_state=random_state,
             verbose=verbose,
             warm_start=warm_start,
-            class_weight=class_weight)
+            class_weight=class_weight,
+            max_samples=max_samples)
         self.criterion = criterion
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
@@ -424,16 +426,20 @@ class MonoRandomForestClassifier(ForestClassifier):
             n_classes_ = self.n_classes_
         n_samples = y.shape[0]
 
+        n_samples_bootstrap = _get_n_samples_bootstrap(
+            n_samples, self.max_samples
+        )
+        
         oob_decision_function = []
         oob_score = 0.0
         predictions = []
-
+            
         for k in range(self.n_outputs_):
             predictions.append(np.zeros((n_samples, n_classes_[k])))
 
         for estimator in self.estimators_:
             unsampled_indices = _generate_unsampled_indices(
-                estimator.random_state, n_samples, 1)
+                estimator.random_state, n_samples, n_samples_bootstrap)
             p_estimator = estimator.predict_proba(X[unsampled_indices, :],
                                                   check_input=False)
 

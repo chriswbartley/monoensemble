@@ -49,10 +49,11 @@ def test_model_fit_rf():
     n_estimators = 100
     mtry = 3
     coef_calc_types = [ 'bayes','logistic']#, 'boost', 
-    oob_correct = [0.873333333333, 0.866666666667]
+    oob_correct = [0.8644444444444445, 0.866666666667]
     insample_correct = [0.968, 0.98666666666]
     #for rule_feat_caching in [False, True]:
     rule_feat_caching=False
+    
     for i_test in np.arange(len(coef_calc_types)):
         coef_calc_type = coef_calc_types[i_test]
         # Solve model
@@ -69,19 +70,13 @@ def test_model_fit_rf():
         # Assess fit
         y_pred = clf.predict(X)
         acc = np.sum(y == y_pred) / len(y)
-        #print(clf.oob_score_)#- oob_correct[i_test])
-        #print(acc)# - insample_correct[i_test])
-        #npt.assert_almost_equal(clf.oob_score_, oob_correct[i_test])
-        #npt.assert_almost_equal(acc, insample_correct[i_test])
+
         npt.assert_almost_equal(oob_correct[i_test] if np.abs(clf.oob_score_ - oob_correct[i_test]) <= 0.005
                                     else clf.oob_score_, oob_correct[i_test])
+        # print(clf.oob_score_)
         npt.assert_almost_equal( insample_correct[i_test] if np.abs(acc - insample_correct[i_test]) <= 0.005
                                     else acc , insample_correct[i_test])
 test_model_fit_rf()
-# import time
-# start=time.time()
-#test_model_fit()
-# end=time.time()
-# print('time: ' + str(np.round(end-start,2)))
+
 
 

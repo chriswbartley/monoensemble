@@ -52,6 +52,7 @@ def test_model_fit_gb():
     coef_calc_types = ['boost', 'bayes', 'logistic']
     insample_correct = [0.996, 0.99, 1.0]
     for rule_feat_caching in [False]:#, True]:
+        print('testing...')
         for i_test in np.arange(len(coef_calc_types)):
             coef_calc_type = coef_calc_types[i_test]
             # Solve model
@@ -68,12 +69,9 @@ def test_model_fit_gb():
             #print(' ******** PREDICT ***********')
             y_pred = clf.predict(X)
             acc = np.sum(y == y_pred) / len(y)
-            #print(acc)
-            #print('time: ' +  str(durn))
-            # print(acc - insample_correct[i_test])
             npt.assert_almost_equal(insample_correct[i_test] if np.abs(acc - insample_correct[i_test]) <= 0.003
                                     else acc, insample_correct[i_test])
 
 
-#test_model_fit_gb()
+test_model_fit_gb()
 
